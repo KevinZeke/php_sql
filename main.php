@@ -5,15 +5,15 @@
  * Time: 18:51
  */
 
-require_once __DIR__.'/map/Quantity_xzcf_gr_nbr.map.php';
-require_once __DIR__.'/map/Quantity_xzcf_gr_sub_score.map.php';
-require_once __DIR__.'/map/Quantity_xzcf_gr_basic_coef.map.php';
-require_once __DIR__.'/map/Quantity_dczghzyhwf_gr_nbr.map.php';
-require_once __DIR__.'/map/Quantity_xzcf_gr_sub_coef.map.php';
-require_once __DIR__.'/formula/XZCF_formula.class.php';
-require_once __DIR__.'/table/Table.class.php';
-require_once __DIR__.'/sql/Sql.class.php';
-require_once __DIR__.'/map/DB_map.class.php';
+require_once __DIR__ . '/map/Quantity_xzcf_gr_nbr.map.php';
+require_once __DIR__ . '/map/Quantity_xzcf_gr_sub_score.map.php';
+require_once __DIR__ . '/map/Quantity_xzcf_gr_basic_coef.map.php';
+require_once __DIR__ . '/map/Quantity_dczghzyhwf_gr_nbr.map.php';
+require_once __DIR__ . '/map/Quantity_xzcf_gr_sub_coef.map.php';
+require_once __DIR__ . '/formula/XZCF_formula.class.php';
+require_once __DIR__ . '/table/Table.class.php';
+require_once __DIR__ . '/sql/Sql.class.php';
+require_once __DIR__ . '/map/DB_map.class.php';
 
 $sqlTool = new SqlTool();
 $xzcf_table = new Table(Quantity_xzcf_gr_nbr_map::$table_name, $sqlTool);
@@ -47,7 +47,7 @@ $xzcf_table = new Table(Quantity_xzcf_gr_nbr_map::$table_name, $sqlTool);
 //);
 
 
-$xzcf_sub_table = new Table(Quantity_xzcf_gr_sub_score_map::$table_name,new SqlTool());
+$xzcf_sub_table = new Table(Quantity_xzcf_gr_sub_score_map::$table_name, new SqlTool());
 //echo XZCF_trans_model::update_xzcf_sub(
 //    $xzcf_sub_table,
 //    SqlTool::WHERE([
@@ -57,5 +57,5 @@ $xzcf_sub_table = new Table(Quantity_xzcf_gr_sub_score_map::$table_name,new SqlT
 //);
 
 echo XZCF_trans_model::update_xzcf_sub_between(
-    $xzcf_sub_table,['2017-05-01','2017-05-20']
+    $xzcf_sub_table, ['2017-05-01', '2017-05-20']
 );

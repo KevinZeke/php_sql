@@ -6,20 +6,22 @@
  * Time: 18:50
  */
 
-class DB_map{
+class DB_map
+{
 
     private function __construct()
     {
         //禁止映射类实例化
     }
 
-    static function all($className=''){
+    static function all($className = '')
+    {
         $r = new ReflectionClass($className);
         $sp = $r->getStaticProperties();
         $res = array();
-        foreach ($sp as $key=>$value){
-            if($key != 'table_name')
-                array_push($res,$value);
+        foreach ($sp as $key => $value) {
+            if ($key != 'table_name')
+                array_push($res, $value);
         }
         return $res;
     }

@@ -66,6 +66,13 @@ class Table{
         //TODO
         die("TODO : not support ");
     }
+
+    /**
+     * @param $tables  另一个表格实例
+     * @param $formula 关联更新公式
+     * @param $param   更新行查询条件
+     * @return mixed
+     */
     public function unionUpdate($tables, $formula, $param){
         $sql = "UPDATE $this->tableName , ".implode(',',$tables)."
         SET $formula
@@ -81,13 +88,14 @@ class Table{
         );
     }
 
-    public function leftJoin($table,$field,$param){
+    public function leftJoin($table,$field,$param,$isToList = false){
         if(!is_array($field) || count($field) == 0) return -1;
         $sql = 'SELECT '.Table::formatField($field[0]).' , '.Table::formatField($field[1]).' FROM '.$this->tableName.' LEFT JOIN '.$table." $param";
         $resList = array();
         $res = null;
         if($this->sqlTool!=null){
             $res = $this->sqlTool->execute_dql($sql);
+            if(!$isToList) return $res;
             while (!!$row = $res->fetch_array()){
 //                    if($callback) $callback($row);
                 array_push($resList, $row);
