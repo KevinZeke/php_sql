@@ -34,21 +34,53 @@ class SqlTool{
             return 0;
         }else{
             if($this->mysqli->affected_rows>0){
-                return 1;//没有成功
+                return 1;//成功
             }else{
                 return 2;//表示没有行受到影响
             }
         }
     }
 
-    static function WHERE($arr){
+    static function WHERE($arr = [],$quote = true){
         $str = 'WHERE 1 = 1 ';
-        if(!is_array($arr) || count($arr) == 0) return '';
+        return self::test($arr, $str, $quote);
+    }
+
+    static function ON($arr = [],$quote = false){
+        $str = 'ON 1 = 1 ';
+        return self::test($arr, $str,$quote);
+    }
+
+    static function ANDC($arr, $quote = true){
+        return self::test($arr,'',$quote);
+    }
+
+    static function ORC($arr, $quote = true){
+        return self::test($arr,'',$quote,true);
+    }
+
+    static function BETWEEN($field,$arr){
+        return ' AND '.$field.' BETWEEN \''.$arr[0].'\' AND \''.$arr[1].'\'';
+    }
+
+    static private function test($arr, $str, $quote, $or = false){
+        if(!is_array($arr) || count($arr) == 0) return $str;
+        if(!$or)
+            $key = 'AND';
+        else
+            $key = 'OR';
         foreach ($arr as $field=>$value){
+//            echo "$field : $value \n";
             if(hasstring($value,'%'))
-                $str.=" AND $field LIKE '$value'  ";
+                if($quote)
+                    $str.=" $key $field LIKE '$value'  ";
+                else
+                    $str.=" $key $field LIKE $value  ";
             else
-                $str.=" AND $field = '$value' ";
+                if($quote)
+                    $str.=" $key $field = '$value' ";
+                else
+                    $str.=" $key $field = $value ";
         }
         return $str;
     }
