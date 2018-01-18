@@ -2,6 +2,7 @@
 
 class SqlTool
 {
+    static $rowChange = 1;
     public $mysqli = null;
     private $host;
     private $user;
@@ -37,13 +38,14 @@ class SqlTool
     {
         $res = $this->mysqli->query($sql) or die('sql语句出错 : ' . $this->mysqli->error);
         if (!$res) {
-            return 0;
+            return -1;
         } else {
-            if ($this->mysqli->affected_rows > 0) {
-                return 1;//成功
-            } else {
-                return 2;//表示没有行受到影响
-            }
+            return $this->mysqli->affected_rows;
+//            if ($this->mysqli->affected_rows > 0) {
+//                return 1;//成功
+//            } else {
+//                return 2;//表示没有行受到影响
+//            }
         }
     }
 
