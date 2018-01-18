@@ -91,11 +91,11 @@ class Table{
     public function leftJoin($table,$field,$param,$isToList = false){
         if(!is_array($field) || count($field) == 0) return -1;
         $sql = 'SELECT '.Table::formatField($field[0]).' , '.Table::formatField($field[1]).' FROM '.$this->tableName.' LEFT JOIN '.$table." $param";
-        $resList = array();
         $res = null;
         if($this->sqlTool!=null){
             $res = $this->sqlTool->execute_dql($sql);
             if(!$isToList) return $res;
+            $resList = array();
             while (!!$row = $res->fetch_array()){
 //                    if($callback) $callback($row);
                 array_push($resList, $row);
