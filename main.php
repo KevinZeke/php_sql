@@ -15,7 +15,7 @@ require_once __DIR__ . '/table/Table.class.php';
 require_once __DIR__ . '/sql/Sql.class.php';
 require_once __DIR__ . '/map/DB_map.class.php';
 
-$sqlTool = new SqlTool();
+$sqlTool = SqlTool::build();
 $xzcf_table = new Table(Quantity_xzcf_gr_nbr_map::$table_name, $sqlTool);
 //$resList = $xzcf_table->query(
 //    Quantity_xzcf_gr_nbr_map::all(),
@@ -47,7 +47,7 @@ $xzcf_table = new Table(Quantity_xzcf_gr_nbr_map::$table_name, $sqlTool);
 //);
 
 
-$xzcf_sub_table = new Table(Quantity_xzcf_gr_sub_score_map::$table_name, new SqlTool());
+$xzcf_sub_table = new Table(Quantity_xzcf_gr_sub_score_map::$table_name, $sqlTool);
 //echo XZCF_trans_model::update_xzcf_sub(
 //    $xzcf_sub_table,
 //    SqlTool::WHERE([

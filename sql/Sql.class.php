@@ -2,14 +2,43 @@
 
 class SqlTool
 {
-    static $rowChange = 1;
     public $mysqli = null;
     private $host;
     private $user;
     private $password;
     private $database;
 
-    function __construct($host = 'localhost', $user = 'root', $password = '123456', $database = 'huaianzhd_db')
+    /**
+     * SqlTool类构造函数私有，需要通过静态构造类实例化，该函数通过配置用户名等信息会新建一个mysqli实例
+     * @param string $host
+     * @param string $user
+     * @param string $password
+     * @param string $database
+     * @return $this
+     */
+    static function build($host = 'localhost', $user = 'root', $password = '123456', $database = 'huaianzhd_db')
+    {
+        return (new SqlTool())->connect($host, $user, $password, $database);
+    }
+
+    /**
+     * 该函数会通过传入一个mysqli实例进行实例化SqlTool
+     * @param $mysqli
+     * @return SqlTool
+     */
+    static function build_by_mysqli($mysqli)
+    {
+        return new SqlTool($mysqli);
+    }
+
+    private function __construct($mysqli = null)
+    {
+        $this->mysqli = $mysqli;
+//        if ($mysqli)
+//            $this->mysqli->query('SET NAMES UTF8');
+    }
+
+    private function connect($host, $user, $password, $database)
     {
         $this->host = $host;
         $this->user = $user;
@@ -19,13 +48,13 @@ class SqlTool
         if ($err = $this->mysqli->connect_error) {
             die("数据库连接失败 : " . $err);
         }
-        $this->mysqli->query('SET NAMES UTF8');
+//        $this->mysqli->query('SET NAMES UTF8');
+        return $this;
     }
 
     public function __destruct()
     {
-        if ($this->mysqli != null)
-            $this->mysqli->close();
+        $this->close();
     }
 
     public function execute_dql($sql)
@@ -49,6 +78,17 @@ class SqlTool
         }
     }
 
+    public function close()
+    {
+        if ($this->mysqli != null)
+            $this->mysqli->close();
+    }
+
+    /*
+     *
+     * 静态函数用于生成sql条件语句
+     *
+     */
     static function WHERE($arr = [], $quote = true)
     {
         $str = 'WHERE 1 = 1 ';
