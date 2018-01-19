@@ -89,7 +89,7 @@ class Table
 
             $valarr = array();
             foreach ($value as $val) {
-                array_push($valarr, '( ' . implode(',', $val) . ' )');
+                array_push($valarr, '( \'' . implode('\' , \'', $val) . '\' )');
             }
             $sql .= implode(',', $valarr);
 
@@ -147,7 +147,7 @@ class Table
     public function left_join($table, $field, $param, $isToList = false)
     {
         if (!is_array($field) || count($field) == 0) return -1;
-        $sql = 'SELECT ' . Table::format_field($field[0]) . ' , ' . Table::format_field($field[1])
+        $sql = 'SELECT ' . Table::format_field($field)
             . ' FROM ' . $this->tableName . ' LEFT JOIN ' . $table . " $param";
         $res = null;
         $resList = null;
