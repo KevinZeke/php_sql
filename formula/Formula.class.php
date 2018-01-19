@@ -15,13 +15,14 @@ class Formula
     /**
      * 将公式数组格式化为 a=b+c，c=d+e 格式的sql字符串
      * @param $formula
+     * @param bool $quote 是否添加 '' 符
      * @return string
      */
-    static function format_formula($formula)
+    static function format_formula($formula, $quote = false)
     {
         $str = array();
         foreach ($formula as $t => $f) {
-            array_push($str, " $t=$f ");
+            array_push($str, $quote ? " $t='$f' " : " $t=$f ");
         }
         return implode(',', $str);
     }
@@ -49,17 +50,5 @@ class Formula
     static function mul($a)
     {
         return implode('*', $a);
-    }
-}
-
-/**
- * Class Table_group
- * 表格组基类
- */
-class Table_group
-{
-    private function __construct()
-    {
-        //禁止实例化
     }
 }

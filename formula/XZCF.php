@@ -105,57 +105,58 @@ XZCF_formula::$nbr_2_subscore = [
  * Class XZCF_group
  * 行政处罚表格组类 : 该类用于行政处罚项目的关联更新，使用关联更新函数将会自动根据上一级表计算公式得到更新后的结果，非自定义参数更新
  */
-class XZCF_group extends Table_group
+class XZCF_group implements Table_group
 {
     /**
      * Table的类的union_update方法的包装函数，预设了配置
      * xzcf_gr_nbr => xzcf_gr_sub_score 更新函数
-     * @param $xzcf_sub_table
+     * @param $mysqli
      * @param $param
      * @return mixed
      */
-    static function subscore_update($xzcf_sub_table, $param)
+    static function group_update($mysqli, $param)
     {
-        return $xzcf_sub_table->union_update(
-            [
-                Quantity_xzcf_gr_basic_coef_map::$table_name,
-                Quantity_xzcf_gr_nbr_map::$table_name,
-                Quantity_xzcf_gr_sub_coef_map::$table_name
-            ],
-            XZCF_formula::$nbr_2_subscore,
-            $param
-        );
+        return (new Table(Quantity_xzcf_gr_sub_score_map::$table_name, SqlTool::build_by_mysqli($mysqli)))
+            ->union_update(
+                [
+                    Quantity_xzcf_gr_basic_coef_map::$table_name,
+                    Quantity_xzcf_gr_nbr_map::$table_name,
+                    Quantity_xzcf_gr_sub_coef_map::$table_name
+                ],
+                XZCF_formula::$nbr_2_subscore,
+                $param
+            );
     }
 
     /**
      * subscore_update的包装函数，只需要给定日期区间则自动更新
-     * @param $xzcf_sub_table
+     * @param $mysqli
      * @param $arr
      * @return mixed
      */
-    static function subscore_update_between($xzcf_sub_table, $arr)
+    static function group_update_between($mysqli, $date_arr)
     {
         $param = SqlTool::WHERE([
                 Quantity_xzcf_gr_nbr_map::$number_id => Quantity_xzcf_gr_sub_score_map::$number_id
             ], false) .
-            SqlTool::BETWEEN(Quantity_xzcf_gr_nbr_map::$year_month_show, $arr);
+            SqlTool::BETWEEN(Quantity_xzcf_gr_nbr_map::$year_month_show, $date_arr);
 //        echo $param;
-        return self::subscore_update($xzcf_sub_table, $param);
+        return self::group_update($mysqli, $param);
     }
 
     /**
      * subscore_update的包装函数，只需要给定number_id则自动更新
-     * @param $xzcf_sub_table
+     * @param $mysqli
      * @param $number_id
      * @return mixed
      */
-    static function subscore_update_by_id($xzcf_sub_table, $number_id)
+    static function group_update_by_id($mysqli, $number_id)
     {
         $param = SqlTool::WHERE([
                 Quantity_xzcf_gr_nbr_map::$number_id => Quantity_xzcf_gr_sub_score_map::$number_id
             ], false) .
             SqlTool::ANDC([Quantity_xzcf_gr_nbr_map::$number_id => $number_id], false);
 //        echo $param;
-        return self::subscore_update($xzcf_sub_table, $param);
+        return self::group_update($mysqli, $param);
     }
 }

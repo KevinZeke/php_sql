@@ -102,11 +102,12 @@ class Table
     /**
      * @param $fields  更新的列名和值键值对 [列名 => 值]
      * @param $param   查询参数
+     * @param bool $quote 是否需要对新的值添加 '' 参数
      * @return mixed
      */
-    public function update($fields, $param)
+    public function update($fields, $param, $quote = true)
     {
-        $sql = "UPDATE $this->tableName SET " . Formula::format_formula($fields) . " $param";
+        $sql = "UPDATE $this->tableName SET " . Formula::format_formula($fields, $quote) . " $param";
         return $this->sqlTool->execute_dml($sql);
     }
 

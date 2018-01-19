@@ -15,15 +15,19 @@ require_once __DIR__ . '/table/Table.class.php';
 require_once __DIR__ . '/sql/Sql.class.php';
 require_once __DIR__ . '/map/DB_map.class.php';
 
+//使用默认参数生成sqlTool工具类
 $sqlTool = SqlTool::build();
-$xzcf_table = new Table(Quantity_xzcf_gr_nbr_map::$table_name, $sqlTool);
+//使用mysqli实例构造sqlTool工具类
+//$sqlTool = SqlTool::build_by_mysqli( new mysqli(host,user,pwd,db) );
 
+
+$xzcf_table = new Table(Quantity_xzcf_gr_nbr_map::$table_name, $sqlTool);
 
 /**
  * 案列：查询操作
  */
 
-if(false){
+if (false) {
     $resList = $xzcf_table->query(
         Quantity_xzcf_gr_nbr_map::all(),
         SqlTool::WHERE([
@@ -40,7 +44,7 @@ if(false){
  * 案例：插入操作
  */
 
-if(false){
+if (false) {
     //单挑数据插入
     $xzcf_table->multi_insert(
         [Quantity_xzcf_gr_nbr_map::$year_month_show],
@@ -53,33 +57,60 @@ if(false){
             Quantity_xzcf_gr_nbr_map::$jls_feizddw_zhubr
         ],
         [
-            ['2019-01-01',11],
-            ['1202-02-02',11],
-            ['1233-03-09',10],
+            ['2019-01-01', 11],
+            ['1202-02-02', 11],
+            ['1233-03-09', 10],
         ]
     );
 
 }
 
 /**
+ * 更新操作
+ */
+
+if (false) {
+
+    echo $xzcf_table->update(
+        [Quantity_xzcf_gr_nbr_map::$year_month_show => '1970-01-01'],
+        SqlTool::WHERE([
+            Quantity_xzcf_gr_nbr_map::$number_id => 1
+        ], false)
+    );
+
+}
+
+/**
+ * 删除操作
+ */
+
+if (false) {
+    echo $xzcf_table->delete(
+        SqlTool::WHERE([
+            Quantity_xzcf_gr_nbr_map::$number_id => 14326
+        ])
+    );
+}
+
+/**
  * 案例：左联查询操作
  */
 
-if(false){
+if (false) {
 
     $resList1 = $xzcf_table->left_join(
         Quantity_dczghzyhwf_gr_nbr_map::$table_name,
         [
-                Quantity_xzcf_gr_nbr_map::$year_month_show => 'a',
-                Quantity_xzcf_gr_nbr_map::$dd_name => 'b',
-                Quantity_dczghzyhwf_gr_nbr_map::$dadui_name,
-                Quantity_dczghzyhwf_gr_nbr_map::$police_name
+            Quantity_xzcf_gr_nbr_map::$year_month_show => 'a',
+            Quantity_xzcf_gr_nbr_map::$dd_name => 'b',
+            Quantity_dczghzyhwf_gr_nbr_map::$dadui_name,
+            Quantity_dczghzyhwf_gr_nbr_map::$police_name
         ],
         SqlTool::ON([
             Quantity_xzcf_gr_nbr_map::$year_month_show => Quantity_dczghzyhwf_gr_nbr_map::$year_month_show,
             Quantity_xzcf_gr_nbr_map::$dd_name => Quantity_dczghzyhwf_gr_nbr_map::$dadui_name
         ])
-        .SqlTool::WHERE([
+        . SqlTool::WHERE([
             Quantity_xzcf_gr_nbr_map::$year_month_show => '%2017-05-01%'
         ]),
         true
@@ -89,16 +120,20 @@ if(false){
 
 }
 
-
-if(1){
+/**
+ * 案例：表格组关联操作
+ */
+if (false) {
     $xzcf_sub_table = new Table(Quantity_xzcf_gr_sub_score_map::$table_name, $sqlTool);
 
-//echo XZCF_trans_model::subscore_update_between(
-//    $xzcf_sub_table, ['2017-05-01', '2017-05-20']
-//);
+    //时间段分数重计算更新
+    echo XZCF_trans_model::group_update_between(
+        $sqlTool->mysqli, ['2017-05-01', '2017-05-20']
+    );
 
-    echo XZCF_group::subscore_update_by_id(
-        $xzcf_sub_table, 1
+    //根据id特定行更新
+    echo XZCF_group::group_update_by_id(
+        $sqlTool->mysqli, 1
     );
 }
 
