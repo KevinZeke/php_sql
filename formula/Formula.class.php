@@ -12,7 +12,12 @@ class Formula
         //公式类禁止实例化
     }
 
-    static function formatFormula($formula)
+    /**
+     * 将公式数组格式化为 a=b+c，c=d+e 格式的sql字符串
+     * @param $formula
+     * @return string
+     */
+    static function format_formula($formula)
     {
         $str = array();
         foreach ($formula as $t => $f) {
@@ -21,6 +26,7 @@ class Formula
         return implode(',', $str);
     }
 
+    // 加减乘除函数，用于将公式数组拼接成类似于 a+b+c 的公式字符串
     // +
     static function plus($a)
     {
@@ -46,6 +52,10 @@ class Formula
     }
 }
 
+/**
+ * Class Table_group
+ * 表格组基类
+ */
 class Table_group
 {
     private function __construct()

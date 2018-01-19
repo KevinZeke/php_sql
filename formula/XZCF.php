@@ -13,10 +13,9 @@ require_once __DIR__ . '/../map/Quantity_xzcf_gr_basic_coef.map.php';
 class XZCF_formula extends Formula
 {
     static $nbr_2_subscore;
-    static $subscore_to_huizong;
 }
 
-XZCF_formula::$nbr_2_subscore = Formula::formatFormula([
+XZCF_formula::$nbr_2_subscore = [
     Quantity_xzcf_gr_sub_score_map::$fks_sub_score
     =>
         Formula::mul(
@@ -100,13 +99,24 @@ XZCF_formula::$nbr_2_subscore = Formula::formatFormula([
             Quantity_xzcf_gr_sub_score_map::$jls_sub_score,
             Quantity_xzcf_gr_sub_score_map::$fks_sub_score
         ])
-]);
+];
 
+/**
+ * Class XZCF_group
+ * 行政处罚表格组类 : 该类用于行政处罚项目的关联更新，使用关联更新函数将会自动根据上一级表计算公式得到更新后的结果，非自定义参数更新
+ */
 class XZCF_group extends Table_group
 {
+    /**
+     * Table的类的union_update方法的包装函数，预设了配置
+     * xzcf_gr_nbr => xzcf_gr_sub_score 更新函数
+     * @param $xzcf_sub_table
+     * @param $param
+     * @return mixed
+     */
     static function subscore_update($xzcf_sub_table, $param)
     {
-        return $xzcf_sub_table->unionUpdate(
+        return $xzcf_sub_table->union_update(
             [
                 Quantity_xzcf_gr_basic_coef_map::$table_name,
                 Quantity_xzcf_gr_nbr_map::$table_name,
@@ -117,6 +127,12 @@ class XZCF_group extends Table_group
         );
     }
 
+    /**
+     * subscore_update的包装函数，只需要给定日期区间则自动更新
+     * @param $xzcf_sub_table
+     * @param $arr
+     * @return mixed
+     */
     static function subscore_update_between($xzcf_sub_table, $arr)
     {
         $param = SqlTool::WHERE([
@@ -127,6 +143,12 @@ class XZCF_group extends Table_group
         return self::subscore_update($xzcf_sub_table, $param);
     }
 
+    /**
+     * subscore_update的包装函数，只需要给定number_id则自动更新
+     * @param $xzcf_sub_table
+     * @param $number_id
+     * @return mixed
+     */
     static function subscore_update_by_id($xzcf_sub_table, $number_id)
     {
         $param = SqlTool::WHERE([

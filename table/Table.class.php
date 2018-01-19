@@ -13,7 +13,12 @@ class Table
     var $tableName;
     private $sqlTool = null;
 
-    static function formatField($field)
+    /**
+     * 将列名数组转化为字符换 ， 若数组的项为键值对形式则转化为 'A AS B'的形式，若普通元素，则不做别名处理
+     * @param $field [列名 => 别名， 列名2 ，.....]
+     * @return string
+     */
+    static function format_field($field)
     {
         $res = array();
         foreach ($field as $k => $v) {
@@ -26,12 +31,18 @@ class Table
         return implode(',', $res);
     }
 
+    /**
+     * Table constructor.
+     * @param $tableName 表名
+     * @param $sqlTool SqlTool工具类实例
+     */
     public function __construct($tableName, $sqlTool)
     {
         $this->tableName = $tableName;
         $this->sqlTool = $sqlTool;
     }
 
+    //以下两个函数为自定义sql语句查询，接收完整的sql语句字符串作为参数
     public function dql($sqlstr)
     {
         return $this->sqlTool->execute_dql($sqlstr);
@@ -42,9 +53,15 @@ class Table
         return $this->sqlTool->execute_dml($sqlstr);
     }
 
+    /**
+     * @param $field 更新的列名和值键值对 [列名 => 值]
+     * @param string $param 查询参数
+     * @param bool $isToList 是否需要转换成数组返回
+     * @return array|null
+     */
     public function query($field, $param = '', $isToList = false)
     {
-        $sql = "SELECT " . Table::formatField($field) . " FROM " . $this->tableName . " $param";
+        $sql = "SELECT " . Table::format_field($field) . " FROM " . $this->tableName . " $param";
         $resList = null;
         $res = null;
         if ($this->sqlTool != null) {
@@ -59,40 +76,58 @@ class Table
         return $resList;
     }
 
-    public function multiInsert($field, $value)
+    /**
+     * @param $field 插入字段数组
+     * @param $value 插入值数组，若一维数组则插入一组数据，若二维数组则插入多组数据
+     * @return int
+     */
+    public function multi_insert($field, $value)
     {
         $sql = "INSERT INTO " . $this->tableName . "( " . implode(',', $field) . " ) VALUES ";
         if (!is_array($value) || count($value) == 0) return -1;
-        $valarr = array();
-        if (is_array($value[0]))
+        if (is_array($value[0])) {
+
+            $valarr = array();
             foreach ($value as $val) {
                 array_push($valarr, '( ' . implode(',', $val) . ' )');
             }
-        $sql .= implode(',', $valarr);
-        return $this->sqlTool->execute_dml($sql);
-    }
+            $sql .= implode(',', $valarr);
 
-    public function update($field, $newVal, $param)
-    {
-        //TODO
-        die("TODO : not support ");
+        } else {
+            $sql .= '(' . implode(',', $value) . ')';
+        }
+        return $this->sqlTool->execute_dml($sql);
     }
 
     /**
-     * @param $tables  另一个表格实例
-     * @param $formula 关联更新公式
+     * @param $fields  更新的列名和值键值对 [列名 => 值]
+     * @param $param   查询参数
+     * @return mixed
+     */
+    public function update($fields, $param)
+    {
+        $sql = "UPDATE $this->tableName SET " . Formula::format_formula($fields) . " $param";
+        return $this->sqlTool->execute_dml($sql);
+    }
+
+    /**
+     * @param $tables  关联的Table实例
+     * @param $formula 关联更新公式 [列名 => 值] ， 可使用表格公式类现成公式
      * @param $param   更新行查询条件
      * @return mixed
      */
-    public function unionUpdate($tables, $formula, $param)
+    public function union_update($tables, $formula, $param)
     {
         $sql = "UPDATE $this->tableName , " . implode(',', $tables) . "
-        SET $formula
-        $param";
+        SET " . Formula::format_formula($formula) . " $param";
         return $this->sqlTool->execute_dml($sql);
-
     }
 
+    /**
+     * 删除该表行
+     * @param $param
+     * @return int
+     */
     public function delete($param)
     {
         if (!is_array($param) || count($param) == 0) return -1;
@@ -101,10 +136,18 @@ class Table
         );
     }
 
-    public function leftJoin($table, $field, $param, $isToList = false)
+    /**
+     * 左联查询
+     * @param $table 关联的Table实例
+     * @param $field 查询的两表字段
+     * @param $param 查询条件
+     * @param bool $isToList 是否自动将结果转化为数组返回
+     * @return array|int|null
+     */
+    public function left_join($table, $field, $param, $isToList = false)
     {
         if (!is_array($field) || count($field) == 0) return -1;
-        $sql = 'SELECT ' . Table::formatField($field[0]) . ' , ' . Table::formatField($field[1])
+        $sql = 'SELECT ' . Table::format_field($field[0]) . ' , ' . Table::format_field($field[1])
             . ' FROM ' . $this->tableName . ' LEFT JOIN ' . $table . " $param";
         $res = null;
         $resList = null;

@@ -10,7 +10,7 @@ require_once __DIR__ . '/map/Quantity_xzcf_gr_sub_score.map.php';
 require_once __DIR__ . '/map/Quantity_xzcf_gr_basic_coef.map.php';
 require_once __DIR__ . '/map/Quantity_dczghzyhwf_gr_nbr.map.php';
 require_once __DIR__ . '/map/Quantity_xzcf_gr_sub_coef.map.php';
-require_once __DIR__ . '/formula/XZCF_formula.class.php';
+require_once __DIR__ . '/formula/XZCF.php';
 require_once __DIR__ . '/table/Table.class.php';
 require_once __DIR__ . '/sql/Sql.class.php';
 require_once __DIR__ . '/map/DB_map.class.php';
@@ -25,7 +25,7 @@ $xzcf_table = new Table(Quantity_xzcf_gr_nbr_map::$table_name, $sqlTool);
 //    ])
 //);
 
-//$resList1 = $xzcf_table->leftJoin(
+//$resList1 = $xzcf_table->left_join(
 //    Quantity_dczghzyhwf_gr_nbr_map::$table_name,
 //    [
 //        [
