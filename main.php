@@ -11,6 +11,7 @@ require_once __DIR__ . '/map/Quantity_xzcf_gr_basic_coef.map.php';
 require_once __DIR__ . '/map/Quantity_dczghzyhwf_gr_nbr.map.php';
 require_once __DIR__ . '/map/Quantity_xzcf_gr_sub_coef.map.php';
 require_once __DIR__ . '/formula/XZCF.php';
+require_once __DIR__ . '/formula/HZDC.php';
 require_once __DIR__ . '/table/Table.class.php';
 require_once __DIR__ . '/sql/Sql.class.php';
 require_once __DIR__ . '/map/DB_map.class.php';
@@ -121,10 +122,9 @@ if (false) {
 }
 
 /**
- * 案例：表格组关联操作
+ * 案例：行政处罚表格组关联操作
  */
-if (1) {
-    $xzcf_sub_table = new Table(Quantity_xzcf_gr_sub_score_map::$table_name, $sqlTool);
+if (false) {
 
     //时间段分数重计算更新
     echo XZCF_group::group_update_date_in(
@@ -135,6 +135,23 @@ if (1) {
     echo XZCF_group::group_update_by_id(
         $sqlTool->mysqli, 2
     );
+}
+
+/**
+ * 火灾调查表格组关联操作
+ */
+if(1){
+
+    //时间段分数重计算更新
+    echo HZDC_group::group_update_date_in(
+        $sqlTool->mysqli, ['2017-05-01', '2017-05-20']
+    );
+
+    //根据id特定行更新
+    echo HZDC_group::group_update_by_id(
+        $sqlTool->mysqli, 2
+    );
+
 }
 
 $sqlTool->close();
