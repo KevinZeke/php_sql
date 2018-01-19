@@ -56,6 +56,6 @@ $xzcf_sub_table = new Table(Quantity_xzcf_gr_sub_score_map::$table_name, $sqlToo
 //    SqlTool::BETWEEN(Quantity_xzcf_gr_nbr_map::$year_month_show,['2017-05-01','2017-05-20'])
 //);
 
-echo XZCF_trans_model::update_xzcf_sub_between(
+echo XZCF_trans_model::subscore_update_between(
     $xzcf_sub_table, ['2017-05-01', '2017-05-20']
 );

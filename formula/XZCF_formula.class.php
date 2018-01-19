@@ -110,7 +110,7 @@ class XZCF_trans_model
         );
     }
 
-    static function update_xzcf_sub_between($xzcf_sub_table, $arr)
+    static function subscore_update_between($xzcf_sub_table, $arr)
     {
         $param = SqlTool::WHERE([
                 Quantity_xzcf_gr_nbr_map::$number_id => Quantity_xzcf_gr_sub_score_map::$number_id
