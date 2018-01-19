@@ -127,7 +127,7 @@ if (1) {
     $xzcf_sub_table = new Table(Quantity_xzcf_gr_sub_score_map::$table_name, $sqlTool);
 
     //时间段分数重计算更新
-    echo XZCF_group::group_update_between(
+    echo XZCF_group::group_update_date_in(
         $sqlTool->mysqli, ['2017-05-01', '2017-05-20']
     );
 

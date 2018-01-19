@@ -14,7 +14,7 @@ interface Table_group
 {
     static function group_update($mysqli, $param);
 
-    static function group_update_between($mysqli, $date_arr);
+    static function group_update_date_in($mysqli, $date_arr);
 
     static function group_update_by_id($mysqli, $id);
 }

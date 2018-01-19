@@ -130,12 +130,12 @@ class XZCF_group implements Table_group
     }
 
     /**
-     * subscore_update的包装函数，只需要给定日期区间则自动更新
+     * group_update的包装函数，只需要给定日期区间则自动更新
      * @param $mysqli
-     * @param $arr
+     * @param $date_arr
      * @return mixed
      */
-    static function group_update_between($mysqli, $date_arr)
+    static function group_update_date_in($mysqli, $date_arr)
     {
         $param = SqlTool::WHERE([
                 Quantity_xzcf_gr_nbr_map::$number_id => Quantity_xzcf_gr_sub_score_map::$number_id
@@ -146,7 +146,7 @@ class XZCF_group implements Table_group
     }
 
     /**
-     * subscore_update的包装函数，只需要给定number_id则自动更新
+     * group_update的包装函数，只需要给定number_id则自动更新
      * @param $mysqli
      * @param $number_id
      * @return mixed

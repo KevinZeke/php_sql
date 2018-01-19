@@ -15,7 +15,7 @@ require_once __DIR__ . '/../map/Quantity_hzdc_gr_sub_score.map.php';
 
 class HZDC_formula extends Formula
 {
-    static $nbr_2_subscore;
+    static $nbr_2_basicscore;
     static $basic_2_sub;
     static $zzhzyydc_jydc_xiebr_basic;
     static $zzhzyydc_jydc_zhubr_basic;
@@ -89,7 +89,7 @@ class HZDC_group implements Table_group
                     Quantity_hzdc_gr_nbr_map::$table_name,
                     Quantity_hzdc_gr_basic_coef_map::$table_name
                 ],
-                HZDC_formula::$nbr_2_subscore,
+                HZDC_formula::$nbr_2_basicscore,
                 $param
             );
     }
@@ -109,25 +109,42 @@ class HZDC_group implements Table_group
 
     static function group_update($mysqli, $param)
     {
-        self::subscore_update($mysqli, $param);
+
+        return (new Table(Quantity_hzdc_gr_sub_score_map::$table_name, SqlTool::build_by_mysqli($mysqli)))
+            ->union_update(
+                [
+                    Quantity_hzdc_gr_nbr_map::$table_name,
+                    Quantity_hzdc_gr_basic_coef_map::$table_name,
+                    Quantity_hzdc_gr_basic_score_map::$table_name,
+                    Quantity_hzdc_gr_sub_coef_map::$table_name
+                ],
+                array_merge(HZDC_formula::$nbr_2_basicscore, HZDC_formula::$basic_2_sub),
+                $param
+            );
+
+
     }
 
-    static function group_update_between($mysqli, $date_arr)
+    static function group_update_date_in($mysqli, $date_arr)
     {
         $param = SqlTool::WHERE([
-                Quantity_hzdc_gr_sub_score_map::$number_id => Quantity_hzdc_gr_basic_score_map::$number_id
+                Quantity_hzdc_gr_sub_score_map::$number_id => Quantity_hzdc_gr_nbr_map::$number_id,
+                Quantity_hzdc_gr_basic_score_map::$number_id => Quantity_hzdc_gr_nbr_map::$number_id
             ], false) .
-            SqlTool::BETWEEN(Quantity_hzdc_gr_basic_score_map::$year_month_show, $date_arr);
+            SqlTool::BETWEEN(Quantity_hzdc_gr_nbr_map::$year_month_show, $date_arr);
+
         return self::group_update($mysqli, $param);
+
     }
 
     static function group_update_by_id($mysqli, $number_id)
     {
         $param = SqlTool::WHERE([
-                Quantity_hzdc_gr_sub_score_map::$number_id => Quantity_hzdc_gr_basic_score_map::$number_id
+                Quantity_hzdc_gr_sub_score_map::$number_id => Quantity_hzdc_gr_nbr_map::$number_id,
+                Quantity_hzdc_gr_basic_score_map::$number_id => Quantity_hzdc_gr_nbr_map::$number_id
             ], false) .
-            SqlTool::ANDC([Quantity_hzdc_gr_basic_score_map::$number_id => $number_id], false);
-//        echo $param;
+            SqlTool::BETWEEN(Quantity_hzdc_gr_nbr_map::$number_id, $number_id);
+
         return self::group_update($mysqli, $param);
     }
 }
