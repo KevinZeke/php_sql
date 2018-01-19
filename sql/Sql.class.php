@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../log/Log.class.php';
+require_once __DIR__ . '/../log/Log.class.php';
 
 class SqlTool
 {
@@ -49,7 +49,7 @@ class SqlTool
         $this->database = $database;
         $this->mysqli = new mysqli($host, $user, $password, $database);
         if ($err = $this->mysqli->connect_error) {
-            Log::write('error',$err);
+            Log::write('error', $err);
             die("数据库连接失败 : " . $err);
         }
 //        $this->mysqli->query('SET NAMES UTF8');
@@ -63,14 +63,14 @@ class SqlTool
 
     public function execute_dql($sql)
     {
-        self::$isDev and Log::write('sql',$sql);
+        self::$isDev and Log::write('sql', $sql);
         $res = $this->mysqli->query($sql) or die('sql语句出错 : ' . $this->mysqli->error);
         return $res;
     }
 
     public function execute_dml($sql)
     {
-        self::$isDev and Log::write('sql',$sql);
+        self::$isDev and Log::write('sql', $sql);
         $res = $this->mysqli->query($sql) or die('sql语句出错 : ' . $this->mysqli->error);
         if (!$res) {
             return -1;
@@ -145,7 +145,7 @@ class SqlTool
         return $str;
     }
 
-     /**
+    /**
      * 判断当前数据表是否存在符合日期和警员名的数据
      * @param $table   当前数据实例
      * @param $date    日期

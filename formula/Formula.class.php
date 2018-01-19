@@ -46,7 +46,8 @@ class Formula
     }
 }
 
-class Trans_model {
+class Table_group
+{
     private function __construct()
     {
         //禁止实例化

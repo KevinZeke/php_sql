@@ -61,7 +61,7 @@ $xzcf_sub_table = new Table(Quantity_xzcf_gr_sub_score_map::$table_name, $sqlToo
 //    $xzcf_sub_table, ['2017-05-01', '2017-05-20']
 //);
 
-echo XZCF_trans_model::subscore_update_by_id(
-    $xzcf_sub_table,1
+echo XZCF_group::subscore_update_by_id(
+    $xzcf_sub_table, 1
 );
 

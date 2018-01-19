@@ -95,14 +95,14 @@ XZCF_formula::$nbr_2_subscore = Formula::formatFormula([
         ]
     ),
     Quantity_xzcf_gr_sub_score_map::$xzcf_zdf =>
-    Formula::plus([
-        Quantity_xzcf_gr_sub_score_map::$zlstdws_sub_score,
-        Quantity_xzcf_gr_sub_score_map::$jls_sub_score,
-        Quantity_xzcf_gr_sub_score_map::$fks_sub_score
-    ])
+        Formula::plus([
+            Quantity_xzcf_gr_sub_score_map::$zlstdws_sub_score,
+            Quantity_xzcf_gr_sub_score_map::$jls_sub_score,
+            Quantity_xzcf_gr_sub_score_map::$fks_sub_score
+        ])
 ]);
 
-class XZCF_trans_model extends Trans_model
+class XZCF_group extends Table_group
 {
     static function subscore_update($xzcf_sub_table, $param)
     {
@@ -127,11 +127,12 @@ class XZCF_trans_model extends Trans_model
         return self::subscore_update($xzcf_sub_table, $param);
     }
 
-    static function subscore_update_by_id($xzcf_sub_table,$number_id){
+    static function subscore_update_by_id($xzcf_sub_table, $number_id)
+    {
         $param = SqlTool::WHERE([
                 Quantity_xzcf_gr_nbr_map::$number_id => Quantity_xzcf_gr_sub_score_map::$number_id
             ], false) .
-            SqlTool::ANDC([Quantity_xzcf_gr_nbr_map::$number_id=>$number_id],false);
+            SqlTool::ANDC([Quantity_xzcf_gr_nbr_map::$number_id => $number_id], false);
 //        echo $param;
         return self::subscore_update($xzcf_sub_table, $param);
     }

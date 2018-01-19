@@ -6,63 +6,74 @@
  */
 
 
-require_once __DIR__.'/../formula/Formula.class.php';
+require_once __DIR__ . '/../formula/Formula.class.php';
 
-class Table{
+class Table
+{
     var $tableName;
     private $sqlTool = null;
 
-    static function formatField($field){
+    static function formatField($field)
+    {
         $res = array();
-        foreach ($field as $k=>$v){
-            if(is_numeric($k))
-                array_push($res,$v);
+        foreach ($field as $k => $v) {
+            if (is_numeric($k))
+                array_push($res, $v);
             else
-                array_push($res," $k AS $v ");
+                array_push($res, " $k AS $v ");
         }
 //        print_r($res);
-        return implode(',',$res);
+        return implode(',', $res);
     }
 
-    public function __construct($tableName,$sqlTool)
+    public function __construct($tableName, $sqlTool)
     {
         $this->tableName = $tableName;
         $this->sqlTool = $sqlTool;
     }
-    public function dql($sqlstr){
+
+    public function dql($sqlstr)
+    {
         return $this->sqlTool->execute_dql($sqlstr);
     }
-    public function dml($sqlstr){
+
+    public function dml($sqlstr)
+    {
         return $this->sqlTool->execute_dml($sqlstr);
     }
-    public function query($field, $param='', $callback=null){
-        $sql = "SELECT ".Table::formatField($field)." FROM ".$this->tableName." $param";
-//        echo $sql;
-        $resList = array();
+
+    public function query($field, $param = '', $isToList = false)
+    {
+        $sql = "SELECT " . Table::formatField($field) . " FROM " . $this->tableName . " $param";
+        $resList = null;
         $res = null;
-        if($this->sqlTool!=null){
+        if ($this->sqlTool != null) {
             $res = $this->sqlTool->execute_dql($sql);
-                while (!!$row = $res->fetch_array()){
-//                    if($callback) $callback($row);
-                    array_push($resList, $row);
+            if (!$isToList) return $res;
+            $resList = array();
+            while (!!$row = $res->fetch_array()) {
+                array_push($resList, $row);
             }
         }
         $res->close();
         return $resList;
     }
-    public function multiInsert($field, $value){
-        $sql = "INSERT INTO ".$this->tableName."( ".implode(',',$field)." ) VALUES ";
-        if(!is_array($value) || count($value) == 0) return -1;
+
+    public function multiInsert($field, $value)
+    {
+        $sql = "INSERT INTO " . $this->tableName . "( " . implode(',', $field) . " ) VALUES ";
+        if (!is_array($value) || count($value) == 0) return -1;
         $valarr = array();
-        if(is_array($value[0]))
-            foreach ($value as $val){
-                array_push($valarr, '( '.implode(',',$val).' )');
+        if (is_array($value[0]))
+            foreach ($value as $val) {
+                array_push($valarr, '( ' . implode(',', $val) . ' )');
             }
-        $sql.=implode(',',$valarr);
-//        echo $sql;
+        $sql .= implode(',', $valarr);
         return $this->sqlTool->execute_dml($sql);
     }
-    public function update($field, $newVal ,$param){
+
+    public function update($field, $newVal, $param)
+    {
         //TODO
         die("TODO : not support ");
     }
@@ -73,31 +84,35 @@ class Table{
      * @param $param   更新行查询条件
      * @return mixed
      */
-    public function unionUpdate($tables, $formula, $param){
-        $sql = "UPDATE $this->tableName , ".implode(',',$tables)."
+    public function unionUpdate($tables, $formula, $param)
+    {
+        $sql = "UPDATE $this->tableName , " . implode(',', $tables) . "
         SET $formula
         $param";
-//        echo $sql;
         return $this->sqlTool->execute_dml($sql);
 
     }
-    public function delete($param){
-        if(!is_array($param) || count($param) == 0) return -1;
+
+    public function delete($param)
+    {
+        if (!is_array($param) || count($param) == 0) return -1;
         return $this->sqlTool->execute_dml(
             "DELETE FROM $this->tableName $param"
         );
     }
 
-    public function leftJoin($table,$field,$param,$isToList = false){
-        if(!is_array($field) || count($field) == 0) return -1;
-        $sql = 'SELECT '.Table::formatField($field[0]).' , '.Table::formatField($field[1]).' FROM '.$this->tableName.' LEFT JOIN '.$table." $param";
+    public function leftJoin($table, $field, $param, $isToList = false)
+    {
+        if (!is_array($field) || count($field) == 0) return -1;
+        $sql = 'SELECT ' . Table::formatField($field[0]) . ' , ' . Table::formatField($field[1])
+            . ' FROM ' . $this->tableName . ' LEFT JOIN ' . $table . " $param";
         $res = null;
-        if($this->sqlTool!=null){
+        $resList = null;
+        if ($this->sqlTool != null) {
             $res = $this->sqlTool->execute_dql($sql);
-            if(!$isToList) return $res;
+            if (!$isToList) return $res;
             $resList = array();
-            while (!!$row = $res->fetch_array()){
-//                    if($callback) $callback($row);
+            while (!!$row = $res->fetch_array()) {
                 array_push($resList, $row);
             }
         }

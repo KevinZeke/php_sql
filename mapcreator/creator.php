@@ -11,21 +11,22 @@ require_once __DIR__ . '/../sql/Sql.class.php';
 
 $db = "huaianzhd_db";
 
-if($argc > 1){
+if ($argc > 1) {
     $db = $argv[1];
 }
 
-$sqlTool = new SqlTool("localhost","root","123456",$db);
+$sqlTool = SqlTool::build("localhost", "root", "123456", $db);
 
 $res = $sqlTool->execute_dql("select table_name from information_schema.TABLES where TABLE_SCHEMA='huaianzhd_db' ");
 
-if(!!$res){
-    while (!!$row = $res->fetch_array()){
+if (!!$res) {
+    while (!!$row = $res->fetch_array()) {
         createClass($row['table_name'], $db, $sqlTool);
     }
 }
 
-function createClass($table,$db,$sqlTool){
+function createClass($table, $db, $sqlTool)
+{
     $sql = "select COLUMN_NAME from information_schema.COLUMNS 
         where table_name = '$table' and table_schema = '$db' ";
 //echo $sql."\n";
@@ -33,30 +34,31 @@ function createClass($table,$db,$sqlTool){
 
     $resstr = "<?php \r\n";
 
-    if($res){
-        $className = $table."_map";
+    if ($res) {
+        $className = $table . "_map";
         $className[0] = strtoupper($className[0]);
-        $resstr.='require_once __DIR__.\'/DB_map.class.php\';'."\r\n";
-        $resstr.= "class $className extends DB_map {\r\n";
-        $resstr.= "  static \$table_name = '$table' ;\r\n";
-        while (!!$row = $res->fetch_object()){
-            $resstr.= '  static ';
-            $resstr.= '$'.$row->COLUMN_NAME." = '$table.$row->COLUMN_NAME' ;";
-            $resstr.= "\r\n";
+        $resstr .= 'require_once __DIR__.\'/DB_map.class.php\';' . "\r\n";
+        $resstr .= "class $className extends DB_map {\r\n";
+        $resstr .= "  static \$table_name = '$table' ;\r\n";
+        while (!!$row = $res->fetch_object()) {
+            $resstr .= '  static ';
+            $resstr .= '$' . $row->COLUMN_NAME . " = '$table.$row->COLUMN_NAME' ;";
+            $resstr .= "\r\n";
         }
-        $resstr.= "  static function all(){
+        $resstr .= "  static function all(){
             return parent::all(__CLASS__);
         }\r\n";
-        $resstr.= "}\r\n";
+        $resstr .= "}\r\n";
     }
     $table[0] = strtoupper($table[0]);
-    writeFile($table.'.map'.'.php', $resstr);
+    writeFile($table . '.map' . '.php', $resstr);
     return $resstr;
 }
 
-function writeFile($name,$content){
-    $myfile = fopen(__DIR__."/../map/$name", "w");
-    fwrite($myfile,$content);
+function writeFile($name, $content)
+{
+    $myfile = fopen(__DIR__ . "/../map/$name", "w");
+    fwrite($myfile, $content);
     fclose($myfile);
 }
 
