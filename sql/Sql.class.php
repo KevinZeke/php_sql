@@ -52,13 +52,7 @@ class SqlTool
             Log::write('error', $err);
             die("数据库连接失败 : " . $err);
         }
-//        $this->mysqli->query('SET NAMES UTF8');
         return $this;
-    }
-
-    public function __destruct()
-    {
-        $this->close();
     }
 
     public function execute_dql($sql)

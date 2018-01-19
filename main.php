@@ -123,18 +123,20 @@ if (false) {
 /**
  * 案例：表格组关联操作
  */
-if (false) {
+if (1) {
     $xzcf_sub_table = new Table(Quantity_xzcf_gr_sub_score_map::$table_name, $sqlTool);
 
     //时间段分数重计算更新
-    echo XZCF_trans_model::group_update_between(
+    echo XZCF_group::group_update_between(
         $sqlTool->mysqli, ['2017-05-01', '2017-05-20']
     );
 
     //根据id特定行更新
     echo XZCF_group::group_update_by_id(
-        $sqlTool->mysqli, 1
+        $sqlTool->mysqli, 2
     );
 }
+
+$sqlTool->close();
 
 
