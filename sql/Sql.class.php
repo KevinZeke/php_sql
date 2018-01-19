@@ -1,7 +1,10 @@
 <?php
 
+require_once __DIR__.'/../log/Log.class.php';
+
 class SqlTool
 {
+    static $isDev = true;
     public $mysqli = null;
     private $host;
     private $user;
@@ -46,6 +49,7 @@ class SqlTool
         $this->database = $database;
         $this->mysqli = new mysqli($host, $user, $password, $database);
         if ($err = $this->mysqli->connect_error) {
+            Log::write('error',$err);
             die("数据库连接失败 : " . $err);
         }
 //        $this->mysqli->query('SET NAMES UTF8');
@@ -59,12 +63,14 @@ class SqlTool
 
     public function execute_dql($sql)
     {
+        self::$isDev and Log::write('sql',$sql);
         $res = $this->mysqli->query($sql) or die('sql语句出错 : ' . $this->mysqli->error);
         return $res;
     }
 
     public function execute_dml($sql)
     {
+        self::$isDev and Log::write('sql',$sql);
         $res = $this->mysqli->query($sql) or die('sql语句出错 : ' . $this->mysqli->error);
         if (!$res) {
             return -1;
@@ -137,6 +143,27 @@ class SqlTool
                     $str .= " $key $field = $value ";
         }
         return $str;
+    }
+
+     /**
+     * 判断当前数据表是否存在符合日期和警员名的数据
+     * @param $table   当前数据实例
+     * @param $date    日期
+     * @param $name    警员名
+     * @return bool    返回布尔值
+     */
+    public function is_row_ext($table, $date, $name)
+    {
+        $sql = "SELECT COUNT(police_name) AS num
+	        FROM $table
+	        WHERE year_month_show = '$date'
+	        AND police_name = '$name' LIMIT 1";
+        $res = $this->execute_dql($sql)->fetch_array();
+        if ($res[0] > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 

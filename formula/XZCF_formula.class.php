@@ -12,10 +12,11 @@ require_once __DIR__ . '/../map/Quantity_xzcf_gr_basic_coef.map.php';
 
 class XZCF_formula extends Formula
 {
-    static $xzcf_nbr_2_xzcf_sub_score;
+    static $nbr_2_subscore;
+    static $subscore_to_huizong;
 }
 
-XZCF_formula::$xzcf_nbr_2_xzcf_sub_score = Formula::formatFormula([
+XZCF_formula::$nbr_2_subscore = Formula::formatFormula([
     Quantity_xzcf_gr_sub_score_map::$fks_sub_score
     =>
         Formula::mul(
@@ -92,12 +93,18 @@ XZCF_formula::$xzcf_nbr_2_xzcf_sub_score = Formula::formatFormula([
             ),
             Quantity_xzcf_gr_sub_coef_map::$zlstdws_zxqz
         ]
-    )
+    ),
+    Quantity_xzcf_gr_sub_score_map::$xzcf_zdf =>
+    Formula::plus([
+        Quantity_xzcf_gr_sub_score_map::$zlstdws_sub_score,
+        Quantity_xzcf_gr_sub_score_map::$jls_sub_score,
+        Quantity_xzcf_gr_sub_score_map::$fks_sub_score
+    ])
 ]);
 
-class XZCF_trans_model
+class XZCF_trans_model extends Trans_model
 {
-    static function update_xzcf_sub($xzcf_sub_table, $param)
+    static function subscore_update($xzcf_sub_table, $param)
     {
         return $xzcf_sub_table->unionUpdate(
             [
@@ -105,7 +112,7 @@ class XZCF_trans_model
                 Quantity_xzcf_gr_nbr_map::$table_name,
                 Quantity_xzcf_gr_sub_coef_map::$table_name
             ],
-            XZCF_formula::$xzcf_nbr_2_xzcf_sub_score,
+            XZCF_formula::$nbr_2_subscore,
             $param
         );
     }
@@ -117,6 +124,15 @@ class XZCF_trans_model
             ], false) .
             SqlTool::BETWEEN(Quantity_xzcf_gr_nbr_map::$year_month_show, $arr);
 //        echo $param;
-        return self::update_xzcf_sub($xzcf_sub_table, $param);
+        return self::subscore_update($xzcf_sub_table, $param);
+    }
+
+    static function subscore_update_by_id($xzcf_sub_table,$number_id){
+        $param = SqlTool::WHERE([
+                Quantity_xzcf_gr_nbr_map::$number_id => Quantity_xzcf_gr_sub_score_map::$number_id
+            ], false) .
+            SqlTool::ANDC([Quantity_xzcf_gr_nbr_map::$number_id=>$number_id],false);
+//        echo $param;
+        return self::subscore_update($xzcf_sub_table, $param);
     }
 }

@@ -45,3 +45,10 @@ class Formula
         return implode('*', $a);
     }
 }
+
+class Trans_model {
+    private function __construct()
+    {
+        //禁止实例化
+    }
+}
