@@ -122,6 +122,26 @@ if (false) {
 
 }
 
+if (false) {
+    //联合插入
+    $xzcf_table->union_insert(
+    //相关表格名
+        ['a', 'b', 'c'],
+        //插入字段的键值对
+        [
+            'as' => 'aa*ca',
+            'aas' => 'asa*csa',
+            'asa' => 'aada*cada'
+        ],
+        //查询参数
+        SqlTool::WHERE(
+            [
+                'a' => 'ac'
+            ]
+        )
+    );
+}
+
 /**
  * 案例：行政处罚表格组关联操作
  */
@@ -141,7 +161,7 @@ if (false) {
 /**
  * 火灾调查表格组关联操作
  */
-if(false){
+if (false) {
 
     //时间段分数重计算更新
     echo HZDC_group::group_update_date_in(
@@ -155,27 +175,27 @@ if(false){
 
 }
 
-//$xzcf_table->union_insert(
-//    ['a','b','c'],
-//    [
-//        'as'=>'aa*ca',
-//        'aas'=>'asa*csa',
-//        'asa'=>'aada*cada'
-//    ],
-//    SqlTool::WHERE(
-//        [
-//            'a'=>'ac'
-//        ]
-//    )
-//);
 
 //HZ_group::update_xzcf_item($sqlTool->get_mysqli(),'');
 //HZ_group::update_hzdc_item($sqlTool->mysqli,'');
 
 //HZ_group::insert_hzdc_item($sqlTool->get_mysqli());
 
-echo HZ_group::update_xzcf_item($sqlTool->get_mysqli(),'汤金保','2017-05-01');
-echo HZ_group::update_hzdc_item($sqlTool->get_mysqli(),'汤金保','2017-05-01');
+/**
+ * 汇总表的数据是否存在验证
+ */
+
+if (true) {
+    echo HZ_group::is_row_ext($sqlTool, '汤金保', '2017-05-01') ? 'true' : 'false';
+}
+
+/**
+ * 汇总表的关联更新
+ */
+if (false) {
+    echo HZ_group::update_xzcf_item($sqlTool->get_mysqli(), '汤金保', '2017-05-01');
+    echo HZ_group::update_hzdc_item($sqlTool->get_mysqli(), '汤金保', '2017-05-01');
+}
 
 $sqlTool->close();
 

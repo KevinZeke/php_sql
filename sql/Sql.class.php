@@ -55,12 +55,20 @@ class SqlTool
         return $this;
     }
 
-    public function get_mysqli(){
+    /**
+     * @return mysqli
+     */
+    public function get_mysqli()
+    {
 
         return $this->mysqli;
 
     }
 
+    /**
+     * @param string $sql
+     * @return mixed
+     */
     public function execute_dql($sql)
     {
         self::$isDev and Log::write('sql', $sql);
@@ -68,6 +76,10 @@ class SqlTool
         return $res;
     }
 
+    /**
+     * @param string $sql
+     * @return int
+     */
     public function execute_dml($sql)
     {
         self::$isDev and Log::write('sql', $sql);
@@ -95,37 +107,74 @@ class SqlTool
      * 静态函数用于生成sql条件语句
      *
      */
+    /**
+     * @param array $arr
+     * @param bool $quote
+     * @return string
+     */
     static function WHERE($arr = [], $quote = true)
     {
         $str = ' WHERE 1 = 1 ';
         return self::test($arr, $str, $quote);
     }
 
-    static function GROUP($arr){
-        return ' GROUP BY '.implode(',',$arr).' ';
+    /**
+     * @param array $arr
+     * @return string
+     */
+    static function GROUP($arr)
+    {
+        return ' GROUP BY ' . implode(',', $arr) . ' ';
     }
 
+    /**
+     * @param array $arr
+     * @param bool $quote
+     * @return string
+     */
     static function ON($arr = [], $quote = false)
     {
         $str = ' ON 1 = 1 ';
         return self::test($arr, $str, $quote);
     }
 
+    /**
+     * @param array $arr
+     * @param bool $quote
+     * @return string
+     */
     static function ANDC($arr, $quote = true)
     {
         return self::test($arr, '', $quote);
     }
 
+    /**
+     * @param array $arr
+     * @param bool $quote
+     * @return string
+     */
     static function ORC($arr, $quote = true)
     {
         return self::test($arr, '', $quote, true);
     }
 
+    /**
+     * @param string $field
+     * @param array $arr
+     * @return string
+     */
     static function BETWEEN($field, $arr)
     {
         return ' AND ' . $field . ' BETWEEN \'' . $arr[0] . '\' AND \'' . $arr[1] . '\'';
     }
 
+    /**
+     * @param array $arr
+     * @param string $str
+     * @param bool $quote
+     * @param bool $or
+     * @return string
+     */
     static private function test($arr, $str, $quote, $or = false)
     {
         if (!is_array($arr) || count($arr) == 0) return $str;
@@ -148,29 +197,13 @@ class SqlTool
         }
         return $str;
     }
-
-    /**
-     * 判断当前数据表是否存在符合日期和警员名的数据
-     * @param $table   当前数据实例
-     * @param $date    日期
-     * @param $name    警员名
-     * @return bool    返回布尔值
-     */
-    public function is_row_ext($table, $date, $name)
-    {
-        $sql = "SELECT COUNT(police_name) AS num
-	        FROM $table
-	        WHERE year_month_show = '$date'
-	        AND police_name = '$name' LIMIT 1";
-        $res = $this->execute_dql($sql)->fetch_array();
-        if ($res[0] > 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 }
 
+/**
+ * @param string $source
+ * @param string $target
+ * @return bool
+ */
 function hasstring($source, $target)
 {
     preg_match_all("/$target/sim", $source, $strResult, PREG_PATTERN_ORDER);
