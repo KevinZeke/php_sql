@@ -69,7 +69,7 @@ class HZ_group implements Table_group
      */
     public static function is_row_ext($db, $name, $date)
     {
-        $sql = "SELECT COUNT(police_name) AS num
+        $sql = "SELECT 1 AS num
 	        FROM " . Quantity_sub_score_map::$table_name . "
 	        WHERE year_month_show = '$date'
 	        AND police_name = '$name' LIMIT 1";
