@@ -10,6 +10,7 @@ require_once __DIR__ . '/map/Quantity_xzcf_gr_sub_score.map.php';
 require_once __DIR__ . '/map/Quantity_xzcf_gr_basic_coef.map.php';
 require_once __DIR__ . '/map/Quantity_dczghzyhwf_gr_nbr.map.php';
 require_once __DIR__ . '/map/Quantity_xzcf_gr_sub_coef.map.php';
+require_once __DIR__ . './formula/HZ.php';
 require_once __DIR__ . '/formula/XZCF.php';
 require_once __DIR__ . '/formula/HZDC.php';
 require_once __DIR__ . '/table/Table.class.php';
@@ -128,31 +129,50 @@ if (false) {
 
     //时间段分数重计算更新
     echo XZCF_group::group_update_date_in(
-        $sqlTool->mysqli, ['2017-05-01', '2017-05-20']
+        $sqlTool->get_mysqli(), ['2017-05-01', '2017-05-20']
     );
 
     //根据id特定行更新
     echo XZCF_group::group_update_by_id(
-        $sqlTool->mysqli, 2
+        $sqlTool->get_mysqli(), 2
     );
 }
 
 /**
  * 火灾调查表格组关联操作
  */
-if(1){
+if(false){
 
     //时间段分数重计算更新
     echo HZDC_group::group_update_date_in(
-        $sqlTool->mysqli, ['2017-05-01', '2017-05-20']
+        $sqlTool->get_mysqli(), ['2017-05-01', '2017-05-20']
     );
 
     //根据id特定行更新
     echo HZDC_group::group_update_by_id(
-        $sqlTool->mysqli, 2
+        $sqlTool->get_mysqli(), 2
     );
 
 }
+
+//$xzcf_table->union_insert(
+//    ['a','b','c'],
+//    [
+//        'as'=>'aa*ca',
+//        'aas'=>'asa*csa',
+//        'asa'=>'aada*cada'
+//    ],
+//    SqlTool::WHERE(
+//        [
+//            'a'=>'ac'
+//        ]
+//    )
+//);
+
+//HZ_group::update_xzcf_item($sqlTool->get_mysqli(),'');
+//HZ_group::update_hzdc_item($sqlTool->mysqli,'');
+
+HZ_group::insert_hzdc_item($sqlTool->get_mysqli(),'');
 
 $sqlTool->close();
 

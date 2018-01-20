@@ -6,43 +6,118 @@
  */
 
 require_once __DIR__ . '/Formula.class.php';
+require_once __DIR__ . '/Table_gropu.interface.php';
 require_once __DIR__ . '/../map/Quantity_sub_score.map.php';
+require_once __DIR__ . '/../map/Quantity_hzdc_gr_sub_score.map.php';
 require_once __DIR__ . '/../map/Quantity_gr_score.map.php';
+require_once __DIR__ . '/../map/Quantity_gr_coef.map.php';
 require_once __DIR__ . '/../map/Quantity_xzcf_gr_sub_score.map.php';
 
 
 class HZ_formula extends Formula
 {
-    static $xzcf_2_sub;
+    static $xzcf_2_gr;
 
-    static $sub_2_gr_xzcf;
+    static $hzdc_2_sub;
+
+    static $hzdc_2_gr;
 }
 
-HZ_formula::$xzcf_2_huizong = [
+HZ_formula::$hzdc_2_sub = [
+    Quantity_sub_score_map::$police_name => Quantity_hzdc_gr_sub_score_map::$police_name,
+    Quantity_sub_score_map::$dd_name => Quantity_hzdc_gr_sub_score_map::$dadui_name,
+    Quantity_sub_score_map::$year_month_show => Quantity_hzdc_gr_sub_score_map::$year_month_show,
+    Quantity_sub_score_map::$hzdc_zdf =>
+        'SUM('.Quantity_hzdc_gr_sub_score_map::$hzdcs_sub_score.')'
+];
 
-    Quantity_sub_score_map::$xzcf_zdf => Quantity_xzcf_gr_sub_score_map::$xzcf_zdf
+HZ_formula::$xzcf_2_gr = [
 
+    Quantity_sub_score_map::$xzcf_zdf =>
+        'SUM('.Quantity_xzcf_gr_sub_score_map::$xzcf_zdf.')',
+    Quantity_gr_score_map::$xzcf_zdf_weighed => Formula::mul(
+        [
+            Quantity_xzcf_gr_sub_score_map::$xzcf_zdf,
+            Quantity_gr_coef_map::$xzcf_coef
+        ]
+    )
+
+];
+
+HZ_formula::$hzdc_2_gr = [
+
+    Quantity_sub_score_map::$hzdc_zdf =>
+        'SUM('.Quantity_hzdc_gr_sub_score_map::$hzdcs_sub_score.')',
+    Quantity_gr_score_map::$hzdc_zdf_weighed => Formula::mul(
+        [
+            Quantity_hzdc_gr_sub_score_map::$hzdcs_sub_score,
+            Quantity_gr_coef_map::$hzdc_coef
+        ]
+    )
 ];
 
 
 class HZ_group implements Table_group
 {
     /**
-     * 此函数用于更新quantity_sub_table的xzcf项（非更新xzcf相关的子表）
-     * @param $sub_table quantity_sub_table的Table实例
+     * 此函数用于更新quantity_sub_table以及quantity_gr_table的xzcf项（非更新xzcf相关的子表）
+     * @param $mysqli
      * @param $param 查询参数
      * @return mixed
+     * @internal param quantity_gr_table的Table实例 $sub_table
      */
-    static public function sub_update_xzcf_item($sub_table, $param)
+    static public function update_xzcf_item($mysqli, $param)
     {
-        return $sub_table->union_update(
+        //TODO:改成sub表更新，gr表依靠触发器
+        return (new Table(Quantity_gr_score_map::$table_name, SqlTool::build_by_mysqli($mysqli)))->union_update(
             [
-                Quantity_xzcf_gr_sub_score_map::$table_name
+                Quantity_xzcf_gr_sub_score_map::$table_name,
+                Quantity_gr_coef_map::$table_name,
+                Quantity_sub_score_map::$table_name
             ],
-            HZ_formula::$xzcf_2_sub,
-            $param
+            HZ_formula::$xzcf_2_gr,
+            $param.SqlTool::GROUP([Quantity_xzcf_gr_sub_score_map::$year_month_show])
+        );
+    }
+
+    static public function update_hzdc_item($mysqli, $param)
+    {
+        //TODO:改成sub表更新，gr表依靠触发器
+        return (new Table(Quantity_gr_score_map::$table_name, SqlTool::build_by_mysqli($mysqli)))->union_update(
+            [
+                Quantity_hzdc_gr_sub_score_map::$table_name,
+                Quantity_gr_coef_map::$table_name,
+                Quantity_sub_score_map::$table_name
+            ],
+            HZ_formula::$hzdc_2_gr,
+            $param.SqlTool::GROUP([Quantity_hzdc_gr_sub_score_map::$year_month_show])
         );
     }
 
 
+    static function insert_hzdc_item($mysqli, $param){
+        return (new Table(Quantity_sub_score_map::$table_name, SqlTool::build_by_mysqli($mysqli)))->union_insert(
+            [
+                Quantity_hzdc_gr_sub_score_map::$table_name,
+            ],
+            HZ_formula::$hzdc_2_sub,
+            $param.SqlTool::GROUP([Quantity_hzdc_gr_sub_score_map::$year_month_show])
+        );
+    }
+
+
+    static function group_update($mysqli, $param)
+    {
+        // TODO: Implement group_update() method.
+    }
+
+    static function group_update_date_in($mysqli, $date_arr)
+    {
+        // TODO: Implement group_update_date_in() method.
+    }
+
+    static function group_update_by_id($mysqli, $id)
+    {
+        // TODO: Implement group_update_by_id() method.
+    }
 }

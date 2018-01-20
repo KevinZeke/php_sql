@@ -5,7 +5,7 @@ require_once __DIR__ . '/../log/Log.class.php';
 class SqlTool
 {
     static $isDev = true;
-    public $mysqli = null;
+    private $mysqli = null;
     private $host;
     private $user;
     private $password;
@@ -55,6 +55,12 @@ class SqlTool
         return $this;
     }
 
+    public function get_mysqli(){
+
+        return $this->mysqli;
+
+    }
+
     public function execute_dql($sql)
     {
         self::$isDev and Log::write('sql', $sql);
@@ -93,6 +99,10 @@ class SqlTool
     {
         $str = 'WHERE 1 = 1 ';
         return self::test($arr, $str, $quote);
+    }
+
+    static function GROUP($arr){
+        return ' GROUP BY '.implode(',',$arr).' ';
     }
 
     static function ON($arr = [], $quote = false)

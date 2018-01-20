@@ -99,6 +99,13 @@ class Table
         return $this->sqlTool->execute_dml($sql);
     }
 
+    public function union_insert($tables, $formula, $param){
+        $sql = "INSERT INTO $this->tableName (".implode(',',array_keys($formula))
+            .') SELECT ' . implode(',', $formula) . ' FROM '.implode(',',$tables)."  $param";
+        echo $sql;
+//        return $this->sqlTool->execute_dml($sql);
+    }
+
     /**
      * @param $fields  更新的列名和值键值对 [列名 => 值]
      * @param $param   查询参数
@@ -121,7 +128,8 @@ class Table
     {
         $sql = "UPDATE $this->tableName , " . implode(',', $tables) . "
         SET " . Formula::format_formula($formula) . " $param";
-        return $this->sqlTool->execute_dml($sql);
+        echo $sql;
+//        return $this->sqlTool->execute_dml($sql);
     }
 
     /**

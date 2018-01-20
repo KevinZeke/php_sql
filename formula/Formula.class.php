@@ -40,13 +40,13 @@ class Formula
         return '(' . implode('-', $a) . ')';
     }
 
-    // *
+    // /
     static function divide($a)
     {
         return implode('/', $a);
     }
 
-    // /
+    // *
     static function mul($a)
     {
         return implode('*', $a);
