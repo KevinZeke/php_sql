@@ -144,7 +144,9 @@ class HZ_group implements Table_group
 //            HZ_formula::$hzdc_2_gr,
 //            $param . SqlTool::GROUP([Quantity_hzdc_gr_sub_score_map::$year_month_show])
 //        );
-        return (new Table(Quantity_sub_score_map::$table_name, SqlTool::build_by_mysqli($mysqli)))
+        $db = SqlTool::build_by_mysqli($mysqli);
+
+        return (new Table(Quantity_sub_score_map::$table_name, $db))
             ->union_update(
                 [
                     "(SELECT SUM(" . Quantity_hzdc_gr_sub_score_map::$hzdcs_sub_score . ") 
