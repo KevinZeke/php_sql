@@ -172,7 +172,10 @@ if(false){
 //HZ_group::update_xzcf_item($sqlTool->get_mysqli(),'');
 //HZ_group::update_hzdc_item($sqlTool->mysqli,'');
 
-HZ_group::insert_hzdc_item($sqlTool->get_mysqli(),'');
+//HZ_group::insert_hzdc_item($sqlTool->get_mysqli());
+
+echo HZ_group::update_xzcf_item($sqlTool->get_mysqli(),'汤金保','2017-05-01');
+echo HZ_group::update_hzdc_item($sqlTool->get_mysqli(),'汤金保','2017-05-01');
 
 $sqlTool->close();
 

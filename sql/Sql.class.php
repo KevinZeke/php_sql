@@ -97,7 +97,7 @@ class SqlTool
      */
     static function WHERE($arr = [], $quote = true)
     {
-        $str = 'WHERE 1 = 1 ';
+        $str = ' WHERE 1 = 1 ';
         return self::test($arr, $str, $quote);
     }
 
@@ -107,7 +107,7 @@ class SqlTool
 
     static function ON($arr = [], $quote = false)
     {
-        $str = 'ON 1 = 1 ';
+        $str = ' ON 1 = 1 ';
         return self::test($arr, $str, $quote);
     }
 

@@ -102,8 +102,8 @@ class Table
     public function union_insert($tables, $formula, $param){
         $sql = "INSERT INTO $this->tableName (".implode(',',array_keys($formula))
             .') SELECT ' . implode(',', $formula) . ' FROM '.implode(',',$tables)."  $param";
-        echo $sql;
-//        return $this->sqlTool->execute_dml($sql);
+//        echo $sql;
+        return $this->sqlTool->execute_dml($sql);
     }
 
     /**
@@ -128,8 +128,8 @@ class Table
     {
         $sql = "UPDATE $this->tableName , " . implode(',', $tables) . "
         SET " . Formula::format_formula($formula) . " $param";
-        echo $sql;
-//        return $this->sqlTool->execute_dml($sql);
+//        echo $sql;
+        return $this->sqlTool->execute_dml($sql);
     }
 
     /**
