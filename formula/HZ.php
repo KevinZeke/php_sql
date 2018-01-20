@@ -28,13 +28,13 @@ HZ_formula::$hzdc_2_sub = [
     Quantity_sub_score_map::$dd_name => Quantity_hzdc_gr_sub_score_map::$dadui_name,
     Quantity_sub_score_map::$year_month_show => Quantity_hzdc_gr_sub_score_map::$year_month_show,
     Quantity_sub_score_map::$hzdc_zdf =>
-        'SUM('.Quantity_hzdc_gr_sub_score_map::$hzdcs_sub_score.')'
+        'SUM(' . Quantity_hzdc_gr_sub_score_map::$hzdcs_sub_score . ')'
 ];
 
 HZ_formula::$xzcf_2_gr = [
 
     Quantity_sub_score_map::$xzcf_zdf =>
-        'SUM('.Quantity_xzcf_gr_sub_score_map::$xzcf_zdf.')',
+        'SUM(' . Quantity_xzcf_gr_sub_score_map::$xzcf_zdf . ')',
     Quantity_gr_score_map::$xzcf_zdf_weighed => Formula::mul(
         [
             Quantity_xzcf_gr_sub_score_map::$xzcf_zdf,
@@ -47,7 +47,7 @@ HZ_formula::$xzcf_2_gr = [
 HZ_formula::$hzdc_2_gr = [
 
     Quantity_sub_score_map::$hzdc_zdf =>
-        'SUM('.Quantity_hzdc_gr_sub_score_map::$hzdcs_sub_score.')',
+        'SUM(' . Quantity_hzdc_gr_sub_score_map::$hzdcs_sub_score . ')',
     Quantity_gr_score_map::$hzdc_zdf_weighed => Formula::mul(
         [
             Quantity_hzdc_gr_sub_score_map::$hzdcs_sub_score,
@@ -61,47 +61,88 @@ class HZ_group implements Table_group
 {
     /**
      * 此函数用于更新quantity_sub_table以及quantity_gr_table的xzcf项（非更新xzcf相关的子表）
-     * @param $mysqli
-     * @param $param 查询参数
+     * @param mysqli $mysqli
+     * @param  string $date
      * @return mixed
      * @internal param quantity_gr_table的Table实例 $sub_table
      */
-    static public function update_xzcf_item($mysqli, $param)
+    static public function update_xzcf_item($mysqli, $date)
     {
-        //TODO:改成sub表更新，gr表依靠触发器
-        return (new Table(Quantity_gr_score_map::$table_name, SqlTool::build_by_mysqli($mysqli)))->union_update(
-            [
-                Quantity_xzcf_gr_sub_score_map::$table_name,
-                Quantity_gr_coef_map::$table_name,
-                Quantity_sub_score_map::$table_name
-            ],
-            HZ_formula::$xzcf_2_gr,
-            $param.SqlTool::GROUP([Quantity_xzcf_gr_sub_score_map::$year_month_show])
-        );
+        //改成sub表更新，gr表依靠触发器
+//        return (new Table(Quantity_gr_score_map::$table_name, SqlTool::build_by_mysqli($mysqli)))->union_update(
+//            [
+//                Quantity_xzcf_gr_sub_score_map::$table_name,
+//                Quantity_gr_coef_map::$table_name,
+//                Quantity_sub_score_map::$table_name
+//            ],
+//            HZ_formula::$xzcf_2_gr,
+//            $param.SqlTool::GROUP([Quantity_xzcf_gr_sub_score_map::$year_month_show])
+//        );
+
+        return (new Table(Quantity_sub_score_map::$table_name, SqlTool::build_by_mysqli($mysqli)))
+            ->union_update(
+                [
+                    Quantity_xzcf_gr_sub_score_map::$table_name
+                ],
+                [
+                    Quantity_sub_score_map::$xzcf_zdf =>
+                        'SUM(' . Quantity_xzcf_gr_sub_score_map::$xzcf_zdf . ')'
+                ],
+                SqlTool::WHERE([
+                    Quantity_sub_score_map::$year_month_show =>
+                        Quantity_xzcf_gr_sub_score_map::$year_month_show,
+                    Quantity_xzcf_gr_sub_score_map::$year_month_show => " '$date' "
+                ], false) . SqlTool::GROUP([Quantity_xzcf_gr_sub_score_map::$year_month_show])
+            );
     }
 
-    static public function update_hzdc_item($mysqli, $param)
+    /**
+     * @param mysqli $mysqli
+     * @param string $date
+     * @return mixed
+     */
+    static public function update_hzdc_item($mysqli, $date)
     {
-        //TODO:改成sub表更新，gr表依靠触发器
-        return (new Table(Quantity_gr_score_map::$table_name, SqlTool::build_by_mysqli($mysqli)))->union_update(
-            [
-                Quantity_hzdc_gr_sub_score_map::$table_name,
-                Quantity_gr_coef_map::$table_name,
-                Quantity_sub_score_map::$table_name
-            ],
-            HZ_formula::$hzdc_2_gr,
-            $param.SqlTool::GROUP([Quantity_hzdc_gr_sub_score_map::$year_month_show])
-        );
+        //改成sub表更新，gr表依靠触发器
+//        return (new Table(Quantity_gr_score_map::$table_name, SqlTool::build_by_mysqli($mysqli)))->union_update(
+//            [
+//                Quantity_hzdc_gr_sub_score_map::$table_name,
+//                Quantity_gr_coef_map::$table_name,
+//                Quantity_sub_score_map::$table_name
+//            ],
+//            HZ_formula::$hzdc_2_gr,
+//            $param . SqlTool::GROUP([Quantity_hzdc_gr_sub_score_map::$year_month_show])
+//        );
+        return (new Table(Quantity_sub_score_map::$table_name, SqlTool::build_by_mysqli($mysqli)))
+            ->union_update(
+                [
+                    Quantity_xzcf_gr_sub_score_map::$table_name
+                ],
+                [
+                    Quantity_sub_score_map::$hzdc_zdf =>
+                        'SUM(' . Quantity_hzdc_gr_sub_score_map::$hzdcs_sub_score . ')'
+                ],
+                SqlTool::WHERE([
+                    Quantity_sub_score_map::$year_month_show =>
+                        Quantity_hzdc_gr_sub_score_map::$year_month_show,
+                    Quantity_hzdc_gr_sub_score_map::$year_month_show => " '$date' "
+                ], false) . SqlTool::GROUP([Quantity_hzdc_gr_sub_score_map::$year_month_show])
+            );
     }
 
 
-    static function insert_hzdc_item($mysqli, $param){
+    /**
+     * @param mysqli $mysqli
+     * @param string $param
+     */
+    static function insert_hzdc_item($mysqli, $param = '')
+    {
         return (new Table(Quantity_sub_score_map::$table_name, SqlTool::build_by_mysqli($mysqli)))->union_insert(
             [
                 Quantity_hzdc_gr_sub_score_map::$table_name,
             ],
             HZ_formula::$hzdc_2_sub,
-            $param.SqlTool::GROUP([Quantity_hzdc_gr_sub_score_map::$year_month_show])
+            $param . SqlTool::GROUP([Quantity_hzdc_gr_sub_score_map::$year_month_show])
         );
     }
 
