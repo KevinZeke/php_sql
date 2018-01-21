@@ -67,7 +67,7 @@ class SqlTool
 
     /**
      * @param string $sql
-     * @return mixed
+     * @return mysqli_result
      */
     public function execute_dql($sql)
     {
@@ -98,8 +98,10 @@ class SqlTool
 
     public function close()
     {
-        if ($this->mysqli != null)
+        if ($this->mysqli != null) {
             $this->mysqli->close();
+            $this->mysqli = null;
+        }
     }
 
     /*
@@ -166,6 +168,16 @@ class SqlTool
     static function BETWEEN($field, $arr)
     {
         return ' AND ' . $field . ' BETWEEN \'' . $arr[0] . '\' AND \'' . $arr[1] . '\'';
+    }
+
+    /**
+     * @param string $field
+     * @param string $c_name 列别名
+     * @return string
+     */
+    static function SUM($field, $c_name)
+    {
+        return " SUM($field) AS $c_name";
     }
 
     /**

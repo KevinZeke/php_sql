@@ -31,13 +31,33 @@ $xzcf_table = new Table(Quantity_xzcf_gr_nbr_map::$table_name, $sqlTool);
 
 if (false) {
     $resList = $xzcf_table->query(
+        //需要获得的列名，数组
         Quantity_xzcf_gr_nbr_map::all(),
+        //查询的条件，字符串
         SqlTool::WHERE([
             Quantity_xzcf_gr_nbr_map::$year_month_show => '%2017-05%',
             Quantity_xzcf_gr_nbr_map::$dd_name => '水上'
         ]),
         true
     );
+
+    //分组操作函数，简化查询配置
+    (new Table(Quantity_xzcf_gr_sub_score_map::$table_name,$sqlTool))
+        ->group_query(
+            //需要获得的列名，可以设置别名
+            [
+                SqlTool::SUM(Quantity_xzcf_gr_sub_score_map::$xzcf_zdf,'s'),
+                Quantity_xzcf_gr_sub_score_map::$police_name => 'n',
+                Quantity_xzcf_gr_sub_score_map::$year_month_show => 'd'
+            ],
+            //此参数表示按该字段分组，若是键值对形式，则表示按该键值对的键值分组
+            //并且限制改字段的值
+            [
+                //按year_month_show分组并且year_month_show = '2017-05-01'
+                Quantity_xzcf_gr_sub_score_map::$year_month_show => '2017-05-01',
+                Quantity_xzcf_gr_sub_score_map::$police_name
+            ]
+        );
 
     print_r($resList[0]);
 }
@@ -185,16 +205,27 @@ if (false) {
  * 汇总表的数据是否存在验证
  */
 
-if (true) {
+if (false) {
     echo HZ_group::is_row_ext($sqlTool, '汤金保', '2017-05-01') ? 'true' : 'false';
+}
+
+
+if(false){
+    HZ_group::insert_hzdc($sqlTool->get_mysqli());
 }
 
 /**
  * 汇总表的关联更新
  */
 if (false) {
-    echo HZ_group::update_xzcf_item($sqlTool->get_mysqli(), '汤金保', '2017-05-01');
-    echo HZ_group::update_hzdc_item($sqlTool->get_mysqli(), '汤金保', '2017-05-01');
+    echo HZ_group::update_xzcf_item($sqlTool->get_mysqli(), '汤金保', '2017-05-01',true);
+    echo HZ_group::update_hzdc_item($sqlTool->get_mysqli(), '汤金保', '2017-05-01',true);
+}
+
+
+if(false){
+    echo HZ_group::insert_xzcf_item($sqlTool->get_mysqli(),'汤金保','2017-05-01');
+    echo HZ_group::insert_hzdc_item($sqlTool->get_mysqli(),'汤金保','2017-05-01');
 }
 
 $sqlTool->close();

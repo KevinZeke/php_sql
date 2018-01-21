@@ -7,6 +7,7 @@
 
 require_once __DIR__ . '/Formula.class.php';
 require_once __DIR__ . '/Table_gropu.interface.php';
+require_once __DIR__ . '/../sql/Sql.class.php';
 require_once __DIR__ . '/../map/Quantity_hzdc_gr_nbr.map.php';
 require_once __DIR__ . '/../map/Quantity_hzdc_gr_basic_coef.map.php';
 require_once __DIR__ . '/../map/Quantity_hzdc_gr_sub_coef.map.php';
@@ -78,7 +79,7 @@ HZDC_formula::$basic_2_sub = [
 ];
 
 
-class HZDC_group implements Table_group
+class HZDC_group extends Table_group
 {
 
     static function basicscore_update($mysqli, $param)

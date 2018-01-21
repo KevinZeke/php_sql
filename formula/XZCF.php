@@ -7,6 +7,7 @@
 
 require_once __DIR__ . '/Formula.class.php';
 require_once __DIR__ . '/Table_gropu.interface.php';
+require_once __DIR__ . '/../sql/Sql.class.php';
 require_once __DIR__ . '/../map/Quantity_xzcf_gr_nbr.map.php';
 require_once __DIR__ . '/../map/Quantity_xzcf_gr_sub_score.map.php';
 require_once __DIR__ . '/../map/Quantity_xzcf_gr_basic_coef.map.php';
@@ -106,7 +107,7 @@ XZCF_formula::$nbr_2_subscore = [
  * Class XZCF_group
  * 行政处罚表格组类 : 该类用于行政处罚项目的关联更新，使用关联更新函数将会自动根据上一级表计算公式得到更新后的结果，非自定义参数更新
  */
-class XZCF_group implements Table_group
+class XZCF_group extends Table_group
 {
     /**
      * Table的类的union_update方法的包装函数，预设了配置

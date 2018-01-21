@@ -18,7 +18,7 @@ class Formula
      * @param bool $quote 是否添加 '' 符
      * @return string
      */
-    static function format_formula($formula, $quote = false)
+    static final function format_formula($formula, $quote = false)
     {
         $str = array();
         foreach ($formula as $t => $f) {
@@ -29,25 +29,25 @@ class Formula
 
     // 加减乘除函数，用于将公式数组拼接成类似于 a+b+c 的公式字符串
     // +
-    static function plus($a)
+    static final function plus($a)
     {
         return '(' . implode('+', $a) . ')';
     }
 
     // -
-    static function minus($a)
+    static final function minus($a)
     {
         return '(' . implode('-', $a) . ')';
     }
 
     // /
-    static function divide($a)
+    static final function divide($a)
     {
         return implode('/', $a);
     }
 
     // *
-    static function mul($a)
+    static final function mul($a)
     {
         return implode('*', $a);
     }
