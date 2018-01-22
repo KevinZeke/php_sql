@@ -29,7 +29,7 @@ $xzcf_table = new Table(Quantity_xzcf_gr_nbr_map::$table_name, $sqlTool);
  * 案列：查询操作
  */
 
-if (false) {
+if (true) {
     $resList = $xzcf_table->query(
     //需要获得的列名，数组
         Quantity_xzcf_gr_nbr_map::all(),
@@ -38,8 +38,19 @@ if (false) {
             Quantity_xzcf_gr_nbr_map::$year_month_show => '%2017-05%',
             Quantity_xzcf_gr_nbr_map::$dd_name => '水上'
         ]),
-        true
+        false
     );
+
+    echo count($resList->to_array_list());
+
+//    echo count($resList->to_array_list());
+//    echo count( (new SqlResult($resList))->to_array_list() );
+//    $idx = 0;
+//    (new SqlResult($resList))->each_row(function ($row) use (&$idx) {
+//        print_r($row);
+//        $idx++;
+//    });
+//    echo  $idx;
 
     //分组操作函数，简化查询配置
     (new Table(Quantity_xzcf_gr_sub_score_map::$table_name, $sqlTool))
@@ -59,7 +70,6 @@ if (false) {
             ]
         );
 
-    print_r($resList[0]);
 }
 
 /**

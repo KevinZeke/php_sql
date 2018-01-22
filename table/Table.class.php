@@ -84,7 +84,7 @@ class Table
         $res = null;
         if ($this->sqlTool != null) {
             $res = $this->sqlTool->execute_dql($sql);
-            if (!$isToList) return $res;
+            if (!$isToList) return new SqlResult($res);
             $resList = array();
             while (!!$row = $res->fetch_array()) {
                 array_push($resList, $row);

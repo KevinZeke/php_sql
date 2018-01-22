@@ -217,7 +217,7 @@ class SqlResult
     /**
      * @var mysqli_result
      */
-    private $res = null;
+    private $sql_res = null;
 
 
     /**
@@ -226,7 +226,7 @@ class SqlResult
      */
     public function __construct($res)
     {
-        $this->$res = $res;
+        $this->sql_res = $res;
     }
 
 //    public function __destruct()
@@ -236,9 +236,9 @@ class SqlResult
 
     public function close()
     {
-        if ($this->res != null) {
-            $this->res->close();
-            $this->res = null;
+        if ($this->sql_res != null) {
+            $this->sql_res->close();
+            $this->sql_res = null;
         }
     }
 
@@ -249,8 +249,8 @@ class SqlResult
      */
     public function each_row($callback, $fetch_style = 'fetch_array')
     {
-        if ($this->res == null) return null;
-        while (!!$row = call_user_func_array(array($this->res, $fetch_style))) {
+        if ($this->sql_res == null) return null;
+        while (!!$row = call_user_func_array(array($this->sql_res, $fetch_style),[])) {
             $callback($row);
         }
     }
@@ -259,13 +259,13 @@ class SqlResult
     {
         $res_arr = array();
         if ($filter && is_callable($filter)) {
-            $this->each_row(function ($row) use ($res_arr, $filter) {
+            $this->each_row(function ($row) use (&$res_arr, $filter) {
                 if ($filter($row))
                     array_push($res_arr, $row);
             }, $fetch_style);
             return $res_arr;
         }
-        $this->each_row(function ($row) use ($res_arr) {
+        $this->each_row(function ($row) use (&$res_arr) {
             array_push($res_arr, $row);
         }, $fetch_style);
         return $res_arr;
