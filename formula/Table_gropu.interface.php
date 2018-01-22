@@ -7,7 +7,7 @@
 
 /**
  * Class Table_group
- * 表格组接口
+ * 表格组
  */
 class Table_group
 {

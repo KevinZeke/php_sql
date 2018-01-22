@@ -175,9 +175,9 @@ class SqlTool
      * @param string $c_name 列别名
      * @return string
      */
-    static function SUM($field, $c_name)
+    static function SUM($field, $c_name = '')
     {
-        return " SUM($field) AS $c_name";
+        return " SUM($field) " . ($c_name == '' ? '' : "AS $c_name");
     }
 
     /**
@@ -208,6 +208,82 @@ class SqlTool
                     $str .= " $key $field = $value ";
         }
         return $str;
+    }
+}
+
+class SqlResult
+{
+
+    /**
+     * @var mysqli_result
+     */
+    private $res = null;
+
+
+    /**
+     * SqlResult constructor.
+     * @param mysqli $res
+     */
+    public function __construct($res)
+    {
+        $this->$res = $res;
+    }
+
+//    public function __destruct()
+//    {
+//        $this->close();
+//    }
+
+    public function close()
+    {
+        if ($this->res != null) {
+            $this->res->close();
+            $this->res = null;
+        }
+    }
+
+    /**
+     * @param string $fetch_style
+     * @param $callback
+     * @return null
+     */
+    public function each_row($callback, $fetch_style = 'fetch_array')
+    {
+        if ($this->res == null) return null;
+        while (!!$row = call_user_func_array(array($this->res, $fetch_style))) {
+            $callback($row);
+        }
+    }
+
+    public function to_list($filter = null, $fetch_style = 'fetch_array')
+    {
+        $res_arr = array();
+        if ($filter && is_callable($filter)) {
+            $this->each_row(function ($row) use ($res_arr, $filter) {
+                if ($filter($row))
+                    array_push($res_arr, $row);
+            }, $fetch_style);
+            return $res_arr;
+        }
+        $this->each_row(function ($row) use ($res_arr) {
+            array_push($res_arr, $row);
+        }, $fetch_style);
+        return $res_arr;
+    }
+
+    public function to_objetc_list($filter = null)
+    {
+        return $this->to_list($filter, 'fetch_object');
+    }
+
+    public function to_array_list($filter = null)
+    {
+        return $this->to_list($filter);
+    }
+
+    public function to_json()
+    {
+
     }
 }
 

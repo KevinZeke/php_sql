@@ -17,6 +17,16 @@ require_once __DIR__ . '/../map/Quantity_xfsjshs_gr_sub_score.map.php';
 
 class JSYS_formula extends Formula
 {
+
+    static $jg_nbr_2_basic;
+    static $jg_basic_2_sub;
+    static $sh_nbr_2_basic;
+    static $sh_basic_2_sub;
+    static $ys_nbr_2_basic;
+    static $ys_basic_2_sub;
+    static $ba_nbr_2_basic;
+    static $ba_basic_2_sub;
+
     /**
      * @var 对照：竣工 => sub
      */
@@ -35,7 +45,138 @@ class JSYS_formula extends Formula
     static $sh_2_sub;
 }
 
-//竣工 => sub
+JSYS_formula::$jg_nbr_2_basic = [
+    Quantity_xfjgys_gr_basic_score_map::$jsysbabuhg_qtdw_xiebr_score => Formula::mul([
+        Quantity_xfjgys_gr_nbr_map::$jsysbabuhg_qtdw_xiebr,
+        Quantity_xfjgys_gr_basic_coef_map::$jsysbabuhg_qtdw_xiebr_xxqz
+    ]),
+    Quantity_xfjgys_gr_basic_score_map::$jsysbabuhg_qtdw_zhubr_score => Formula::mul([
+        Quantity_xfjgys_gr_nbr_map::$jsysbabuhg_qtdw_zhubr,
+        Quantity_xfjgys_gr_basic_coef_map::$jsysbabuhg_qtdw_zhubr_xxqz
+    ]),
+    Quantity_xfjgys_gr_basic_score_map::$jsysbahg_qtdw_xiebr_score => Formula::mul([
+        Quantity_xfjgys_gr_nbr_map::$jsysbahg_qtdw_xiebr,
+        Quantity_xfjgys_gr_basic_coef_map::$jsysbahg_qtdw_xiebr_xxqz
+    ]),
+    Quantity_xfjgys_gr_basic_score_map::$jsysbahg_qtdw_zhubr_score => Formula::mul([
+        Quantity_xfjgys_gr_nbr_map::$jsysbahg_qtdw_zhubr,
+        Quantity_xfjgys_gr_basic_coef_map::$jsysbabuhg_qtdw_zhubr_xxqz
+    ]),
+
+
+    Quantity_xfjgys_gr_basic_score_map::$jsysbabuhg_zddw_xiebr_score => Formula::mul([
+        Quantity_xfjgys_gr_nbr_map::$jsysbabuhg_zddw_xiebr,
+        Quantity_xfjgys_gr_basic_coef_map::$jsysbabuhg_zddw_xiebr_xxqz
+    ]),
+    Quantity_xfjgys_gr_basic_score_map::$jsysbabuhg_zddw_zhubr_score => Formula::mul([
+        Quantity_xfjgys_gr_nbr_map::$jsysbabuhg_zddw_zhubr,
+        Quantity_xfjgys_gr_basic_coef_map::$jsysbabuhg_zddw_zhubr_xxqz
+    ]),
+    Quantity_xfjgys_gr_basic_score_map::$jsysbahg_zddw_xiebr_score => Formula::mul([
+        Quantity_xfjgys_gr_nbr_map::$jsysbahg_zddw_xiebr,
+        Quantity_xfjgys_gr_basic_coef_map::$jsysbahg_zddw_xiebr_xxqz
+    ]),
+    Quantity_xfjgys_gr_basic_score_map::$jsysbahg_zddw_zhubr_score => Formula::mul([
+        Quantity_xfjgys_gr_nbr_map::$jsysbahg_zddw_zhubr,
+        Quantity_xfjgys_gr_basic_coef_map::$jsysbabuhg_zddw_zhubr_xxqz
+    ])
+
+];
+
+JSYS_formula::$jg_basic_2_sub = [
+    Quantity_xfjgys_gr_sub_score_map::$jgysbabuhg_sub_score => Formula::mul([
+
+        Formula::plus([
+            JSYS_formula::$jg_nbr_2_basic[Quantity_xfjgys_gr_basic_score_map::$jsysbabuhg_qtdw_xiebr_score],
+            JSYS_formula::$jg_nbr_2_basic[Quantity_xfjgys_gr_basic_score_map::$jsysbabuhg_qtdw_zhubr_score],
+            JSYS_formula::$jg_nbr_2_basic[Quantity_xfjgys_gr_basic_score_map::$jsysbabuhg_zddw_xiebr_score],
+            JSYS_formula::$jg_nbr_2_basic[Quantity_xfjgys_gr_basic_score_map::$jsysbabuhg_zddw_zhubr_score],
+        ]),
+
+        Quantity_xfjgys_gr_sub_coef_map::$jgysbabuhg_zxqz
+
+    ]),
+    Quantity_xfjgys_gr_sub_score_map::$jgysbahg_sub_score => Formula::mul([
+
+        Formula::plus([
+            JSYS_formula::$jg_nbr_2_basic[Quantity_xfjgys_gr_basic_score_map::$jsysbahg_qtdw_xiebr_score],
+            JSYS_formula::$jg_nbr_2_basic[Quantity_xfjgys_gr_basic_score_map::$jsysbahg_qtdw_zhubr_score],
+            JSYS_formula::$jg_nbr_2_basic[Quantity_xfjgys_gr_basic_score_map::$jsysbahg_zddw_xiebr_score],
+            JSYS_formula::$jg_nbr_2_basic[Quantity_xfjgys_gr_basic_score_map::$jsysbahg_zddw_zhubr_score],
+        ]),
+
+        Quantity_xfjgys_gr_sub_coef_map::$jgysbahg_zxqz
+
+    ]),
+    Quantity_xfjgys_gr_sub_score_map::$jgysbacc_total_score => Formula::plus([
+        Formula::mul([
+
+            Formula::plus([
+                JSYS_formula::$jg_nbr_2_basic[Quantity_xfjgys_gr_basic_score_map::$jsysbahg_qtdw_xiebr_score],
+                JSYS_formula::$jg_nbr_2_basic[Quantity_xfjgys_gr_basic_score_map::$jsysbahg_qtdw_zhubr_score],
+                JSYS_formula::$jg_nbr_2_basic[Quantity_xfjgys_gr_basic_score_map::$jsysbahg_zddw_xiebr_score],
+                JSYS_formula::$jg_nbr_2_basic[Quantity_xfjgys_gr_basic_score_map::$jsysbahg_zddw_zhubr_score],
+            ]),
+
+            Quantity_xfjgys_gr_sub_coef_map::$jgysbahg_zxqz
+
+        ]),
+        Formula::mul([
+
+            Formula::plus([
+                JSYS_formula::$jg_nbr_2_basic[Quantity_xfjgys_gr_basic_score_map::$jsysbabuhg_qtdw_xiebr_score],
+                JSYS_formula::$jg_nbr_2_basic[Quantity_xfjgys_gr_basic_score_map::$jsysbabuhg_qtdw_zhubr_score],
+                JSYS_formula::$jg_nbr_2_basic[Quantity_xfjgys_gr_basic_score_map::$jsysbabuhg_zddw_xiebr_score],
+                JSYS_formula::$jg_nbr_2_basic[Quantity_xfjgys_gr_basic_score_map::$jsysbabuhg_zddw_zhubr_score],
+            ]),
+
+            Quantity_xfjgys_gr_sub_coef_map::$jgysbabuhg_zxqz
+
+        ])
+    ])
+];
+
+
+JSYS_formula::$sh_nbr_2_basic = [
+    Quantity_xfsjshs_gr_basic_score_map::$sjshbuhg_qtdw_xiebr_score => Formula::mul([
+        Quantity_xfsjshs_gr_nbr_map::$sjshbuhg_qtdw_xiebr,
+        Quantity_xfsjshs_gr_basic_coef_map::$sjshbuhg_qtdw_xiebr_xxqz
+    ]),
+    Quantity_xfsjshs_gr_basic_score_map::$sjshbuhg_qtdw_zhubr_score => Formula::mul([
+        Quantity_xfsjshs_gr_nbr_map::$sjshbuhg_qtdw_zhubr,
+        Quantity_xfsjshs_gr_basic_coef_map::$sjshbuhg_qtdw_zhubr_xxqz
+    ]),
+    Quantity_xfsjshs_gr_basic_score_map::$jsjshbuhg_qtdw_xiebr_score => Formula::mul([
+        Quantity_xfsjshs_gr_nbr_map::$sjshbuhg_qtdw_xiebr,
+        Quantity_xfsjshs_gr_basic_coef_map::$sjshbuhg_qtdw_xiebr_xxqz
+    ]),
+    Quantity_xfsjshs_gr_basic_score_map::$sjshbuhg_qtdw_zhubr_score => Formula::mul([
+        Quantity_xfsjshs_gr_nbr_map::$sjshbuhg_qtdw_zhubr,
+        Quantity_xfsjshs_gr_basic_coef_map::$sjshbuhg_qtdw_zhubr_xxqz
+    ]),
+
+
+    Quantity_xfsjshs_gr_basic_score_map::$sjshbuhg_zddw_xiebr_score => Formula::mul([
+        Quantity_xfsjshs_gr_nbr_map::$sjshbuhg_zddw_xiebr,
+        Quantity_xfsjshs_gr_basic_coef_map::$sjshbuhg_zddw_xiebr_xxqz
+    ]),
+    Quantity_xfsjshs_gr_basic_score_map::$sjshbuhg_zddw_zhubr_score => Formula::mul([
+        Quantity_xfsjshs_gr_nbr_map::$sjshbuhg_zddw_zhubr,
+        Quantity_xfsjshs_gr_basic_coef_map::$sjshbuhg_zddw_zhubr_xxqz
+    ]),
+    Quantity_xfsjshs_gr_basic_score_map::$sjshbuhg_zddw_xiebr_score => Formula::mul([
+        Quantity_xfsjshs_gr_nbr_map::$sjshbuhg_zddw_xiebr,
+        Quantity_xfsjshs_gr_basic_coef_map::$sjshbuhg_zddw_xiebr_xxqz
+    ]),
+    Quantity_xfsjshs_gr_basic_score_map::$sjshbuhg_zddw_zhubr_score => Formula::mul([
+        Quantity_xfsjshs_gr_nbr_map::$sjshbuhg_zddw_zhubr,
+        Quantity_xfsjshs_gr_basic_coef_map::$sjshbuhg_zddw_zhubr_xxqz
+    ])
+
+];
+
+
+//竣工 => 健身验收
 JSYS_formula::$jg_2_sub = [
     Jianshenyanshou_sub_score_map::$police_name => Quantity_xfjgys_gr_sub_score_map::$police_name,
     Jianshenyanshou_sub_score_map::$year_month_show => Quantity_xfjgys_gr_sub_score_map::$year_month_show,
@@ -44,7 +185,7 @@ JSYS_formula::$jg_2_sub = [
 
 ];
 
-//备案 => sub
+//备案 => 健身验收
 JSYS_formula::$ba_2_sub = [
     Jianshenyanshou_sub_score_map::$police_name => Quantity_xfsjbas_gr_sub_score_map::$police_name,
     Jianshenyanshou_sub_score_map::$year_month_show => Quantity_xfsjbas_gr_sub_score_map::$year_month_show,
@@ -52,7 +193,7 @@ JSYS_formula::$ba_2_sub = [
     Jianshenyanshou_sub_score_map::$sjbas_score => Quantity_xfsjbas_gr_sub_score_map::$sjbabacc_total_score
 ];
 
-//验收 => sub
+//验收 => 健身验收
 JSYS_formula::$ys_2_sub = [
     Jianshenyanshou_sub_score_map::$police_name => Quantity_xfyss_gr_sub_score_map::$police_name,
     Jianshenyanshou_sub_score_map::$year_month_show => Quantity_xfyss_gr_sub_score_map::$year_month_show,
@@ -60,14 +201,13 @@ JSYS_formula::$ys_2_sub = [
     Jianshenyanshou_sub_score_map::$xfyss_score => Quantity_xfyss_gr_sub_score_map::$gcys_total_score
 ];
 
-//审核 => sub
+//审核 => 健身验收
 JSYS_formula::$sh_2_sub = [
     Jianshenyanshou_sub_score_map::$police_name => Quantity_xfsjshs_gr_sub_score_map::$police_name,
     Jianshenyanshou_sub_score_map::$year_month_show => Quantity_xfsjshs_gr_sub_score_map::$year_month_show,
     Jianshenyanshou_sub_score_map::$dd_name => Quantity_xfsjshs_gr_sub_score_map::$dadui_name,
     Jianshenyanshou_sub_score_map::$sjshs_score => Quantity_xfsjshs_gr_sub_score_map::$sjshs_total_score
 ];
-
 
 
 /**
@@ -377,27 +517,65 @@ class JSYS_group extends Table_group
     /**
      * @param mysqli $mysqli
      */
-    static function group_update($mysqli)
+    static function group_insert($mysqli)
     {
-        self::insert_sh($mysqli,'');
+        self::insert_sh($mysqli, '');
         $sqlTool = SqlTool::build_by_mysqli($mysqli);
-        $sub_table = new Table(Jianshenyanshou_sub_score_map::$table_name,$sqlTool);
-        $jg_table = new Table(Quantity_xfjgys_gr_sub_score_map::$table_name,$sqlTool);
+//        $sub_table = new Table(Jianshenyanshou_sub_score_map::$table_name, $sqlTool);
+        $jg_table = new Table(Quantity_xfjgys_gr_sub_score_map::$table_name, $sqlTool);
 //        $sh_table = new Table(Quantity_xfsjshs_gr_sub_score_map::$table_name,$sqlTool);
-        $ba_table = new Table(Quantity_xfsjbas_gr_sub_score_map::$table_name,$sqlTool);
-        $ys_table = new Table(Quantity_xfyss_gr_sub_score_map::$table_name,$sqlTool);
+        $ba_table = new Table(Quantity_xfsjbas_gr_sub_score_map::$table_name, $sqlTool);
+        $ys_table = new Table(Quantity_xfyss_gr_sub_score_map::$table_name, $sqlTool);
+
+//        $result = ['jg' => 0, 'ys' => '0', 'ba' => 0, 'sh' => '0'];
 
         //TODO
         $res = $jg_table->group_query(
             [
                 Quantity_xfjgys_gr_sub_score_map::$police_name => 'n',
                 Quantity_xfjgys_gr_sub_score_map::$year_month_show => 'd',
-                Quantity_xfjgys_gr_sub_score_map::$jgysbacc_total_score => 's'
             ],
             [
                 Quantity_xfjgys_gr_sub_score_map::$year_month_show,
                 Quantity_xfjgys_gr_sub_score_map::$police_name
             ]
         );
+        while (!!$row = $res->fetch_array()) {
+
+            self::update_jg_item($mysqli, $row['n'], $row['d'], true);
+
+        }
+        $res = $ba_table->group_query(
+            [
+                Quantity_xfsjbas_gr_sub_score_map::$police_name => 'n',
+                Quantity_xfsjbas_gr_sub_score_map::$year_month_show => 'd',
+            ],
+            [
+                Quantity_xfsjbas_gr_sub_score_map::$year_month_show,
+                Quantity_xfsjbas_gr_sub_score_map::$police_name
+            ]
+        );
+        while (!!$row = $res->fetch_array()) {
+
+            self::update_ba_item($mysqli, $row['n'], $row['d'], true);
+
+        }
+        $res = $ys_table->group_query(
+            [
+                Quantity_xfyss_gr_sub_score_map::$police_name => 'n',
+                Quantity_xfyss_gr_sub_score_map::$year_month_show => 'd',
+            ],
+            [
+                Quantity_xfyss_gr_sub_score_map::$year_month_show,
+                Quantity_xfyss_gr_sub_score_map::$police_name
+            ]
+        );
+        while (!!$row = $res->fetch_array()) {
+
+            self::update_ys_item($mysqli, $row['n'], $row['d'], true);
+
+        }
+
+
     }
 }

@@ -68,10 +68,10 @@ HZDC_formula::$basic_2_sub = [
     Quantity_hzdc_gr_sub_score_map::$hzdcs_sub_score => Formula::mul([
         Formula::plus(
             [
-                Quantity_hzdc_gr_basic_score_map::$zzhzyydc_jydc_xiebr_score,
-                Quantity_hzdc_gr_basic_score_map::$zzhzyydc_jydc_zhubr_score,
-                Quantity_hzdc_gr_basic_score_map::$zzhzyydc_ybdc_xiebr_score,
-                Quantity_hzdc_gr_basic_score_map::$zzhzyydc_ybdc_zhubr_score
+                HZDC_formula::$zzhzyydc_jydc_xiebr_basic,
+                HZDC_formula::$zzhzyydc_jydc_zhubr_basic,
+                HZDC_formula::$zzhzyydc_ybdc_xiebr_basic,
+                HZDC_formula::$zzhzyydc_ybdc_zhubr_basic
             ]
         ),
         Quantity_hzdc_gr_sub_coef_map::$zzhzyydc_zxqz
@@ -144,7 +144,7 @@ class HZDC_group extends Table_group
                 Quantity_hzdc_gr_sub_score_map::$number_id => Quantity_hzdc_gr_nbr_map::$number_id,
                 Quantity_hzdc_gr_basic_score_map::$number_id => Quantity_hzdc_gr_nbr_map::$number_id
             ], false) .
-            SqlTool::ANDC([Quantity_hzdc_gr_nbr_map::$number_id, $number_id],false);
+            SqlTool::ANDC([Quantity_hzdc_gr_nbr_map::$number_id, $number_id], false);
 
         return self::group_update($mysqli, $param);
     }
