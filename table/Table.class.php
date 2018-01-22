@@ -75,7 +75,7 @@ class Table
      * @param array $field 更新的列名和值键值对 [列名 => 值]
      * @param string $param 查询参数
      * @param bool $isToList 是否需要转换成数组返回
-     * @return array|mysqli_result|null
+     * @return SqlResult|null
      */
     public function query($field, $param = '', $isToList = false)
     {
@@ -84,14 +84,9 @@ class Table
         $res = null;
         if ($this->sqlTool != null) {
             $res = $this->sqlTool->execute_dql($sql);
-            if (!$isToList) return new SqlResult($res);
-            $resList = array();
-            while (!!$row = $res->fetch_array()) {
-                array_push($resList, $row);
-            }
+            return new SqlResult($res);
         }
-        $res->close();
-        return $resList;
+        return null;
     }
 
     /**
@@ -175,33 +170,26 @@ class Table
      * @param Table $table 关联的Table实例
      * @param array $field 查询的两表字段
      * @param string $param 查询条件
-     * @param bool $isToList 是否自动将结果转化为数组返回
-     * @return array|int|mysqli_result|null
+     * @return int|SqlResult|null
      */
-    public function left_join($table, $field, $param, $isToList = false)
+    public function left_join($table, $field, $param)
     {
         if (!is_array($field) || count($field) == 0) return -1;
         $sql = 'SELECT ' . Table::format_field($field)
             . ' FROM ' . $this->tableName . ' LEFT JOIN ' . $table . " $param";
         $res = null;
-        $resList = null;
         if ($this->sqlTool != null) {
             $res = $this->sqlTool->execute_dql($sql);
-            if (!$isToList) return $res;
-            $resList = array();
-            while (!!$row = $res->fetch_array()) {
-                array_push($resList, $row);
-            }
+            return new SqlResult($res);
         }
-        $res->close();
-        return $resList;
+        return null;
     }
 
     /**
      * @param $get_field
      * @param $group_field
      * @param bool $isToLsit
-     * @return array|mysqli_result
+     * @return null|SqlResult
      */
     public function group_query($get_field, $group_field, $isToLsit = false)
     {
@@ -217,8 +205,7 @@ class Table
         }
         return $this->query(
             $get_field,
-            SqlTool::WHERE($where) . SqlTool::GROUP($group),
-            $isToLsit
+            SqlTool::WHERE($where) . SqlTool::GROUP($group)
         );
 
     }

@@ -41,7 +41,7 @@ if (true) {
         false
     );
 
-    echo count($resList->to_array_list());
+    echo json_encode($resList->to_array_list());
 
 //    echo count($resList->to_array_list());
 //    echo count( (new SqlResult($resList))->to_array_list() );
@@ -144,8 +144,7 @@ if (false) {
         ])
         . SqlTool::WHERE([
             Quantity_xzcf_gr_nbr_map::$year_month_show => '%2017-05-01%'
-        ]),
-        true
+        ])
     );
 
     print_r($resList1[0]);
