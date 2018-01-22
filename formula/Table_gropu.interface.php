@@ -11,6 +11,12 @@
  */
 class Table_group
 {
+
+    private function __construct()
+    {
+        //禁止实例化
+    }
+
     /**
      * 判断当前数据表是否存在符合日期和警员名的数据
      * @param SqlTool|mysqli $db

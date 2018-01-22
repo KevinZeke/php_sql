@@ -8,6 +8,9 @@
 
 require_once __DIR__ . '/../formula/Formula.class.php';
 
+/**
+ * Class Table 数据表操作类
+ */
 class Table
 {
     /**
@@ -20,7 +23,7 @@ class Table
     private $sqlTool = null;
 
     /**
-     * 将列名数组转化为字符换 ， 若数组的项为键值对形式则转化为 'A AS B'的形式，若普通元素，则不做别名处理
+     * 将列名数组转化为字符换 ， 若数组的项为键值对形式则转化为 'A AS B'的形式，若未使用键值对的数组项，则不做别名处理
      * @param array $field [列名 => 别名， 列名2 ，.....]
      * @return string
      */
