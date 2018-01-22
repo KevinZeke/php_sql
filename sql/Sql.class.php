@@ -250,7 +250,7 @@ class SqlResult
     public function each_row($callback, $fetch_style = 'fetch_array')
     {
         if ($this->sql_res == null) return null;
-        while (!!$row = call_user_func_array(array($this->sql_res, $fetch_style),[])) {
+        while (!!$row = call_user_func_array(array($this->sql_res, $fetch_style), [])) {
             $callback($row);
         }
     }
@@ -281,9 +281,9 @@ class SqlResult
         return $this->to_list($filter);
     }
 
-    public function to_json()
+    public function to_json($filter = null)
     {
-
+        return json_encode($this->to_objetc_list($filter));
     }
 }
 
