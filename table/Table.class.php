@@ -129,8 +129,8 @@ class Table
     }
 
     /**
-     * @param array $fields  更新的列名和值键值对 [列名 => 值]
-     * @param string $param   查询参数
+     * @param array $fields 更新的列名和值键值对 [列名 => 值]
+     * @param string $param 查询参数
      * @param bool $quote 是否需要对新的值添加 '' 参数
      * @return int
      */
@@ -214,7 +214,7 @@ class Table
         }
         return $this->query(
             $get_field,
-            SqlTool::WHERE($where).SqlTool::GROUP($group),
+            SqlTool::WHERE($where) . SqlTool::GROUP($group),
             $isToLsit
         );
 
