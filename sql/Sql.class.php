@@ -255,6 +255,11 @@ class SqlResult
         }
     }
 
+    /**
+     * @param $filter
+     * @param string $fetch_style
+     * @return array
+     */
     public function to_list($filter = null, $fetch_style = 'fetch_array')
     {
         $res_arr = array();
@@ -271,16 +276,28 @@ class SqlResult
         return $res_arr;
     }
 
+    /**
+     * @param $filter
+     * @return array
+     */
     public function to_objetc_list($filter = null)
     {
         return $this->to_list($filter, 'fetch_object');
     }
 
+    /**
+     * @param $filter
+     * @return array
+     */
     public function to_array_list($filter = null)
     {
         return $this->to_list($filter);
     }
 
+    /**
+     * @param $filter
+     * @return string
+     */
     public function to_json($filter = null)
     {
         return json_encode($this->to_objetc_list($filter));
