@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class Table_group</title>
+  <link rel="stylesheet" href="../media/stylesheet.css" />
+  <script src="../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../media/images/plus.gif";
+	imgMinus.src = "../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class Table_group
+</h2> (line <span class="linenumber">12</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+</pre>
+<p>
+	<b><i>Located in File: <a href="_formula---Table_gropu.interface.php.html">/formula/Table_gropu.interface.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Class Table_group</h5>
+<div class="desc"><p>表格组</p></div>
+<ul>
+	</ul>
+<br /><hr />
+<span class="type">Classes extended from Table_group:</span>
+ 		<dl>
+	<dt><a href="../default/HZ_group.html">HZ_group</a></dt>
+		<dd>Class Table_group</dd>
+	</dl>
+		<dl>
+	<dt><a href="../default/HZDC_group.html">HZDC_group</a></dt>
+		<dd>Class Table_group</dd>
+	</dl>
+		<dl>
+	<dt><a href="../default/JSYS_group.html">JSYS_group</a></dt>
+		<dd>Class JSYS_group 建审验收相关表格组类</dd>
+	</dl>
+		<dl>
+	<dt><a href="../default/XZCF_group.html">XZCF_group</a></dt>
+		<dd>Class XZCF_group</dd>
+	</dl>
+	</p>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+    <div class="method-definition">
+    static         <span class="method-result">void</span>
+        <a href="#methodgroup_update" title="details" class="method-name">group_update</a>
+        (<span class="var-type"></span>&nbsp;<span class="var-name">$mysqli</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$param</span>)
+        </div>
+    <div class="method-definition">
+    static         <span class="method-result">void</span>
+        <a href="#methodgroup_update_by_id" title="details" class="method-name">group_update_by_id</a>
+        (<span class="var-type"></span>&nbsp;<span class="var-name">$mysqli</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$id</span>)
+        </div>
+    <div class="method-definition">
+    static         <span class="method-result">void</span>
+        <a href="#methodgroup_update_date_in" title="details" class="method-name">group_update_date_in</a>
+        (<span class="var-type"></span>&nbsp;<span class="var-name">$mysqli</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$date_arr</span>)
+        </div>
+    <div class="method-definition">
+    static         <span class="method-result">bool</span>
+        <a href="#methodis_row_ext" title="details" class="method-name">is_row_ext</a>
+        (<span class="var-type"><a href="../default/SqlTool.html">SqlTool</a>|mysqli</span>&nbsp;<span class="var-name">$db</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$table_name</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$date</span>)
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodgroup_update" id="methodgroup_update"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Static Method group_update</strong> (line <span class="linenumber">47</span>)
+ </h4> 
+<h4><i>void</i> <strong>group_update(
+
+$mysqli, 
+$param)</strong></h4>
+	<p>Overridden in child classes as:<br />
+		<dl>
+	<dt><a href="../default/HZ_group.html#methodgroup_update">HZ_group::group_update()</a></dt>
+		<dd></dd>
+	</dl>
+		<dl>
+	<dt><a href="../default/HZDC_group.html#methodgroup_update">HZDC_group::group_update()</a></dt>
+		<dd></dd>
+	</dl>
+		<dl>
+	<dt><a href="../default/XZCF_group.html#methodgroup_update">XZCF_group::group_update()</a></dt>
+		<dd>Table的类的union_update方法的包装函数，预设了配置</dd>
+	</dl>
+	</p>
+
+	<!-- ========== Info from phpDoc block ========= -->
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong> $mysqli</strong>: </li>
+			<li><strong> $param</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodgroup_update_by_id" id="methodgroup_update_by_id"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Static Method group_update_by_id</strong> (line <span class="linenumber">51</span>)
+ </h4> 
+<h4><i>void</i> <strong>group_update_by_id(
+
+$mysqli, 
+$id)</strong></h4>
+	<p>Overridden in child classes as:<br />
+		<dl>
+	<dt><a href="../default/HZ_group.html#methodgroup_update_by_id">HZ_group::group_update_by_id()</a></dt>
+		<dd></dd>
+	</dl>
+		<dl>
+	<dt><a href="../default/HZDC_group.html#methodgroup_update_by_id">HZDC_group::group_update_by_id()</a></dt>
+		<dd></dd>
+	</dl>
+		<dl>
+	<dt><a href="../default/XZCF_group.html#methodgroup_update_by_id">XZCF_group::group_update_by_id()</a></dt>
+		<dd>group_update的包装函数，只需要给定number_id则自动更新</dd>
+	</dl>
+	</p>
+
+	<!-- ========== Info from phpDoc block ========= -->
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong> $mysqli</strong>: </li>
+			<li><strong> $id</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodgroup_update_date_in" id="methodgroup_update_date_in"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Static Method group_update_date_in</strong> (line <span class="linenumber">49</span>)
+ </h4> 
+<h4><i>void</i> <strong>group_update_date_in(
+
+$mysqli, 
+$date_arr)</strong></h4>
+	<p>Overridden in child classes as:<br />
+		<dl>
+	<dt><a href="../default/HZ_group.html#methodgroup_update_date_in">HZ_group::group_update_date_in()</a></dt>
+		<dd></dd>
+	</dl>
+		<dl>
+	<dt><a href="../default/HZDC_group.html#methodgroup_update_date_in">HZDC_group::group_update_date_in()</a></dt>
+		<dd></dd>
+	</dl>
+		<dl>
+	<dt><a href="../default/XZCF_group.html#methodgroup_update_date_in">XZCF_group::group_update_date_in()</a></dt>
+		<dd>group_update的包装函数，只需要给定日期区间则自动更新</dd>
+	</dl>
+	</p>
+
+	<!-- ========== Info from phpDoc block ========= -->
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong> $mysqli</strong>: </li>
+			<li><strong> $date_arr</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodis_row_ext" id="methodis_row_ext"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Static Method is_row_ext</strong> (line <span class="linenumber">28</span>)
+ </h4> 
+<h4><i>bool</i> <strong>is_row_ext(
+<a href="../default/SqlTool.html">SqlTool</a>|mysqli
+$db, string
+$table_name, string
+$name, string
+$date)</strong></h4>
+	<p>Overridden in child classes as:<br />
+		<dl>
+	<dt><a href="../default/HZ_group.html#methodis_row_ext">HZ_group::is_row_ext()</a></dt>
+		<dd></dd>
+	</dl>
+		<dl>
+	<dt><a href="../default/JSYS_group.html#methodis_row_ext">JSYS_group::is_row_ext()</a></dt>
+		<dd></dd>
+	</dl>
+	</p>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>判断当前数据表是否存在符合日期和警员名的数据</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong><a href="../default/SqlTool.html">SqlTool</a>|mysqli $db</strong>: </li>
+			<li><strong>string $table_name</strong>: </li>
+			<li><strong>string $name</strong>: 警员名</li>
+			<li><strong>string $date</strong>: 日期</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>return</strong> - 返回布尔值</li>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+	</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Tue, 23 Jan 2018 16:45:29 +0000 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.4</a>
+	</div>
+</body>
+</html>

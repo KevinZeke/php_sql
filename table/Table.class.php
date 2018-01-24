@@ -7,6 +7,7 @@
 
 
 require_once __DIR__ . '/../formula/Formula.class.php';
+require_once __DIR__ .'/../sql/Sql.class.php';
 
 /**
  * Class Table 数据表操作类
@@ -55,11 +56,11 @@ class Table
 
     /**
      * @param string $sqlstr
-     * @return mysqli_result
+     * @return SqlResult
      */
     public function dql($sqlstr)
     {
-        return $this->sqlTool->execute_dql($sqlstr);
+        return new SqlResult($this->sqlTool->execute_dql($sqlstr));
     }
 
     /**
@@ -74,10 +75,9 @@ class Table
     /**
      * @param array $field 更新的列名和值键值对 [列名 => 值]
      * @param string $param 查询参数
-     * @param bool $isToList 是否需要转换成数组返回
-     * @return SqlResult|null
+     * @return null|SqlResult
      */
-    public function query($field, $param = '', $isToList = false)
+    public function query($field, $param = '')
     {
         $sql = "SELECT " . Table::format_field($field) . " FROM " . $this->tableName . " $param";
         $resList = null;

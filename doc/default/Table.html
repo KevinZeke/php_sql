@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class Table</title>
+  <link rel="stylesheet" href="../media/stylesheet.css" />
+  <script src="../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../media/images/plus.gif";
+	imgMinus.src = "../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class Table
+</h2> (line <span class="linenumber">15</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+</pre>
+<p>
+	<b><i>Located in File: <a href="_table---Table.class.php.html">/table/Table.class.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Class Table 数据表操作类</h5>
+<ul>
+	</ul>
+<br /><hr />
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="var-title">
+    <span class="var-type">string</span>
+    <a href="#var$tableName" title="details" class="property"><strong>$tableName</strong></a>
+</div>
+<hr />
+<a name="var$tableName" id="var$tableName"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">$tableName</strong> (line <span class="linenumber">20</span>)
+ </h4>
+<h4>Data type : string</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+		<li><strong>var:</strong> - 表名</li>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+    <div class="method-definition">
+    static         <span class="method-result">string</span>
+        <a href="#methodformat_field" title="details" class="method-name">format_field</a>
+        (<span class="var-type">array</span>&nbsp;<span class="var-name">$field</span>)
+        </div>
+    <div class="method-definition">
+            <span class="method-result">Table</span>
+        <a href="#method__construct" title="details" class="method-name">__construct</a>
+        (<span class="var-type">$tableName</span>&nbsp;<span class="var-name">$tableName</span>, <span class="var-type">$sqlTool</span>&nbsp;<span class="var-name">$sqlTool</span>)
+        </div>
+    <div class="method-definition">
+            <span class="method-result">int</span>
+        <a href="#methoddelete" title="details" class="method-name">delete</a>
+        (<span class="var-type">$param</span>&nbsp;<span class="var-name">$param</span>)
+        </div>
+    <div class="method-definition">
+            <span class="method-result">int</span>
+        <a href="#methoddml" title="details" class="method-name">dml</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$sqlstr</span>)
+        </div>
+    <div class="method-definition">
+            <span class="method-result"><a href="../default/SqlResult.html">SqlResult</a></span>
+        <a href="#methoddql" title="details" class="method-name">dql</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$sqlstr</span>)
+        </div>
+    <div class="method-definition">
+            <span class="method-result">null|<a href="../default/SqlResult.html">SqlResult</a></span>
+        <a href="#methodgroup_query" title="details" class="method-name">group_query</a>
+        (<span class="var-type">$get_field</span>&nbsp;<span class="var-name">$get_field</span>, <span class="var-type">$group_field</span>&nbsp;<span class="var-name">$group_field</span>, [<span class="var-type">bool</span>&nbsp;<span class="var-name">$isToLsit</span> = <span class="var-default">false</span>])
+        </div>
+    <div class="method-definition">
+            <span class="method-result">int|<a href="../default/SqlResult.html">SqlResult</a>|null</span>
+        <a href="#methodleft_join" title="details" class="method-name">left_join</a>
+        (<span class="var-type"><a href="../default/Table.html">Table</a></span>&nbsp;<span class="var-name">$table</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$field</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$param</span>)
+        </div>
+    <div class="method-definition">
+            <span class="method-result">int</span>
+        <a href="#methodmulti_insert" title="details" class="method-name">multi_insert</a>
+        (<span class="var-type">$field</span>&nbsp;<span class="var-name">$field</span>, <span class="var-type">$value</span>&nbsp;<span class="var-name">$value</span>)
+        </div>
+    <div class="method-definition">
+            <span class="method-result">null|<a href="../default/SqlResult.html">SqlResult</a></span>
+        <a href="#methodquery" title="details" class="method-name">query</a>
+        (<span class="var-type">array</span>&nbsp;<span class="var-name">$field</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$param</span> = <span class="var-default">''</span>])
+        </div>
+    <div class="method-definition">
+            <span class="method-result">int</span>
+        <a href="#methodunion_insert" title="details" class="method-name">union_insert</a>
+        (<span class="var-type">array</span>&nbsp;<span class="var-name">$tables</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$formula</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$param</span>)
+        </div>
+    <div class="method-definition">
+            <span class="method-result">int</span>
+        <a href="#methodunion_update" title="details" class="method-name">union_update</a>
+        (<span class="var-type"><a href="../default/Table.html">Table</a></span>&nbsp;<span class="var-name">$tables</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$formula</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$param</span>)
+        </div>
+    <div class="method-definition">
+            <span class="method-result">int</span>
+        <a href="#methodupdate" title="details" class="method-name">update</a>
+        (<span class="var-type">array</span>&nbsp;<span class="var-name">$fields</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$param</span>, [<span class="var-type">bool</span>&nbsp;<span class="var-name">$quote</span> = <span class="var-default">true</span>])
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodformat_field" id="methodformat_field"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Static Method format_field</strong> (line <span class="linenumber">31</span>)
+ </h4> 
+<h4><i>string</i> <strong>format_field(
+array
+$field)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>将列名数组转化为字符换 ， 若数组的项为键值对形式则转化为 'A AS B'的形式，若未使用键值对的数组项，则不做别名处理</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>array $field</strong>: [列名 =&gt; 别名， 列名2 ，.....]</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="method__construct" id="method__construct"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/Constructor.gif" border="0" /> <strong class="method">Constructor __construct</strong> (line <span class="linenumber">49</span>)
+ </h4> 
+<h4><i>Table</i> <strong>__construct(
+$tableName
+$tableName, $sqlTool
+$sqlTool)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>Table constructor.</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>$tableName $tableName</strong>: 表名</li>
+			<li><strong>$sqlTool $sqlTool</strong>: SqlTool工具类实例</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methoddelete" id="methoddelete"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method delete</strong> (line <span class="linenumber">160</span>)
+ </h4> 
+<h4><i>int</i> <strong>delete(
+$param
+$param)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>删除该表行</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>$param $param</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methoddml" id="methoddml"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method dml</strong> (line <span class="linenumber">70</span>)
+ </h4> 
+<h4><i>int</i> <strong>dml(
+string
+$sqlstr)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $sqlstr</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methoddql" id="methoddql"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method dql</strong> (line <span class="linenumber">61</span>)
+ </h4> 
+<h4><i><a href="../default/SqlResult.html">SqlResult</a></i> <strong>dql(
+string
+$sqlstr)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $sqlstr</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodgroup_query" id="methodgroup_query"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method group_query</strong> (line <span class="linenumber">194</span>)
+ </h4> 
+<h4><i>null|<a href="../default/SqlResult.html">SqlResult</a></i> <strong>group_query(
+$get_field
+$get_field, $group_field
+$group_field, [bool
+$isToLsit = false])</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>bool $isToLsit</strong>: </li>
+			<li><strong>$get_field $get_field</strong>: </li>
+			<li><strong>$group_field $group_field</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodleft_join" id="methodleft_join"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method left_join</strong> (line <span class="linenumber">175</span>)
+ </h4> 
+<h4><i>int|<a href="../default/SqlResult.html">SqlResult</a>|null</i> <strong>left_join(
+<a href="../default/Table.html">Table</a>
+$table, array
+$field, string
+$param)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>左联查询</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong><a href="../default/Table.html">Table</a> $table</strong>: 关联的Table实例</li>
+			<li><strong>array $field</strong>: 查询的两表字段</li>
+			<li><strong>string $param</strong>: 查询条件</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodmulti_insert" id="methodmulti_insert"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method multi_insert</strong> (line <span class="linenumber">97</span>)
+ </h4> 
+<h4><i>int</i> <strong>multi_insert(
+$field
+$field, $value
+$value)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>$field $field</strong>: 插入字段数组</li>
+			<li><strong>$value $value</strong>: 插入值数组，若一维数组则插入一组数据，若二维数组则插入多组数据</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodquery" id="methodquery"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method query</strong> (line <span class="linenumber">80</span>)
+ </h4> 
+<h4><i>null|<a href="../default/SqlResult.html">SqlResult</a></i> <strong>query(
+array
+$field, [string
+$param = ''])</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>array $field</strong>: 更新的列名和值键值对 [列名 =&gt; 值]</li>
+			<li><strong>string $param</strong>: 查询参数</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodunion_insert" id="methodunion_insert"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method union_insert</strong> (line <span class="linenumber">121</span>)
+ </h4> 
+<h4><i>int</i> <strong>union_insert(
+array
+$tables, array
+$formula, string
+$param)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>array $tables</strong>: </li>
+			<li><strong>array $formula</strong>: </li>
+			<li><strong>string $param</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodunion_update" id="methodunion_update"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method union_update</strong> (line <span class="linenumber">147</span>)
+ </h4> 
+<h4><i>int</i> <strong>union_update(
+<a href="../default/Table.html">Table</a>
+$tables, array
+$formula, string
+$param)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong><a href="../default/Table.html">Table</a> $tables</strong>: 关联的Table实例</li>
+			<li><strong>array $formula</strong>: 关联更新公式 [列名 =&gt; 值] ， 可使用表格公式类现成公式</li>
+			<li><strong>string $param</strong>: 更新行查询条件</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodupdate" id="methodupdate"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method update</strong> (line <span class="linenumber">135</span>)
+ </h4> 
+<h4><i>int</i> <strong>update(
+array
+$fields, string
+$param, [bool
+$quote = true])</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>array $fields</strong>: 更新的列名和值键值对 [列名 =&gt; 值]</li>
+			<li><strong>string $param</strong>: 查询参数</li>
+			<li><strong>bool $quote</strong>: 是否需要对新的值添加 '' 参数</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+	</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Tue, 23 Jan 2018 16:45:29 +0000 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.4</a>
+	</div>
+</body>
+</html>

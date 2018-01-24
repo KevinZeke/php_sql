@@ -10,26 +10,27 @@ require_once __DIR__ . '/map/Quantity_xzcf_gr_sub_score.map.php';
 require_once __DIR__ . '/map/Quantity_xzcf_gr_basic_coef.map.php';
 require_once __DIR__ . '/map/Quantity_dczghzyhwf_gr_nbr.map.php';
 require_once __DIR__ . '/map/Quantity_xzcf_gr_sub_coef.map.php';
-require_once __DIR__ . './formula/HZ.php';
+require_once __DIR__ . '/formula/HZ.php';
 require_once __DIR__ . '/formula/XZCF.php';
 require_once __DIR__ . '/formula/HZDC.php';
+require_once __DIR__ . '/formula/JSYS.php';
 require_once __DIR__ . '/table/Table.class.php';
 require_once __DIR__ . '/sql/Sql.class.php';
 require_once __DIR__ . '/map/DB_map.class.php';
 
 //使用默认参数生成sqlTool工具类
 $sqlTool = SqlTool::build();
-//使用mysqli实例构造sqlTool工具类
+//可以使用mysqli实例构造sqlTool工具类，避免重复创建mysqli
 //$sqlTool = SqlTool::build_by_mysqli( new mysqli(host,user,pwd,db) );
 
-
+//创建一个行政处罚次数表的表格实例
 $xzcf_table = new Table(Quantity_xzcf_gr_nbr_map::$table_name, $sqlTool);
 
 /**
  * 案列：查询操作
  */
 
-if (true) {
+if (1) {
     $resList = $xzcf_table->query(
     //需要获得的列名，数组
         Quantity_xzcf_gr_nbr_map::all(),
@@ -37,22 +38,26 @@ if (true) {
         SqlTool::WHERE([
             Quantity_xzcf_gr_nbr_map::$year_month_show => '%2017-05%',
             Quantity_xzcf_gr_nbr_map::$dd_name => '水上'
-        ]),
-        false
+        ])
     );
 
-    echo json_encode($resList->to_array_list());
+    //Table实例的query方法可以返回一个SqlResult实例
+    //SqlResult实例提供对结果集的各种封装操作
+    //to_json方法可以将结果集直接转换成json字符串
+    //并且接受一个回调函数作为参数，该函数的参数为格式化的行对象，该函数返回值决定该行是否保留
+//    $filter = function ($row) {
+//        //do something to current row
+//        return true;
+//    };
+//    $resList->to_json($filter);
+    //SqlResult包装类对结果集实现的其他操作，to_json方法实际上是包装调用了to_objetc_list
+    //以下方法也可接受回调函数作为筛选或者其他操作参数参数，并返回对应的数组
+    //$resList->to_array_list();      return: array<array>
+    //$resList->to_objetc_list();     return: array<object>
 
-//    echo count($resList->to_array_list());
-//    echo count( (new SqlResult($resList))->to_array_list() );
-//    $idx = 0;
-//    (new SqlResult($resList))->each_row(function ($row) use (&$idx) {
-//        print_r($row);
-//        $idx++;
-//    });
-//    echo  $idx;
 
-    //分组操作函数，简化查询配置
+
+    //分组操作函数，简化查询配置 ,同样返回SqlResult类型
     (new Table(Quantity_xzcf_gr_sub_score_map::$table_name, $sqlTool))
         ->group_query(
         //需要获得的列名，可以设置别名
@@ -70,6 +75,13 @@ if (true) {
             ]
         );
 
+    //echo JSYS_group::jg_sub_update_by_id($sqlTool->get_mysqli(),1);
+
+    //echo JSYS_group::jianshen_insert_jg_item($sqlTool->get_mysqli(),'汤金保','2018-06-09');
+
+    echo JSYS_group::jianshen_update_jg_item($sqlTool->get_mysqli(),'汤金保','2018-06-09');
+
+//    echo HZ_group::update_hzdc_item($sqlTool->get_mysqli(),'汤金保','2017-05-01');
 }
 
 /**
@@ -79,7 +91,9 @@ if (true) {
 if (false) {
     //单挑数据插入
     $xzcf_table->multi_insert(
+        //字段数组
         [Quantity_xzcf_gr_nbr_map::$year_month_show],
+        //插入值数组
         [10]
     );
     //多条数据插入
@@ -88,10 +102,11 @@ if (false) {
             Quantity_xzcf_gr_nbr_map::$year_month_show,
             Quantity_xzcf_gr_nbr_map::$jls_feizddw_zhubr
         ],
+        //插入值为二维数组，表示插入多条数据
         [
             ['2019-01-01', 11],
             ['1202-02-02', 11],
-            ['1233-03-09', 10],
+            ['1233-03-09', 10]
         ]
     );
 
@@ -104,7 +119,9 @@ if (false) {
 if (false) {
 
     echo $xzcf_table->update(
+        //更新的字段 => 更新的值
         [Quantity_xzcf_gr_nbr_map::$year_month_show => '1970-01-01'],
+        //更新的查询条件值
         SqlTool::WHERE([
             Quantity_xzcf_gr_nbr_map::$number_id => 1
         ], false)
@@ -118,6 +135,7 @@ if (false) {
 
 if (false) {
     echo $xzcf_table->delete(
+        //删除查询条件
         SqlTool::WHERE([
             Quantity_xzcf_gr_nbr_map::$number_id => 14326
         ])
@@ -156,16 +174,16 @@ if (false) {
     $xzcf_table->union_insert(
     //相关表格名
         ['a', 'b', 'c'],
-        //插入字段的键值对
+        //插入字段的键值对/公式
         [
-            'as' => 'aa*ca',
-            'aas' => 'asa*csa',
-            'asa' => 'aada*cada'
+            'af' => 'aa * ca',
+            'af2' => 'asa * csa',
+            'af3' => 'aada * cada'
         ],
         //查询参数
         SqlTool::WHERE(
             [
-                'a' => 'ac'
+                'af' => '1'
             ]
         )
     );

@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class SqlTool</title>
+  <link rel="stylesheet" href="../media/stylesheet.css" />
+  <script src="../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../media/images/plus.gif";
+	imgMinus.src = "../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class SqlTool
+</h2> (line <span class="linenumber">5</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+</pre>
+<p>
+	<b><i>Located in File: <a href="_sql---Sql.class.php.html">/sql/Sql.class.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+<br /><hr />
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="var-title">
+    static <span class="var-type">mixed</span>
+    <a href="#var$isDev" title="details" class="property"><strong>$isDev</strong></a>
+</div>
+<hr />
+<a name="var$isDev" id="var$isDev"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">static $isDev =  true</strong> (line <span class="linenumber">7</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+    <div class="method-definition">
+    static         <span class="method-result">string</span>
+        <a href="#methodANDC" title="details" class="method-name">ANDC</a>
+        (<span class="var-type">array</span>&nbsp;<span class="var-name">$arr</span>, [<span class="var-type">bool</span>&nbsp;<span class="var-name">$quote</span> = <span class="var-default">true</span>])
+        </div>
+    <div class="method-definition">
+    static         <span class="method-result">string</span>
+        <a href="#methodBETWEEN" title="details" class="method-name">BETWEEN</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$field</span>, <span class="var-type">array</span>&nbsp;<span class="var-name">$arr</span>)
+        </div>
+    <div class="method-definition">
+    static         <span class="method-result">$this</span>
+        <a href="#methodbuild" title="details" class="method-name">build</a>
+        ([<span class="var-type">string</span>&nbsp;<span class="var-name">$host</span> = <span class="var-default">'localhost'</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$user</span> = <span class="var-default">'root'</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$password</span> = <span class="var-default">'123456'</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$database</span> = <span class="var-default">'huaianzhd_db'</span>])
+        </div>
+    <div class="method-definition">
+    static         <span class="method-result"><a href="../default/SqlTool.html">SqlTool</a></span>
+        <a href="#methodbuild_by_mysqli" title="details" class="method-name">build_by_mysqli</a>
+        (<span class="var-type">$mysqli</span>&nbsp;<span class="var-name">$mysqli</span>)
+        </div>
+    <div class="method-definition">
+    static         <span class="method-result">string</span>
+        <a href="#methodGROUP" title="details" class="method-name">GROUP</a>
+        (<span class="var-type">array</span>&nbsp;<span class="var-name">$arr</span>)
+        </div>
+    <div class="method-definition">
+    static         <span class="method-result">string</span>
+        <a href="#methodON" title="details" class="method-name">ON</a>
+        ([<span class="var-type">array</span>&nbsp;<span class="var-name">$arr</span> = <span class="var-default">[]</span>], [<span class="var-type">bool</span>&nbsp;<span class="var-name">$quote</span> = <span class="var-default">false</span>])
+        </div>
+    <div class="method-definition">
+    static         <span class="method-result">string</span>
+        <a href="#methodORC" title="details" class="method-name">ORC</a>
+        (<span class="var-type">array</span>&nbsp;<span class="var-name">$arr</span>, [<span class="var-type">bool</span>&nbsp;<span class="var-name">$quote</span> = <span class="var-default">true</span>])
+        </div>
+    <div class="method-definition">
+    static         <span class="method-result">string</span>
+        <a href="#methodSUM" title="details" class="method-name">SUM</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$field</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$c_name</span> = <span class="var-default">''</span>])
+        </div>
+    <div class="method-definition">
+    static         <span class="method-result">string</span>
+        <a href="#methodWHERE" title="details" class="method-name">WHERE</a>
+        ([<span class="var-type">array</span>&nbsp;<span class="var-name">$arr</span> = <span class="var-default">[]</span>], [<span class="var-type">bool</span>&nbsp;<span class="var-name">$quote</span> = <span class="var-default">true</span>])
+        </div>
+    <div class="method-definition">
+            <span class="method-result">void</span>
+        <a href="#methodclose" title="details" class="method-name">close</a>
+        ()
+        </div>
+    <div class="method-definition">
+            <span class="method-result">int</span>
+        <a href="#methodexecute_dml" title="details" class="method-name">execute_dml</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$sql</span>)
+        </div>
+    <div class="method-definition">
+            <span class="method-result">mysqli_result</span>
+        <a href="#methodexecute_dql" title="details" class="method-name">execute_dql</a>
+        (<span class="var-type">string</span>&nbsp;<span class="var-name">$sql</span>)
+        </div>
+    <div class="method-definition">
+            <span class="method-result">mysqli</span>
+        <a href="#methodget_mysqli" title="details" class="method-name">get_mysqli</a>
+        ()
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodANDC" id="methodANDC"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Static Method ANDC</strong> (line <span class="linenumber">148</span>)
+ </h4> 
+<h4><i>string</i> <strong>ANDC(
+array
+$arr, [bool
+$quote = true])</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>array $arr</strong>: </li>
+			<li><strong>bool $quote</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodBETWEEN" id="methodBETWEEN"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Static Method BETWEEN</strong> (line <span class="linenumber">168</span>)
+ </h4> 
+<h4><i>string</i> <strong>BETWEEN(
+string
+$field, array
+$arr)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $field</strong>: </li>
+			<li><strong>array $arr</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodbuild" id="methodbuild"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Static Method build</strong> (line <span class="linenumber">22</span>)
+ </h4> 
+<h4><i>$this</i> <strong>build(
+[string
+$host = 'localhost'], [string
+$user = 'root'], [string
+$password = '123456'], [string
+$database = 'huaianzhd_db'])</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>SqlTool类构造函数私有，需要通过静态构造类实例化，该函数通过配置用户名等信息会新建一个mysqli实例</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $host</strong>: </li>
+			<li><strong>string $user</strong>: </li>
+			<li><strong>string $password</strong>: </li>
+			<li><strong>string $database</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodbuild_by_mysqli" id="methodbuild_by_mysqli"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Static Method build_by_mysqli</strong> (line <span class="linenumber">32</span>)
+ </h4> 
+<h4><i><a href="../default/SqlTool.html">SqlTool</a></i> <strong>build_by_mysqli(
+$mysqli
+$mysqli)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>该函数会通过传入一个mysqli实例进行实例化SqlTool</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>$mysqli $mysqli</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodGROUP" id="methodGROUP"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Static Method GROUP</strong> (line <span class="linenumber">127</span>)
+ </h4> 
+<h4><i>string</i> <strong>GROUP(
+array
+$arr)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>array $arr</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodON" id="methodON"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Static Method ON</strong> (line <span class="linenumber">137</span>)
+ </h4> 
+<h4><i>string</i> <strong>ON(
+[array
+$arr = []], [bool
+$quote = false])</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>array $arr</strong>: </li>
+			<li><strong>bool $quote</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodORC" id="methodORC"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Static Method ORC</strong> (line <span class="linenumber">158</span>)
+ </h4> 
+<h4><i>string</i> <strong>ORC(
+array
+$arr, [bool
+$quote = true])</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>array $arr</strong>: </li>
+			<li><strong>bool $quote</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodSUM" id="methodSUM"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Static Method SUM</strong> (line <span class="linenumber">178</span>)
+ </h4> 
+<h4><i>string</i> <strong>SUM(
+string
+$field, [string
+$c_name = ''])</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $field</strong>: </li>
+			<li><strong>string $c_name</strong>: 列别名</li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodWHERE" id="methodWHERE"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Static Method WHERE</strong> (line <span class="linenumber">117</span>)
+ </h4> 
+<h4><i>string</i> <strong>WHERE(
+[array
+$arr = []], [bool
+$quote = true])</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>array $arr</strong>: </li>
+			<li><strong>bool $quote</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodclose" id="methodclose"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method close</strong> (line <span class="linenumber">99</span>)
+ </h4> 
+<h4><i>void</i> <strong>close(
+)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodexecute_dml" id="methodexecute_dml"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method execute_dml</strong> (line <span class="linenumber">83</span>)
+ </h4> 
+<h4><i>int</i> <strong>execute_dml(
+string
+$sql)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $sql</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodexecute_dql" id="methodexecute_dql"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method execute_dql</strong> (line <span class="linenumber">72</span>)
+ </h4> 
+<h4><i>mysqli_result</i> <strong>execute_dql(
+string
+$sql)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>string $sql</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<a name="methodget_mysqli" id="methodget_mysqli"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Method get_mysqli</strong> (line <span class="linenumber">61</span>)
+ </h4> 
+<h4><i>mysqli</i> <strong>get_mysqli(
+)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+			<li><strong>access</strong> - public</li>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+	</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Tue, 23 Jan 2018 16:45:29 +0000 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.4</a>
+	</div>
+</body>
+</html>
