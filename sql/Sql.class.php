@@ -157,7 +157,7 @@ class SqlTool
      */
     static function ORC($arr, $quote = true)
     {
-        return self::test($arr, '', $quote, true);
+        return '(' . self::test($arr, '', $quote, true) . ')';
     }
 
     /**
@@ -185,9 +185,10 @@ class SqlTool
      * @param string $str
      * @param bool $quote
      * @param bool $or
+     * @param null|string $default_key
      * @return string
      */
-    static private function test($arr, $str, $quote, $or = false)
+    static public function test($arr, $str, $quote, $or = false, $default_key = null)
     {
         if (!is_array($arr) || count($arr) == 0) return $str;
         if (!$or)
@@ -195,17 +196,25 @@ class SqlTool
         else
             $key = 'OR';
         foreach ($arr as $field => $value) {
-//            echo "$field : $value \n";
-            if (hasstring($value, '%'))
-                if ($quote)
-                    $str .= " $key $field LIKE '$value'  ";
+
+            if (is_array($value)) {
+                //TODO
+                //$str .= $key . ' (' + self::test($value, '', $quote, true, $field) + ') ';
+            } else {
+                if (is_numeric($field) && !!$default_key) {
+                    $field = $default_key;
+                }
+                if (hasstring($value, '%'))
+                    if ($quote)
+                        $str .= " $key $field LIKE '$value'  ";
+                    else
+                        $str .= " $key $field LIKE $value  ";
                 else
-                    $str .= " $key $field LIKE $value  ";
-            else
-                if ($quote)
-                    $str .= " $key $field = '$value' ";
-                else
-                    $str .= " $key $field = $value ";
+                    if ($quote)
+                        $str .= " $key $field = '$value' ";
+                    else
+                        $str .= " $key $field = $value ";
+            }
         }
         return $str;
     }

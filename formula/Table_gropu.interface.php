@@ -5,6 +5,8 @@
  * Time: 下午10:17
  */
 
+require_once __DIR__."/../sql/Sql.class.php";
+
 /**
  * Class Table_group
  * 表格组

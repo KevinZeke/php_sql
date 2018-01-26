@@ -1092,8 +1092,7 @@ class JSYS_group extends Table_group
             [
                 Quantity_xfjgys_gr_sub_score_map::$police_name => 'n',
                 Quantity_xfjgys_gr_sub_score_map::$year_month_show => 'd',
-            ],
-            [
+            ], [
                 Quantity_xfjgys_gr_sub_score_map::$year_month_show,
                 Quantity_xfjgys_gr_sub_score_map::$police_name
             ]
@@ -1113,8 +1112,7 @@ class JSYS_group extends Table_group
             [
                 Quantity_xfsjbas_gr_sub_score_map::$police_name => 'n',
                 Quantity_xfsjbas_gr_sub_score_map::$year_month_show => 'd',
-            ],
-            [
+            ], [
                 Quantity_xfsjbas_gr_sub_score_map::$year_month_show,
                 Quantity_xfsjbas_gr_sub_score_map::$police_name
             ]

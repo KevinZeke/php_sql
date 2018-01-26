@@ -45,11 +45,11 @@ if (1) {
     //SqlResult实例提供对结果集的各种封装操作
     //to_json方法可以将结果集直接转换成json字符串
     //并且接受一个回调函数作为参数，该函数的参数为格式化的行对象，该函数返回值决定该行是否保留
-//    $filter = function ($row) {
-//        //do something to current row
-//        return true;
-//    };
-//    $resList->to_json($filter);
+    $filter = function ($row) {
+        //do something to current row
+        return true;
+    };
+    echo $resList->to_json($filter);
     //SqlResult包装类对结果集实现的其他操作，to_json方法实际上是包装调用了to_objetc_list
     //以下方法也可接受回调函数作为筛选或者其他操作参数参数，并返回对应的数组
     //$resList->to_array_list();      return: array<array>
@@ -65,10 +65,7 @@ if (1) {
                 SqlTool::SUM(Quantity_xzcf_gr_sub_score_map::$xzcf_zdf, 's'),
                 Quantity_xzcf_gr_sub_score_map::$police_name => 'n',
                 Quantity_xzcf_gr_sub_score_map::$year_month_show => 'd'
-            ],
-            //此参数表示按该字段分组，若是键值对形式，则表示按该键值对的键值分组
-            //并且限制改字段的值
-            [
+            ], [
                 //按year_month_show分组并且year_month_show = '2017-05-01'
                 Quantity_xzcf_gr_sub_score_map::$year_month_show => '2017-05-01',
                 Quantity_xzcf_gr_sub_score_map::$police_name
@@ -79,7 +76,7 @@ if (1) {
 
     //echo JSYS_group::jianshen_insert_jg_item($sqlTool->get_mysqli(),'汤金保','2018-06-09');
 
-    echo JSYS_group::jianshen_update_jg_item($sqlTool->get_mysqli(),'汤金保','2018-06-09');
+//    echo JSYS_group::jianshen_update_jg_item($sqlTool->get_mysqli(),'汤金保','2018-06-09');
 
 //    echo HZ_group::update_hzdc_item($sqlTool->get_mysqli(),'汤金保','2017-05-01');
 }
@@ -256,5 +253,3 @@ if (false) {
 }
 
 $sqlTool->close();
-
-

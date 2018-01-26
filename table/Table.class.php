@@ -166,6 +166,16 @@ class Table
     }
 
     /**
+     * 清空该表
+     * @return int
+     */
+    public function truncate(){
+        return $this->sqlTool->execute_dml(
+            'TRUNCATE table '.$this->tableName
+        );
+    }
+
+    /**
      * 左联查询
      * @param Table $table 关联的Table实例
      * @param array $field 查询的两表字段
@@ -188,10 +198,10 @@ class Table
     /**
      * @param $get_field
      * @param $group_field
-     * @param bool $isToLsit
      * @return null|SqlResult
+     * @internal param bool $isToLsit
      */
-    public function group_query($get_field, $group_field, $isToLsit = false)
+    public function group_query($get_field, $group_field)
     {
         $group = array();
         $where = array();
