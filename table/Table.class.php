@@ -7,7 +7,7 @@
 
 
 require_once __DIR__ . '/../formula/Formula.class.php';
-require_once __DIR__ .'/../sql/Sql.class.php';
+require_once __DIR__ . '/../sql/Sql.class.php';
 
 /**
  * Class Table 数据表操作类
@@ -169,9 +169,10 @@ class Table
      * 清空该表
      * @return int
      */
-    public function truncate(){
+    public function truncate()
+    {
         return $this->sqlTool->execute_dml(
-            'TRUNCATE table '.$this->tableName
+            'TRUNCATE table ' . $this->tableName
         );
     }
 
@@ -198,10 +199,10 @@ class Table
     /**
      * @param $get_field
      * @param $group_field
+     * @param string $other_param
      * @return null|SqlResult
-     * @internal param bool $isToLsit
      */
-    public function group_query($get_field, $group_field)
+    public function group_query($get_field, $group_field, $other_param = '')
     {
         $group = array();
         $where = array();
@@ -215,7 +216,7 @@ class Table
         }
         return $this->query(
             $get_field,
-            SqlTool::WHERE($where) . SqlTool::GROUP($group)
+            SqlTool::WHERE($where) .$other_param. SqlTool::GROUP($group)
         );
 
     }

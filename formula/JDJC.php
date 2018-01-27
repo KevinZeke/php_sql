@@ -677,7 +677,7 @@ class JDJC_group extends Table_group
         return (new Table(Jiancha_and_jiangduo_gr_nbr_map::$table_name, $db))
             ->union_update(
                 [
-                    "(SELECT SUM(" . Quantity_jcdw_gr_score_map::$jcdw_tol_score . ") AS res , police_name,year_month_show FROM " . Quantity_jcdw_gr_score_map::$table_name .
+                    "(SELECT ifnull(SUM(" . Quantity_jcdw_gr_score_map::$jcdw_tol_score . "),0) AS res , police_name,year_month_show FROM " . Quantity_jcdw_gr_score_map::$table_name .
                     SqlTool::WHERE([
                         Quantity_jcdw_gr_score_map::$year_month_show => $date,
                         Quantity_jcdw_gr_score_map::$police_name => $police_name
@@ -749,7 +749,7 @@ class JDJC_group extends Table_group
         return (new Table(Jiancha_and_jiangduo_gr_nbr_map::$table_name, $db))
             ->union_update(
                 [
-                    "(SELECT SUM(" . Quantity_fxhzyh_gr_score_map::$fxhzyh_score . ") AS res , police_name,year_month_show FROM " . Quantity_fxhzyh_gr_score_map::$table_name .
+                    "(SELECT ifnull(SUM(" . Quantity_fxhzyh_gr_score_map::$fxhzyh_score . "),0) AS res , police_name,year_month_show FROM " . Quantity_fxhzyh_gr_score_map::$table_name .
                     SqlTool::WHERE([
                         Quantity_fxhzyh_gr_score_map::$year_month_show => $date,
                         Quantity_fxhzyh_gr_score_map::$police_name => $police_name
@@ -759,8 +759,8 @@ class JDJC_group extends Table_group
                     Jiancha_and_jiangduo_gr_nbr_map::$sjshs_score => 'A.res'
                 ],
                 SqlTool::WHERE([
-                    Jiancha_and_jiangduo_gr_nbr_map::$year_month_show => 'A.year_month_show',
-                    Jiancha_and_jiangduo_gr_nbr_map::$police_name => 'A.police_name'
+                    Jiancha_and_jiangduo_gr_nbr_map::$year_month_show => $date,
+                    Jiancha_and_jiangduo_gr_nbr_map::$police_name => $police_name
                 ], false)
             );
     }
@@ -821,7 +821,7 @@ class JDJC_group extends Table_group
         return (new Table(Jiancha_and_jiangduo_gr_nbr_map::$table_name, $db))
             ->union_update(
                 [
-                    "(SELECT SUM(" . Quantity_xflscf_gr_score_map::$xflscf_score . ") AS res , police_name,year_month_show FROM " . Quantity_xflscf_gr_score_map::$table_name .
+                    "(SELECT ifnull(SUM(" . Quantity_xflscf_gr_score_map::$xflscf_score . "),0) AS res , police_name,year_month_show FROM " . Quantity_xflscf_gr_score_map::$table_name .
                     SqlTool::WHERE([
                         Quantity_xflscf_gr_score_map::$year_month_show => $date,
                         Quantity_xflscf_gr_score_map::$police_name => $police_name
@@ -831,8 +831,8 @@ class JDJC_group extends Table_group
                     Jiancha_and_jiangduo_gr_nbr_map::$sjshs_score => 'A.res'
                 ],
                 SqlTool::WHERE([
-                    Jiancha_and_jiangduo_gr_nbr_map::$year_month_show => 'A.year_month_show',
-                    Jiancha_and_jiangduo_gr_nbr_map::$police_name => 'A.police_name'
+                    Jiancha_and_jiangduo_gr_nbr_map::$year_month_show => $date,
+                    Jiancha_and_jiangduo_gr_nbr_map::$police_name => $police_name
                 ], false)
             );
     }
@@ -894,7 +894,9 @@ class JDJC_group extends Table_group
         return (new Table(Jiancha_and_jiangduo_gr_nbr_map::$table_name, $db))
             ->union_update(
                 [
-                    "(SELECT SUM(" . Quantity_dczghzyhwf_gr_score_map::$dczghzyhwf_score . ") AS res , police_name,year_month_show FROM " . Quantity_dczghzyhwf_gr_score_map::$table_name .
+                    "(SELECT ifnull(SUM(" . Quantity_dczghzyhwf_gr_score_map::$dczghzyhwf_score . "),0) 
+                    AS res , police_name,year_month_show FROM " .
+                    Quantity_dczghzyhwf_gr_score_map::$table_name .
                     SqlTool::WHERE([
                         Quantity_dczghzyhwf_gr_score_map::$year_month_show => $date,
                         Quantity_dczghzyhwf_gr_score_map::$police_name => $police_name
@@ -904,29 +906,30 @@ class JDJC_group extends Table_group
                     Jiancha_and_jiangduo_gr_nbr_map::$sjshs_score => 'A.res'
                 ],
                 SqlTool::WHERE([
-                    Jiancha_and_jiangduo_gr_nbr_map::$year_month_show => 'A.year_month_show',
-                    Jiancha_and_jiangduo_gr_nbr_map::$police_name => 'A.police_name'
+                    Jiancha_and_jiangduo_gr_nbr_map::$year_month_show => $date,
+                    Jiancha_and_jiangduo_gr_nbr_map::$police_name => $police_name
                 ], false)
             );
     }
 
+    /**
+     * @param mysqli|SqlTool $db
+     * @param null|string|array $date
+     */
     public static function jdjc_clear($db, $date = null)
     {
-        $JDJC = new Table(Jiancha_and_jiangduo_gr_nbr_map::$table_name, parent::sqlTool_build($db));
+        $sqlTool = parent::sqlTool_build($db);
+        $tables = [new Table(Jiancha_and_jiangduo_gr_nbr_map::$table_name,$sqlTool)];
 
-        if ($date) {
-            $param = '';
-            if (is_array($date))
-                $param = SqlTool::WHERE() . SqlTool::BETWEEN(
-                        Jiancha_and_jiangduo_gr_nbr_map::$year_month_show, $date
-                    );
-            else if (is_string($date))
-                $param = SqlTool::WHERE([Jiancha_and_jiangduo_gr_nbr_map::$year_month_show => $date]);
-
-            $JDJC->delete($param);
-        } else {
-            $JDJC->truncate();
+        if(!$date){
+            array_push($tables,new Table(Jiancha_and_jiangduo_gr_score_map::$table_name,$sqlTool));
         }
+
+        parent::group_clear(
+            $tables,
+            Jiancha_and_jiangduo_gr_nbr_map::$year_month_show,
+            $date
+        );
     }
 
     /**
@@ -936,13 +939,16 @@ class JDJC_group extends Table_group
     public
     static function group_insert($mysqli, $date = null)
     {
-        self::jdjc_insert_jcdw($mysqli, '');
+
         $sqlTool = SqlTool::build_by_mysqli($mysqli);
+
+        self::jdjc_clear($sqlTool, $date);
+
+        self::jdjc_insert_jcdw($mysqli, '');
         $xfls = new Table(Quantity_xflscf_gr_score_map::$table_name, $sqlTool);
         $dczg = new Table(Quantity_dczghzyhwf_gr_score_map::$table_name, $sqlTool);
         $fxhz = new Table(Quantity_fxhzyh_gr_score_map::$table_name, $sqlTool);
 
-        self::jdjc_clear($sqlTool, $date);
 
         $res = $dczg->group_query(
             [

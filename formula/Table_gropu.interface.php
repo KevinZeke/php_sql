@@ -61,6 +61,33 @@ class Table_group
 
     }
 
+    /**
+     * @param array $tables
+     * @param string $date_field_name
+     * @param null|string|array $date
+     */
+    public final static function group_clear($tables, $date_field_name, $date = null)
+    {
+
+        if ($date) {
+            $param = '';
+            if (is_array($date))
+                $param = SqlTool::WHERE() . SqlTool::BETWEEN(
+                        $date_field_name, $date
+                    );
+            else if (is_string($date))
+                $param = SqlTool::WHERE([$date_field_name => $date]);
+
+            foreach ($tables as $table){
+                $table->delete($param);
+            }
+        } else {
+            foreach ($tables as $table) {
+                $table->truncate();
+            }
+        }
+    }
+
     static function group_update($mysqli, $param)
     {
     }
