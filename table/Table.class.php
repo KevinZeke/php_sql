@@ -139,7 +139,7 @@ class Table
     }
 
     /**
-     * @param Table $tables 关联的Table实例
+     * @param array $tables 关联的Table名数组
      * @param array $formula 关联更新公式 [列名 => 值] ， 可使用表格公式类现成公式
      * @param string $param 更新行查询条件
      * @return int

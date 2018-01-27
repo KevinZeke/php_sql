@@ -5,7 +5,7 @@
  * Time: 下午10:17
  */
 
-require_once __DIR__."/../sql/Sql.class.php";
+require_once __DIR__ . "/../sql/Sql.class.php";
 
 /**
  * Class Table_group
@@ -27,7 +27,7 @@ class Table_group
      * @param string $date 日期
      * @return bool 返回布尔值
      */
-    public static function is_row_ext($db,$table_name, $name, $date)
+    public static function is_row_ext($db, $table_name, $name, $date)
     {
         $sql = "SELECT 1 AS num
 	        FROM $table_name
@@ -46,9 +46,30 @@ class Table_group
         }
     }
 
-    static function group_update($mysqli, $param){}
+    /**
+     * @param mysqli|SqlTool $db
+     * @return SqlTool
+     */
+    public final static function sqlTool_build($db)
+    {
+        if ($db instanceof SqlTool)
+            return $db;
+        else if ($db instanceof mysqli)
+            return SqlTool::build_by_mysqli($db);
 
-    static function group_update_date_in($mysqli, $date_arr){}
+        die("sqlTool_build函数必须接受一个SqlTool实例或者mysqli实例作为参数");
 
-    static function group_update_by_id($mysqli, $id){}
+    }
+
+    static function group_update($mysqli, $param)
+    {
+    }
+
+    static function group_update_date_in($mysqli, $date_arr)
+    {
+    }
+
+    static function group_update_by_id($mysqli, $id)
+    {
+    }
 }

@@ -641,6 +641,12 @@ class JDJC_group extends Table_group
             );
     }
 
+    /**
+     * @param mysqli $mysqli
+     * @param string $police_name
+     * @param string $date
+     * @return int
+     */
     public static function jdjc_insert_jcdw_item($mysqli, $police_name, $date)
     {
         return self::jdjc_insert_jcdw(
@@ -652,6 +658,13 @@ class JDJC_group extends Table_group
         );
     }
 
+    /**
+     * @param mysqli $mysqli
+     * @param string $police_name
+     * @param string $date
+     * @param bool $row_check
+     * @return int
+     */
     public static function jdjc_update_jcdw_item($mysqli, $police_name, $date, $row_check = false)
     {
         $db = SqlTool::build_by_mysqli($mysqli);
@@ -700,6 +713,12 @@ class JDJC_group extends Table_group
             );
     }
 
+    /**
+     * @param mysqli $mysqli
+     * @param string $police_name
+     * @param string $date
+     * @return int
+     */
     public static function jdjc_insert_fxhz_item($mysqli, $police_name, $date)
     {
         return self::jdjc_insert_jcdw(
@@ -711,6 +730,13 @@ class JDJC_group extends Table_group
         );
     }
 
+    /**
+     * @param mysqli $mysqli
+     * @param string $police_name
+     * @param string $date
+     * @param bool $row_check
+     * @return int
+     */
     public static function jdjc_update_fxhz_item($mysqli, $police_name, $date, $row_check = false)
     {
         $db = SqlTool::build_by_mysqli($mysqli);
@@ -759,6 +785,12 @@ class JDJC_group extends Table_group
             );
     }
 
+    /**
+     * @param mysqli $mysqli
+     * @param string $police_name
+     * @param string $date
+     * @return int
+     */
     public static function jdjc_insert_xfls_item($mysqli, $police_name, $date)
     {
         return self::jdjc_insert_xfls(
@@ -770,6 +802,13 @@ class JDJC_group extends Table_group
         );
     }
 
+    /**
+     * @param mysqli $mysqli
+     * @param string $police_name
+     * @param string $date
+     * @param bool $row_check
+     * @return int
+     */
     public static function jdjc_update_xfls_item($mysqli, $police_name, $date, $row_check = false)
     {
         $db = SqlTool::build_by_mysqli($mysqli);
@@ -819,6 +858,12 @@ class JDJC_group extends Table_group
             );
     }
 
+    /**
+     * @param mysqli $mysqli
+     * @param string $police_name
+     * @param string $date
+     * @return int
+     */
     public static function jdjc_insert_dczg_item($mysqli, $police_name, $date)
     {
         return self::jdjc_insert_dczg(
@@ -830,6 +875,13 @@ class JDJC_group extends Table_group
         );
     }
 
+    /**
+     * @param mysqli $mysqli
+     * @param string $police_name
+     * @param string $date
+     * @param bool $row_check
+     * @return int
+     */
     public static function jdjc_update_dczg_item($mysqli, $police_name, $date, $row_check = false)
     {
         $db = SqlTool::build_by_mysqli($mysqli);
@@ -858,13 +910,39 @@ class JDJC_group extends Table_group
             );
     }
 
-    public static function group_insert($mysqli)
+    public static function jdjc_clear($db, $date = null)
+    {
+        $JDJC = new Table(Jiancha_and_jiangduo_gr_nbr_map::$table_name, parent::sqlTool_build($db));
+
+        if ($date) {
+            $param = '';
+            if (is_array($date))
+                $param = SqlTool::WHERE() . SqlTool::BETWEEN(
+                        Jiancha_and_jiangduo_gr_nbr_map::$year_month_show, $date
+                    );
+            else if (is_string($date))
+                $param = SqlTool::WHERE([Jiancha_and_jiangduo_gr_nbr_map::$year_month_show => $date]);
+
+            $JDJC->delete($param);
+        } else {
+            $JDJC->truncate();
+        }
+    }
+
+    /**
+     * @param mysqli $mysqli
+     * @param array|null|string $date
+     */
+    public
+    static function group_insert($mysqli, $date = null)
     {
         self::jdjc_insert_jcdw($mysqli, '');
         $sqlTool = SqlTool::build_by_mysqli($mysqli);
         $xfls = new Table(Quantity_xflscf_gr_score_map::$table_name, $sqlTool);
         $dczg = new Table(Quantity_dczghzyhwf_gr_score_map::$table_name, $sqlTool);
         $fxhz = new Table(Quantity_fxhzyh_gr_score_map::$table_name, $sqlTool);
+
+        self::jdjc_clear($sqlTool, $date);
 
         $res = $dczg->group_query(
             [
