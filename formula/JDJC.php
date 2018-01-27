@@ -678,10 +678,12 @@ class JDJC_group extends Table_group
     {
         return self::jdjc_insert_jcdw(
             $mysqli,
-            SqlTool::WHERE([
-                Quantity_jcdw_gr_score_map::$year_month_show => $date,
-                Quantity_jcdw_gr_score_map::$police_name => $police_name
-            ])
+//            SqlTool::WHERE([
+//                Quantity_jcdw_gr_score_map::$year_month_show => $date,
+//                Quantity_jcdw_gr_score_map::$police_name => $police_name
+//            ])
+            parent::format_date(Quantity_jcdw_gr_score_map::$year_month_show, $date)
+            . SqlTool::ANDC([Quantity_jcdw_gr_score_map::$police_name => $police_name])
         );
     }
 
@@ -750,10 +752,12 @@ class JDJC_group extends Table_group
     {
         return self::jdjc_insert_jcdw(
             $mysqli,
-            SqlTool::WHERE([
-                Quantity_jcdw_gr_score_map::$year_month_show => $date,
-                Quantity_jcdw_gr_score_map::$police_name => $police_name
-            ])
+//            SqlTool::WHERE([
+//                Quantity_jcdw_gr_score_map::$year_month_show => $date,
+//                Quantity_jcdw_gr_score_map::$police_name => $police_name
+//            ])
+            parent::format_date(Quantity_fxhzyh_gr_score_map::$year_month_show, $date)
+            . SqlTool::ANDC([Quantity_fxhzyh_gr_score_map::$police_name => $police_name])
         );
     }
 
@@ -822,10 +826,12 @@ class JDJC_group extends Table_group
     {
         return self::jdjc_insert_xfls(
             $mysqli,
-            SqlTool::WHERE([
-                Quantity_xflscf_gr_score_map::$year_month_show => $date,
-                Quantity_xflscf_gr_score_map::$police_name => $police_name
-            ])
+//            SqlTool::WHERE([
+//                Quantity_xflscf_gr_score_map::$year_month_show => $date,
+//                Quantity_xflscf_gr_score_map::$police_name => $police_name
+//            ])
+            parent::format_date(Quantity_xflscf_gr_score_map::$year_month_show, $date)
+            . SqlTool::ANDC([Quantity_xflscf_gr_score_map::$police_name => $police_name])
         );
     }
 
@@ -895,10 +901,12 @@ class JDJC_group extends Table_group
     {
         return self::jdjc_insert_dczg(
             $mysqli,
-            SqlTool::WHERE([
-                Quantity_dczghzyhwf_gr_score_map::$year_month_show => $date,
-                Quantity_dczghzyhwf_gr_score_map::$police_name => $police_name
-            ])
+//            SqlTool::WHERE([
+//                Quantity_dczghzyhwf_gr_score_map::$year_month_show => $date,
+//                Quantity_dczghzyhwf_gr_score_map::$police_name => $police_name
+//            ])
+            parent::format_date(Quantity_dczghzyhwf_gr_score_map::$year_month_show, $date)
+            . SqlTool::ANDC([Quantity_dczghzyhwf_gr_score_map::$police_name => $police_name])
         );
     }
 

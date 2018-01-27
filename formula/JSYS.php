@@ -878,10 +878,13 @@ class JSYS_group extends Table_group
     static function jianshen_insert_sh_item($mysqli, $police_name, $date)
     {
         return self::jianshen_insert_sh(
-            $mysqli, SqlTool::WHERE([
-            Quantity_xfsjshs_gr_sub_score_map::$police_name => $police_name,
-            Quantity_xfsjshs_gr_sub_score_map::$year_month_show => $date
-        ])
+            $mysqli,
+//            SqlTool::WHERE([
+//                Quantity_xfsjshs_gr_sub_score_map::$police_name => $police_name,
+//                Quantity_xfsjshs_gr_sub_score_map::$year_month_show => $date
+//            ])
+            parent::format_date(Quantity_xfsjshs_gr_sub_score_map::$year_month_show, $date)
+            . SqlTool::ANDC([Quantity_xfsjshs_gr_sub_score_map::$police_name => $police_name])
         );
     }
 
@@ -895,10 +898,13 @@ class JSYS_group extends Table_group
     static function jianshen_insert_ba_item($mysqli, $police_name, $date)
     {
         return self::jianshen_insert_ba(
-            $mysqli, SqlTool::WHERE([
-            Quantity_xfsjbas_gr_sub_score_map::$police_name => $police_name,
-            Quantity_xfsjbas_gr_sub_score_map::$year_month_show => $date
-        ])
+            $mysqli,
+//            SqlTool::WHERE([
+//                Quantity_xfsjbas_gr_sub_score_map::$police_name => $police_name,
+//                Quantity_xfsjbas_gr_sub_score_map::$year_month_show => $date
+//            ])
+            parent::format_date(Quantity_xfsjbas_gr_sub_score_map::$year_month_show, $date)
+            . SqlTool::ANDC([Quantity_xfsjbas_gr_sub_score_map::$police_name => $police_name])
         );
     }
 
@@ -912,10 +918,13 @@ class JSYS_group extends Table_group
     static function jianshen_insert_jg_item($mysqli, $police_name, $date)
     {
         return self::jianshen_insert_jg(
-            $mysqli, SqlTool::WHERE([
-            Quantity_xfjgys_gr_sub_score_map::$police_name => $police_name,
-            Quantity_xfjgys_gr_sub_score_map::$year_month_show => $date
-        ])
+            $mysqli,
+//            SqlTool::WHERE([
+//                Quantity_xfjgys_gr_sub_score_map::$police_name => $police_name,
+//                Quantity_xfjgys_gr_sub_score_map::$year_month_show => $date
+//            ])
+            parent::format_date(Quantity_xfjgys_gr_sub_score_map::$year_month_show, $date)
+            . SqlTool::ANDC([Quantity_xfjgys_gr_sub_score_map::$police_name => $police_name])
         );
     }
 
@@ -929,10 +938,13 @@ class JSYS_group extends Table_group
     static function jianshen_insert_ys_item($mysqli, $police_name, $date)
     {
         return self::jianshen_insert_ys(
-            $mysqli, SqlTool::WHERE([
-            Quantity_xfyss_gr_sub_score_map::$police_name => $police_name,
-            Quantity_xfyss_gr_sub_score_map::$year_month_show => $date
-        ])
+            $mysqli,
+//            SqlTool::WHERE([
+//                Quantity_xfyss_gr_sub_score_map::$police_name => $police_name,
+//                Quantity_xfyss_gr_sub_score_map::$year_month_show => $date
+//            ])
+            parent::format_date(Quantity_xfyss_gr_sub_score_map::$year_month_show, $date)
+            . SqlTool::ANDC([Quantity_xfyss_gr_sub_score_map::$police_name => $police_name])
         );
     }
 

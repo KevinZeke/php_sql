@@ -111,6 +111,27 @@ class HZ_group extends Table_group
         );
     }
 
+    //TODO
+    static public function update_xzcf($db, $xzcf_table_param, $hz_table_param)
+    {
+        $sqlTool = parent::sqlTool_build($db);
+
+        return (new Table(Quantity_sub_score_map::$table_name, $sqlTool))
+            ->union_update(
+                [
+                    "(SELECT 
+                    ifnull(SUM(" . Quantity_xzcf_gr_sub_score_map::$xzcf_zdf . "),0) 
+                    AS res , police_name,year_month_show FROM " .
+                    Quantity_xzcf_gr_sub_score_map::$table_name
+                    . $xzcf_table_param . ') A'
+                ],
+                [
+                    Quantity_sub_score_map::$xzcf_zdf => 'A.res'
+                ],
+                $hz_table_param
+            );
+    }
+
     /**
      * 此函数用于更新quantity_sub_table以及quantity_gr_table的xzcf项（非更新xzcf相关的子表）
      * @param mysqli $mysqli
@@ -302,6 +323,14 @@ class HZ_group extends Table_group
         );
     }
 
+    static function insert_hzdc_by_date($mysqli, $date)
+    {
+        return self::insert_hzdc(
+            $mysqli,
+            parent::format_date(Quantity_hzdc_gr_sub_score_map::$year_month_show, $date)
+        );
+    }
+
     /**
      * @param mysqli $mysqli
      * @param string $param
@@ -322,6 +351,13 @@ class HZ_group extends Table_group
             );
     }
 
+    static function insert_xzcf_by_date($mysqli, $date)
+    {
+        return self::insert_hzdc(
+            $mysqli,
+            parent::format_date(Quantity_xzcf_gr_sub_score_map::$year_month_show, $date)
+        );
+    }
 
     /**
      * @param mysqli $mysqli
@@ -343,6 +379,15 @@ class HZ_group extends Table_group
             );
     }
 
+    static function insert_jsys_by_date($mysqli, $date)
+    {
+        return self::insert_hzdc(
+            $mysqli,
+            parent::format_date(Jianshenyanshou_gr_score_map::$year_month_show, $date)
+        );
+    }
+
+
     /**
      * @param mysqli $mysqli
      * @param string $param
@@ -363,70 +408,89 @@ class HZ_group extends Table_group
             );
     }
 
+    static function insert_jdjc_by_date($mysqli, $date)
+    {
+        return self::insert_hzdc(
+            $mysqli,
+            parent::format_date(Jiancha_and_jiangduo_gr_score_map::$year_month_show, $date)
+        );
+    }
+
     /**
      * @param mysqli $mysqli
      * @param string $police_name
-     * @param string $date
+     * @param string|array $date
      * @return mixed
      */
     static function insert_hzdc_item($mysqli, $police_name, $date)
     {
 
         return self::insert_hzdc($mysqli,
-            SqlTool::WHERE(
-                [
-                    Quantity_hzdc_gr_sub_score_map::$police_name => $police_name,
-                    Quantity_hzdc_gr_sub_score_map::$year_month_show => $date
-                ]
-            )
+//            SqlTool::WHERE(
+//                [
+//                    Quantity_hzdc_gr_sub_score_map::$police_name => $police_name,
+//                    Quantity_hzdc_gr_sub_score_map::$year_month_show => $date
+//                ]
+//            )
+            parent::format_date(Quantity_hzdc_gr_sub_score_map::$year_month_show, $date)
+            . SqlTool::ANDC([Quantity_hzdc_gr_sub_score_map::$police_name => $police_name])
         );
     }
 
     /**
      * @param mysqli $mysqli
      * @param string $police_name
-     * @param string $date
+     * @param string|array $date
      * @return int
      */
     static function insert_xzcf_item($mysqli, $police_name, $date)
     {
         return self::insert_xzcf(
-            $mysqli, SqlTool::WHERE([
-            Quantity_xzcf_gr_sub_score_map::$police_name => $police_name,
-            Quantity_xzcf_gr_sub_score_map::$year_month_show => $date
-        ])
+            $mysqli,
+//            SqlTool::WHERE([
+//                Quantity_xzcf_gr_sub_score_map::$police_name => $police_name,
+//                Quantity_xzcf_gr_sub_score_map::$year_month_show => $date
+//            ])
+            parent::format_date(Quantity_xzcf_gr_sub_score_map::$year_month_show, $date)
+            . SqlTool::ANDC([Quantity_xzcf_gr_sub_score_map::$police_name => $police_name])
         );
     }
 
     /**
      * @param mysqli $mysqli
      * @param string $police_name
-     * @param string $date
+     * @param string|array $date
      * @return int
      */
     static function insert_jdjc_item($mysqli, $police_name, $date)
     {
         return self::insert_jdjc(
-            $mysqli, SqlTool::WHERE([
-            Jiancha_and_jiangduo_gr_score_map::$police_name => $police_name,
-            Jiancha_and_jiangduo_gr_score_map::$year_month_show => $date
-        ])
+            $mysqli,
+//            SqlTool::WHERE([
+//                Jiancha_and_jiangduo_gr_score_map::$police_name => $police_name,
+//                Jiancha_and_jiangduo_gr_score_map::$year_month_show => $date
+//            ])
+            parent::format_date(Jiancha_and_jiangduo_gr_score_map::$year_month_show, $date)
+            . SqlTool::ANDC([Jiancha_and_jiangduo_gr_score_map::$police_name => $police_name])
         );
     }
 
     /**
      * @param mysqli $mysqli
      * @param string $police_name
-     * @param string $date
+     * @param string|array $date
      * @return int
      */
     static function insert_jsys_item($mysqli, $police_name, $date)
     {
         return self::insert_jsys(
-            $mysqli, SqlTool::WHERE([
-            Jianshenyanshou_gr_score_map::$police_name => $police_name,
-            Jianshenyanshou_gr_score_map::$year_month_show => $date
-        ])
+            $mysqli,
+//            SqlTool::WHERE([
+//                Jianshenyanshou_gr_score_map::$police_name => $police_name,
+//                Jianshenyanshou_gr_score_map::$year_month_show => $date
+//            ])
+            parent::format_date(Jianshenyanshou_gr_score_map::$year_month_show, $date)
+            . SqlTool::ANDC([Jianshenyanshou_gr_score_map::$police_name => $police_name])
         );
     }
 
@@ -441,7 +505,10 @@ class HZ_group extends Table_group
         $tables = [new Table(Quantity_sub_score_map::$table_name, $sqlTool)];
 
         if (!$date) {
-            array_push($tables, new Table(Quantity_gr_score_map::$table_name, $sqlTool));
+            array_push(
+                $tables,
+                new Table(Quantity_gr_score_map::$table_name, $sqlTool)
+            );
         }
 
         parent::group_clear(
@@ -461,7 +528,7 @@ class HZ_group extends Table_group
 
         $sqlTool = SqlTool::build_by_mysqli($mysqli);
         self::hz_clear($sqlTool, $date);
-        self::insert_hzdc($mysqli,parent::format_date(
+        self::insert_hzdc($mysqli, parent::format_date(
             Quantity_hzdc_gr_sub_score_map::$year_month_show,
             $date
         ));
@@ -479,7 +546,7 @@ class HZ_group extends Table_group
                 Jianshenyanshou_gr_score_map::$year_month_show,
                 Jianshenyanshou_gr_score_map::$police_name
             ],
-            parent::format_date(Jianshenyanshou_gr_score_map::$year_month_show,$date)
+            parent::format_date(Jianshenyanshou_gr_score_map::$year_month_show, $date)
         );
 
         $res->each_row(function ($row) use ($mysqli) {
@@ -496,7 +563,7 @@ class HZ_group extends Table_group
                 Quantity_xzcf_gr_sub_score_map::$year_month_show,
                 Quantity_xzcf_gr_sub_score_map::$police_name
             ],
-            parent::format_date(Quantity_xzcf_gr_sub_score_map::$year_month_show,$date)
+            parent::format_date(Quantity_xzcf_gr_sub_score_map::$year_month_show, $date)
         );
 
         $res->each_row(function ($row) use ($mysqli) {
@@ -512,7 +579,7 @@ class HZ_group extends Table_group
                 Jiancha_and_jiangduo_gr_score_map::$year_month_show,
                 Jiancha_and_jiangduo_gr_score_map::$police_name
             ],
-            parent::format_date(Jiancha_and_jiangduo_gr_score_map::$year_month_show,$date)
+            parent::format_date(Jiancha_and_jiangduo_gr_score_map::$year_month_show, $date)
         );
 
         $res->each_row(function ($row) use ($mysqli) {

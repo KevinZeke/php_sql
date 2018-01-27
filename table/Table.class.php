@@ -154,12 +154,12 @@ class Table
 
     /**
      * 删除该表行
-     * @param $param
+     * @param string $param
      * @return int
      */
     public function delete($param)
     {
-        if (!is_array($param) || count($param) == 0) return -1;
+//        if (!is_array($param) || count($param) == 0) return -1;
         return $this->sqlTool->execute_dml(
             "DELETE FROM $this->tableName $param"
         );
