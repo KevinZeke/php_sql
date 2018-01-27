@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class Quantity_xfsjbas_gr_nbr_month_map</title>
+  <link rel="stylesheet" href="../media/stylesheet.css" />
+  <script src="../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../media/images/plus.gif";
+	imgMinus.src = "../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class Quantity_xfsjbas_gr_nbr_month_map
+</h2> (line <span class="linenumber">3</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+<a href="../default/DB_map.html">DB_map</a>
+   |
+   --Quantity_xfsjbas_gr_nbr_month_map</pre>
+<p>
+	<b><i>Located in File: <a href="_map---Quantity_xfsjbas_gr_nbr_month.map.php.html">/map/Quantity_xfsjbas_gr_nbr_month.map.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>Created by PhpStorm.</h5>
+<div class="desc"><p>User: Administrator  Date: 2018/1/17  Time: 18:50</p></div>
+<ul>
+	</ul>
+<br /><hr />
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="var-title">
+    static <span class="var-type">mixed</span>
+    <a href="#var$dadui_name" title="details" class="property"><strong>$dadui_name</strong></a>
+</div>
+<div class="var-title">
+    static <span class="var-type">mixed</span>
+    <a href="#var$number_id" title="details" class="property"><strong>$number_id</strong></a>
+</div>
+<div class="var-title">
+    static <span class="var-type">mixed</span>
+    <a href="#var$police_id" title="details" class="property"><strong>$police_id</strong></a>
+</div>
+<div class="var-title">
+    static <span class="var-type">mixed</span>
+    <a href="#var$police_name" title="details" class="property"><strong>$police_name</strong></a>
+</div>
+<div class="var-title">
+    static <span class="var-type">mixed</span>
+    <a href="#var$sjbaccbuhg_qtdw_xiebr" title="details" class="property"><strong>$sjbaccbuhg_qtdw_xiebr</strong></a>
+</div>
+<div class="var-title">
+    static <span class="var-type">mixed</span>
+    <a href="#var$sjbaccbuhg_qtdw_zhubr" title="details" class="property"><strong>$sjbaccbuhg_qtdw_zhubr</strong></a>
+</div>
+<div class="var-title">
+    static <span class="var-type">mixed</span>
+    <a href="#var$sjbaccbuhg_zddw_xiebr" title="details" class="property"><strong>$sjbaccbuhg_zddw_xiebr</strong></a>
+</div>
+<div class="var-title">
+    static <span class="var-type">mixed</span>
+    <a href="#var$sjbaccbuhg_zddw_zhubr" title="details" class="property"><strong>$sjbaccbuhg_zddw_zhubr</strong></a>
+</div>
+<div class="var-title">
+    static <span class="var-type">mixed</span>
+    <a href="#var$sjbacchg_qtdw_xiebr" title="details" class="property"><strong>$sjbacchg_qtdw_xiebr</strong></a>
+</div>
+<div class="var-title">
+    static <span class="var-type">mixed</span>
+    <a href="#var$sjbacchg_qtdw_zhubr" title="details" class="property"><strong>$sjbacchg_qtdw_zhubr</strong></a>
+</div>
+<div class="var-title">
+    static <span class="var-type">mixed</span>
+    <a href="#var$sjbacchg_zddw_xiebr" title="details" class="property"><strong>$sjbacchg_zddw_xiebr</strong></a>
+</div>
+<div class="var-title">
+    static <span class="var-type">mixed</span>
+    <a href="#var$sjbacchg_zddw_zhubr" title="details" class="property"><strong>$sjbacchg_zddw_zhubr</strong></a>
+</div>
+<div class="var-title">
+    static <span class="var-type">mixed</span>
+    <a href="#var$table_name" title="details" class="property"><strong>$table_name</strong></a>
+</div>
+<div class="var-title">
+    static <span class="var-type">mixed</span>
+    <a href="#var$year_month_show" title="details" class="property"><strong>$year_month_show</strong></a>
+</div>
+<div class="var-title">
+    static <span class="var-type">mixed</span>
+    <a href="#var$zhidui_name" title="details" class="property"><strong>$zhidui_name</strong></a>
+</div>
+<hr />
+<a name="var$dadui_name" id="var$dadui_name"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">static $dadui_name =  'quantity_xfsjbas_gr_nbr_month.dadui_name' </strong> (line <span class="linenumber">6</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="var$number_id" id="var$number_id"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">static $number_id =  'quantity_xfsjbas_gr_nbr_month.number_id' </strong> (line <span class="linenumber">18</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="var$police_id" id="var$police_id"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">static $police_id =  'quantity_xfsjbas_gr_nbr_month.police_id' </strong> (line <span class="linenumber">17</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="var$police_name" id="var$police_name"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">static $police_name =  'quantity_xfsjbas_gr_nbr_month.police_name' </strong> (line <span class="linenumber">5</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="var$sjbaccbuhg_qtdw_xiebr" id="var$sjbaccbuhg_qtdw_xiebr"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">static $sjbaccbuhg_qtdw_xiebr =  'quantity_xfsjbas_gr_nbr_month.sjbaccbuhg_qtdw_xiebr' </strong> (line <span class="linenumber">16</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="var$sjbaccbuhg_qtdw_zhubr" id="var$sjbaccbuhg_qtdw_zhubr"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">static $sjbaccbuhg_qtdw_zhubr =  'quantity_xfsjbas_gr_nbr_month.sjbaccbuhg_qtdw_zhubr' </strong> (line <span class="linenumber">15</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="var$sjbaccbuhg_zddw_xiebr" id="var$sjbaccbuhg_zddw_xiebr"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">static $sjbaccbuhg_zddw_xiebr =  'quantity_xfsjbas_gr_nbr_month.sjbaccbuhg_zddw_xiebr' </strong> (line <span class="linenumber">14</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="var$sjbaccbuhg_zddw_zhubr" id="var$sjbaccbuhg_zddw_zhubr"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">static $sjbaccbuhg_zddw_zhubr =  'quantity_xfsjbas_gr_nbr_month.sjbaccbuhg_zddw_zhubr' </strong> (line <span class="linenumber">13</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="var$sjbacchg_qtdw_xiebr" id="var$sjbacchg_qtdw_xiebr"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">static $sjbacchg_qtdw_xiebr =  'quantity_xfsjbas_gr_nbr_month.sjbacchg_qtdw_xiebr' </strong> (line <span class="linenumber">12</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="var$sjbacchg_qtdw_zhubr" id="var$sjbacchg_qtdw_zhubr"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">static $sjbacchg_qtdw_zhubr =  'quantity_xfsjbas_gr_nbr_month.sjbacchg_qtdw_zhubr' </strong> (line <span class="linenumber">11</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="var$sjbacchg_zddw_xiebr" id="var$sjbacchg_zddw_xiebr"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">static $sjbacchg_zddw_xiebr =  'quantity_xfsjbas_gr_nbr_month.sjbacchg_zddw_xiebr' </strong> (line <span class="linenumber">10</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="var$sjbacchg_zddw_zhubr" id="var$sjbacchg_zddw_zhubr"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">static $sjbacchg_zddw_zhubr =  'quantity_xfsjbas_gr_nbr_month.sjbacchg_zddw_zhubr' </strong> (line <span class="linenumber">9</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="var$table_name" id="var$table_name"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">static $table_name =  'quantity_xfsjbas_gr_nbr_month' </strong> (line <span class="linenumber">4</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="var$year_month_show" id="var$year_month_show"><!-- --></A>
+<div style="background='#ffffff'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">static $year_month_show =  'quantity_xfsjbas_gr_nbr_month.year_month_show' </strong> (line <span class="linenumber">8</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<a name="var$zhidui_name" id="var$zhidui_name"><!-- --></A>
+<div style="background='#eeeeee'">
+<h4>
+<img src="../media/images/PublicProperty.gif" border="0" /> <strong class="property">static $zhidui_name =  'quantity_xfsjbas_gr_nbr_month.zhidui_name' </strong> (line <span class="linenumber">7</span>)
+ </h4>
+<h4>Data type : mixed</h4>
+<!-- ========== Info from phpDoc block ========= -->
+<ul>
+	</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+    <div class="method-definition">
+    static         <span class="method-result">void</span>
+        <a href="#methodall" title="details" class="method-name">all</a>
+        ()
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methodall" id="methodall"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Static Method all</strong> (line <span class="linenumber">19</span>)
+ </h4> 
+<h4><i>void</i> <strong>all(
+)</strong></h4>
+
+<p><strong>Overrides :</strong> <a href="../default/DB_map.html#methodall">DB_map::all()</a> parent method not documented</p>
+	<!-- ========== Info from phpDoc block ========= -->
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+	</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+		<!-- =========== Summary =========== -->
+	<h4>Inherited From Class <a href="../default/DB_map.html">DB_map</a></h4>
+				<h4>
+<img src="../media/images/PublicMethod.gif" border="0" /><strong class="method"> <a href="../default/DB_map.html#methodall">DB_map::all()</a></strong> - 
+		</h4> 
+
+				<br />
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Tue, 23 Jan 2018 16:45:25 +0000 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.4</a>
+	</div>
+</body>
+</html>

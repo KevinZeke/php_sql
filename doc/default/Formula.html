@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Docs For Class Formula</title>
+  <link rel="stylesheet" href="../media/stylesheet.css" />
+  <script src="../media/lib/classTree.js"></script>
+<link id="webfx-tab-style-sheet" type="text/css" rel="stylesheet" href="../media/lib/tab.webfx.css" />
+<script type="text/javascript" src="../media/lib/tabpane.js"></script>
+  <script language="javascript" type="text/javascript" src="../media/lib/ua.js"></script>
+<script language="javascript" type="text/javascript">
+	var imgPlus = new Image();
+	var imgMinus = new Image();
+	imgPlus.src = "../media/images/plus.gif";
+	imgMinus.src = "../media/images/minus.gif";
+	
+	function showNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgMinus.src;
+		oTable.style.display = "block";
+	}
+	
+	function hideNode(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+				var oImg = document.layers["img" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+				var oImg = document.all["img" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+				var oImg = document.getElementById("img" + Node);
+        		break;
+        }
+		oImg.src = imgPlus.src;
+		oTable.style.display = "none";
+	}
+	
+	function nodeIsVisible(Node){
+        switch(navigator.family){
+        	case 'nn4':
+        		// Nav 4.x code fork...
+				var oTable = document.layers["span" + Node];
+        		break;
+        	case 'ie4':
+        		// IE 4/5 code fork...
+				var oTable = document.all["span" + Node];
+        		break;
+        	case 'gecko':
+        		// Standards Compliant code fork...
+				var oTable = document.getElementById("span" + Node);
+        		break;
+        }
+		return (oTable && oTable.style.display == "block");
+	}
+	
+	function toggleNodeVisibility(Node){
+		if (nodeIsVisible(Node)){
+			hideNode(Node);
+		}else{
+			showNode(Node);
+		}
+	}
+</script>
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><!-- Start of Class Data -->
+<h2>
+	Class Formula
+</h2> (line <span class="linenumber">8</span>)
+<div class="tab-pane" id="tabPane1">
+<script type="text/javascript">
+tp1 = new WebFXTabPane( document.getElementById( "tabPane1" ));
+</script>
+
+<div class="tab-page" id="Description">
+<h2 class="tab">Description</h2>
+<pre>
+</pre>
+<p>
+	<b><i>Located in File: <a href="_formula---Formula.class.php.html">/formula/Formula.class.php</a></i></b><br>
+</p>
+<!-- ========== Info from phpDoc block ========= -->
+<h5>User: zhuangjiayu</h5>
+<div class="desc"><p>Date: 2018/1/17  Time: 23:54</p></div>
+<ul>
+	</ul>
+<br /><hr />
+<span class="type">Classes extended from Formula:</span>
+ 		<dl>
+	<dt><a href="../default/HZ_formula.html">HZ_formula</a></dt>
+		<dd>User: zhuangjiayu</dd>
+	</dl>
+		<dl>
+	<dt><a href="../default/HZDC_formula.html">HZDC_formula</a></dt>
+		<dd>User: zhuangjiayu</dd>
+	</dl>
+		<dl>
+	<dt><a href="../default/JSYS_formula.html">JSYS_formula</a></dt>
+		<dd>User: zhuangjiayu</dd>
+	</dl>
+		<dl>
+	<dt><a href="../default/XZCF_formula.html">XZCF_formula</a></dt>
+		<dd>User: zhuangjiayu</dd>
+	</dl>
+	</p>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "Description" ) );</script>
+<div class="tab-page" id="tabPage1">
+
+<h2 class="tab">Class Variables</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage1" ) );</script>
+</div>
+<div class="tab-page" id="constantsTabpage">
+
+<h2 class="tab">Class Constants</h2>
+<!-- ============ VARIABLE DETAIL =========== -->
+<strong>Summary:</strong><br />
+<hr />
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "constantsTabpage" ) );</script>
+</div>
+<div class="tab-page" id="tabPage2">
+<h2 class="tab">Method Detail</h2>
+<!-- ============ METHOD DETAIL =========== -->
+<strong>Summary:</strong><br />
+<div class="method-summary">
+    <div class="method-definition">
+    static         <span class="method-result">void</span>
+        <a href="#methoddivide" title="details" class="method-name">divide</a>
+        (<span class="var-type"></span>&nbsp;<span class="var-name">$a</span>)
+        </div>
+    <div class="method-definition">
+    static         <span class="method-result">string</span>
+        <a href="#methodformat_formula" title="details" class="method-name">format_formula</a>
+        (<span class="var-type">$formula</span>&nbsp;<span class="var-name">$formula</span>, [<span class="var-type">bool</span>&nbsp;<span class="var-name">$quote</span> = <span class="var-default">false</span>])
+        </div>
+    <div class="method-definition">
+    static         <span class="method-result">void</span>
+        <a href="#methodminus" title="details" class="method-name">minus</a>
+        (<span class="var-type"></span>&nbsp;<span class="var-name">$a</span>)
+        </div>
+    <div class="method-definition">
+    static         <span class="method-result">void</span>
+        <a href="#methodmul" title="details" class="method-name">mul</a>
+        (<span class="var-type"></span>&nbsp;<span class="var-name">$a</span>)
+        </div>
+    <div class="method-definition">
+    static         <span class="method-result">void</span>
+        <a href="#methodplus" title="details" class="method-name">plus</a>
+        (<span class="var-type"></span>&nbsp;<span class="var-name">$a</span>)
+        </div>
+</div>
+<hr />
+<A NAME='method_detail'></A>
+
+
+<a name="methoddivide" id="methoddivide"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Static Method divide</strong> (line <span class="linenumber">44</span>)
+ </h4> 
+<h4><i>void</i> <strong>divide(
+
+$a)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong> $a</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodformat_formula" id="methodformat_formula"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Static Method format_formula</strong> (line <span class="linenumber">21</span>)
+ </h4> 
+<h4><i>string</i> <strong>format_formula(
+$formula
+$formula, [bool
+$quote = false])</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+<h5>将公式数组格式化为 a=b+c，c=d+e 格式的sql字符串</h5>
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong>bool $quote</strong>: 是否添加 '' 符</li>
+			<li><strong>$formula $formula</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodminus" id="methodminus"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Static Method minus</strong> (line <span class="linenumber">38</span>)
+ </h4> 
+<h4><i>void</i> <strong>minus(
+
+$a)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong> $a</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodmul" id="methodmul"><!-- --></a>
+<div style="background='#eeeeee'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Static Method mul</strong> (line <span class="linenumber">50</span>)
+ </h4> 
+<h4><i>void</i> <strong>mul(
+
+$a)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong> $a</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<a name="methodplus" id="methodplus"><!-- --></a>
+<div style="background='#ffffff'"><h4>
+<img src="../media/images/PublicMethod.gif" border="0" /> <strong class="method">Static Method plus</strong> (line <span class="linenumber">32</span>)
+ </h4> 
+<h4><i>void</i> <strong>plus(
+
+$a)</strong></h4>
+
+	<!-- ========== Info from phpDoc block ========= -->
+		<h4>Parameters</h4>
+	<ul>
+			<li><strong> $a</strong>: </li>
+		</ul>
+		
+	<h4>Info</h4>
+	<ul>
+		</ul>
+</div>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "tabPage2" ) );</script></div>
+<div class="tab-page" id="iVars">
+<h2 class="tab">Inherited Variables</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iVars" ) );</script>
+<!-- =========== VAR INHERITED SUMMARY =========== -->
+<A NAME='var_inherited_summary'><!-- --></A>
+<h3>Inherited Class Variable Summary</h3>
+
+	</div>
+<div class="tab-page" id="iMethods">
+<h2 class="tab">Inherited Methods</h2>
+<script type="text/javascript">tp1.addTabPage( document.getElementById( "iMethods" ) );</script>
+<!-- =========== INHERITED METHOD SUMMARY =========== -->
+<A NAME='functions_inherited'><!-- --></A>
+<h3>Inherited Method Summary</h3>
+
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+setupAllTabs();
+
+//]]>
+</script>
+	<div id="credit">
+		<hr />
+		Documentation generated on Tue, 23 Jan 2018 16:45:14 +0000 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.4</a>
+	</div>
+</body>
+</html>

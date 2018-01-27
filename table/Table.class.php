@@ -7,6 +7,7 @@
 
 
 require_once __DIR__ . '/../formula/Formula.class.php';
+require_once __DIR__ .'/../sql/Sql.class.php';
 
 /**
  * Class Table 数据表操作类
@@ -55,11 +56,11 @@ class Table
 
     /**
      * @param string $sqlstr
-     * @return mysqli_result
+     * @return SqlResult
      */
     public function dql($sqlstr)
     {
-        return $this->sqlTool->execute_dql($sqlstr);
+        return new SqlResult($this->sqlTool->execute_dql($sqlstr));
     }
 
     /**
@@ -74,10 +75,9 @@ class Table
     /**
      * @param array $field 更新的列名和值键值对 [列名 => 值]
      * @param string $param 查询参数
-     * @param bool $isToList 是否需要转换成数组返回
-     * @return SqlResult|null
+     * @return null|SqlResult
      */
-    public function query($field, $param = '', $isToList = false)
+    public function query($field, $param = '')
     {
         $sql = "SELECT " . Table::format_field($field) . " FROM " . $this->tableName . " $param";
         $resList = null;
@@ -166,6 +166,16 @@ class Table
     }
 
     /**
+     * 清空该表
+     * @return int
+     */
+    public function truncate(){
+        return $this->sqlTool->execute_dml(
+            'TRUNCATE table '.$this->tableName
+        );
+    }
+
+    /**
      * 左联查询
      * @param Table $table 关联的Table实例
      * @param array $field 查询的两表字段
@@ -188,10 +198,10 @@ class Table
     /**
      * @param $get_field
      * @param $group_field
-     * @param bool $isToLsit
      * @return null|SqlResult
+     * @internal param bool $isToLsit
      */
-    public function group_query($get_field, $group_field, $isToLsit = false)
+    public function group_query($get_field, $group_field)
     {
         $group = array();
         $where = array();

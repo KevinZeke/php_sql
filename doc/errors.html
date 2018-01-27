@@ -1,0 +1,637 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>phpDocumentor Parser Errors and Warnings</title>
+  <link rel="stylesheet" href="media/stylesheet.css" />
+<!-- template designed by Julien Damon based on PHPEdit's generated templates, and tweaked by Greg Beaver -->
+<body bgcolor="#ffffff" ><a href="#Post-parsing">Post-parsing</a><br>
+<a href="#Dadui_huizong_query.map.php">Dadui_huizong_query.map.php</a><br>
+<a href="#Dadui_huizong_query_day.map.php">Dadui_huizong_query_day.map.php</a><br>
+<a href="#Dadui_name_list.map.php">Dadui_name_list.map.php</a><br>
+<a href="#DB_map.class.php">DB_map.class.php</a><br>
+<a href="#Formula.class.php">Formula.class.php</a><br>
+<a href="#Geren_huizong_query.map.php">Geren_huizong_query.map.php</a><br>
+<a href="#Gr_huizong_rank_in_zhd_all.map.php">Gr_huizong_rank_in_zhd_all.map.php</a><br>
+<a href="#Hazhd_huizong_query.map.php">Hazhd_huizong_query.map.php</a><br>
+<a href="#Hazhd_huizong_weight_serious.map.php">Hazhd_huizong_weight_serious.map.php</a><br>
+<a href="#HZ.php">HZ.php</a><br>
+<a href="#HZDC.php">HZDC.php</a><br>
+<a href="#Jiancha_and_jiangduo_gr_coef.map.php">Jiancha_and_jiangduo_gr_coef.map.php</a><br>
+<a href="#Jiancha_and_jiangduo_gr_nbr.map.php">Jiancha_and_jiangduo_gr_nbr.map.php</a><br>
+<a href="#Jiancha_and_jiangduo_gr_nbr_month.map.php">Jiancha_and_jiangduo_gr_nbr_month.map.php</a><br>
+<a href="#Jiancha_and_jiangduo_gr_score.map.php">Jiancha_and_jiangduo_gr_score.map.php</a><br>
+<a href="#Jiancha_and_jiangduo_gr_score_month.map.php">Jiancha_and_jiangduo_gr_score_month.map.php</a><br>
+<a href="#Jianshenyanshou_gr_coef.map.php">Jianshenyanshou_gr_coef.map.php</a><br>
+<a href="#Jianshenyanshou_gr_score.map.php">Jianshenyanshou_gr_score.map.php</a><br>
+<a href="#Jianshenyanshou_gr_score_month.map.php">Jianshenyanshou_gr_score_month.map.php</a><br>
+<a href="#Jianshenyanshou_sub_score.map.php">Jianshenyanshou_sub_score.map.php</a><br>
+<a href="#Jianshenyanshou_sub_score_month.map.php">Jianshenyanshou_sub_score_month.map.php</a><br>
+<a href="#JSYS.php">JSYS.php</a><br>
+<a href="#Log.class.php">Log.class.php</a><br>
+<a href="#main.php">main.php</a><br>
+<a href="#Quantity_dczghzyhwf_gr_basic_coef.map.php">Quantity_dczghzyhwf_gr_basic_coef.map.php</a><br>
+<a href="#Quantity_dczghzyhwf_gr_nbr.map.php">Quantity_dczghzyhwf_gr_nbr.map.php</a><br>
+<a href="#Quantity_dczghzyhwf_gr_nbr_month.map.php">Quantity_dczghzyhwf_gr_nbr_month.map.php</a><br>
+<a href="#Quantity_dczghzyhwf_gr_score.map.php">Quantity_dczghzyhwf_gr_score.map.php</a><br>
+<a href="#Quantity_dczghzyhwf_gr_score_month.map.php">Quantity_dczghzyhwf_gr_score_month.map.php</a><br>
+<a href="#Quantity_fxhzyh_gr_basic_coef.map.php">Quantity_fxhzyh_gr_basic_coef.map.php</a><br>
+<a href="#Quantity_fxhzyh_gr_nbr.map.php">Quantity_fxhzyh_gr_nbr.map.php</a><br>
+<a href="#Quantity_fxhzyh_gr_nbr_month.map.php">Quantity_fxhzyh_gr_nbr_month.map.php</a><br>
+<a href="#Quantity_fxhzyh_gr_score.map.php">Quantity_fxhzyh_gr_score.map.php</a><br>
+<a href="#Quantity_fxhzyh_gr_score_month.map.php">Quantity_fxhzyh_gr_score_month.map.php</a><br>
+<a href="#Quantity_gr_coef.map.php">Quantity_gr_coef.map.php</a><br>
+<a href="#Quantity_gr_score.map.php">Quantity_gr_score.map.php</a><br>
+<a href="#Quantity_gr_score_month.map.php">Quantity_gr_score_month.map.php</a><br>
+<a href="#Quantity_hzdc_gr_basic_coef.map.php">Quantity_hzdc_gr_basic_coef.map.php</a><br>
+<a href="#Quantity_hzdc_gr_basic_score.map.php">Quantity_hzdc_gr_basic_score.map.php</a><br>
+<a href="#Quantity_hzdc_gr_basic_score_month.map.php">Quantity_hzdc_gr_basic_score_month.map.php</a><br>
+<a href="#Quantity_hzdc_gr_nbr.map.php">Quantity_hzdc_gr_nbr.map.php</a><br>
+<a href="#Quantity_hzdc_gr_nbr_month.map.php">Quantity_hzdc_gr_nbr_month.map.php</a><br>
+<a href="#Quantity_hzdc_gr_sub_coef.map.php">Quantity_hzdc_gr_sub_coef.map.php</a><br>
+<a href="#Quantity_hzdc_gr_sub_score.map.php">Quantity_hzdc_gr_sub_score.map.php</a><br>
+<a href="#Quantity_hzdc_gr_sub_score_month.map.php">Quantity_hzdc_gr_sub_score_month.map.php</a><br>
+<a href="#Quantity_jcdw_gr_basic_coef.map.php">Quantity_jcdw_gr_basic_coef.map.php</a><br>
+<a href="#Quantity_jcdw_gr_nbr.map.php">Quantity_jcdw_gr_nbr.map.php</a><br>
+<a href="#Quantity_jcdw_gr_nbr_month.map.php">Quantity_jcdw_gr_nbr_month.map.php</a><br>
+<a href="#Quantity_jcdw_gr_score.map.php">Quantity_jcdw_gr_score.map.php</a><br>
+<a href="#Quantity_jcdw_gr_score_month.map.php">Quantity_jcdw_gr_score_month.map.php</a><br>
+<a href="#Quantity_jcdw_gr_sub_coef.map.php">Quantity_jcdw_gr_sub_coef.map.php</a><br>
+<a href="#Quantity_sub_score.map.php">Quantity_sub_score.map.php</a><br>
+<a href="#Quantity_sub_score_month.map.php">Quantity_sub_score_month.map.php</a><br>
+<a href="#Quantity_xfjgys_gr_basic_coef.map.php">Quantity_xfjgys_gr_basic_coef.map.php</a><br>
+<a href="#Quantity_xfjgys_gr_basic_score.map.php">Quantity_xfjgys_gr_basic_score.map.php</a><br>
+<a href="#Quantity_xfjgys_gr_basic_score_month.map.php">Quantity_xfjgys_gr_basic_score_month.map.php</a><br>
+<a href="#Quantity_xfjgys_gr_nbr.map.php">Quantity_xfjgys_gr_nbr.map.php</a><br>
+<a href="#Quantity_xfjgys_gr_nbr_month.map.php">Quantity_xfjgys_gr_nbr_month.map.php</a><br>
+<a href="#Quantity_xfjgys_gr_sub_coef.map.php">Quantity_xfjgys_gr_sub_coef.map.php</a><br>
+<a href="#Quantity_xfjgys_gr_sub_score.map.php">Quantity_xfjgys_gr_sub_score.map.php</a><br>
+<a href="#Quantity_xfjgys_gr_sub_score_month.map.php">Quantity_xfjgys_gr_sub_score_month.map.php</a><br>
+<a href="#Quantity_xflscf_gr_basic_coef.map.php">Quantity_xflscf_gr_basic_coef.map.php</a><br>
+<a href="#Quantity_xflscf_gr_nbr.map.php">Quantity_xflscf_gr_nbr.map.php</a><br>
+<a href="#Quantity_xflscf_gr_nbr_month.map.php">Quantity_xflscf_gr_nbr_month.map.php</a><br>
+<a href="#Quantity_xflscf_gr_score.map.php">Quantity_xflscf_gr_score.map.php</a><br>
+<a href="#Quantity_xflscf_gr_score_month.map.php">Quantity_xflscf_gr_score_month.map.php</a><br>
+<a href="#Quantity_xfsjbas_gr_basic_coef.map.php">Quantity_xfsjbas_gr_basic_coef.map.php</a><br>
+<a href="#Quantity_xfsjbas_gr_basic_score.map.php">Quantity_xfsjbas_gr_basic_score.map.php</a><br>
+<a href="#Quantity_xfsjbas_gr_basic_score_month.map.php">Quantity_xfsjbas_gr_basic_score_month.map.php</a><br>
+<a href="#Quantity_xfsjbas_gr_nbr.map.php">Quantity_xfsjbas_gr_nbr.map.php</a><br>
+<a href="#Quantity_xfsjbas_gr_nbr_month.map.php">Quantity_xfsjbas_gr_nbr_month.map.php</a><br>
+<a href="#Quantity_xfsjbas_gr_sub_coef.map.php">Quantity_xfsjbas_gr_sub_coef.map.php</a><br>
+<a href="#Quantity_xfsjbas_gr_sub_score.map.php">Quantity_xfsjbas_gr_sub_score.map.php</a><br>
+<a href="#Quantity_xfsjbas_gr_sub_score_month.map.php">Quantity_xfsjbas_gr_sub_score_month.map.php</a><br>
+<a href="#Quantity_xfsjshs_gr_basic_coef.map.php">Quantity_xfsjshs_gr_basic_coef.map.php</a><br>
+<a href="#Quantity_xfsjshs_gr_basic_score.map.php">Quantity_xfsjshs_gr_basic_score.map.php</a><br>
+<a href="#Quantity_xfsjshs_gr_basic_score_month.map.php">Quantity_xfsjshs_gr_basic_score_month.map.php</a><br>
+<a href="#Quantity_xfsjshs_gr_nbr.map.php">Quantity_xfsjshs_gr_nbr.map.php</a><br>
+<a href="#Quantity_xfsjshs_gr_nbr_month.map.php">Quantity_xfsjshs_gr_nbr_month.map.php</a><br>
+<a href="#Quantity_xfsjshs_gr_sub_coef.map.php">Quantity_xfsjshs_gr_sub_coef.map.php</a><br>
+<a href="#Quantity_xfsjshs_gr_sub_score.map.php">Quantity_xfsjshs_gr_sub_score.map.php</a><br>
+<a href="#Quantity_xfsjshs_gr_sub_score_month.map.php">Quantity_xfsjshs_gr_sub_score_month.map.php</a><br>
+<a href="#Quantity_xfyss_gr_basic_coef.map.php">Quantity_xfyss_gr_basic_coef.map.php</a><br>
+<a href="#Quantity_xfyss_gr_basic_score.map.php">Quantity_xfyss_gr_basic_score.map.php</a><br>
+<a href="#Quantity_xfyss_gr_basic_score_month.map.php">Quantity_xfyss_gr_basic_score_month.map.php</a><br>
+<a href="#Quantity_xfyss_gr_nbr.map.php">Quantity_xfyss_gr_nbr.map.php</a><br>
+<a href="#Quantity_xfyss_gr_nbr_month.map.php">Quantity_xfyss_gr_nbr_month.map.php</a><br>
+<a href="#Quantity_xfyss_gr_sub_coef.map.php">Quantity_xfyss_gr_sub_coef.map.php</a><br>
+<a href="#Quantity_xfyss_gr_sub_score.map.php">Quantity_xfyss_gr_sub_score.map.php</a><br>
+<a href="#Quantity_xfyss_gr_sub_score_month.map.php">Quantity_xfyss_gr_sub_score_month.map.php</a><br>
+<a href="#Quantity_xzcf_gr_basic_coef.map.php">Quantity_xzcf_gr_basic_coef.map.php</a><br>
+<a href="#quantity_xzcf_gr_nbr.map.php">quantity_xzcf_gr_nbr.map.php</a><br>
+<a href="#Quantity_xzcf_gr_nbr_month.map.php">Quantity_xzcf_gr_nbr_month.map.php</a><br>
+<a href="#Quantity_xzcf_gr_sub_coef.map.php">Quantity_xzcf_gr_sub_coef.map.php</a><br>
+<a href="#Quantity_xzcf_gr_sub_score.map.php">Quantity_xzcf_gr_sub_score.map.php</a><br>
+<a href="#Quantity_xzcf_gr_sub_score_month.map.php">Quantity_xzcf_gr_sub_score_month.map.php</a><br>
+<a href="#Sql.class.php">Sql.class.php</a><br>
+<a href="#Table.class.php">Table.class.php</a><br>
+<a href="#Table_gropu.interface.php">Table_gropu.interface.php</a><br>
+<a href="#Xfjdgl_getdataconfig.map.php">Xfjdgl_getdataconfig.map.php</a><br>
+<a href="#XZCF.php">XZCF.php</a><br>
+<a href="#Zfzl_flws_gr.map.php">Zfzl_flws_gr.map.php</a><br>
+<a name="creator.php"></a>
+<h1>creator.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 87</b> - File "D:\php5.4.32\db\php_sql\mapcreator\creator.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Dadui_huizong_query.map.php"></a>
+<h1>Dadui_huizong_query.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Dadui_huizong_query_map<br>
+<b>Warning on line 25</b> - File "D:\php5.4.32\db\php_sql\map\Dadui_huizong_query.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Dadui_huizong_query_day.map.php"></a>
+<h1>Dadui_huizong_query_day.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Dadui_huizong_query_day_map<br>
+<b>Warning on line 19</b> - File "D:\php5.4.32\db\php_sql\map\Dadui_huizong_query_day.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Dadui_name_list.map.php"></a>
+<h1>Dadui_name_list.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Dadui_name_list_map<br>
+<b>Warning on line 12</b> - File "D:\php5.4.32\db\php_sql\map\Dadui_name_list.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="DB_map.class.php"></a>
+<h1>DB_map.class.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 9</b> - no @package tag was used in a DocBlock for class DB_map<br>
+<b>Warning on line 30</b> - File "D:\php5.4.32\db\php_sql\map\DB_map.class.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Formula.class.php"></a>
+<h1>Formula.class.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 8</b> - no @package tag was used in a DocBlock for class Formula<br>
+<b>Warning on line 53</b> - File "D:\php5.4.32\db\php_sql\formula\Formula.class.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Geren_huizong_query.map.php"></a>
+<h1>Geren_huizong_query.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Geren_huizong_query_map<br>
+<b>Warning on line 21</b> - File "D:\php5.4.32\db\php_sql\map\Geren_huizong_query.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Gr_huizong_rank_in_zhd_all.map.php"></a>
+<h1>Gr_huizong_rank_in_zhd_all.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Gr_huizong_rank_in_zhd_all_map<br>
+<b>Warning on line 15</b> - File "D:\php5.4.32\db\php_sql\map\Gr_huizong_rank_in_zhd_all.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Hazhd_huizong_query.map.php"></a>
+<h1>Hazhd_huizong_query.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Hazhd_huizong_query_map<br>
+<b>Warning on line 16</b> - File "D:\php5.4.32\db\php_sql\map\Hazhd_huizong_query.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Hazhd_huizong_weight_serious.map.php"></a>
+<h1>Hazhd_huizong_weight_serious.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Hazhd_huizong_weight_serious_map<br>
+<b>Warning on line 13</b> - File "D:\php5.4.32\db\php_sql\map\Hazhd_huizong_weight_serious.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="HZ.php"></a>
+<h1>HZ.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 18</b> - no @package tag was used in a DocBlock for class HZ_formula<br>
+<b>Warning on line 72</b> - no @package tag was used in a DocBlock for class HZ_group<br>
+<b>Warning on line 272</b> - File "D:\php5.4.32\db\php_sql\formula\HZ.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="HZDC.php"></a>
+<h1>HZDC.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 17</b> - no @package tag was used in a DocBlock for class HZDC_formula<br>
+<b>Warning on line 82</b> - no @package tag was used in a DocBlock for class HZDC_group<br>
+<b>Warning on line 150</b> - File "D:\php5.4.32\db\php_sql\formula\HZDC.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Jiancha_and_jiangduo_gr_coef.map.php"></a>
+<h1>Jiancha_and_jiangduo_gr_coef.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Jiancha_and_jiangduo_gr_coef_map<br>
+<b>Warning on line 12</b> - File "D:\php5.4.32\db\php_sql\map\Jiancha_and_jiangduo_gr_coef.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Jiancha_and_jiangduo_gr_nbr.map.php"></a>
+<h1>Jiancha_and_jiangduo_gr_nbr.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Jiancha_and_jiangduo_gr_nbr_map<br>
+<b>Warning on line 20</b> - File "D:\php5.4.32\db\php_sql\map\Jiancha_and_jiangduo_gr_nbr.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Jiancha_and_jiangduo_gr_nbr_month.map.php"></a>
+<h1>Jiancha_and_jiangduo_gr_nbr_month.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Jiancha_and_jiangduo_gr_nbr_month_map<br>
+<b>Warning on line 20</b> - File "D:\php5.4.32\db\php_sql\map\Jiancha_and_jiangduo_gr_nbr_month.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Jiancha_and_jiangduo_gr_score.map.php"></a>
+<h1>Jiancha_and_jiangduo_gr_score.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Jiancha_and_jiangduo_gr_score_map<br>
+<b>Warning on line 20</b> - File "D:\php5.4.32\db\php_sql\map\Jiancha_and_jiangduo_gr_score.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Jiancha_and_jiangduo_gr_score_month.map.php"></a>
+<h1>Jiancha_and_jiangduo_gr_score_month.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Jiancha_and_jiangduo_gr_score_month_map<br>
+<b>Warning on line 20</b> - File "D:\php5.4.32\db\php_sql\map\Jiancha_and_jiangduo_gr_score_month.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Jianshenyanshou_gr_coef.map.php"></a>
+<h1>Jianshenyanshou_gr_coef.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Jianshenyanshou_gr_coef_map<br>
+<b>Warning on line 12</b> - File "D:\php5.4.32\db\php_sql\map\Jianshenyanshou_gr_coef.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Jianshenyanshou_gr_score.map.php"></a>
+<h1>Jianshenyanshou_gr_score.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Jianshenyanshou_gr_score_map<br>
+<b>Warning on line 20</b> - File "D:\php5.4.32\db\php_sql\map\Jianshenyanshou_gr_score.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Jianshenyanshou_gr_score_month.map.php"></a>
+<h1>Jianshenyanshou_gr_score_month.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Jianshenyanshou_gr_score_month_map<br>
+<b>Warning on line 20</b> - File "D:\php5.4.32\db\php_sql\map\Jianshenyanshou_gr_score_month.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Jianshenyanshou_sub_score.map.php"></a>
+<h1>Jianshenyanshou_sub_score.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Jianshenyanshou_sub_score_map<br>
+<b>Warning on line 17</b> - File "D:\php5.4.32\db\php_sql\map\Jianshenyanshou_sub_score.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Jianshenyanshou_sub_score_month.map.php"></a>
+<h1>Jianshenyanshou_sub_score_month.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Jianshenyanshou_sub_score_month_map<br>
+<b>Warning on line 17</b> - File "D:\php5.4.32\db\php_sql\map\Jianshenyanshou_sub_score_month.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="JSYS.php"></a>
+<h1>JSYS.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 8</b> - Unknown tag "@author:" used<br>
+<b>Warning on line 38</b> - no @package tag was used in a DocBlock for class JSYS_formula<br>
+<b>Warning on line 477</b> - no @package tag was used in a DocBlock for class JSYS_group<br>
+<b>Warning on line 1104</b> - File "D:\php5.4.32\db\php_sql\formula\JSYS.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Log.class.php"></a>
+<h1>Log.class.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 10</b> - no @package tag was used in a DocBlock for class Log<br>
+<b>Warning on line 32</b> - File "D:\php5.4.32\db\php_sql\log\Log.class.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="main.php"></a>
+<h1>main.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 251</b> - File "D:\php5.4.32\db\php_sql\main.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_dczghzyhwf_gr_basic_coef.map.php"></a>
+<h1>Quantity_dczghzyhwf_gr_basic_coef.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_dczghzyhwf_gr_basic_coef_map<br>
+<b>Warning on line 12</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_dczghzyhwf_gr_basic_coef.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_dczghzyhwf_gr_nbr.map.php"></a>
+<h1>Quantity_dczghzyhwf_gr_nbr.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_dczghzyhwf_gr_nbr_map<br>
+<b>Warning on line 17</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_dczghzyhwf_gr_nbr.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_dczghzyhwf_gr_nbr_month.map.php"></a>
+<h1>Quantity_dczghzyhwf_gr_nbr_month.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_dczghzyhwf_gr_nbr_month_map<br>
+<b>Warning on line 17</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_dczghzyhwf_gr_nbr_month.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_dczghzyhwf_gr_score.map.php"></a>
+<h1>Quantity_dczghzyhwf_gr_score.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_dczghzyhwf_gr_score_map<br>
+<b>Warning on line 16</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_dczghzyhwf_gr_score.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_dczghzyhwf_gr_score_month.map.php"></a>
+<h1>Quantity_dczghzyhwf_gr_score_month.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_dczghzyhwf_gr_score_month_map<br>
+<b>Warning on line 16</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_dczghzyhwf_gr_score_month.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_fxhzyh_gr_basic_coef.map.php"></a>
+<h1>Quantity_fxhzyh_gr_basic_coef.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_fxhzyh_gr_basic_coef_map<br>
+<b>Warning on line 12</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_fxhzyh_gr_basic_coef.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_fxhzyh_gr_nbr.map.php"></a>
+<h1>Quantity_fxhzyh_gr_nbr.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_fxhzyh_gr_nbr_map<br>
+<b>Warning on line 17</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_fxhzyh_gr_nbr.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_fxhzyh_gr_nbr_month.map.php"></a>
+<h1>Quantity_fxhzyh_gr_nbr_month.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_fxhzyh_gr_nbr_month_map<br>
+<b>Warning on line 17</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_fxhzyh_gr_nbr_month.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_fxhzyh_gr_score.map.php"></a>
+<h1>Quantity_fxhzyh_gr_score.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_fxhzyh_gr_score_map<br>
+<b>Warning on line 16</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_fxhzyh_gr_score.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_fxhzyh_gr_score_month.map.php"></a>
+<h1>Quantity_fxhzyh_gr_score_month.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_fxhzyh_gr_score_month_map<br>
+<b>Warning on line 16</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_fxhzyh_gr_score_month.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_gr_coef.map.php"></a>
+<h1>Quantity_gr_coef.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_gr_coef_map<br>
+<b>Warning on line 12</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_gr_coef.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_gr_score.map.php"></a>
+<h1>Quantity_gr_score.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_gr_score_map<br>
+<b>Warning on line 19</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_gr_score.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_gr_score_month.map.php"></a>
+<h1>Quantity_gr_score_month.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_gr_score_month_map<br>
+<b>Warning on line 19</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_gr_score_month.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_hzdc_gr_basic_coef.map.php"></a>
+<h1>Quantity_hzdc_gr_basic_coef.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_hzdc_gr_basic_coef_map<br>
+<b>Warning on line 12</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_hzdc_gr_basic_coef.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_hzdc_gr_basic_score.map.php"></a>
+<h1>Quantity_hzdc_gr_basic_score.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_hzdc_gr_basic_score_map<br>
+<b>Warning on line 17</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_hzdc_gr_basic_score.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_hzdc_gr_basic_score_month.map.php"></a>
+<h1>Quantity_hzdc_gr_basic_score_month.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_hzdc_gr_basic_score_month_map<br>
+<b>Warning on line 17</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_hzdc_gr_basic_score_month.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_hzdc_gr_nbr.map.php"></a>
+<h1>Quantity_hzdc_gr_nbr.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_hzdc_gr_nbr_map<br>
+<b>Warning on line 17</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_hzdc_gr_nbr.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_hzdc_gr_nbr_month.map.php"></a>
+<h1>Quantity_hzdc_gr_nbr_month.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_hzdc_gr_nbr_month_map<br>
+<b>Warning on line 17</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_hzdc_gr_nbr_month.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_hzdc_gr_sub_coef.map.php"></a>
+<h1>Quantity_hzdc_gr_sub_coef.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_hzdc_gr_sub_coef_map<br>
+<b>Warning on line 9</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_hzdc_gr_sub_coef.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_hzdc_gr_sub_score.map.php"></a>
+<h1>Quantity_hzdc_gr_sub_score.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_hzdc_gr_sub_score_map<br>
+<b>Warning on line 17</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_hzdc_gr_sub_score.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_hzdc_gr_sub_score_month.map.php"></a>
+<h1>Quantity_hzdc_gr_sub_score_month.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_hzdc_gr_sub_score_month_map<br>
+<b>Warning on line 17</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_hzdc_gr_sub_score_month.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_jcdw_gr_basic_coef.map.php"></a>
+<h1>Quantity_jcdw_gr_basic_coef.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_jcdw_gr_basic_coef_map<br>
+<b>Warning on line 37</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_jcdw_gr_basic_coef.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_jcdw_gr_nbr.map.php"></a>
+<h1>Quantity_jcdw_gr_nbr.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_jcdw_gr_nbr_map<br>
+<b>Warning on line 42</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_jcdw_gr_nbr.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_jcdw_gr_nbr_month.map.php"></a>
+<h1>Quantity_jcdw_gr_nbr_month.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_jcdw_gr_nbr_month_map<br>
+<b>Warning on line 42</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_jcdw_gr_nbr_month.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_jcdw_gr_score.map.php"></a>
+<h1>Quantity_jcdw_gr_score.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_jcdw_gr_score_map<br>
+<b>Warning on line 30</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_jcdw_gr_score.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_jcdw_gr_score_month.map.php"></a>
+<h1>Quantity_jcdw_gr_score_month.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_jcdw_gr_score_month_map<br>
+<b>Warning on line 30</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_jcdw_gr_score_month.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_jcdw_gr_sub_coef.map.php"></a>
+<h1>Quantity_jcdw_gr_sub_coef.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_jcdw_gr_sub_coef_map<br>
+<b>Warning on line 16</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_jcdw_gr_sub_coef.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_sub_score.map.php"></a>
+<h1>Quantity_sub_score.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_sub_score_map<br>
+<b>Warning on line 17</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_sub_score.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_sub_score_month.map.php"></a>
+<h1>Quantity_sub_score_month.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_sub_score_month_map<br>
+<b>Warning on line 17</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_sub_score_month.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_xfjgys_gr_basic_coef.map.php"></a>
+<h1>Quantity_xfjgys_gr_basic_coef.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_xfjgys_gr_basic_coef_map<br>
+<b>Warning on line 16</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_xfjgys_gr_basic_coef.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_xfjgys_gr_basic_score.map.php"></a>
+<h1>Quantity_xfjgys_gr_basic_score.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_xfjgys_gr_basic_score_map<br>
+<b>Warning on line 21</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_xfjgys_gr_basic_score.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_xfjgys_gr_basic_score_month.map.php"></a>
+<h1>Quantity_xfjgys_gr_basic_score_month.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_xfjgys_gr_basic_score_month_map<br>
+<b>Warning on line 21</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_xfjgys_gr_basic_score_month.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_xfjgys_gr_nbr.map.php"></a>
+<h1>Quantity_xfjgys_gr_nbr.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_xfjgys_gr_nbr_map<br>
+<b>Warning on line 21</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_xfjgys_gr_nbr.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_xfjgys_gr_nbr_month.map.php"></a>
+<h1>Quantity_xfjgys_gr_nbr_month.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_xfjgys_gr_nbr_month_map<br>
+<b>Warning on line 21</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_xfjgys_gr_nbr_month.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_xfjgys_gr_sub_coef.map.php"></a>
+<h1>Quantity_xfjgys_gr_sub_coef.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_xfjgys_gr_sub_coef_map<br>
+<b>Warning on line 10</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_xfjgys_gr_sub_coef.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_xfjgys_gr_sub_score.map.php"></a>
+<h1>Quantity_xfjgys_gr_sub_score.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_xfjgys_gr_sub_score_map<br>
+<b>Warning on line 16</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_xfjgys_gr_sub_score.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_xfjgys_gr_sub_score_month.map.php"></a>
+<h1>Quantity_xfjgys_gr_sub_score_month.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_xfjgys_gr_sub_score_month_map<br>
+<b>Warning on line 16</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_xfjgys_gr_sub_score_month.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_xflscf_gr_basic_coef.map.php"></a>
+<h1>Quantity_xflscf_gr_basic_coef.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_xflscf_gr_basic_coef_map<br>
+<b>Warning on line 12</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_xflscf_gr_basic_coef.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_xflscf_gr_nbr.map.php"></a>
+<h1>Quantity_xflscf_gr_nbr.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_xflscf_gr_nbr_map<br>
+<b>Warning on line 17</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_xflscf_gr_nbr.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_xflscf_gr_nbr_month.map.php"></a>
+<h1>Quantity_xflscf_gr_nbr_month.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_xflscf_gr_nbr_month_map<br>
+<b>Warning on line 17</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_xflscf_gr_nbr_month.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_xflscf_gr_score.map.php"></a>
+<h1>Quantity_xflscf_gr_score.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_xflscf_gr_score_map<br>
+<b>Warning on line 16</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_xflscf_gr_score.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_xflscf_gr_score_month.map.php"></a>
+<h1>Quantity_xflscf_gr_score_month.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_xflscf_gr_score_month_map<br>
+<b>Warning on line 16</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_xflscf_gr_score_month.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_xfsjbas_gr_basic_coef.map.php"></a>
+<h1>Quantity_xfsjbas_gr_basic_coef.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_xfsjbas_gr_basic_coef_map<br>
+<b>Warning on line 16</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_xfsjbas_gr_basic_coef.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_xfsjbas_gr_basic_score.map.php"></a>
+<h1>Quantity_xfsjbas_gr_basic_score.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_xfsjbas_gr_basic_score_map<br>
+<b>Warning on line 21</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_xfsjbas_gr_basic_score.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_xfsjbas_gr_basic_score_month.map.php"></a>
+<h1>Quantity_xfsjbas_gr_basic_score_month.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_xfsjbas_gr_basic_score_month_map<br>
+<b>Warning on line 21</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_xfsjbas_gr_basic_score_month.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_xfsjbas_gr_nbr.map.php"></a>
+<h1>Quantity_xfsjbas_gr_nbr.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_xfsjbas_gr_nbr_map<br>
+<b>Warning on line 21</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_xfsjbas_gr_nbr.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_xfsjbas_gr_nbr_month.map.php"></a>
+<h1>Quantity_xfsjbas_gr_nbr_month.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_xfsjbas_gr_nbr_month_map<br>
+<b>Warning on line 21</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_xfsjbas_gr_nbr_month.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_xfsjbas_gr_sub_coef.map.php"></a>
+<h1>Quantity_xfsjbas_gr_sub_coef.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_xfsjbas_gr_sub_coef_map<br>
+<b>Warning on line 10</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_xfsjbas_gr_sub_coef.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_xfsjbas_gr_sub_score.map.php"></a>
+<h1>Quantity_xfsjbas_gr_sub_score.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_xfsjbas_gr_sub_score_map<br>
+<b>Warning on line 16</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_xfsjbas_gr_sub_score.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_xfsjbas_gr_sub_score_month.map.php"></a>
+<h1>Quantity_xfsjbas_gr_sub_score_month.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_xfsjbas_gr_sub_score_month_map<br>
+<b>Warning on line 16</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_xfsjbas_gr_sub_score_month.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_xfsjshs_gr_basic_coef.map.php"></a>
+<h1>Quantity_xfsjshs_gr_basic_coef.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_xfsjshs_gr_basic_coef_map<br>
+<b>Warning on line 16</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_xfsjshs_gr_basic_coef.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_xfsjshs_gr_basic_score.map.php"></a>
+<h1>Quantity_xfsjshs_gr_basic_score.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_xfsjshs_gr_basic_score_map<br>
+<b>Warning on line 21</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_xfsjshs_gr_basic_score.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_xfsjshs_gr_basic_score_month.map.php"></a>
+<h1>Quantity_xfsjshs_gr_basic_score_month.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_xfsjshs_gr_basic_score_month_map<br>
+<b>Warning on line 21</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_xfsjshs_gr_basic_score_month.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_xfsjshs_gr_nbr.map.php"></a>
+<h1>Quantity_xfsjshs_gr_nbr.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_xfsjshs_gr_nbr_map<br>
+<b>Warning on line 21</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_xfsjshs_gr_nbr.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_xfsjshs_gr_nbr_month.map.php"></a>
+<h1>Quantity_xfsjshs_gr_nbr_month.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_xfsjshs_gr_nbr_month_map<br>
+<b>Warning on line 21</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_xfsjshs_gr_nbr_month.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_xfsjshs_gr_sub_coef.map.php"></a>
+<h1>Quantity_xfsjshs_gr_sub_coef.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_xfsjshs_gr_sub_coef_map<br>
+<b>Warning on line 10</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_xfsjshs_gr_sub_coef.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_xfsjshs_gr_sub_score.map.php"></a>
+<h1>Quantity_xfsjshs_gr_sub_score.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_xfsjshs_gr_sub_score_map<br>
+<b>Warning on line 16</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_xfsjshs_gr_sub_score.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_xfsjshs_gr_sub_score_month.map.php"></a>
+<h1>Quantity_xfsjshs_gr_sub_score_month.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_xfsjshs_gr_sub_score_month_map<br>
+<b>Warning on line 16</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_xfsjshs_gr_sub_score_month.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_xfyss_gr_basic_coef.map.php"></a>
+<h1>Quantity_xfyss_gr_basic_coef.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_xfyss_gr_basic_coef_map<br>
+<b>Warning on line 16</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_xfyss_gr_basic_coef.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_xfyss_gr_basic_score.map.php"></a>
+<h1>Quantity_xfyss_gr_basic_score.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_xfyss_gr_basic_score_map<br>
+<b>Warning on line 21</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_xfyss_gr_basic_score.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_xfyss_gr_basic_score_month.map.php"></a>
+<h1>Quantity_xfyss_gr_basic_score_month.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_xfyss_gr_basic_score_month_map<br>
+<b>Warning on line 21</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_xfyss_gr_basic_score_month.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_xfyss_gr_nbr.map.php"></a>
+<h1>Quantity_xfyss_gr_nbr.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_xfyss_gr_nbr_map<br>
+<b>Warning on line 21</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_xfyss_gr_nbr.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_xfyss_gr_nbr_month.map.php"></a>
+<h1>Quantity_xfyss_gr_nbr_month.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_xfyss_gr_nbr_month_map<br>
+<b>Warning on line 21</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_xfyss_gr_nbr_month.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_xfyss_gr_sub_coef.map.php"></a>
+<h1>Quantity_xfyss_gr_sub_coef.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_xfyss_gr_sub_coef_map<br>
+<b>Warning on line 10</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_xfyss_gr_sub_coef.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_xfyss_gr_sub_score.map.php"></a>
+<h1>Quantity_xfyss_gr_sub_score.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_xfyss_gr_sub_score_map<br>
+<b>Warning on line 16</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_xfyss_gr_sub_score.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_xfyss_gr_sub_score_month.map.php"></a>
+<h1>Quantity_xfyss_gr_sub_score_month.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_xfyss_gr_sub_score_month_map<br>
+<b>Warning on line 16</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_xfyss_gr_sub_score_month.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_xzcf_gr_basic_coef.map.php"></a>
+<h1>Quantity_xzcf_gr_basic_coef.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_xzcf_gr_basic_coef_map<br>
+<b>Warning on line 20</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_xzcf_gr_basic_coef.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="quantity_xzcf_gr_nbr.map.php"></a>
+<h1>quantity_xzcf_gr_nbr.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_xzcf_gr_nbr_map<br>
+<b>Warning on line 28</b> - File "D:\php5.4.32\db\php_sql\map\quantity_xzcf_gr_nbr.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_xzcf_gr_nbr_month.map.php"></a>
+<h1>Quantity_xzcf_gr_nbr_month.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_xzcf_gr_nbr_month_map<br>
+<b>Warning on line 28</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_xzcf_gr_nbr_month.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_xzcf_gr_sub_coef.map.php"></a>
+<h1>Quantity_xzcf_gr_sub_coef.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_xzcf_gr_sub_coef_map<br>
+<b>Warning on line 11</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_xzcf_gr_sub_coef.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_xzcf_gr_sub_score.map.php"></a>
+<h1>Quantity_xzcf_gr_sub_score.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_xzcf_gr_sub_score_map<br>
+<b>Warning on line 19</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_xzcf_gr_sub_score.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Quantity_xzcf_gr_sub_score_month.map.php"></a>
+<h1>Quantity_xzcf_gr_sub_score_month.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Quantity_xzcf_gr_sub_score_month_map<br>
+<b>Warning on line 19</b> - File "D:\php5.4.32\db\php_sql\map\Quantity_xzcf_gr_sub_score_month.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Sql.class.php"></a>
+<h1>Sql.class.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 5</b> - no @package tag was used in a DocBlock for class SqlTool<br>
+<b>Warning on line 214</b> - no @package tag was used in a DocBlock for class SqlResult<br>
+<b>Warning on line 298</b> - File "D:\php5.4.32\db\php_sql\sql\Sql.class.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Table.class.php"></a>
+<h1>Table.class.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 15</b> - no @package tag was used in a DocBlock for class Table<br>
+<b>Warning on line 211</b> - File "D:\php5.4.32\db\php_sql\table\Table.class.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Table_gropu.interface.php"></a>
+<h1>Table_gropu.interface.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 11</b> - no @package tag was used in a DocBlock for file D:\php5.4.32\db\php_sql\formula\Table_gropu.interface.php<br>
+<b>Warning on line 12</b> - no @package tag was used in a DocBlock for class Table_group<br>
+<a name="Xfjdgl_getdataconfig.map.php"></a>
+<h1>Xfjdgl_getdataconfig.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Xfjdgl_getdataconfig_map<br>
+<b>Warning on line 10</b> - File "D:\php5.4.32\db\php_sql\map\Xfjdgl_getdataconfig.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="XZCF.php"></a>
+<h1>XZCF.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 15</b> - no @package tag was used in a DocBlock for class XZCF_formula<br>
+<b>Warning on line 110</b> - no @package tag was used in a DocBlock for class XZCF_group<br>
+<b>Warning on line 163</b> - File "D:\php5.4.32\db\php_sql\formula\XZCF.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="Zfzl_flws_gr.map.php"></a>
+<h1>Zfzl_flws_gr.map.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 2</b> - no @package tag was used in a DocBlock for class Zfzl_flws_gr_map<br>
+<b>Warning on line 31</b> - File "D:\php5.4.32\db\php_sql\map\Zfzl_flws_gr.map.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+	<div id="credit">
+		<hr />
+		Documentation generated on Tue, 23 Jan 2018 16:45:30 +0000 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.4</a>
+	</div>
+</body>
+</html>
