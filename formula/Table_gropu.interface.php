@@ -61,6 +61,19 @@ class Table_group
 
     }
 
+    protected final static function format_date($date_field_name, $date)
+    {
+        if (!$date) return '';
+
+        if (is_array($date))
+            return SqlTool::WHERE() . SqlTool::BETWEEN(
+                    $date_field_name, $date
+                );
+        else if (is_string($date))
+            return SqlTool::WHERE([$date_field_name => $date]);
+
+    }
+
     /**
      * @param array $tables
      * @param string $date_field_name
@@ -70,15 +83,8 @@ class Table_group
     {
 
         if ($date) {
-            $param = '';
-            if (is_array($date))
-                $param = SqlTool::WHERE() . SqlTool::BETWEEN(
-                        $date_field_name, $date
-                    );
-            else if (is_string($date))
-                $param = SqlTool::WHERE([$date_field_name => $date]);
-
-            foreach ($tables as $table){
+            $param = self::format_date($date_field_name, $date);
+            foreach ($tables as $table) {
                 $table->delete($param);
             }
         } else {

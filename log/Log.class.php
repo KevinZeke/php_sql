@@ -11,11 +11,11 @@ class Log
 {
     static $path;
 
-    static function write($filename, $content)
+    static function write($filename, $content, $mode = 'a')
     {
         self::dir(self::$path);
-        $file = fopen(self::$path . '/' . date("Y_m_d") . '_' . $filename . '.txt', 'a');
-        $pre = "\r\n>>> time: " . date("Y-m-d h:i:sa") . "\r\n";
+        $file = fopen(self::$path . '/' . date("Y_m_d") . '_' . $filename , $mode);
+        $pre = ";\r\n# >>> time: " . date("Y-m-d h:i:sa") . "\r\n";
         $after = "\r\n\r\n";
         fwrite($file, $pre . $content . $after);
         fclose($file);

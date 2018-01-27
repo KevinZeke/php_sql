@@ -71,7 +71,10 @@ class SqlTool
      */
     public function execute_dql($sql)
     {
-        self::$isDev and Log::write('sql', $sql);
+        self::$isDev and Log::write('_test.sql', $sql);
+
+        return;
+
         $res = $this->mysqli->query($sql) or die('sql语句出错 : ' . $this->mysqli->error);
         return $res;
     }
@@ -82,7 +85,10 @@ class SqlTool
      */
     public function execute_dml($sql)
     {
-        self::$isDev and Log::write('sql', $sql);
+        self::$isDev and Log::write('_test.sql', $sql);
+
+        return;
+
         $res = $this->mysqli->query($sql) or die('sql语句出错 : ' . $this->mysqli->error);
         if (!$res) {
             return -1;

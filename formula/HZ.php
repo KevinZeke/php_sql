@@ -156,7 +156,7 @@ class HZ_group extends Table_group
                 SqlTool::WHERE([
                     Quantity_sub_score_map::$year_month_show => $date,
                     Quantity_sub_score_map::$police_name => $police_name
-                ], false)
+                ], true)
             );
     }
 
@@ -203,7 +203,7 @@ class HZ_group extends Table_group
                 SqlTool::WHERE([
                     Quantity_sub_score_map::$year_month_show => $date,
                     Quantity_sub_score_map::$police_name => $police_name
-                ], false)
+                ], true)
             );
     }
 
@@ -240,7 +240,7 @@ class HZ_group extends Table_group
                 SqlTool::WHERE([
                     Quantity_sub_score_map::$year_month_show => $date,
                     Quantity_sub_score_map::$police_name => $police_name
-                ], false)
+                ], true)
             );
     }
 
@@ -278,7 +278,7 @@ class HZ_group extends Table_group
                 SqlTool::WHERE([
                     Quantity_sub_score_map::$year_month_show => $date,
                     Quantity_sub_score_map::$police_name => $police_name
-                ], false)
+                ], true)
             );
     }
 
@@ -333,12 +333,12 @@ class HZ_group extends Table_group
         return (new Table(Quantity_sub_score_map::$table_name, SqlTool::build_by_mysqli($mysqli)))
             ->union_insert(
                 [
-                    Jianshenyanshou_sub_score_map::$table_name
+                    Jianshenyanshou_gr_score_map::$table_name
                 ],
                 HZ_formula::$jsys_2_sub,
                 $param . SqlTool::GROUP([
-                    Jianshenyanshou_sub_score_map::$year_month_show,
-                    Jianshenyanshou_sub_score_map::$police_name
+                    Jianshenyanshou_gr_score_map::$year_month_show,
+                    Jianshenyanshou_gr_score_map::$police_name
                 ])
             );
     }
@@ -461,12 +461,14 @@ class HZ_group extends Table_group
 
         $sqlTool = SqlTool::build_by_mysqli($mysqli);
         self::hz_clear($sqlTool, $date);
-        self::insert_hzdc($mysqli, '');
+        self::insert_hzdc($mysqli,parent::format_date(
+            Quantity_hzdc_gr_sub_score_map::$year_month_show,
+            $date
+        ));
 
         $jsys = new Table(Jianshenyanshou_gr_score_map::$table_name, $sqlTool);
         $jcdw = new Table(Jiancha_and_jiangduo_gr_score_map::$table_name, $sqlTool);
         $xzcf = new Table(Quantity_xzcf_gr_sub_score_map::$table_name, $sqlTool);
-
 
         $res = $jsys->group_query(
             [
@@ -476,7 +478,8 @@ class HZ_group extends Table_group
             [
                 Jianshenyanshou_gr_score_map::$year_month_show,
                 Jianshenyanshou_gr_score_map::$police_name
-            ]
+            ],
+            parent::format_date(Jianshenyanshou_gr_score_map::$year_month_show,$date)
         );
 
         $res->each_row(function ($row) use ($mysqli) {
@@ -492,7 +495,8 @@ class HZ_group extends Table_group
             [
                 Quantity_xzcf_gr_sub_score_map::$year_month_show,
                 Quantity_xzcf_gr_sub_score_map::$police_name
-            ]
+            ],
+            parent::format_date(Quantity_xzcf_gr_sub_score_map::$year_month_show,$date)
         );
 
         $res->each_row(function ($row) use ($mysqli) {
@@ -507,7 +511,8 @@ class HZ_group extends Table_group
             [
                 Jiancha_and_jiangduo_gr_score_map::$year_month_show,
                 Jiancha_and_jiangduo_gr_score_map::$police_name
-            ]
+            ],
+            parent::format_date(Jiancha_and_jiangduo_gr_score_map::$year_month_show,$date)
         );
 
         $res->each_row(function ($row) use ($mysqli) {
