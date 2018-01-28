@@ -984,6 +984,45 @@ class JSYS_group extends Table_group
             );
     }
 
+    public static function jianshen_update_sh($db, $ba_table_param, $jsys_table_param)
+    {
+        $sqlTool = parent::sqlTool_build($db);
+
+        return (new Table(Jianshenyanshou_sub_score_map::$table_name, $sqlTool))
+            ->union_update(
+                [
+                    "(SELECT 
+                    ifnull(SUM(" . Quantity_xfsjshs_gr_sub_score_map::$sjshs_total_score . "),0) 
+                    AS res , police_name,year_month_show FROM " .
+                    Quantity_xfsjshs_gr_sub_score_map::$table_name
+                    . $ba_table_param . ') A'
+                ],
+                [
+                    Jianshenyanshou_sub_score_map::$sjshs_score => 'A.res'
+                ],
+                $jsys_table_param
+            );
+    }
+
+    public static function jianshen_update_sh_by_date($db, $date)
+    {
+        return self::jianshen_update_sh(
+            $db,
+            parent::format_date(
+                Quantity_xfsjshs_gr_sub_score_map::$year_month_show,
+                $date
+            ) .
+            SqlTool::GROUP([
+                Quantity_xfsjshs_gr_sub_score_map::$year_month_show,
+                Quantity_xfsjshs_gr_sub_score_map::$police_name
+            ]),
+            SqlTool::WHERE([
+                Jianshenyanshou_sub_score_map::$year_month_show => 'A.year_month_show',
+                Jianshenyanshou_sub_score_map::$police_name => 'A.police_name',
+            ])
+        );
+    }
+
     /**
      * 建审验收表更新验收分项（通过警员名，日期）
      * @param mysqli $mysqli
@@ -1018,6 +1057,45 @@ class JSYS_group extends Table_group
                     Jianshenyanshou_sub_score_map::$police_name => 'A.police_name'
                 ], true)
             );
+    }
+
+    public static function jianshen_update_ys($db, $ba_table_param, $jsys_table_param)
+    {
+        $sqlTool = parent::sqlTool_build($db);
+
+        return (new Table(Jianshenyanshou_sub_score_map::$table_name, $sqlTool))
+            ->union_update(
+                [
+                    "(SELECT 
+                    ifnull(SUM(" . Quantity_xfyss_gr_sub_score_map::$gcys_total_score . "),0) 
+                    AS res , police_name,year_month_show FROM " .
+                    Quantity_xfyss_gr_sub_score_map::$table_name
+                    . $ba_table_param . ') A'
+                ],
+                [
+                    Jianshenyanshou_sub_score_map::$xfyss_score => 'A.res'
+                ],
+                $jsys_table_param
+            );
+    }
+
+    public static function jianshen_update_ys_by_date($db, $date)
+    {
+        return self::jianshen_update_ys(
+            $db,
+            parent::format_date(
+                Quantity_xfyss_gr_sub_score_map::$year_month_show,
+                $date
+            ) .
+            SqlTool::GROUP([
+                Quantity_xfyss_gr_sub_score_map::$year_month_show,
+                Quantity_xfyss_gr_sub_score_map::$police_name
+            ]),
+            SqlTool::WHERE([
+                Jianshenyanshou_sub_score_map::$year_month_show => 'A.year_month_show',
+                Jianshenyanshou_sub_score_map::$police_name => 'A.police_name',
+            ])
+        );
     }
 
     /**
@@ -1056,6 +1134,45 @@ class JSYS_group extends Table_group
             );
     }
 
+    public static function jianshen_update_jg($db, $ba_table_param, $jsys_table_param)
+    {
+        $sqlTool = parent::sqlTool_build($db);
+
+        return (new Table(Jianshenyanshou_sub_score_map::$table_name, $sqlTool))
+            ->union_update(
+                [
+                    "(SELECT 
+                    ifnull(SUM(" . Quantity_xfjgys_gr_sub_score_map::$jgysbacc_total_score . "),0) 
+                    AS res , police_name,year_month_show FROM " .
+                    Quantity_xfjgys_gr_sub_score_map::$table_name
+                    . $ba_table_param . ') A'
+                ],
+                [
+                    Jianshenyanshou_sub_score_map::$jgysbas_score => 'A.res'
+                ],
+                $jsys_table_param
+            );
+    }
+
+    public static function jianshen_update_jg_by_date($db, $date)
+    {
+        return self::jianshen_update_jg(
+            $db,
+            parent::format_date(
+                Quantity_xfjgys_gr_sub_score_map::$year_month_show,
+                $date
+            ) .
+            SqlTool::GROUP([
+                Quantity_xfjgys_gr_sub_score_map::$year_month_show,
+                Quantity_xfjgys_gr_sub_score_map::$police_name
+            ]),
+            SqlTool::WHERE([
+                Jianshenyanshou_sub_score_map::$year_month_show => 'A.year_month_show',
+                Jianshenyanshou_sub_score_map::$police_name => 'A.police_name',
+            ])
+        );
+    }
+
     /**
      * 建审验收表更新备案分项（通过警员名，日期）
      * @param mysqli $mysqli
@@ -1090,6 +1207,45 @@ class JSYS_group extends Table_group
                     Jianshenyanshou_sub_score_map::$police_name => 'A.police_name'
                 ], true)
             );
+    }
+
+    public static function jianshen_update_ba($db, $ba_table_param, $jsys_table_param)
+    {
+        $sqlTool = parent::sqlTool_build($db);
+
+        return (new Table(Jianshenyanshou_sub_score_map::$table_name, $sqlTool))
+            ->union_update(
+                [
+                    "(SELECT 
+                    ifnull(SUM(" . Quantity_xfsjbas_gr_sub_score_map::$sjbabacc_total_score . "),0) 
+                    AS res , police_name,year_month_show FROM " .
+                    Quantity_xfsjbas_gr_sub_score_map::$table_name
+                    . $ba_table_param . ') A'
+                ],
+                [
+                    Jianshenyanshou_sub_score_map::$sjbas_score => 'A.res'
+                ],
+                $jsys_table_param
+            );
+    }
+
+    public static function jianshen_update_ba_by_date($db, $date)
+    {
+        return self::jianshen_update_ba(
+            $db,
+            parent::format_date(
+                Quantity_xfsjbas_gr_sub_score_map::$year_month_show,
+                $date
+            ) .
+            SqlTool::GROUP([
+                Quantity_xfsjbas_gr_sub_score_map::$year_month_show,
+                Quantity_xfsjbas_gr_sub_score_map::$police_name
+            ]),
+            SqlTool::WHERE([
+                Jianshenyanshou_sub_score_map::$year_month_show => 'A.year_month_show',
+                Jianshenyanshou_sub_score_map::$police_name => 'A.police_name',
+            ])
+        );
     }
 
     /**

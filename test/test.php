@@ -20,7 +20,7 @@ $id = 10086;
 $date = '2017-05-01';
 $date_arr = ['2017-05-01', '2017-08-09'];
 
-if (1) {
+if (false) {
 //    HZ_group::hz_clear($mysqli, $date_arr);
 
 //    HZ_group::insert_jsys($mysqli);
@@ -48,24 +48,32 @@ if (1) {
 //    HZ_group::insert_hzdc_by_date($mysqli, '%2017-05-01%');
 //    HZ_group::insert_hzdc_by_date($mysqli, ['2017-05-01', '2017-08-09']);
 
+//    HZ_group::update_xzcf_by_date($mysqli,$date_arr);
+//    HZ_group::update_xzcf_by_date($mysqli,$date);
+//    HZ_group::update_hzdc_by_date($mysqli,$date_arr);
+//    HZ_group::update_hzdc_by_date($mysqli,$date);
+//    HZ_group::update_jsys_by_date($mysqli,$date_arr);
+//    HZ_group::update_jsys_by_date($mysqli,$date);
+//    HZ_group::update_jdjc_by_date($mysqli,$date_arr);
+//    HZ_group::update_jdjc_by_date($mysqli,$date);
+
 }
 
-if (false) {
+if (1) {
 //    JDJC_group::jdjc_insert_jcdw($mysqli);
 //    JDJC_group::jdjc_insert_xfls($mysqli);
 //    JDJC_group::jdjc_insert_fxhz($mysqli);
 //    JDJC_group::jdjc_insert_dczg($mysqli);
 
-    JDJC_group::jdjc_insert_jcdw_item($mysqli, $name, $date);
-    JDJC_group::jdjc_insert_xfls_item($mysqli, $name, $date);
-    JDJC_group::jdjc_insert_fxhz_item($mysqli, $name, $date);
-    JDJC_group::jdjc_insert_dczg_item($mysqli, $name, $date);
+//    JDJC_group::jdjc_insert_jcdw_item($mysqli, $name, $date);
+//    JDJC_group::jdjc_insert_xfls_item($mysqli, $name, $date);
+//    JDJC_group::jdjc_insert_fxhz_item($mysqli, $name, $date);
+//    JDJC_group::jdjc_insert_dczg_item($mysqli, $name, $date);
 
-    JDJC_group::jdjc_insert_jcdw_item($mysqli, $name, $date_arr);
-    JDJC_group::jdjc_insert_xfls_item($mysqli, $name, $date_arr);
-    JDJC_group::jdjc_insert_fxhz_item($mysqli, $name, $date_arr);
-    JDJC_group::jdjc_insert_dczg_item($mysqli, $name, $date_arr);
-
+//    JDJC_group::jdjc_insert_jcdw_item($mysqli, $name, $date_arr);
+//    JDJC_group::jdjc_insert_xfls_item($mysqli, $name, $date_arr);
+//    JDJC_group::jdjc_insert_fxhz_item($mysqli, $name, $date_arr);
+//    JDJC_group::jdjc_insert_dczg_item($mysqli, $name, $date_arr);
 
 
 //    JDJC_group::jdjc_update_dczg_item($mysqli, $name, $date);
@@ -87,24 +95,34 @@ if (false) {
 //    JDJC_group::dczg_sub_update_date_in($mysqli, $date_arr);
 //    JDJC_group::xfls_sub_update_date_in($mysqli, $date_arr);
 //    JDJC_group::fxhz_sub_update_date_in($mysqli, $date_arr);
+
+    JDJC_group::update_dczg_by_date($mysqli,$date_arr);
+    JDJC_group::update_dczg_by_date($mysqli,$date);
+    JDJC_group::update_xfls_by_date($mysqli,$date_arr);
+    JDJC_group::update_xfls_by_date($mysqli,$date);
+    JDJC_group::update_fxhz_by_date($mysqli,$date_arr);
+    JDJC_group::update_fxhz_by_date($mysqli,$date);
+    JDJC_group::update_jcdw_by_date($mysqli,$date_arr);
+    JDJC_group::update_jcdw_by_date($mysqli,$date);
+
 }
 
 
-if (true) {
+if (false) {
 //    JSYS_group::jianshen_insert_ba($mysqli,'');
 //    JSYS_group::jianshen_insert_ys($mysqli,'');
 //    JSYS_group::jianshen_insert_jg($mysqli,'');
 //    JSYS_group::jianshen_insert_sh($mysqli,'');
 
-    JSYS_group::jianshen_insert_jg_item($mysqli,$name,$date);
-    JSYS_group::jianshen_insert_ys_item($mysqli,$name,$date);
-    JSYS_group::jianshen_insert_ba_item($mysqli,$name,$date);
-    JSYS_group::jianshen_insert_sh_item($mysqli,$name,$date);
-
-    JSYS_group::jianshen_insert_jg_item($mysqli,$name,$date_arr);
-    JSYS_group::jianshen_insert_ys_item($mysqli,$name,$date_arr);
-    JSYS_group::jianshen_insert_ba_item($mysqli,$name,$date_arr);
-    JSYS_group::jianshen_insert_sh_item($mysqli,$name,$date_arr);
+//    JSYS_group::jianshen_insert_jg_item($mysqli,$name,$date);
+//    JSYS_group::jianshen_insert_ys_item($mysqli,$name,$date);
+//    JSYS_group::jianshen_insert_ba_item($mysqli,$name,$date);
+//    JSYS_group::jianshen_insert_sh_item($mysqli,$name,$date);
+//
+//    JSYS_group::jianshen_insert_jg_item($mysqli,$name,$date_arr);
+//    JSYS_group::jianshen_insert_ys_item($mysqli,$name,$date_arr);
+//    JSYS_group::jianshen_insert_ba_item($mysqli,$name,$date_arr);
+//    JSYS_group::jianshen_insert_sh_item($mysqli,$name,$date_arr);
 
 //    JSYS_group::ys_sub_update($mysqli,' ');
 //    JSYS_group::jg_sub_update($mysqli,' ');
@@ -120,6 +138,17 @@ if (true) {
 //    JSYS_group::sh_sub_update_date_in($mysqli,$date_arr);
 //    JSYS_group::ys_sub_update_date_in($mysqli,$date_arr);
 //    JSYS_group::ba_sub_update_date_in($mysqli,$date_arr);
+
+//    JSYS_group::jianshen_update_sh_by_date($mysqli, $date_arr);
+//    JSYS_group::jianshen_update_sh_by_date($mysqli, $date);
+//    JSYS_group::jianshen_update_ba_by_date($mysqli, $date_arr);
+//    JSYS_group::jianshen_update_ba_by_date($mysqli, $date);
+//    JSYS_group::jianshen_update_jg_by_date($mysqli, $date_arr);
+//    JSYS_group::jianshen_update_jg_by_date($mysqli, $date);
+//    JSYS_group::jianshen_update_ys_by_date($mysqli, $date_arr);
+//    JSYS_group::jianshen_update_ys_by_date($mysqli, $date);
+
+
 
 }
 

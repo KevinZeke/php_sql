@@ -947,6 +947,166 @@ class JDJC_group extends Table_group
             );
     }
 
+
+    public static function update_dczg($db, $dczg_table_param, $jdjc_table_param)
+    {
+        $sqlTool = parent::sqlTool_build($db);
+
+        return (new Table(Jiancha_and_jiangduo_gr_nbr_map::$table_name, $sqlTool))
+            ->union_update(
+                [
+                    "(SELECT 
+                    ifnull(SUM(" . Quantity_dczghzyhwf_gr_score_map::$dczghzyhwf_score . "),0) 
+                    AS res , police_name,year_month_show FROM " .
+                    Quantity_dczghzyhwf_gr_score_map::$table_name
+                    . $dczg_table_param . ') A'
+                ],
+                [
+                    Jiancha_and_jiangduo_gr_nbr_map::$DCZGHZYHS_DF => 'A.res'
+                ],
+                $jdjc_table_param
+            );
+    }
+
+    public static function update_dczg_by_date($db, $date)
+    {
+        return self::update_dczg(
+            $db,
+            parent::format_date(
+                Quantity_dczghzyhwf_gr_score_map::$year_month_show,
+                $date
+            ) .
+            SqlTool::GROUP([
+                Quantity_dczghzyhwf_gr_score_map::$year_month_show,
+                Quantity_dczghzyhwf_gr_score_map::$police_name
+            ]),
+            SqlTool::WHERE([
+                Jiancha_and_jiangduo_gr_nbr_map::$year_month_show => 'A.year_month_show',
+                Jiancha_and_jiangduo_gr_nbr_map::$police_name => 'A.police_name',
+            ])
+        );
+    }
+
+    public static function update_xfls($db, $xfls_table_param, $jdjc_table_param)
+    {
+        $sqlTool = parent::sqlTool_build($db);
+
+        return (new Table(Jiancha_and_jiangduo_gr_nbr_map::$table_name, $sqlTool))
+            ->union_update(
+                [
+                    "(SELECT 
+                    ifnull(SUM(" . Quantity_xflscf_gr_score_map::$xflscf_score . "),0) 
+                    AS res , police_name,year_month_show FROM " .
+                    Quantity_xflscf_gr_score_map::$table_name
+                    . $xfls_table_param . ') A'
+                ],
+                [
+                    Jiancha_and_jiangduo_gr_nbr_map::$XFLSCFJDSS_DF => 'A.res'
+                ],
+                $jdjc_table_param
+            );
+    }
+
+    public static function update_xfls_by_date($db, $date)
+    {
+        return self::update_xfls(
+            $db,
+            parent::format_date(
+                Quantity_xflscf_gr_score_map::$year_month_show,
+                $date
+            ) .
+            SqlTool::GROUP([
+                Quantity_xflscf_gr_score_map::$year_month_show,
+                Quantity_xflscf_gr_score_map::$police_name
+            ]),
+            SqlTool::WHERE([
+                Jiancha_and_jiangduo_gr_nbr_map::$year_month_show => 'A.year_month_show',
+                Jiancha_and_jiangduo_gr_nbr_map::$police_name => 'A.police_name',
+            ])
+        );
+    }
+
+    public static function update_fxhz($db, $fxhz_table_param, $jdjc_table_param)
+    {
+        $sqlTool = parent::sqlTool_build($db);
+
+        return (new Table(Jiancha_and_jiangduo_gr_nbr_map::$table_name, $sqlTool))
+            ->union_update(
+                [
+                    "(SELECT 
+                    ifnull(SUM(" . Quantity_fxhzyh_gr_score_map::$fxhzyh_score . "),0) 
+                    
+                    AS res , police_name,year_month_show FROM " .
+                    Quantity_fxhzyh_gr_score_map::$table_name
+                    . $fxhz_table_param . ') A'
+                ],
+                [
+                    Jiancha_and_jiangduo_gr_nbr_map::$FXHZYHWFXWS_DF => 'A.res'
+                ],
+                $jdjc_table_param
+            );
+    }
+
+    public static function update_fxhz_by_date($db, $date)
+    {
+        return self::update_fxhz(
+            $db,
+            parent::format_date(
+                Quantity_fxhzyh_gr_score_map::$year_month_show,
+                $date
+            ) .
+            SqlTool::GROUP([
+                Quantity_fxhzyh_gr_score_map::$year_month_show,
+                Quantity_fxhzyh_gr_score_map::$police_name
+            ]),
+            SqlTool::WHERE([
+                Jiancha_and_jiangduo_gr_nbr_map::$year_month_show => 'A.year_month_show',
+                Jiancha_and_jiangduo_gr_nbr_map::$police_name => 'A.police_name',
+            ])
+        );
+    }
+
+    public static function update_jcdw($db, $jcdw_table_param, $jdjc_table_param)
+    {
+        $sqlTool = parent::sqlTool_build($db);
+
+        return (new Table(Jiancha_and_jiangduo_gr_nbr_map::$table_name, $sqlTool))
+            ->union_update(
+                [
+                    "(SELECT 
+                    ifnull(SUM(" . Quantity_jcdw_gr_score_map::$jcdw_tol_score . "),0) 
+                    
+                    AS res , police_name,year_month_show FROM " .
+                    Quantity_jcdw_gr_score_map::$table_name
+                    . $jcdw_table_param . ') A'
+                ],
+                [
+                    Jiancha_and_jiangduo_gr_nbr_map::$JCDWS_DF => 'A.res'
+                ],
+                $jdjc_table_param
+            );
+    }
+
+    public static function update_jcdw_by_date($db, $date)
+    {
+        return self::update_jcdw(
+            $db,
+            parent::format_date(
+                Quantity_jcdw_gr_score_map::$year_month_show,
+                $date
+            ) .
+            SqlTool::GROUP([
+                Quantity_jcdw_gr_score_map::$year_month_show,
+                Quantity_jcdw_gr_score_map::$police_name
+            ]),
+            SqlTool::WHERE([
+                Jiancha_and_jiangduo_gr_nbr_map::$year_month_show => 'A.year_month_show',
+                Jiancha_and_jiangduo_gr_nbr_map::$police_name => 'A.police_name',
+            ])
+        );
+    }
+
+
     /**
      * @param mysqli|SqlTool $db
      * @param null|string|array $date
@@ -971,8 +1131,7 @@ class JDJC_group extends Table_group
      * @param mysqli $mysqli
      * @param array|null|string $date
      */
-    public
-    static function group_insert($mysqli, $date = null)
+    public static function group_insert($mysqli, $date = null)
     {
 
         $sqlTool = SqlTool::build_by_mysqli($mysqli);
