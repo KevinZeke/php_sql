@@ -464,7 +464,7 @@ class JDJC_group extends Table_group
             ->union_update(
                 [
                     Quantity_xflscf_gr_basic_coef_map::$table_name,
-                    Quantity_xflscf_gr_nbr_map::$table_name,
+                    Quantity_xflscf_gr_nbr_map::$table_name
                 ],
                 JDJC_formula::$xfls_basic_2_sub,
                 $param
@@ -485,6 +485,7 @@ class JDJC_group extends Table_group
                 [
                     Quantity_jcdw_gr_basic_coef_map::$table_name,
                     Quantity_jcdw_gr_nbr_map::$table_name,
+                    Quantity_jcdw_gr_sub_coef_map::$table_name
                 ],
                 JDJC_formula::$jcdw_basic_2_sub,
                 $param

@@ -340,7 +340,7 @@ JSYS_formula::$ba_basic_2_sub = [
         Quantity_xfsjbas_gr_sub_coef_map::$sjbacchg_zxqz
 
     ]),
-    Quantity_xfsjshs_gr_sub_score_map::$sjshs_total_score => Formula::plus([
+    Quantity_xfsjbas_gr_sub_score_map::$sjbabacc_total_score => Formula::plus([
         Formula::mul([
 
             Formula::plus([
@@ -432,7 +432,7 @@ JSYS_formula::$ys_basic_2_sub = [
         Quantity_xfyss_gr_sub_coef_map::$gcyshg_zxqz
 
     ]),
-    Quantity_xfsjshs_gr_sub_score_map::$sjshs_total_score => Formula::plus([
+    Quantity_xfyss_gr_sub_score_map::$gcys_total_score => Formula::plus([
         Formula::mul([
 
             Formula::plus([
