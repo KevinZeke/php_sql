@@ -979,8 +979,8 @@ class JSYS_group extends Table_group
                     Jianshenyanshou_sub_score_map::$sjshs_score => 'A.res'
                 ],
                 SqlTool::WHERE([
-                    Jianshenyanshou_sub_score_map::$year_month_show => 'A.year_month_show',
-                    Jianshenyanshou_sub_score_map::$police_name => 'A.police_name'
+                    Jianshenyanshou_sub_score_map::$year_month_show => $date,
+                    Jianshenyanshou_sub_score_map::$police_name => $police_name
                 ], true)
             );
     }
@@ -1020,7 +1020,7 @@ class JSYS_group extends Table_group
             SqlTool::WHERE([
                 Jianshenyanshou_sub_score_map::$year_month_show => 'A.year_month_show',
                 Jianshenyanshou_sub_score_map::$police_name => 'A.police_name',
-            ])
+            ],false)
         );
     }
 
@@ -1054,9 +1054,9 @@ class JSYS_group extends Table_group
                     Jianshenyanshou_sub_score_map::$xfyss_score => 'A.res'
                 ],
                 SqlTool::WHERE([
-                    Jianshenyanshou_sub_score_map::$year_month_show => 'A.year_month_show',
-                    Jianshenyanshou_sub_score_map::$police_name => 'A.police_name'
-                ], true)
+                    Jianshenyanshou_sub_score_map::$year_month_show => $date,
+                    Jianshenyanshou_sub_score_map::$police_name => $police_name
+                ])
             );
     }
 
@@ -1095,7 +1095,7 @@ class JSYS_group extends Table_group
             SqlTool::WHERE([
                 Jianshenyanshou_sub_score_map::$year_month_show => 'A.year_month_show',
                 Jianshenyanshou_sub_score_map::$police_name => 'A.police_name',
-            ])
+            ],false)
         );
     }
 
@@ -1129,9 +1129,9 @@ class JSYS_group extends Table_group
                     Jianshenyanshou_sub_score_map::$jgysbas_score => 'A.res'
                 ],
                 SqlTool::WHERE([
-                    Jianshenyanshou_sub_score_map::$year_month_show => 'A.year_month_show',
-                    Jianshenyanshou_sub_score_map::$police_name => 'A.police_name'
-                ], true)
+                    Jianshenyanshou_sub_score_map::$year_month_show => $date,
+                    Jianshenyanshou_sub_score_map::$police_name => $police_name
+                ])
             );
     }
 
@@ -1170,7 +1170,7 @@ class JSYS_group extends Table_group
             SqlTool::WHERE([
                 Jianshenyanshou_sub_score_map::$year_month_show => 'A.year_month_show',
                 Jianshenyanshou_sub_score_map::$police_name => 'A.police_name',
-            ])
+            ],false)
         );
     }
 
@@ -1204,9 +1204,9 @@ class JSYS_group extends Table_group
                     Jianshenyanshou_sub_score_map::$sjbas_score => 'A.res'
                 ],
                 SqlTool::WHERE([
-                    Jianshenyanshou_sub_score_map::$year_month_show => 'A.year_month_show',
-                    Jianshenyanshou_sub_score_map::$police_name => 'A.police_name'
-                ], true)
+                    Jianshenyanshou_sub_score_map::$year_month_show => $date,
+                    Jianshenyanshou_sub_score_map::$police_name => $police_name
+                ])
             );
     }
 
@@ -1245,7 +1245,7 @@ class JSYS_group extends Table_group
             SqlTool::WHERE([
                 Jianshenyanshou_sub_score_map::$year_month_show => 'A.year_month_show',
                 Jianshenyanshou_sub_score_map::$police_name => 'A.police_name',
-            ])
+            ],false)
         );
     }
 
@@ -1276,6 +1276,11 @@ class JSYS_group extends Table_group
     static function group_insert($mysqli, $date = null)
     {
         $sqlTool = SqlTool::build_by_mysqli($mysqli);
+
+
+
+        $sqlTool->do_not_gone_away();
+
         self::jsys_clear($sqlTool, $date);
 
         self::jianshen_insert_sh(
@@ -1310,7 +1315,6 @@ class JSYS_group extends Table_group
             )
         );
 
-
         $hz_table = (new Table(Jianshenyanshou_sub_score_map::$table_name, $sqlTool));
         $res = $hz_table
             ->group_query(
@@ -1338,28 +1342,29 @@ class JSYS_group extends Table_group
 
         echo 'JSYS : insert finished' . "\n";
 
-        $res->each_row(function ($row) use ($hz_table) {
-            $hz_table->multi_insert(
-                [
-                    Jianshenyanshou_sub_score_map::$sjshs_score,
-                    Jianshenyanshou_sub_score_map::$sjbas_score,
-                    Jianshenyanshou_sub_score_map::$jgysbas_score,
-                    Jianshenyanshou_sub_score_map::$xfyss_score,
-                    Jianshenyanshou_sub_score_map::$police_name,
-                    Jianshenyanshou_sub_score_map::$year_month_show,
-                    Jianshenyanshou_sub_score_map::$dd_name
-                ],
-                [
-                    $row['sh'],
-                    $row['ba'],
-                    $row['jg'],
-                    $row['ys'],
-                    SqlTool::QUOTE($row['n']),
-                    SqlTool::QUOTE($row['y']),
-                    SqlTool::QUOTE($row['d'])
-                ]
-            );
+        $sql = '';
+        $res->each_row(function ($row) use (&$sql) {
+            $sql .= ',(' . $row['sh'] . ',' .
+                $row['ba'] . ',' .
+                $row['jg'] . ',' .
+                $row['ys'] . ',' .
+                SqlTool::QUOTE($row['n']) . ',' .
+                SqlTool::QUOTE($row['y']) . ',' .
+                SqlTool::QUOTE($row['d']) . ')';
         });
+
+        $hz_table->multi_insert(
+            [
+                Jianshenyanshou_sub_score_map::$sjshs_score,
+                Jianshenyanshou_sub_score_map::$sjbas_score,
+                Jianshenyanshou_sub_score_map::$jgysbas_score,
+                Jianshenyanshou_sub_score_map::$xfyss_score,
+                Jianshenyanshou_sub_score_map::$police_name,
+                Jianshenyanshou_sub_score_map::$year_month_show,
+                Jianshenyanshou_sub_score_map::$dd_name
+            ],
+            substr($sql, 1)
+        );
 
 
         return;

@@ -30,7 +30,7 @@ $xzcf_table = new Table(Quantity_xzcf_gr_nbr_map::$table_name, $sqlTool);
  * 案列：查询操作
  */
 
-if (1) {
+if (false) {
     $resList = $xzcf_table->query(
     //需要获得的列名，数组
         Quantity_xzcf_gr_nbr_map::all(),

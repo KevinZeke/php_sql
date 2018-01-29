@@ -720,9 +720,9 @@ class JDJC_group extends Table_group
                     Jiancha_and_jiangduo_gr_nbr_map::$JCDWS_DF => 'A.res'
                 ],
                 SqlTool::WHERE([
-                    Jiancha_and_jiangduo_gr_nbr_map::$year_month_show => 'A.year_month_show',
-                    Jiancha_and_jiangduo_gr_nbr_map::$police_name => 'A.police_name'
-                ], true)
+                    Jiancha_and_jiangduo_gr_nbr_map::$year_month_show => $date,
+                    Jiancha_and_jiangduo_gr_nbr_map::$police_name => $police_name
+                ])
             );
     }
 
@@ -987,7 +987,7 @@ class JDJC_group extends Table_group
             SqlTool::WHERE([
                 Jiancha_and_jiangduo_gr_nbr_map::$year_month_show => 'A.year_month_show',
                 Jiancha_and_jiangduo_gr_nbr_map::$police_name => 'A.police_name',
-            ])
+            ], false)
         );
     }
 
@@ -1026,7 +1026,7 @@ class JDJC_group extends Table_group
             SqlTool::WHERE([
                 Jiancha_and_jiangduo_gr_nbr_map::$year_month_show => 'A.year_month_show',
                 Jiancha_and_jiangduo_gr_nbr_map::$police_name => 'A.police_name',
-            ])
+            ], false)
         );
     }
 
@@ -1066,7 +1066,7 @@ class JDJC_group extends Table_group
             SqlTool::WHERE([
                 Jiancha_and_jiangduo_gr_nbr_map::$year_month_show => 'A.year_month_show',
                 Jiancha_and_jiangduo_gr_nbr_map::$police_name => 'A.police_name',
-            ])
+            ], false)
         );
     }
 
@@ -1106,7 +1106,7 @@ class JDJC_group extends Table_group
             SqlTool::WHERE([
                 Jiancha_and_jiangduo_gr_nbr_map::$year_month_show => 'A.year_month_show',
                 Jiancha_and_jiangduo_gr_nbr_map::$police_name => 'A.police_name',
-            ])
+            ], false)
         );
     }
 
@@ -1139,6 +1139,8 @@ class JDJC_group extends Table_group
     {
 
         $sqlTool = SqlTool::build_by_mysqli($mysqli);
+
+        $sqlTool->do_not_gone_away();
 
         self::jdjc_clear($sqlTool, $date);
 
@@ -1201,28 +1203,30 @@ class JDJC_group extends Table_group
 
         echo 'JDJC : insert finished' . "\n";
 
-        $res->each_row(function ($row) use ($hz_table) {
-            $hz_table->multi_insert(
-                [
-                    Jiancha_and_jiangduo_gr_nbr_map::$XFLSCFJDSS_DF,
-                    Jiancha_and_jiangduo_gr_nbr_map::$DCZGHZYHS_DF,
-                    Jiancha_and_jiangduo_gr_nbr_map::$FXHZYHWFXWS_DF,
-                    Jiancha_and_jiangduo_gr_nbr_map::$JCDWS_DF,
-                    Jiancha_and_jiangduo_gr_nbr_map::$police_name,
-                    Jiancha_and_jiangduo_gr_nbr_map::$year_month_show,
-                    Jiancha_and_jiangduo_gr_nbr_map::$dd_name
-                ],
-                [
-                    $row['xfls'],
-                    $row['dczg'],
-                    $row['fxhz'],
-                    $row['jcdw'],
-                    SqlTool::QUOTE($row['n']),
-                    SqlTool::QUOTE($row['y']),
-                    SqlTool::QUOTE($row['d'])
-                ]
-            );
+        $sql = '';
+
+        $res->each_row(function ($row) use (&$sql) {
+            $sql .= ',(' . $row['xfls'] . ',' .
+                $row['dczg'] . ',' .
+                $row['fxhz'] . ',' .
+                $row['jcdw'] . ',' .
+                SqlTool::QUOTE($row['n']) . ',' .
+                SqlTool::QUOTE($row['y']) . ',' .
+                SqlTool::QUOTE($row['d']) . ')';
         });
+
+        $hz_table->multi_insert(
+            [
+                Jiancha_and_jiangduo_gr_nbr_map::$XFLSCFJDSS_DF,
+                Jiancha_and_jiangduo_gr_nbr_map::$DCZGHZYHS_DF,
+                Jiancha_and_jiangduo_gr_nbr_map::$FXHZYHWFXWS_DF,
+                Jiancha_and_jiangduo_gr_nbr_map::$JCDWS_DF,
+                Jiancha_and_jiangduo_gr_nbr_map::$police_name,
+                Jiancha_and_jiangduo_gr_nbr_map::$year_month_show,
+                Jiancha_and_jiangduo_gr_nbr_map::$dd_name
+            ],
+            substr($sql, 1)
+        );
 
 
         return;

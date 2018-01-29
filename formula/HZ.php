@@ -207,7 +207,7 @@ class HZ_group extends Table_group
             SqlTool::WHERE([
                 Quantity_sub_score_map::$year_month_show => 'A.year_month_show',
                 Quantity_sub_score_map::$police_name => 'A.police_name',
-            ])
+            ],false)
         );
     }
 
@@ -226,7 +226,7 @@ class HZ_group extends Table_group
             SqlTool::WHERE([
                 Quantity_sub_score_map::$year_month_show => 'A.year_month_show',
                 Quantity_sub_score_map::$police_name => 'A.police_name',
-            ])
+            ],false)
         );
     }
 
@@ -245,7 +245,7 @@ class HZ_group extends Table_group
             SqlTool::WHERE([
                 Quantity_sub_score_map::$year_month_show => 'A.year_month_show',
                 Quantity_sub_score_map::$police_name => 'A.police_name',
-            ])
+            ],false)
         );
     }
 
@@ -264,7 +264,7 @@ class HZ_group extends Table_group
             SqlTool::WHERE([
                 Quantity_sub_score_map::$year_month_show => 'A.year_month_show',
                 Quantity_sub_score_map::$police_name => 'A.police_name',
-            ])
+            ],false)
         );
     }
 
@@ -489,7 +489,7 @@ class HZ_group extends Table_group
 
     static function insert_xzcf_by_date($mysqli, $date)
     {
-        return self::insert_hzdc(
+        return self::insert_xzcf(
             $mysqli,
             parent::format_date(Quantity_xzcf_gr_sub_score_map::$year_month_show, $date)
         );
@@ -517,7 +517,7 @@ class HZ_group extends Table_group
 
     static function insert_jsys_by_date($mysqli, $date)
     {
-        return self::insert_hzdc(
+        return self::insert_jsys(
             $mysqli,
             parent::format_date(Jianshenyanshou_gr_score_map::$year_month_show, $date)
         );
@@ -546,7 +546,7 @@ class HZ_group extends Table_group
 
     static function insert_jdjc_by_date($mysqli, $date)
     {
-        return self::insert_hzdc(
+        return self::insert_jdjc(
             $mysqli,
             parent::format_date(Jiancha_and_jiangduo_gr_score_map::$year_month_show, $date)
         );
@@ -663,6 +663,9 @@ class HZ_group extends Table_group
     {
 
         $sqlTool = SqlTool::build_by_mysqli($mysqli);
+
+        $sqlTool->do_not_gone_away();
+
         self::hz_clear($sqlTool, $date);
 
         self::insert_hzdc(
@@ -724,31 +727,32 @@ class HZ_group extends Table_group
 
         self::hz_clear($sqlTool, $date);
 
-        echo 'HZ : insert finished'."\n";
+        echo 'HZ : insert finished' . "\n";
 
-        $res->each_row(function ($row) use ($hz_table) {
-            $hz_table->multi_insert(
-                [
-                    Quantity_sub_score_map::$jdjc_zdf,
-                    Quantity_sub_score_map::$jsys_zdf,
-                    Quantity_sub_score_map::$hzdc_zdf,
-                    Quantity_sub_score_map::$xzcf_zdf,
-                    Quantity_sub_score_map::$police_name,
-                    Quantity_sub_score_map::$year_month_show,
-                    Quantity_sub_score_map::$dd_name,
-                ],
-                [
-                    $row['jdjc'],
-                    $row['jsys'],
-                    $row['hzdc'],
-                    $row['xzcf'],
-                    SqlTool::QUOTE($row['n']),
-                    SqlTool::QUOTE($row['y']),
-                    SqlTool::QUOTE($row['d'])
-                ]
-            );
+        $sql = '';
+
+        $res->each_row(function ($row) use (&$sql) {
+            $sql .= ',(' . $row['jdjc'] . ',' .
+                $row['jsys'] . ',' .
+                $row['hzdc'] . ',' .
+                $row['xzcf'] . ',' .
+                SqlTool::QUOTE($row['n']) . ',' .
+                SqlTool::QUOTE($row['y']) . ',' .
+                SqlTool::QUOTE($row['d']) . ')';
         });
 
+        $hz_table->multi_insert(
+            [
+                Quantity_sub_score_map::$jdjc_zdf,
+                Quantity_sub_score_map::$jsys_zdf,
+                Quantity_sub_score_map::$hzdc_zdf,
+                Quantity_sub_score_map::$xzcf_zdf,
+                Quantity_sub_score_map::$police_name,
+                Quantity_sub_score_map::$year_month_show,
+                Quantity_sub_score_map::$dd_name,
+            ],
+            substr($sql, 1)
+        );
 
         return;
 

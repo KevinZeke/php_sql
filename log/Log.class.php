@@ -14,7 +14,7 @@ class Log
     static function write($filename, $content, $mode = 'a')
     {
         self::dir(self::$path);
-        $file = fopen(self::$path . '/' . date("Y_m_d") . '_' . $filename , $mode);
+        $file = fopen(self::$path . '/' . date("Y_m_d") . '_' . $filename, $mode);
         $pre = ";\r\n# >>> time: " . date("Y-m-d h:i:sa") . "\r\n";
         $after = "\r\n\r\n";
         fwrite($file, $pre . $content . $after);

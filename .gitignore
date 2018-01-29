@@ -4,3 +4,7 @@ log/loginfo
 .idea
 
 *.sh
+
+*.sql
+
+*.txt

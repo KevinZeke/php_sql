@@ -7,7 +7,7 @@
  */
 
 require_once __DIR__ . '/../sql/Sql.class.php';
-
+require_once __DIR__ . '/../table/Table.class.php';
 
 $db = "huaianzhd_db";
 
@@ -21,7 +21,8 @@ $res = $sqlTool->execute_dql("select table_name from information_schema.TABLES w
 
 if (!!$res) {
     while (!!$row = $res->fetch_array()) {
-        createClass($row['table_name'], $db, $sqlTool);
+//        createClass($row['table_name'], $db, $sqlTool);
+        (new Table($row['table_name'], $sqlTool))->truncate();
     }
 }
 

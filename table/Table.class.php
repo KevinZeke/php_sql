@@ -97,17 +97,21 @@ class Table
     public function multi_insert($field, $value)
     {
         $sql = "INSERT INTO " . $this->tableName . "( " . implode(',', $field) . " ) VALUES ";
-        if (!is_array($value) || count($value) == 0) return -1;
-        if (is_array($value[0])) {
-
-            $valarr = array();
-            foreach ($value as $val) {
-                array_push($valarr, '( \'' . implode('\' , \'', $val) . '\' )');
-            }
-            $sql .= implode(',', $valarr);
-
+//        if (!is_array($value) || count($value) == 0) return -1;
+        if (is_string($value)) {
+            $sql .= $value;
         } else {
-            $sql .= '(' . implode(',', $value) . ')';
+            if (is_array($value[0])) {
+
+                $valarr = array();
+                foreach ($value as $val) {
+                    array_push($valarr, '( \'' . implode('\' , \'', $val) . '\' )');
+                }
+                $sql .= implode(',', $valarr);
+
+            } else {
+                $sql .= '(' . implode(',', $value) . ')';
+            }
         }
         return $this->sqlTool->execute_dml($sql);
     }
@@ -216,7 +220,7 @@ class Table
         }
         return $this->query(
             $get_field,
-            SqlTool::WHERE($where) .$other_param. SqlTool::GROUP($group)
+            SqlTool::WHERE($where) . $other_param . SqlTool::GROUP($group)
         );
 
     }

@@ -159,7 +159,7 @@ if (false) {
 
 //HZ_group::group_insert($mysqli, ['2017-04-01', '2017-04-30']);
 
-JDJC_group::group_insert($mysqli, $date);
+//JDJC_group::group_insert($mysqli, $date);
 
 //JDJC_group::group_insert($mysqli, $date_arr);
 

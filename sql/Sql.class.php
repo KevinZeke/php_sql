@@ -5,6 +5,9 @@ require_once __DIR__ . '/../log/Log.class.php';
 class SqlTool
 {
     static $isDev = false;
+    /**
+     * @var mysqli|null
+     */
     private $mysqli = null;
     private $host;
     private $user;
@@ -102,6 +105,23 @@ class SqlTool
         }
     }
 
+    /**
+     * my dear sql, u can not leave me
+     */
+    public function do_not_gone_away()
+    {
+        $this->execute_dml("set global max_allowed_packet=268435456;");
+        $this->execute_dml("set global wait_timeout = 2880000;");
+        $this->execute_dml("set global interactive_timeout = 2880000;");
+
+//        return $this->mysqli->multi_query(
+//            'set global max_allowed_packet=268435456;
+//            set global wait_timeout = 2880000;
+//            set global interactive_timeout = 2880000;'
+//        );
+
+    }
+
     public function close()
     {
         if ($this->mysqli != null) {
@@ -176,7 +196,8 @@ class SqlTool
         return ' AND ' . $field . ' BETWEEN \'' . $arr[0] . '\' AND \'' . $arr[1] . '\'';
     }
 
-    static function QUOTE($value){
+    static function QUOTE($value)
+    {
         return "'$value'";
     }
 
