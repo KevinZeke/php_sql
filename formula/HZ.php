@@ -5,6 +5,7 @@
  * Time: 下午6:43
  */
 
+require_once __DIR__ . '/../table/Table.class.php';
 require_once __DIR__ . '/Formula.class.php';
 require_once __DIR__ . '/Table_gropu.interface.php';
 require_once __DIR__ . '/../sql/Sql.class.php';
@@ -648,7 +649,7 @@ class HZ_group extends Table_group
 
         parent::group_clear(
             $tables,
-            Jiancha_and_jiangduo_gr_nbr_map::$year_month_show,
+            'year_month_show',
             $date
         );
     }
@@ -663,6 +664,7 @@ class HZ_group extends Table_group
 
         $sqlTool = SqlTool::build_by_mysqli($mysqli);
         self::hz_clear($sqlTool, $date);
+
         self::insert_hzdc(
             $mysqli,
             parent::format_date(
@@ -671,58 +673,147 @@ class HZ_group extends Table_group
             )
         );
 
-        $jsys = new Table(Jianshenyanshou_gr_score_map::$table_name, $sqlTool);
-        $jcdw = new Table(Jiancha_and_jiangduo_gr_score_map::$table_name, $sqlTool);
-        $xzcf = new Table(Quantity_xzcf_gr_sub_score_map::$table_name, $sqlTool);
 
-        $res = $jsys->group_query(
-            [
-                Jianshenyanshou_gr_score_map::$police_name => 'n',
-                Jianshenyanshou_gr_score_map::$year_month_show => 'd',
-            ],
-            [
-                Jianshenyanshou_gr_score_map::$year_month_show,
-                Jianshenyanshou_gr_score_map::$police_name
-            ],
-            parent::format_date(Jianshenyanshou_gr_score_map::$year_month_show, $date)
-        );
-
-        $res->each_row(function ($row) use ($mysqli) {
-            self::update_jsys_item($mysqli, $row['n'], $row['d'], true);
-        });
-
-
-        $res = $xzcf->group_query(
-            [
-                Quantity_xzcf_gr_sub_score_map::$police_name => 'n',
-                Quantity_xzcf_gr_sub_score_map::$year_month_show => 'd',
-            ],
-            [
+        self::insert_xzcf(
+            $mysqli,
+            parent::format_date(
                 Quantity_xzcf_gr_sub_score_map::$year_month_show,
-                Quantity_xzcf_gr_sub_score_map::$police_name
-            ],
-            parent::format_date(Quantity_xzcf_gr_sub_score_map::$year_month_show, $date)
+                $date
+            )
         );
 
-        $res->each_row(function ($row) use ($mysqli) {
-            self::update_xzcf_item($mysqli, $row['n'], $row['d'], true);
-        });
+        self::insert_jsys(
+            $mysqli,
+            parent::format_date(
+                Jianshenyanshou_gr_score_map::$year_month_show,
+                $date
+            )
+        );
 
-        $res = $jcdw->group_query(
-            [
-                Jiancha_and_jiangduo_gr_score_map::$police_name => 'n',
-                Jiancha_and_jiangduo_gr_score_map::$year_month_show => 'd',
-            ],
-            [
+
+        self::insert_jdjc(
+            $mysqli,
+            parent::format_date(
                 Jiancha_and_jiangduo_gr_score_map::$year_month_show,
-                Jiancha_and_jiangduo_gr_score_map::$police_name
-            ],
-            parent::format_date(Jiancha_and_jiangduo_gr_score_map::$year_month_show, $date)
+                $date
+            )
         );
 
-        $res->each_row(function ($row) use ($mysqli) {
-            self::update_jdjc_item($mysqli, $row['n'], $row['d'], true);
+        $hz_table = (new Table(Quantity_sub_score_map::$table_name, $sqlTool));
+        $res = $hz_table
+            ->group_query(
+                [
+                    SqlTool::SUM(Quantity_sub_score_map::$jdjc_zdf) => 'jdjc',
+                    SqlTool::SUM(Quantity_sub_score_map::$jsys_zdf) => 'jsys',
+                    SqlTool::SUM(Quantity_sub_score_map::$hzdc_zdf) => 'hzdc',
+                    SqlTool::SUM(Quantity_sub_score_map::$xzcf_zdf) => 'xzcf',
+                    Quantity_sub_score_map::$police_name => 'n',
+                    Quantity_sub_score_map::$year_month_show => 'y',
+                    Quantity_sub_score_map::$dd_name => 'd'
+                ],
+                [
+                    Quantity_sub_score_map::$police_name,
+                    Quantity_sub_score_map::$year_month_show,
+                ],
+                parent::format_date(
+                    Quantity_sub_score_map::$year_month_show,
+                    $date,
+                    true
+                )
+            );
+
+        self::hz_clear($sqlTool, $date);
+
+        echo 'HZ : insert finished'."\n";
+
+        $res->each_row(function ($row) use ($hz_table) {
+            $hz_table->multi_insert(
+                [
+                    Quantity_sub_score_map::$jdjc_zdf,
+                    Quantity_sub_score_map::$jsys_zdf,
+                    Quantity_sub_score_map::$hzdc_zdf,
+                    Quantity_sub_score_map::$xzcf_zdf,
+                    Quantity_sub_score_map::$police_name,
+                    Quantity_sub_score_map::$year_month_show,
+                    Quantity_sub_score_map::$dd_name,
+                ],
+                [
+                    $row['jdjc'],
+                    $row['jsys'],
+                    $row['hzdc'],
+                    $row['xzcf'],
+                    SqlTool::QUOTE($row['n']),
+                    SqlTool::QUOTE($row['y']),
+                    SqlTool::QUOTE($row['d'])
+                ]
+            );
         });
+
+
+        return;
+
+//        echo 'insert_hzdc finished';
+//
+//        $jsys = new Table(Jianshenyanshou_gr_score_map::$table_name, $sqlTool);
+//        $jcdw = new Table(Jiancha_and_jiangduo_gr_score_map::$table_name, $sqlTool);
+//        $xzcf = new Table(Quantity_xzcf_gr_sub_score_map::$table_name, $sqlTool);
+//
+//        $res = $jsys->group_query(
+//            [
+//                Jianshenyanshou_gr_score_map::$police_name => 'n',
+//                Jianshenyanshou_gr_score_map::$year_month_show => 'd',
+//            ],
+//            [
+//                Jianshenyanshou_gr_score_map::$year_month_show,
+//                Jianshenyanshou_gr_score_map::$police_name
+//            ],
+//            parent::format_date(Jianshenyanshou_gr_score_map::$year_month_show, $date)
+//        );
+//
+//        $res->each_row(function ($row) use ($mysqli) {
+//            self::update_jsys_item($mysqli, $row['n'], $row['d'], true);
+//        });
+//
+//        echo 'insert_jsys finished';
+//
+//
+//        $res = $xzcf->group_query(
+//            [
+//                Quantity_xzcf_gr_sub_score_map::$police_name => 'n',
+//                Quantity_xzcf_gr_sub_score_map::$year_month_show => 'd',
+//            ],
+//            [
+//                Quantity_xzcf_gr_sub_score_map::$year_month_show,
+//                Quantity_xzcf_gr_sub_score_map::$police_name
+//            ],
+//            parent::format_date(Quantity_xzcf_gr_sub_score_map::$year_month_show, $date)
+//        );
+//
+//        $res->each_row(function ($row) use ($mysqli) {
+//            self::update_xzcf_item($mysqli, $row['n'], $row['d'], true);
+//        });
+//
+//        echo 'insert_xzcf finished';
+//
+//
+//        $res = $jcdw->group_query(
+//            [
+//                Jiancha_and_jiangduo_gr_score_map::$police_name => 'n',
+//                Jiancha_and_jiangduo_gr_score_map::$year_month_show => 'd',
+//            ],
+//            [
+//                Jiancha_and_jiangduo_gr_score_map::$year_month_show,
+//                Jiancha_and_jiangduo_gr_score_map::$police_name
+//            ],
+//            parent::format_date(Jiancha_and_jiangduo_gr_score_map::$year_month_show, $date)
+//        );
+//
+//        $res->each_row(function ($row) use ($mysqli) {
+//            self::update_jdjc_item($mysqli, $row['n'], $row['d'], true);
+//        });
+//
+//        echo 'insert_jcdw finished';
+
 
     }
 

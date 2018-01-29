@@ -61,16 +61,19 @@ class Table_group
 
     }
 
-    protected final static function format_date($date_field_name, $date)
+    protected final static function format_date($date_field_name, $date, $no_prefix = false)
     {
         if (!$date) return '';
 
         if (is_array($date))
-            return SqlTool::WHERE() . SqlTool::BETWEEN(
+            return ($no_prefix ? '' : SqlTool::WHERE()) . SqlTool::BETWEEN(
                     $date_field_name, $date
                 );
         else if (is_string($date))
-            return SqlTool::WHERE([$date_field_name => $date]);
+            return
+                $no_prefix?SqlTool::ANDC([$date_field_name => $date])
+                :
+                SqlTool::WHERE([$date_field_name => $date]);
 
     }
 

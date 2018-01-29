@@ -18,7 +18,7 @@ $mysqli = $sqltool->get_mysqli();
 $name = '汤金保';
 $id = 10086;
 $date = '2017-05-01';
-$date_arr = ['2017-05-01', '2017-08-09'];
+$date_arr = ['2017-05-01', '2017-06-09'];
 
 if (false) {
 //    HZ_group::hz_clear($mysqli, $date_arr);
@@ -96,14 +96,14 @@ if (1) {
 //    JDJC_group::xfls_sub_update_date_in($mysqli, $date_arr);
 //    JDJC_group::fxhz_sub_update_date_in($mysqli, $date_arr);
 
-    JDJC_group::update_dczg_by_date($mysqli,$date_arr);
-    JDJC_group::update_dczg_by_date($mysqli,$date);
-    JDJC_group::update_xfls_by_date($mysqli,$date_arr);
-    JDJC_group::update_xfls_by_date($mysqli,$date);
-    JDJC_group::update_fxhz_by_date($mysqli,$date_arr);
-    JDJC_group::update_fxhz_by_date($mysqli,$date);
-    JDJC_group::update_jcdw_by_date($mysqli,$date_arr);
-    JDJC_group::update_jcdw_by_date($mysqli,$date);
+//    JDJC_group::update_dczg_by_date($mysqli,$date_arr);
+//    JDJC_group::update_dczg_by_date($mysqli,$date);
+//    JDJC_group::update_xfls_by_date($mysqli,$date_arr);
+//    JDJC_group::update_xfls_by_date($mysqli,$date);
+//    JDJC_group::update_fxhz_by_date($mysqli,$date_arr);
+//    JDJC_group::update_fxhz_by_date($mysqli,$date);
+//    JDJC_group::update_jcdw_by_date($mysqli,$date_arr);
+//    JDJC_group::update_jcdw_by_date($mysqli,$date);
 
 }
 
@@ -148,8 +148,21 @@ if (false) {
 //    JSYS_group::jianshen_update_ys_by_date($mysqli, $date_arr);
 //    JSYS_group::jianshen_update_ys_by_date($mysqli, $date);
 
-
-
 }
+
+
+//HZ_group::insert_hzdc($mysqli);
+//HZ_group::insert_xzcf($mysqli);
+
+//HZ_group::insert_jsys($mysqli);
+//HZ_group::insert_jdjc($mysqli);
+
+//HZ_group::group_insert($mysqli, ['2017-04-01', '2017-04-30']);
+
+JDJC_group::group_insert($mysqli, $date);
+
+//JDJC_group::group_insert($mysqli, $date_arr);
+
+//JSYS_group::group_insert($mysqli,$date_arr);
 
 $sqltool->close();

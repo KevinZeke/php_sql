@@ -6,6 +6,10 @@
  * Time: 22:11
  */
 
+require_once __DIR__ . '/Formula.class.php';
+require_once __DIR__ . '/../table/Table.class.php';
+require_once __DIR__ . '/Table_gropu.interface.php';
+require_once __DIR__ . '/../sql/Sql.class.php';
 
 require_once __DIR__ . '/../map/Jiancha_and_jiangduo_gr_nbr.map.php';
 require_once __DIR__ . '/../map/Quantity_dczghzyhwf_gr_nbr.map.php';
@@ -948,7 +952,7 @@ class JDJC_group extends Table_group
     }
 
 
-    public static function update_dczg($db, $dczg_table_param, $jdjc_table_param)
+    public static function jdjc_update_dczg($db, $dczg_table_param, $jdjc_table_param)
     {
         $sqlTool = parent::sqlTool_build($db);
 
@@ -968,9 +972,9 @@ class JDJC_group extends Table_group
             );
     }
 
-    public static function update_dczg_by_date($db, $date)
+    public static function jdjc_update_dczg_by_date($db, $date)
     {
-        return self::update_dczg(
+        return self::jdjc_update_dczg(
             $db,
             parent::format_date(
                 Quantity_dczghzyhwf_gr_score_map::$year_month_show,
@@ -987,7 +991,7 @@ class JDJC_group extends Table_group
         );
     }
 
-    public static function update_xfls($db, $xfls_table_param, $jdjc_table_param)
+    public static function jdjc_update_xfls($db, $xfls_table_param, $jdjc_table_param)
     {
         $sqlTool = parent::sqlTool_build($db);
 
@@ -1007,9 +1011,9 @@ class JDJC_group extends Table_group
             );
     }
 
-    public static function update_xfls_by_date($db, $date)
+    public static function jdjc_update_xfls_by_date($db, $date)
     {
-        return self::update_xfls(
+        return self::jdjc_update_xfls(
             $db,
             parent::format_date(
                 Quantity_xflscf_gr_score_map::$year_month_show,
@@ -1026,7 +1030,7 @@ class JDJC_group extends Table_group
         );
     }
 
-    public static function update_fxhz($db, $fxhz_table_param, $jdjc_table_param)
+    public static function jdjc_update_fxhz($db, $fxhz_table_param, $jdjc_table_param)
     {
         $sqlTool = parent::sqlTool_build($db);
 
@@ -1047,9 +1051,9 @@ class JDJC_group extends Table_group
             );
     }
 
-    public static function update_fxhz_by_date($db, $date)
+    public static function jdjc_update_fxhz_by_date($db, $date)
     {
-        return self::update_fxhz(
+        return self::jdjc_update_fxhz(
             $db,
             parent::format_date(
                 Quantity_fxhzyh_gr_score_map::$year_month_show,
@@ -1066,7 +1070,7 @@ class JDJC_group extends Table_group
         );
     }
 
-    public static function update_jcdw($db, $jcdw_table_param, $jdjc_table_param)
+    public static function jdjc_update_jcdw($db, $jcdw_table_param, $jdjc_table_param)
     {
         $sqlTool = parent::sqlTool_build($db);
 
@@ -1087,9 +1091,9 @@ class JDJC_group extends Table_group
             );
     }
 
-    public static function update_jcdw_by_date($db, $date)
+    public static function jdjc_update_jcdw_by_date($db, $date)
     {
-        return self::update_jcdw(
+        return self::jdjc_update_jcdw(
             $db,
             parent::format_date(
                 Quantity_jcdw_gr_score_map::$year_month_show,
@@ -1138,60 +1142,141 @@ class JDJC_group extends Table_group
 
         self::jdjc_clear($sqlTool, $date);
 
-        self::jdjc_insert_jcdw($mysqli, parent::format_date(
-            Jiancha_and_jiangduo_gr_score_map::$year_month_show,
-            $date
-        ));
-        $xfls = new Table(Quantity_xflscf_gr_score_map::$table_name, $sqlTool);
-        $dczg = new Table(Quantity_dczghzyhwf_gr_score_map::$table_name, $sqlTool);
-        $fxhz = new Table(Quantity_fxhzyh_gr_score_map::$table_name, $sqlTool);
-
-
-        $res = $dczg->group_query(
-            [
-                Quantity_dczghzyhwf_gr_score_map::$police_name => 'n',
-                Quantity_dczghzyhwf_gr_score_map::$year_month_show => 'd',
-            ], [
-            Quantity_dczghzyhwf_gr_score_map::$year_month_show,
-            Quantity_dczghzyhwf_gr_score_map::$police_name
-        ],
-            parent::format_date(Quantity_dczghzyhwf_gr_score_map::$year_month_show, $date)
+        self::jdjc_insert_jcdw(
+            $mysqli,
+            parent::format_date(
+                Quantity_jcdw_gr_score_map::$year_month_show,
+                $date
+            )
         );
 
-        $res->each_row(function ($row) use ($mysqli) {
-            self::jdjc_update_dczg_item($mysqli, $row['n'], $row['d'], true);
-        });
-
-        $res = $xfls->group_query(
-            [
-                Quantity_xflscf_gr_score_map::$police_name => 'n',
-                Quantity_xflscf_gr_score_map::$year_month_show => 'd',
-            ], [
-            Quantity_xflscf_gr_score_map::$year_month_show,
-            Quantity_xflscf_gr_score_map::$police_name
-        ],
-            parent::format_date(Quantity_xflscf_gr_score_map::$year_month_show, $date)
+        self::jdjc_insert_xfls(
+            $mysqli,
+            parent::format_date(
+                Quantity_xflscf_gr_score_map::$year_month_show,
+                $date
+            )
         );
 
-        $res->each_row(function ($row) use ($mysqli) {
-            self::jdjc_update_xfls_item($mysqli, $row['n'], $row['d'], true);
-        });
-
-
-        $res = $fxhz->group_query(
-            [
-                Quantity_fxhzyh_gr_score_map::$police_name => 'n',
-                Quantity_fxhzyh_gr_score_map::$year_month_show => 'd',
-            ], [
-            Quantity_fxhzyh_gr_score_map::$year_month_show,
-            Quantity_fxhzyh_gr_score_map::$police_name
-        ],
-            parent::format_date(Quantity_fxhzyh_gr_score_map::$year_month_show, $date)
+        self::jdjc_insert_fxhz(
+            $mysqli,
+            parent::format_date(
+                Quantity_fxhzyh_gr_score_map::$year_month_show,
+                $date
+            )
         );
 
-        $res->each_row(function ($row) use ($mysqli) {
-            self::jdjc_update_fxhz_item($mysqli, $row['n'], $row['d'], true);
+        self::jdjc_insert_dczg(
+            $mysqli,
+            parent::format_date(
+                Quantity_dczghzyhwf_gr_score_map::$year_month_show,
+                $date
+            )
+        );
+
+        $hz_table = (new Table(Jiancha_and_jiangduo_gr_nbr_map::$table_name, $sqlTool));
+        $res = $hz_table
+            ->group_query(
+                [
+                    SqlTool::SUM(Jiancha_and_jiangduo_gr_nbr_map::$XFLSCFJDSS_DF) => 'xfls',
+                    SqlTool::SUM(Jiancha_and_jiangduo_gr_nbr_map::$DCZGHZYHS_DF) => 'dczg',
+                    SqlTool::SUM(Jiancha_and_jiangduo_gr_nbr_map::$FXHZYHWFXWS_DF) => 'fxhz',
+                    SqlTool::SUM(Jiancha_and_jiangduo_gr_nbr_map::$JCDWS_DF) => 'jcdw',
+                    Jiancha_and_jiangduo_gr_nbr_map::$police_name => 'n',
+                    Jiancha_and_jiangduo_gr_nbr_map::$year_month_show => 'y',
+                    Jiancha_and_jiangduo_gr_nbr_map::$dd_name => 'd'
+                ],
+                [
+                    Jiancha_and_jiangduo_gr_nbr_map::$police_name,
+                    Jiancha_and_jiangduo_gr_nbr_map::$year_month_show,
+                ],
+                parent::format_date(
+                    Jiancha_and_jiangduo_gr_nbr_map::$year_month_show,
+                    $date,
+                    true
+                )
+            );
+
+        self::jdjc_clear($sqlTool, $date);
+
+        echo 'JDJC : insert finished' . "\n";
+
+        $res->each_row(function ($row) use ($hz_table) {
+            $hz_table->multi_insert(
+                [
+                    Jiancha_and_jiangduo_gr_nbr_map::$XFLSCFJDSS_DF,
+                    Jiancha_and_jiangduo_gr_nbr_map::$DCZGHZYHS_DF,
+                    Jiancha_and_jiangduo_gr_nbr_map::$FXHZYHWFXWS_DF,
+                    Jiancha_and_jiangduo_gr_nbr_map::$JCDWS_DF,
+                    Jiancha_and_jiangduo_gr_nbr_map::$police_name,
+                    Jiancha_and_jiangduo_gr_nbr_map::$year_month_show,
+                    Jiancha_and_jiangduo_gr_nbr_map::$dd_name
+                ],
+                [
+                    $row['xfls'],
+                    $row['dczg'],
+                    $row['fxhz'],
+                    $row['jcdw'],
+                    SqlTool::QUOTE($row['n']),
+                    SqlTool::QUOTE($row['y']),
+                    SqlTool::QUOTE($row['d'])
+                ]
+            );
         });
+
+
+        return;
+
+//        $xfls = new Table(Quantity_xflscf_gr_score_map::$table_name, $sqlTool);
+//        $dczg = new Table(Quantity_dczghzyhwf_gr_score_map::$table_name, $sqlTool);
+//        $fxhz = new Table(Quantity_fxhzyh_gr_score_map::$table_name, $sqlTool);
+//
+//
+//        $res = $dczg->group_query(
+//            [
+//                Quantity_dczghzyhwf_gr_score_map::$police_name => 'n',
+//                Quantity_dczghzyhwf_gr_score_map::$year_month_show => 'd',
+//            ], [
+//            Quantity_dczghzyhwf_gr_score_map::$year_month_show,
+//            Quantity_dczghzyhwf_gr_score_map::$police_name
+//        ],
+//            parent::format_date(Quantity_dczghzyhwf_gr_score_map::$year_month_show, $date)
+//        );
+//
+//        $res->each_row(function ($row) use ($mysqli) {
+//            self::jdjc_update_dczg_item($mysqli, $row['n'], $row['d'], true);
+//        });
+//
+//        $res = $xfls->group_query(
+//            [
+//                Quantity_xflscf_gr_score_map::$police_name => 'n',
+//                Quantity_xflscf_gr_score_map::$year_month_show => 'd',
+//            ], [
+//            Quantity_xflscf_gr_score_map::$year_month_show,
+//            Quantity_xflscf_gr_score_map::$police_name
+//        ],
+//            parent::format_date(Quantity_xflscf_gr_score_map::$year_month_show, $date)
+//        );
+//
+//        $res->each_row(function ($row) use ($mysqli) {
+//            self::jdjc_update_xfls_item($mysqli, $row['n'], $row['d'], true);
+//        });
+//
+//
+//        $res = $fxhz->group_query(
+//            [
+//                Quantity_fxhzyh_gr_score_map::$police_name => 'n',
+//                Quantity_fxhzyh_gr_score_map::$year_month_show => 'd',
+//            ], [
+//            Quantity_fxhzyh_gr_score_map::$year_month_show,
+//            Quantity_fxhzyh_gr_score_map::$police_name
+//        ],
+//            parent::format_date(Quantity_fxhzyh_gr_score_map::$year_month_show, $date)
+//        );
+//
+//        $res->each_row(function ($row) use ($mysqli) {
+//            self::jdjc_update_fxhz_item($mysqli, $row['n'], $row['d'], true);
+//        });
 
 
     }

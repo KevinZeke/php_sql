@@ -5,6 +5,8 @@
  * Time: 下午8:59
  */
 
+
+require_once __DIR__ . '/../table/Table.class.php';
 require_once __DIR__ . '/Formula.class.php';
 require_once __DIR__ . '/Table_gropu.interface.php';
 require_once __DIR__ . '/../sql/Sql.class.php';

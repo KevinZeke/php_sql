@@ -4,7 +4,7 @@ require_once __DIR__ . '/../log/Log.class.php';
 
 class SqlTool
 {
-    static $isDev = true;
+    static $isDev = false;
     private $mysqli = null;
     private $host;
     private $user;
@@ -73,7 +73,7 @@ class SqlTool
     {
         self::$isDev and Log::write('_test.sql', $sql);
 
-        return;
+//        return;
 
         $res = $this->mysqli->query($sql) or die('sql语句出错 : ' . $this->mysqli->error);
         return $res;
@@ -87,7 +87,7 @@ class SqlTool
     {
         self::$isDev and Log::write('_test.sql', $sql);
 
-        return;
+//        return;
 
         $res = $this->mysqli->query($sql) or die('sql语句出错 : ' . $this->mysqli->error);
         if (!$res) {
@@ -174,6 +174,10 @@ class SqlTool
     static function BETWEEN($field, $arr)
     {
         return ' AND ' . $field . ' BETWEEN \'' . $arr[0] . '\' AND \'' . $arr[1] . '\'';
+    }
+
+    static function QUOTE($value){
+        return "'$value'";
     }
 
     /**

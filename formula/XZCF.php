@@ -6,6 +6,7 @@
  */
 
 require_once __DIR__ . '/Formula.class.php';
+require_once __DIR__ . '/../table/Table.class.php';
 require_once __DIR__ . '/Table_gropu.interface.php';
 require_once __DIR__ . '/../sql/Sql.class.php';
 require_once __DIR__ . '/../map/Quantity_xzcf_gr_nbr.map.php';
