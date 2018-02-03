@@ -7,7 +7,7 @@
 
 require_once __DIR__ . '/../table/Table.class.php';
 require_once __DIR__ . '/Formula.class.php';
-require_once __DIR__ . '/Table_gropu.interface.php';
+require_once __DIR__ . '/Table_gropu.php';
 require_once __DIR__ . '/../sql/Sql.class.php';
 require_once __DIR__ . '/../map/Quantity_sub_score.map.php';
 require_once __DIR__ . '/../map/Quantity_hzdc_gr_sub_score.map.php';
@@ -30,6 +30,8 @@ class HZ_formula extends Formula
     static $jsys_2_sub;
 
     static $jdjc_2_sub;
+
+    static $hz_sub_2_gr;
 
 //    static $hzdc_2_gr;
 }
@@ -64,11 +66,37 @@ HZ_formula::$jdjc_2_sub = [
 
     Quantity_sub_score_map::$police_name => Jiancha_and_jiangduo_gr_score_map::$police_name,
     Quantity_sub_score_map::$year_month_show => Jiancha_and_jiangduo_gr_score_map::$year_month_show,
-    Quantity_sub_score_map::$jsys_zdf =>
+    Quantity_sub_score_map::$jdjc_zdf =>
         'SUM(' . Jiancha_and_jiangduo_gr_score_map::$jcjd_zdf . ')',
     Quantity_sub_score_map::$dd_name => Jiancha_and_jiangduo_gr_score_map::$dd_name
 
 ];
+
+HZ_formula::$hz_sub_2_gr = [
+    Quantity_gr_score_map::$hzdc_zdf_weighed => Formula::mul([
+        Quantity_sub_score_map::$hzdc_zdf,
+        Quantity_gr_coef_map::$hzdc_coef
+    ]),
+    Quantity_gr_score_map::$xzcf_zdf_weighed => Formula::mul([
+        Quantity_sub_score_map::$xzcf_zdf,
+        Quantity_gr_coef_map::$xzcf_coef
+    ]),
+    Quantity_gr_score_map::$jdjc_zdf_weighed => Formula::mul([
+        Quantity_sub_score_map::$jdjc_zdf,
+        Quantity_gr_coef_map::$jdjc_coef
+    ]),
+    Quantity_gr_score_map::$jsys_zdf_weighed => Formula::mul([
+        Quantity_sub_score_map::$jsys_zdf,
+        Quantity_gr_coef_map::$jsys_coef
+    ])
+];
+
+HZ_formula::$hz_sub_2_gr[Quantity_gr_score_map::$zfsl_total_score] = Formula::plus([
+    HZ_formula::$hz_sub_2_gr[Quantity_gr_score_map::$hzdc_zdf_weighed],
+    HZ_formula::$hz_sub_2_gr[Quantity_gr_score_map::$jsys_zdf_weighed],
+    HZ_formula::$hz_sub_2_gr[Quantity_gr_score_map::$jdjc_zdf_weighed],
+    HZ_formula::$hz_sub_2_gr[Quantity_gr_score_map::$xzcf_zdf_weighed]
+]);
 
 
 /*HZ_formula::$xzcf_2_gr = [
@@ -100,14 +128,14 @@ HZ_formula::$hzdc_2_gr = [
 class HZ_group extends Table_group
 {
     /**
-     * @param mysqli|SqlTool $db
+     * @param mysqli|Sql_tool $db
      * @param string $name
      * @param string $date
      * @return bool
      */
     public static function is_row_ext($db, $name, $date)
     {
-        return parent::is_row_ext(
+        return parent::_is_row_ext(
             $db, Quantity_sub_score_map::$table_name, $name, $date
         );
     }
@@ -192,7 +220,7 @@ class HZ_group extends Table_group
             );
     }
 
-    static public function update_xzcf_by_date($db, $date)
+    static public function update_xzcf_by_date($db, $date = null)
     {
         return self::update_xzcf(
             $db,
@@ -200,14 +228,14 @@ class HZ_group extends Table_group
                 Quantity_xzcf_gr_sub_score_map::$year_month_show,
                 $date
             ) .
-            SqlTool::GROUP([
+            Sql_tool::GROUP([
                 Quantity_xzcf_gr_sub_score_map::$year_month_show,
                 Quantity_xzcf_gr_sub_score_map::$police_name
             ]),
-            SqlTool::WHERE([
+            Sql_tool::WHERE([
                 Quantity_sub_score_map::$year_month_show => 'A.year_month_show',
                 Quantity_sub_score_map::$police_name => 'A.police_name',
-            ],false)
+            ], false)
         );
     }
 
@@ -219,14 +247,14 @@ class HZ_group extends Table_group
                 Quantity_hzdc_gr_sub_score_map::$year_month_show,
                 $date
             ) .
-            SqlTool::GROUP([
+            Sql_tool::GROUP([
                 Quantity_hzdc_gr_sub_score_map::$year_month_show,
                 Quantity_hzdc_gr_sub_score_map::$police_name
             ]),
-            SqlTool::WHERE([
+            Sql_tool::WHERE([
                 Quantity_sub_score_map::$year_month_show => 'A.year_month_show',
                 Quantity_sub_score_map::$police_name => 'A.police_name',
-            ],false)
+            ], false)
         );
     }
 
@@ -238,14 +266,14 @@ class HZ_group extends Table_group
                 Jiancha_and_jiangduo_gr_score_map::$year_month_show,
                 $date
             ) .
-            SqlTool::GROUP([
+            Sql_tool::GROUP([
                 Jiancha_and_jiangduo_gr_score_map::$year_month_show,
                 Jiancha_and_jiangduo_gr_score_map::$police_name
             ]),
-            SqlTool::WHERE([
+            Sql_tool::WHERE([
                 Quantity_sub_score_map::$year_month_show => 'A.year_month_show',
                 Quantity_sub_score_map::$police_name => 'A.police_name',
-            ],false)
+            ], false)
         );
     }
 
@@ -257,14 +285,14 @@ class HZ_group extends Table_group
                 Jianshenyanshou_gr_score_map::$year_month_show,
                 $date
             ) .
-            SqlTool::GROUP([
+            Sql_tool::GROUP([
                 Jianshenyanshou_gr_score_map::$year_month_show,
                 Jianshenyanshou_gr_score_map::$police_name
             ]),
-            SqlTool::WHERE([
+            Sql_tool::WHERE([
                 Quantity_sub_score_map::$year_month_show => 'A.year_month_show',
                 Quantity_sub_score_map::$police_name => 'A.police_name',
-            ],false)
+            ], false)
         );
     }
 
@@ -290,7 +318,7 @@ class HZ_group extends Table_group
 //            $param.SqlTool::GROUP([Quantity_xzcf_gr_sub_score_map::$year_month_show])
 //        );
 
-        $db = SqlTool::build_by_mysqli($mysqli);
+        $db = Sql_tool::build_by_mysqli($mysqli);
 
         if ($row_check) {
             if (!self::is_row_ext($db, $police_name, $date)) {
@@ -302,7 +330,7 @@ class HZ_group extends Table_group
                 [
                     "(SELECT ifnull(SUM(" . Quantity_xzcf_gr_sub_score_map::$xzcf_zdf . "),0) AS res ,
                      police_name,year_month_show FROM " . Quantity_xzcf_gr_sub_score_map::$table_name .
-                    SqlTool::WHERE([
+                    Sql_tool::WHERE([
                         Quantity_xzcf_gr_sub_score_map::$year_month_show => $date,
                         Quantity_xzcf_gr_sub_score_map::$police_name => $police_name
                     ]) . ') A'
@@ -310,7 +338,7 @@ class HZ_group extends Table_group
                 [
                     Quantity_sub_score_map::$xzcf_zdf => 'A.res'
                 ],
-                SqlTool::WHERE([
+                Sql_tool::WHERE([
                     Quantity_sub_score_map::$year_month_show => $date,
                     Quantity_sub_score_map::$police_name => $police_name
                 ], true)
@@ -336,7 +364,7 @@ class HZ_group extends Table_group
 //            HZ_formula::$hzdc_2_gr,
 //            $param . SqlTool::GROUP([Quantity_hzdc_gr_sub_score_map::$year_month_show])
 //        );
-        $db = SqlTool::build_by_mysqli($mysqli);
+        $db = Sql_tool::build_by_mysqli($mysqli);
 
         if ($row_check) {
             if (!self::is_row_ext($db, $police_name, $date)) {
@@ -349,7 +377,7 @@ class HZ_group extends Table_group
                     "(SELECT ifnull(SUM(" . Quantity_hzdc_gr_sub_score_map::$hzdcs_sub_score . "),0)  
                     AS res , police_name, year_month_show FROM 
                     " . Quantity_hzdc_gr_sub_score_map::$table_name .
-                    SqlTool::WHERE([
+                    Sql_tool::WHERE([
                         Quantity_hzdc_gr_sub_score_map::$police_name => $police_name,
                         Quantity_hzdc_gr_sub_score_map::$year_month_show => $date
                     ]) . ' ) A '
@@ -357,7 +385,7 @@ class HZ_group extends Table_group
                 [
                     Quantity_sub_score_map::$hzdc_zdf => 'A.res'
                 ],
-                SqlTool::WHERE([
+                Sql_tool::WHERE([
                     Quantity_sub_score_map::$year_month_show => $date,
                     Quantity_sub_score_map::$police_name => $police_name
                 ], true)
@@ -373,7 +401,7 @@ class HZ_group extends Table_group
      */
     static public function update_jdjc_item($mysqli, $police_name, $date, $row_check = false)
     {
-        $db = SqlTool::build_by_mysqli($mysqli);
+        $db = Sql_tool::build_by_mysqli($mysqli);
 
         if ($row_check) {
             if (!self::is_row_ext($db, $police_name, $date)) {
@@ -386,7 +414,7 @@ class HZ_group extends Table_group
                     "(SELECT ifnull(SUM(" . Jiancha_and_jiangduo_gr_score_map::$jcjd_zdf . "),0) 
                     AS res , police_name, year_month_show FROM 
                     " . Jiancha_and_jiangduo_gr_score_map::$table_name .
-                    SqlTool::WHERE([
+                    Sql_tool::WHERE([
                         Jiancha_and_jiangduo_gr_score_map::$police_name => $police_name,
                         Jiancha_and_jiangduo_gr_score_map::$year_month_show => $date
                     ]) . ' ) A '
@@ -394,7 +422,7 @@ class HZ_group extends Table_group
                 [
                     Quantity_sub_score_map::$hzdc_zdf => 'A.res'
                 ],
-                SqlTool::WHERE([
+                Sql_tool::WHERE([
                     Quantity_sub_score_map::$year_month_show => $date,
                     Quantity_sub_score_map::$police_name => $police_name
                 ], true)
@@ -411,7 +439,7 @@ class HZ_group extends Table_group
      */
     static public function update_jsys_item($mysqli, $police_name, $date, $row_check = false)
     {
-        $db = SqlTool::build_by_mysqli($mysqli);
+        $db = Sql_tool::build_by_mysqli($mysqli);
 
         if ($row_check) {
             if (!self::is_row_ext($db, $police_name, $date)) {
@@ -424,7 +452,7 @@ class HZ_group extends Table_group
                     "(SELECT ifnull(SUM(" . Jianshenyanshou_gr_score_map::$jsys_zdf . "),0) 
                     AS res , police_name, year_month_show FROM 
                     " . Jianshenyanshou_gr_score_map::$table_name .
-                    SqlTool::WHERE([
+                    Sql_tool::WHERE([
                         Jianshenyanshou_gr_score_map::$police_name => $police_name,
                         Jianshenyanshou_gr_score_map::$year_month_show => $date
                     ]) . ' ) A '
@@ -432,7 +460,7 @@ class HZ_group extends Table_group
                 [
                     Quantity_sub_score_map::$hzdc_zdf => 'A.res'
                 ],
-                SqlTool::WHERE([
+                Sql_tool::WHERE([
                     Quantity_sub_score_map::$year_month_show => $date,
                     Quantity_sub_score_map::$police_name => $police_name
                 ], true)
@@ -447,12 +475,12 @@ class HZ_group extends Table_group
      */
     static function insert_hzdc($mysqli, $param = '')
     {
-        return (new Table(Quantity_sub_score_map::$table_name, SqlTool::build_by_mysqli($mysqli)))->union_insert(
+        return (new Table(Quantity_sub_score_map::$table_name, Sql_tool::build_by_mysqli($mysqli)))->union_insert(
             [
                 Quantity_hzdc_gr_sub_score_map::$table_name,
             ],
             HZ_formula::$hzdc_2_sub,
-            $param . SqlTool::GROUP([
+            $param . Sql_tool::GROUP([
                 Quantity_hzdc_gr_sub_score_map::$year_month_show,
                 Quantity_hzdc_gr_sub_score_map::$police_name
             ])
@@ -474,13 +502,13 @@ class HZ_group extends Table_group
      */
     static function insert_xzcf($mysqli, $param = '')
     {
-        return (new Table(Quantity_sub_score_map::$table_name, SqlTool::build_by_mysqli($mysqli)))
+        return (new Table(Quantity_sub_score_map::$table_name, Sql_tool::build_by_mysqli($mysqli)))
             ->union_insert(
                 [
                     Quantity_xzcf_gr_sub_score_map::$table_name
                 ],
                 HZ_formula::$xzcf_2_sub,
-                $param . SqlTool::GROUP([
+                $param . Sql_tool::GROUP([
                     Quantity_xzcf_gr_sub_score_map::$year_month_show,
                     Quantity_xzcf_gr_sub_score_map::$police_name
                 ])
@@ -502,13 +530,13 @@ class HZ_group extends Table_group
      */
     static function insert_jsys($mysqli, $param = '')
     {
-        return (new Table(Quantity_sub_score_map::$table_name, SqlTool::build_by_mysqli($mysqli)))
+        return (new Table(Quantity_sub_score_map::$table_name, Sql_tool::build_by_mysqli($mysqli)))
             ->union_insert(
                 [
                     Jianshenyanshou_gr_score_map::$table_name
                 ],
                 HZ_formula::$jsys_2_sub,
-                $param . SqlTool::GROUP([
+                $param . Sql_tool::GROUP([
                     Jianshenyanshou_gr_score_map::$year_month_show,
                     Jianshenyanshou_gr_score_map::$police_name
                 ])
@@ -523,7 +551,6 @@ class HZ_group extends Table_group
         );
     }
 
-
     /**
      * @param mysqli $mysqli
      * @param string $param
@@ -531,13 +558,13 @@ class HZ_group extends Table_group
      */
     static function insert_jdjc($mysqli, $param = '')
     {
-        return (new Table(Quantity_sub_score_map::$table_name, SqlTool::build_by_mysqli($mysqli)))
+        return (new Table(Quantity_sub_score_map::$table_name, Sql_tool::build_by_mysqli($mysqli)))
             ->union_insert(
                 [
                     Jiancha_and_jiangduo_gr_score_map::$table_name
                 ],
                 HZ_formula::$jdjc_2_sub,
-                $param . SqlTool::GROUP([
+                $param . Sql_tool::GROUP([
                     Jiancha_and_jiangduo_gr_score_map::$year_month_show,
                     Jiancha_and_jiangduo_gr_score_map::$police_name
                 ])
@@ -569,7 +596,7 @@ class HZ_group extends Table_group
 //                ]
 //            )
             parent::format_date(Quantity_hzdc_gr_sub_score_map::$year_month_show, $date)
-            . SqlTool::ANDC([Quantity_hzdc_gr_sub_score_map::$police_name => $police_name])
+            . Sql_tool::ANDC([Quantity_hzdc_gr_sub_score_map::$police_name => $police_name])
         );
     }
 
@@ -588,7 +615,7 @@ class HZ_group extends Table_group
 //                Quantity_xzcf_gr_sub_score_map::$year_month_show => $date
 //            ])
             parent::format_date(Quantity_xzcf_gr_sub_score_map::$year_month_show, $date)
-            . SqlTool::ANDC([Quantity_xzcf_gr_sub_score_map::$police_name => $police_name])
+            . Sql_tool::ANDC([Quantity_xzcf_gr_sub_score_map::$police_name => $police_name])
         );
     }
 
@@ -607,7 +634,7 @@ class HZ_group extends Table_group
 //                Jiancha_and_jiangduo_gr_score_map::$year_month_show => $date
 //            ])
             parent::format_date(Jiancha_and_jiangduo_gr_score_map::$year_month_show, $date)
-            . SqlTool::ANDC([Jiancha_and_jiangduo_gr_score_map::$police_name => $police_name])
+            . Sql_tool::ANDC([Jiancha_and_jiangduo_gr_score_map::$police_name => $police_name])
         );
     }
 
@@ -626,13 +653,13 @@ class HZ_group extends Table_group
 //                Jianshenyanshou_gr_score_map::$year_month_show => $date
 //            ])
             parent::format_date(Jianshenyanshou_gr_score_map::$year_month_show, $date)
-            . SqlTool::ANDC([Jianshenyanshou_gr_score_map::$police_name => $police_name])
+            . Sql_tool::ANDC([Jianshenyanshou_gr_score_map::$police_name => $police_name])
         );
     }
 
 
     /**
-     * @param mysqli|SqlTool $db
+     * @param mysqli|Sql_tool $db
      * @param null|string|array $date
      */
     public static function hz_clear($db, $date = null)
@@ -654,21 +681,44 @@ class HZ_group extends Table_group
         );
     }
 
+    public static function hz_update_sub_2_gr_by_date($db, $date = null)
+    {
+        $sqltool = parent::sqlTool_build($db);
+        return (new Table(Quantity_gr_score_map::$table_name, $sqltool))
+            ->union_update(
+                [
+                    Quantity_sub_score_map::$table_name,
+                    Quantity_gr_coef_map::$table_name
+                ],
+                HZ_formula::$hz_sub_2_gr,
+                Sql_tool::WHERE([
+                    Quantity_gr_score_map::$number_id => Quantity_sub_score_map::$number_id
+                ], false) .
+                parent::format_date(
+                    Quantity_sub_score_map::$year_month_show,
+                    $date,
+                    true
+                )
+            );
+    }
 
     /**
      * @param mysqli $mysqli
      * @param null|string|array $date
+     * @param $task
      */
     public static function group_insert($mysqli, $date = null)
     {
 
-        $sqlTool = SqlTool::build_by_mysqli($mysqli);
+        $sqlTool = Sql_tool::build_by_mysqli($mysqli);
 
         $sqlTool->do_not_gone_away();
 
+        Sql_tool::devopen();
+
         self::hz_clear($sqlTool, $date);
 
-        self::insert_hzdc(
+        $afr = self::insert_hzdc(
             $mysqli,
             parent::format_date(
                 Quantity_hzdc_gr_sub_score_map::$year_month_show,
@@ -676,8 +726,10 @@ class HZ_group extends Table_group
             )
         );
 
+        echo "      *hzdc finished , affect rows : $afr | ";
 
-        self::insert_xzcf(
+
+        $afr = self::insert_xzcf(
             $mysqli,
             parent::format_date(
                 Quantity_xzcf_gr_sub_score_map::$year_month_show,
@@ -685,7 +737,10 @@ class HZ_group extends Table_group
             )
         );
 
-        self::insert_jsys(
+        echo "*xzcf finished , affect rows : $afr | ";
+
+
+        $afr = self::insert_jsys(
             $mysqli,
             parent::format_date(
                 Jianshenyanshou_gr_score_map::$year_month_show,
@@ -693,8 +748,10 @@ class HZ_group extends Table_group
             )
         );
 
+        echo "*jsys finished , affect rows : $afr | ";
 
-        self::insert_jdjc(
+
+        $afr = self::insert_jdjc(
             $mysqli,
             parent::format_date(
                 Jiancha_and_jiangduo_gr_score_map::$year_month_show,
@@ -702,14 +759,19 @@ class HZ_group extends Table_group
             )
         );
 
+        echo "*jdjc finished , affect rows : $afr\n";
+
+
         $hz_table = (new Table(Quantity_sub_score_map::$table_name, $sqlTool));
+
+//        $sqlTool::$isDev = true;
         $res = $hz_table
             ->group_query(
                 [
-                    SqlTool::SUM(Quantity_sub_score_map::$jdjc_zdf) => 'jdjc',
-                    SqlTool::SUM(Quantity_sub_score_map::$jsys_zdf) => 'jsys',
-                    SqlTool::SUM(Quantity_sub_score_map::$hzdc_zdf) => 'hzdc',
-                    SqlTool::SUM(Quantity_sub_score_map::$xzcf_zdf) => 'xzcf',
+                    Sql_tool::SUM(Quantity_sub_score_map::$jdjc_zdf) => 'jdjc',
+                    Sql_tool::SUM(Quantity_sub_score_map::$jsys_zdf) => 'jsys',
+                    Sql_tool::SUM(Quantity_sub_score_map::$hzdc_zdf) => 'hzdc',
+                    Sql_tool::SUM(Quantity_sub_score_map::$xzcf_zdf) => 'xzcf',
                     Quantity_sub_score_map::$police_name => 'n',
                     Quantity_sub_score_map::$year_month_show => 'y',
                     Quantity_sub_score_map::$dd_name => 'd'
@@ -725,7 +787,12 @@ class HZ_group extends Table_group
                 )
             );
 
+
+//        $sqlTool::$isDev = false;
+
         self::hz_clear($sqlTool, $date);
+
+        Sql_tool::devclose();
 
         echo 'HZ : insert finished' . "\n";
 
@@ -736,23 +803,24 @@ class HZ_group extends Table_group
                 $row['jsys'] . ',' .
                 $row['hzdc'] . ',' .
                 $row['xzcf'] . ',' .
-                SqlTool::QUOTE($row['n']) . ',' .
-                SqlTool::QUOTE($row['y']) . ',' .
-                SqlTool::QUOTE($row['d']) . ')';
+                Sql_tool::QUOTE($row['n']) . ',' .
+                Sql_tool::QUOTE($row['y']) . ',' .
+                Sql_tool::QUOTE($row['d']) . ')';
         });
 
-        $hz_table->multi_insert(
-            [
-                Quantity_sub_score_map::$jdjc_zdf,
-                Quantity_sub_score_map::$jsys_zdf,
-                Quantity_sub_score_map::$hzdc_zdf,
-                Quantity_sub_score_map::$xzcf_zdf,
-                Quantity_sub_score_map::$police_name,
-                Quantity_sub_score_map::$year_month_show,
-                Quantity_sub_score_map::$dd_name,
-            ],
-            substr($sql, 1)
-        );
+        if ($sql != '')
+            $hz_table->multi_insert(
+                [
+                    Quantity_sub_score_map::$jdjc_zdf,
+                    Quantity_sub_score_map::$jsys_zdf,
+                    Quantity_sub_score_map::$hzdc_zdf,
+                    Quantity_sub_score_map::$xzcf_zdf,
+                    Quantity_sub_score_map::$police_name,
+                    Quantity_sub_score_map::$year_month_show,
+                    Quantity_sub_score_map::$dd_name,
+                ],
+                substr($sql, 1)
+            );
 
         return;
 
@@ -822,19 +890,36 @@ class HZ_group extends Table_group
     }
 
 
-    static function group_update($mysqli, $param)
+    public static function xzcf_group_update($mysqli, $date = null)
     {
-        // TODO: Implement group_update() method.
+        XZCF_group::group_update_date_in($mysqli, $date);
+        HZ_group::update_xzcf_by_date($mysqli, $date);
     }
 
-    static function group_update_date_in($mysqli, $date_arr)
+    public static function hzdc_group_update($mysqli, $date = null)
     {
-        // TODO: Implement group_update_date_in() method.
+        HZDC_group::group_update_date_in($mysqli, $date);
+        HZ_group::update_hzdc_by_date($mysqli, $date);
     }
 
-    static function group_update_by_id($mysqli, $id)
+    public static function jdjc_group_update($mysqli, $date = null)
     {
-        // TODO: Implement group_update_by_id() method.
+        JDJC_group::group_update($mysqli, $date);
+        HZ_group::update_jdjc_by_date($mysqli, $date);
+    }
+
+    public static function jsys_group_update($mysqli, $date = null)
+    {
+        JSYS_group::group_update($mysqli, $date);
+        HZ_group::update_jsys_by_date($mysqli, $date);
+    }
+
+    public static function group_update($mysqli, $date = null)
+    {
+        self::jdjc_group_update($mysqli, $date);
+        self::jsys_group_update($mysqli, $date);
+        self::hzdc_group_update($mysqli, $date);
+        self::xzcf_group_update($mysqli, $date);
     }
 
 }

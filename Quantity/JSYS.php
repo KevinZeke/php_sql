@@ -8,9 +8,11 @@
 
 require_once __DIR__ . '/Formula.class.php';
 require_once __DIR__ . '/../table/Table.class.php';
-require_once __DIR__ . '/Table_gropu.interface.php';
+require_once __DIR__ . '/Table_gropu.php';
 require_once __DIR__ . '/../sql/Sql.class.php';
 require_once __DIR__ . '/../map/Jianshenyanshou_sub_score.map.php';
+require_once __DIR__ . '/../map/Jianshenyanshou_gr_score.map.php';
+require_once __DIR__ . '/../map/Jianshenyanshou_gr_coef.map.php';
 require_once __DIR__ . '/../map/Quantity_xfjgys_gr_nbr.map.php';
 require_once __DIR__ . '/../map/Quantity_xfjgys_gr_sub_score.map.php';
 require_once __DIR__ . '/../map/Quantity_xfjgys_gr_basic_score.map.php';
@@ -91,6 +93,11 @@ class JSYS_formula extends Formula
      * @var array 字段对照：审核 => 验收总表sub
      */
     static $sh_2_sub;
+
+    /**
+     * @var array
+     */
+    static $jsys_sub_2_gr;
 }
 
 JSYS_formula::$jg_nbr_2_basic = [
@@ -495,6 +502,33 @@ JSYS_formula::$sh_2_sub = [
 ];
 
 
+JSYS_formula::$jsys_sub_2_gr = [
+    Jianshenyanshou_gr_score_map::$jgysbas_df => Formula::mul([
+        Jianshenyanshou_sub_score_map::$jgysbas_score,
+        Jianshenyanshou_gr_coef_map::$jgysbas_coef
+    ]),
+    Jianshenyanshou_gr_score_map::$sjbas_df => Formula::mul([
+        Jianshenyanshou_sub_score_map::$sjbas_score,
+        Jianshenyanshou_gr_coef_map::$sjbas_coef
+    ]),
+    Jianshenyanshou_gr_score_map::$sjshs_df => Formula::mul([
+        Jianshenyanshou_sub_score_map::$sjshs_score,
+        Jianshenyanshou_gr_coef_map::$sjshs_coef
+    ]),
+    Jianshenyanshou_gr_score_map::$xfyss_df => Formula::mul([
+        Jianshenyanshou_sub_score_map::$xfyss_score,
+        Jianshenyanshou_gr_coef_map::$xfyss_coef
+    ])
+];
+
+JSYS_formula::$jsys_sub_2_gr[Jianshenyanshou_gr_score_map::$jsys_zdf] = Formula::plus([
+    JSYS_formula::$jsys_sub_2_gr[Jianshenyanshou_gr_score_map::$xfyss_df],
+    JSYS_formula::$jsys_sub_2_gr[Jianshenyanshou_gr_score_map::$sjbas_df],
+    JSYS_formula::$jsys_sub_2_gr[Jianshenyanshou_gr_score_map::$jgysbas_df],
+    JSYS_formula::$jsys_sub_2_gr[Jianshenyanshou_gr_score_map::$sjshs_df]
+]);
+
+
 /**
  * Class JSYS_group 建审验收相关表格组类
  */
@@ -513,7 +547,7 @@ class JSYS_group extends Table_group
         if (!$param || $param == '') die("更新必须提供有效参数");
 
         return (new Table(Quantity_xfjgys_gr_sub_score_map::$table_name,
-            SqlTool::build_by_mysqli($mysqli)))
+            Sql_tool::build_by_mysqli($mysqli)))
             ->union_update(
                 [
                     Quantity_xfjgys_gr_basic_coef_map::$table_name,
@@ -537,7 +571,7 @@ class JSYS_group extends Table_group
         if (!$param || $param == '') die("更新必须提供有效参数");
 
         return (new Table(Quantity_xfsjbas_gr_sub_score_map::$table_name,
-            SqlTool::build_by_mysqli($mysqli)))
+            Sql_tool::build_by_mysqli($mysqli)))
             ->union_update(
                 [
                     Quantity_xfsjbas_gr_basic_coef_map::$table_name,
@@ -561,7 +595,7 @@ class JSYS_group extends Table_group
         if (!$param || $param == '') die("更新必须提供有效参数");
 
         return (new Table(Quantity_xfsjshs_gr_sub_score_map::$table_name,
-            SqlTool::build_by_mysqli($mysqli)))
+            Sql_tool::build_by_mysqli($mysqli)))
             ->union_update(
                 [
                     Quantity_xfsjshs_gr_basic_coef_map::$table_name,
@@ -585,7 +619,7 @@ class JSYS_group extends Table_group
         if (!$param || $param == '') die("更新必须提供有效参数");
 
         return (new Table(Quantity_xfyss_gr_sub_score_map::$table_name,
-            SqlTool::build_by_mysqli($mysqli)))
+            Sql_tool::build_by_mysqli($mysqli)))
             ->union_update(
                 [
                     Quantity_xfyss_gr_basic_coef_map::$table_name,
@@ -609,7 +643,7 @@ class JSYS_group extends Table_group
     {
         return self::jg_sub_update(
             $mysqli,
-            SqlTool::WHERE([
+            Sql_tool::WHERE([
                 Quantity_xfjgys_gr_basic_score_map::$number_id
                 => Quantity_xfjgys_gr_nbr_map::$number_id,
                 Quantity_xfjgys_gr_sub_score_map::$number_id
@@ -629,7 +663,7 @@ class JSYS_group extends Table_group
     public static function ba_sub_update_by_id($mysqli, $id, $other_param = '')
     {
         return self::ba_sub_update($mysqli,
-            SqlTool::WHERE([
+            Sql_tool::WHERE([
                 Quantity_xfsjbas_gr_basic_score_map::$number_id
                 => Quantity_xfsjbas_gr_nbr_map::$number_id,
                 Quantity_xfsjbas_gr_sub_score_map::$number_id
@@ -649,7 +683,7 @@ class JSYS_group extends Table_group
     public static function sh_sub_update_by_id($mysqli, $id, $other_param = '')
     {
         return self::sh_sub_update($mysqli,
-            SqlTool::WHERE([
+            Sql_tool::WHERE([
                 Quantity_xfsjshs_gr_basic_score_map::$number_id
                 => Quantity_xfsjshs_gr_nbr_map::$number_id,
                 Quantity_xfsjshs_gr_sub_score_map::$number_id
@@ -669,7 +703,7 @@ class JSYS_group extends Table_group
     public static function ys_sub_update_by_id($mysqli, $id, $other_param = '')
     {
         return self::ys_sub_update($mysqli,
-            SqlTool::WHERE([
+            Sql_tool::WHERE([
                 Quantity_xfyss_gr_basic_score_map::$number_id
                 => Quantity_xfyss_gr_nbr_map::$number_id,
                 Quantity_xfyss_gr_sub_score_map::$number_id
@@ -690,12 +724,12 @@ class JSYS_group extends Table_group
     {
         return self::jg_sub_update(
             $mysqli,
-            SqlTool::WHERE([
+            Sql_tool::WHERE([
                 Quantity_xfjgys_gr_basic_score_map::$number_id
                 => Quantity_xfjgys_gr_nbr_map::$number_id,
                 Quantity_xfjgys_gr_sub_score_map::$number_id
                 => Quantity_xfjgys_gr_nbr_map::$number_id
-            ], false) . SqlTool::BETWEEN(
+            ], false) . Sql_tool::BETWEEN(
                 Quantity_xfjgys_gr_nbr_map::$year_month_show,
                 $date_arr
             ) . $other_param
@@ -712,12 +746,12 @@ class JSYS_group extends Table_group
     public static function ba_sub_update_date_in($mysqli, $date_arr, $other_param = '')
     {
         return self::ba_sub_update($mysqli,
-            SqlTool::WHERE([
+            Sql_tool::WHERE([
                 Quantity_xfsjbas_gr_basic_score_map::$number_id
                 => Quantity_xfsjbas_gr_nbr_map::$number_id,
                 Quantity_xfsjbas_gr_sub_score_map::$number_id
                 => Quantity_xfsjbas_gr_nbr_map::$number_id
-            ], false) . SqlTool::BETWEEN(
+            ], false) . Sql_tool::BETWEEN(
                 Quantity_xfsjbas_gr_nbr_map::$year_month_show,
                 $date_arr
             ) . $other_param
@@ -735,12 +769,12 @@ class JSYS_group extends Table_group
     public static function sh_sub_update_date_in($mysqli, $date_arr, $other_param = '')
     {
         return self::sh_sub_update($mysqli,
-            SqlTool::WHERE([
+            Sql_tool::WHERE([
                 Quantity_xfsjshs_gr_basic_score_map::$number_id
                 => Quantity_xfsjshs_gr_nbr_map::$number_id,
                 Quantity_xfsjshs_gr_sub_score_map::$number_id
                 => Quantity_xfsjshs_gr_nbr_map::$number_id
-            ], false) . SqlTool::BETWEEN(
+            ], false) . Sql_tool::BETWEEN(
                 Quantity_xfsjshs_gr_nbr_map::$year_month_show,
                 $date_arr
             ) . $other_param
@@ -758,12 +792,12 @@ class JSYS_group extends Table_group
     public static function ys_sub_update_date_in($mysqli, $date_arr, $other_param = '')
     {
         return self::ys_sub_update($mysqli,
-            SqlTool::WHERE([
+            Sql_tool::WHERE([
                 Quantity_xfyss_gr_basic_score_map::$number_id
                 => Quantity_xfyss_gr_nbr_map::$number_id,
                 Quantity_xfyss_gr_sub_score_map::$number_id
                 => Quantity_xfyss_gr_nbr_map::$number_id
-            ], false) . SqlTool::BETWEEN(
+            ], false) . Sql_tool::BETWEEN(
                 Quantity_xfyss_gr_nbr_map::$year_month_show,
                 $date_arr
             ) . $other_param
@@ -773,14 +807,14 @@ class JSYS_group extends Table_group
 
     /**
      * 判断建审验收总表该人该日是否存在数据
-     * @param mysqli|SqlTool $db
+     * @param mysqli|Sql_tool $db
      * @param string $name
      * @param string $date
      * @return bool
      */
     public static function is_row_ext($db, $name, $date)
     {
-        return parent::is_row_ext(
+        return parent::_is_row_ext(
             $db, Jianshenyanshou_sub_score_map::$table_name, $name, $date
         );
     }
@@ -793,13 +827,13 @@ class JSYS_group extends Table_group
      */
     static function jianshen_insert_sh($mysqli, $param = '')
     {
-        return (new Table(Jianshenyanshou_sub_score_map::$table_name, SqlTool::build_by_mysqli($mysqli)))
+        return (new Table(Jianshenyanshou_sub_score_map::$table_name, Sql_tool::build_by_mysqli($mysqli)))
             ->union_insert(
                 [
                     Quantity_xfsjshs_gr_sub_score_map::$table_name
                 ],
                 JSYS_formula::$sh_2_sub,
-                $param . SqlTool::GROUP([
+                $param . Sql_tool::GROUP([
                     Quantity_xfsjshs_gr_sub_score_map::$year_month_show,
                     Quantity_xfsjshs_gr_sub_score_map::$police_name
                 ])
@@ -814,13 +848,13 @@ class JSYS_group extends Table_group
      */
     static function jianshen_insert_jg($mysqli, $param = '')
     {
-        return (new Table(Jianshenyanshou_sub_score_map::$table_name, SqlTool::build_by_mysqli($mysqli)))
+        return (new Table(Jianshenyanshou_sub_score_map::$table_name, Sql_tool::build_by_mysqli($mysqli)))
             ->union_insert(
                 [
                     Quantity_xfjgys_gr_sub_score_map::$table_name
                 ],
                 JSYS_formula::$jg_2_sub,
-                $param . SqlTool::GROUP([
+                $param . Sql_tool::GROUP([
                     Quantity_xfjgys_gr_sub_score_map::$year_month_show,
                     Quantity_xfjgys_gr_sub_score_map::$police_name
                 ])
@@ -835,13 +869,13 @@ class JSYS_group extends Table_group
      */
     static function jianshen_insert_ba($mysqli, $param = '')
     {
-        return (new Table(Jianshenyanshou_sub_score_map::$table_name, SqlTool::build_by_mysqli($mysqli)))
+        return (new Table(Jianshenyanshou_sub_score_map::$table_name, Sql_tool::build_by_mysqli($mysqli)))
             ->union_insert(
                 [
                     Quantity_xfsjbas_gr_sub_score_map::$table_name
                 ],
                 JSYS_formula::$ba_2_sub,
-                $param . SqlTool::GROUP([
+                $param . Sql_tool::GROUP([
                     Quantity_xfsjbas_gr_sub_score_map::$year_month_show,
                     Quantity_xfsjbas_gr_sub_score_map::$police_name
                 ])
@@ -856,13 +890,13 @@ class JSYS_group extends Table_group
      */
     static function jianshen_insert_ys($mysqli, $param = '')
     {
-        return (new Table(Jianshenyanshou_sub_score_map::$table_name, SqlTool::build_by_mysqli($mysqli)))
+        return (new Table(Jianshenyanshou_sub_score_map::$table_name, Sql_tool::build_by_mysqli($mysqli)))
             ->union_insert(
                 [
                     Quantity_xfyss_gr_sub_score_map::$table_name
                 ],
                 JSYS_formula::$ys_2_sub,
-                $param . SqlTool::GROUP([
+                $param . Sql_tool::GROUP([
                     Quantity_xfyss_gr_sub_score_map::$year_month_show,
                     Quantity_xfyss_gr_sub_score_map::$police_name
                 ])
@@ -885,7 +919,7 @@ class JSYS_group extends Table_group
 //                Quantity_xfsjshs_gr_sub_score_map::$year_month_show => $date
 //            ])
             parent::format_date(Quantity_xfsjshs_gr_sub_score_map::$year_month_show, $date)
-            . SqlTool::ANDC([Quantity_xfsjshs_gr_sub_score_map::$police_name => $police_name])
+            . Sql_tool::ANDC([Quantity_xfsjshs_gr_sub_score_map::$police_name => $police_name])
         );
     }
 
@@ -905,7 +939,7 @@ class JSYS_group extends Table_group
 //                Quantity_xfsjbas_gr_sub_score_map::$year_month_show => $date
 //            ])
             parent::format_date(Quantity_xfsjbas_gr_sub_score_map::$year_month_show, $date)
-            . SqlTool::ANDC([Quantity_xfsjbas_gr_sub_score_map::$police_name => $police_name])
+            . Sql_tool::ANDC([Quantity_xfsjbas_gr_sub_score_map::$police_name => $police_name])
         );
     }
 
@@ -925,7 +959,7 @@ class JSYS_group extends Table_group
 //                Quantity_xfjgys_gr_sub_score_map::$year_month_show => $date
 //            ])
             parent::format_date(Quantity_xfjgys_gr_sub_score_map::$year_month_show, $date)
-            . SqlTool::ANDC([Quantity_xfjgys_gr_sub_score_map::$police_name => $police_name])
+            . Sql_tool::ANDC([Quantity_xfjgys_gr_sub_score_map::$police_name => $police_name])
         );
     }
 
@@ -945,7 +979,7 @@ class JSYS_group extends Table_group
 //                Quantity_xfyss_gr_sub_score_map::$year_month_show => $date
 //            ])
             parent::format_date(Quantity_xfyss_gr_sub_score_map::$year_month_show, $date)
-            . SqlTool::ANDC([Quantity_xfyss_gr_sub_score_map::$police_name => $police_name])
+            . Sql_tool::ANDC([Quantity_xfyss_gr_sub_score_map::$police_name => $police_name])
         );
     }
 
@@ -959,7 +993,7 @@ class JSYS_group extends Table_group
      */
     static function jianshen_update_sh_item($mysqli, $police_name, $date, $row_check = false)
     {
-        $db = SqlTool::build_by_mysqli($mysqli);
+        $db = Sql_tool::build_by_mysqli($mysqli);
 
         if ($row_check) {
             if (!self::is_row_ext($db, $police_name, $date)) {
@@ -970,7 +1004,7 @@ class JSYS_group extends Table_group
             ->union_update(
                 [
                     "(SELECT ifnull(SUM(" . Quantity_xfsjshs_gr_sub_score_map::$sjshs_total_score . "),0) AS res , police_name,year_month_show FROM " . Quantity_xfsjshs_gr_sub_score_map::$table_name .
-                    SqlTool::WHERE([
+                    Sql_tool::WHERE([
                         Quantity_xfsjshs_gr_sub_score_map::$year_month_show => $date,
                         Quantity_xfsjshs_gr_sub_score_map::$police_name => $police_name
                     ]) . ') A'
@@ -978,7 +1012,7 @@ class JSYS_group extends Table_group
                 [
                     Jianshenyanshou_sub_score_map::$sjshs_score => 'A.res'
                 ],
-                SqlTool::WHERE([
+                Sql_tool::WHERE([
                     Jianshenyanshou_sub_score_map::$year_month_show => $date,
                     Jianshenyanshou_sub_score_map::$police_name => $police_name
                 ], true)
@@ -1013,14 +1047,14 @@ class JSYS_group extends Table_group
                 Quantity_xfsjshs_gr_sub_score_map::$year_month_show,
                 $date
             ) .
-            SqlTool::GROUP([
+            Sql_tool::GROUP([
                 Quantity_xfsjshs_gr_sub_score_map::$year_month_show,
                 Quantity_xfsjshs_gr_sub_score_map::$police_name
             ]),
-            SqlTool::WHERE([
+            Sql_tool::WHERE([
                 Jianshenyanshou_sub_score_map::$year_month_show => 'A.year_month_show',
                 Jianshenyanshou_sub_score_map::$police_name => 'A.police_name',
-            ],false)
+            ], false)
         );
     }
 
@@ -1034,7 +1068,7 @@ class JSYS_group extends Table_group
      */
     static function jianshen_update_ys_item($mysqli, $police_name, $date, $row_check = false)
     {
-        $db = SqlTool::build_by_mysqli($mysqli);
+        $db = Sql_tool::build_by_mysqli($mysqli);
 
         if ($row_check) {
             if (!self::is_row_ext($db, $police_name, $date)) {
@@ -1045,7 +1079,7 @@ class JSYS_group extends Table_group
             ->union_update(
                 [
                     "(SELECT ifnull(SUM(" . Quantity_xfyss_gr_sub_score_map::$gcys_total_score . "),0) AS res , police_name,year_month_show FROM " . Quantity_xfyss_gr_sub_score_map::$table_name .
-                    SqlTool::WHERE([
+                    Sql_tool::WHERE([
                         Quantity_xfyss_gr_sub_score_map::$year_month_show => $date,
                         Quantity_xfyss_gr_sub_score_map::$police_name => $police_name
                     ]) . ') A'
@@ -1053,7 +1087,7 @@ class JSYS_group extends Table_group
                 [
                     Jianshenyanshou_sub_score_map::$xfyss_score => 'A.res'
                 ],
-                SqlTool::WHERE([
+                Sql_tool::WHERE([
                     Jianshenyanshou_sub_score_map::$year_month_show => $date,
                     Jianshenyanshou_sub_score_map::$police_name => $police_name
                 ])
@@ -1088,14 +1122,14 @@ class JSYS_group extends Table_group
                 Quantity_xfyss_gr_sub_score_map::$year_month_show,
                 $date
             ) .
-            SqlTool::GROUP([
+            Sql_tool::GROUP([
                 Quantity_xfyss_gr_sub_score_map::$year_month_show,
                 Quantity_xfyss_gr_sub_score_map::$police_name
             ]),
-            SqlTool::WHERE([
+            Sql_tool::WHERE([
                 Jianshenyanshou_sub_score_map::$year_month_show => 'A.year_month_show',
                 Jianshenyanshou_sub_score_map::$police_name => 'A.police_name',
-            ],false)
+            ], false)
         );
     }
 
@@ -1109,7 +1143,7 @@ class JSYS_group extends Table_group
      */
     static function jianshen_update_jg_item($mysqli, $police_name, $date, $row_check = false)
     {
-        $db = SqlTool::build_by_mysqli($mysqli);
+        $db = Sql_tool::build_by_mysqli($mysqli);
 
         if ($row_check) {
             if (!self::is_row_ext($db, $police_name, $date)) {
@@ -1120,7 +1154,7 @@ class JSYS_group extends Table_group
             ->union_update(
                 [
                     "(SELECT ifnull(SUM(" . Quantity_xfjgys_gr_sub_score_map::$jgysbacc_total_score . "),0) AS res , police_name,year_month_show FROM " . Quantity_xfjgys_gr_sub_score_map::$table_name .
-                    SqlTool::WHERE([
+                    Sql_tool::WHERE([
                         Quantity_xfjgys_gr_sub_score_map::$year_month_show => $date,
                         Quantity_xfjgys_gr_sub_score_map::$police_name => $police_name
                     ]) . ') A'
@@ -1128,7 +1162,7 @@ class JSYS_group extends Table_group
                 [
                     Jianshenyanshou_sub_score_map::$jgysbas_score => 'A.res'
                 ],
-                SqlTool::WHERE([
+                Sql_tool::WHERE([
                     Jianshenyanshou_sub_score_map::$year_month_show => $date,
                     Jianshenyanshou_sub_score_map::$police_name => $police_name
                 ])
@@ -1163,14 +1197,14 @@ class JSYS_group extends Table_group
                 Quantity_xfjgys_gr_sub_score_map::$year_month_show,
                 $date
             ) .
-            SqlTool::GROUP([
+            Sql_tool::GROUP([
                 Quantity_xfjgys_gr_sub_score_map::$year_month_show,
                 Quantity_xfjgys_gr_sub_score_map::$police_name
             ]),
-            SqlTool::WHERE([
+            Sql_tool::WHERE([
                 Jianshenyanshou_sub_score_map::$year_month_show => 'A.year_month_show',
                 Jianshenyanshou_sub_score_map::$police_name => 'A.police_name',
-            ],false)
+            ], false)
         );
     }
 
@@ -1184,7 +1218,7 @@ class JSYS_group extends Table_group
      */
     static function jianshen_update_ba_item($mysqli, $police_name, $date, $row_check = false)
     {
-        $db = SqlTool::build_by_mysqli($mysqli);
+        $db = Sql_tool::build_by_mysqli($mysqli);
 
         if ($row_check) {
             if (!self::is_row_ext($db, $police_name, $date)) {
@@ -1195,7 +1229,7 @@ class JSYS_group extends Table_group
             ->union_update(
                 [
                     "(SELECT ifnull(SUM(" . Quantity_xfsjbas_gr_sub_score_map::$sjbabacc_total_score . "),0) AS res , police_name,year_month_show FROM " . Quantity_xfsjbas_gr_sub_score_map::$table_name .
-                    SqlTool::WHERE([
+                    Sql_tool::WHERE([
                         Quantity_xfsjbas_gr_sub_score_map::$year_month_show => $date,
                         Quantity_xfsjbas_gr_sub_score_map::$police_name => $police_name
                     ]) . ') A'
@@ -1203,7 +1237,7 @@ class JSYS_group extends Table_group
                 [
                     Jianshenyanshou_sub_score_map::$sjbas_score => 'A.res'
                 ],
-                SqlTool::WHERE([
+                Sql_tool::WHERE([
                     Jianshenyanshou_sub_score_map::$year_month_show => $date,
                     Jianshenyanshou_sub_score_map::$police_name => $police_name
                 ])
@@ -1238,19 +1272,40 @@ class JSYS_group extends Table_group
                 Quantity_xfsjbas_gr_sub_score_map::$year_month_show,
                 $date
             ) .
-            SqlTool::GROUP([
+            Sql_tool::GROUP([
                 Quantity_xfsjbas_gr_sub_score_map::$year_month_show,
                 Quantity_xfsjbas_gr_sub_score_map::$police_name
             ]),
-            SqlTool::WHERE([
+            Sql_tool::WHERE([
                 Jianshenyanshou_sub_score_map::$year_month_show => 'A.year_month_show',
                 Jianshenyanshou_sub_score_map::$police_name => 'A.police_name',
-            ],false)
+            ], false)
         );
     }
 
+    public static function jianshen_update_sub_2_gr_by_date($db, $date = null)
+    {
+        $sqltool = parent::sqlTool_build($db);
+        return (new Table(Jianshenyanshou_gr_score_map::$table_name, $sqltool))
+            ->union_update(
+                [
+                    Jianshenyanshou_sub_score_map::$table_name,
+                    Jianshenyanshou_gr_coef_map::$table_name
+                ],
+                JSYS_formula::$jsys_sub_2_gr,
+                Sql_tool::WHERE([
+                    Jianshenyanshou_gr_score_map::$number_id => Jianshenyanshou_sub_score_map::$number_id
+                ], false) .
+                parent::format_date(
+                    Jianshenyanshou_sub_score_map::$year_month_show,
+                    $date,
+                    true
+                )
+            );
+    }
+
     /**
-     * @param mysqli|SqlTool $db
+     * @param mysqli|Sql_tool $db
      * @param null|string|array $date
      */
     public static function jsys_clear($db, $date = null)
@@ -1275,15 +1330,16 @@ class JSYS_group extends Table_group
      */
     static function group_insert($mysqli, $date = null)
     {
-        $sqlTool = SqlTool::build_by_mysqli($mysqli);
-
+        $sqlTool = Sql_tool::build_by_mysqli($mysqli);
 
 
         $sqlTool->do_not_gone_away();
 
+        Sql_tool::devopen();
+
         self::jsys_clear($sqlTool, $date);
 
-        self::jianshen_insert_sh(
+        $afr = self::jianshen_insert_sh(
             $mysqli,
             parent::format_date(
                 Quantity_xfsjshs_gr_sub_score_map::$year_month_show,
@@ -1291,7 +1347,9 @@ class JSYS_group extends Table_group
             )
         );
 
-        self::jianshen_insert_jg(
+        echo '      *sh finished , affect rows : ' . "$afr | ";
+
+        $afr = self::jianshen_insert_jg(
             $mysqli,
             parent::format_date(
                 Quantity_xfjgys_gr_sub_score_map::$year_month_show,
@@ -1299,7 +1357,10 @@ class JSYS_group extends Table_group
             )
         );
 
-        self::jianshen_insert_ba(
+        echo '*jg finished , affect rows : ' . "$afr | ";
+
+
+        $afr = self::jianshen_insert_ba(
             $mysqli,
             parent::format_date(
                 Quantity_xfsjbas_gr_sub_score_map::$year_month_show,
@@ -1307,7 +1368,9 @@ class JSYS_group extends Table_group
             )
         );
 
-        self::jianshen_insert_ys(
+        echo '*ba finished , affect rows : ' . "$afr | ";
+
+        $afr = self::jianshen_insert_ys(
             $mysqli,
             parent::format_date(
                 Quantity_xfyss_gr_sub_score_map::$year_month_show,
@@ -1315,14 +1378,17 @@ class JSYS_group extends Table_group
             )
         );
 
+        echo '*ys finished , affect rows : ' . "$afr\n";
+
+
         $hz_table = (new Table(Jianshenyanshou_sub_score_map::$table_name, $sqlTool));
         $res = $hz_table
             ->group_query(
                 [
-                    SqlTool::SUM(Jianshenyanshou_sub_score_map::$sjshs_score) => 'sh',
-                    SqlTool::SUM(Jianshenyanshou_sub_score_map::$sjbas_score) => 'ba',
-                    SqlTool::SUM(Jianshenyanshou_sub_score_map::$jgysbas_score) => 'jg',
-                    SqlTool::SUM(Jianshenyanshou_sub_score_map::$xfyss_score) => 'ys',
+                    Sql_tool::SUM(Jianshenyanshou_sub_score_map::$sjshs_score) => 'sh',
+                    Sql_tool::SUM(Jianshenyanshou_sub_score_map::$sjbas_score) => 'ba',
+                    Sql_tool::SUM(Jianshenyanshou_sub_score_map::$jgysbas_score) => 'jg',
+                    Sql_tool::SUM(Jianshenyanshou_sub_score_map::$xfyss_score) => 'ys',
                     Jianshenyanshou_sub_score_map::$police_name => 'n',
                     Jianshenyanshou_sub_score_map::$year_month_show => 'y',
                     Jianshenyanshou_sub_score_map::$dd_name => 'd'
@@ -1340,6 +1406,8 @@ class JSYS_group extends Table_group
 
         self::jsys_clear($sqlTool, $date);
 
+        Sql_tool::devclose();
+
         echo 'JSYS : insert finished' . "\n";
 
         $sql = '';
@@ -1348,23 +1416,24 @@ class JSYS_group extends Table_group
                 $row['ba'] . ',' .
                 $row['jg'] . ',' .
                 $row['ys'] . ',' .
-                SqlTool::QUOTE($row['n']) . ',' .
-                SqlTool::QUOTE($row['y']) . ',' .
-                SqlTool::QUOTE($row['d']) . ')';
+                Sql_tool::QUOTE($row['n']) . ',' .
+                Sql_tool::QUOTE($row['y']) . ',' .
+                Sql_tool::QUOTE($row['d']) . ')';
         });
 
-        $hz_table->multi_insert(
-            [
-                Jianshenyanshou_sub_score_map::$sjshs_score,
-                Jianshenyanshou_sub_score_map::$sjbas_score,
-                Jianshenyanshou_sub_score_map::$jgysbas_score,
-                Jianshenyanshou_sub_score_map::$xfyss_score,
-                Jianshenyanshou_sub_score_map::$police_name,
-                Jianshenyanshou_sub_score_map::$year_month_show,
-                Jianshenyanshou_sub_score_map::$dd_name
-            ],
-            substr($sql, 1)
-        );
+        if ($sql != '')
+            $hz_table->multi_insert(
+                [
+                    Jianshenyanshou_sub_score_map::$sjshs_score,
+                    Jianshenyanshou_sub_score_map::$sjbas_score,
+                    Jianshenyanshou_sub_score_map::$jgysbas_score,
+                    Jianshenyanshou_sub_score_map::$xfyss_score,
+                    Jianshenyanshou_sub_score_map::$police_name,
+                    Jianshenyanshou_sub_score_map::$year_month_show,
+                    Jianshenyanshou_sub_score_map::$dd_name
+                ],
+                substr($sql, 1)
+            );
 
 
         return;
@@ -1426,5 +1495,43 @@ class JSYS_group extends Table_group
 
 
     }
+
+
+    static function sh_group_update($mysqli, $date = null)
+    {
+        JSYS_group::sh_sub_update_date_in($mysqli, $date);
+        JSYS_group::jianshen_update_sh_by_date($mysqli, $date);
+    }
+
+
+    static function jg_group_update($mysqli, $date = null)
+    {
+        JSYS_group::jg_sub_update_date_in($mysqli, $date);
+        JSYS_group::jianshen_update_jg_by_date($mysqli, $date);
+
+    }
+
+    static function ba_group_update($mysqli, $date = null)
+    {
+        JSYS_group::ba_sub_update_date_in($mysqli, $date);
+        JSYS_group::jianshen_update_ba_by_date($mysqli, $date);
+
+    }
+
+    static function ys_group_update($mysqli, $date = null)
+    {
+        JSYS_group::ys_sub_update_date_in($mysqli, $date);
+        JSYS_group::jianshen_update_ys_by_date($mysqli, $date);
+
+    }
+
+    static function group_update($mysqli, $date = null)
+    {
+        self::ys_group_update($mysqli,$date);
+        self::sh_group_update($mysqli,$date);
+        self::jg_group_update($mysqli,$date);
+        self::ba_group_update($mysqli,$date);
+    }
+
 
 }

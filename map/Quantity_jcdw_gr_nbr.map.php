@@ -38,6 +38,6 @@ class Quantity_jcdw_gr_nbr_map extends DB_map {
   static $jcdw_tolnum = 'quantity_jcdw_gr_nbr.jcdw_tolnum' ;
   static $number_id = 'quantity_jcdw_gr_nbr.number_id' ;
   static function all(){
-            return parent::all(__CLASS__);
+            //return parent::all();
         }
 }

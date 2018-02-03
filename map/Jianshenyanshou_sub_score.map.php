@@ -13,6 +13,6 @@ class Jianshenyanshou_sub_score_map extends DB_map {
   static $dd_name = 'jianshenyanshou_sub_score.dd_name' ;
   static $zhd_name = 'jianshenyanshou_sub_score.zhd_name' ;
   static function all(){
-            return parent::all(__CLASS__);
+            //return parent::all();
         }
 }

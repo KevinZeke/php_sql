@@ -6,14 +6,14 @@
  */
 
 require_once __DIR__ . '/../table/Table.class.php';
-require_once __DIR__ . '/../formula/Table_gropu.interface.php';
-require_once __DIR__ . '/../formula/HZ.php';
-require_once __DIR__ . '/../formula/JDJC.php';
-require_once __DIR__ . '/../formula/JSYS.php';
+require_once __DIR__ . '/../Quantity/Table_gropu.php';
+require_once __DIR__ . '/../Quantity/HZ.php';
+require_once __DIR__ . '/../Quantity/JDJC.php';
+require_once __DIR__ . '/../Quantity/JSYS.php';
 
 //echo Table_group::format_date('a','%212%');
 
-$sqltool = SqlTool::build();
+$sqltool = Sql_tool::build();
 $mysqli = $sqltool->get_mysqli();
 $name = '汤金保';
 $id = 10086;

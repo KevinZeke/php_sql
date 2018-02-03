@@ -17,6 +17,6 @@ class Quantity_xfyss_gr_basic_score_month_map extends DB_map {
   static $police_id = 'quantity_xfyss_gr_basic_score_month.police_id' ;
   static $number_id = 'quantity_xfyss_gr_basic_score_month.number_id' ;
   static function all(){
-            return parent::all(__CLASS__);
+            //return parent::all();
         }
 }

@@ -21,6 +21,6 @@ class Dadui_huizong_query_map extends DB_map {
   static $capacity_rank = 'dadui_huizong_query.capacity_rank' ;
   static $effect_rank = 'dadui_huizong_query.effect_rank' ;
   static function all(){
-            return parent::all(__CLASS__);
+            //return parent::all();
         }
 }

@@ -17,6 +17,6 @@ class Geren_huizong_query_map extends DB_map {
   static $dd_name = 'geren_huizong_query.dd_name' ;
   static $zhd_name = 'geren_huizong_query.zhd_name' ;
   static function all(){
-            return parent::all(__CLASS__);
+            //return parent::all();
         }
 }

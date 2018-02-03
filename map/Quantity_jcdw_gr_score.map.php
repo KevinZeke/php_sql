@@ -26,6 +26,6 @@ class Quantity_jcdw_gr_score_map extends DB_map {
   static $zhidui_rank = 'quantity_jcdw_gr_score.zhidui_rank' ;
   static $number_id = 'quantity_jcdw_gr_score.number_id' ;
   static function all(){
-            return parent::all(__CLASS__);
+            //return parent::all();
         }
 }

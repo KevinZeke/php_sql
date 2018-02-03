@@ -8,7 +8,7 @@
 
 require_once __DIR__ . '/../table/Table.class.php';
 require_once __DIR__ . '/Formula.class.php';
-require_once __DIR__ . '/Table_gropu.interface.php';
+require_once __DIR__ . '/Table_gropu.php';
 require_once __DIR__ . '/../sql/Sql.class.php';
 require_once __DIR__ . '/../map/Quantity_hzdc_gr_nbr.map.php';
 require_once __DIR__ . '/../map/Quantity_hzdc_gr_basic_coef.map.php';
@@ -86,7 +86,7 @@ class HZDC_group extends Table_group
 
     static function basicscore_update($mysqli, $param)
     {
-        return (new Table(Quantity_hzdc_gr_basic_score_map::$table_name, SqlTool::build_by_mysqli($mysqli)))
+        return (new Table(Quantity_hzdc_gr_basic_score_map::$table_name, Sql_tool::build_by_mysqli($mysqli)))
             ->union_update(
                 [
                     Quantity_hzdc_gr_nbr_map::$table_name,
@@ -99,7 +99,7 @@ class HZDC_group extends Table_group
 
     static function subscore_update($mysqli, $param)
     {
-        return (new Table(Quantity_hzdc_gr_sub_score_map::$table_name, SqlTool::build_by_mysqli($mysqli)))
+        return (new Table(Quantity_hzdc_gr_sub_score_map::$table_name, Sql_tool::build_by_mysqli($mysqli)))
             ->union_update(
                 [
                     Quantity_hzdc_gr_basic_score_map::$table_name,
@@ -113,7 +113,7 @@ class HZDC_group extends Table_group
     static function group_update($mysqli, $param)
     {
 
-        return (new Table(Quantity_hzdc_gr_sub_score_map::$table_name, SqlTool::build_by_mysqli($mysqli)))
+        return (new Table(Quantity_hzdc_gr_sub_score_map::$table_name, Sql_tool::build_by_mysqli($mysqli)))
             ->union_update(
                 [
                     Quantity_hzdc_gr_nbr_map::$table_name,
@@ -128,13 +128,17 @@ class HZDC_group extends Table_group
 
     }
 
-    static function group_update_date_in($mysqli, $date_arr)
+    static function group_update_date_in($mysqli, $date_arr = null)
     {
-        $param = SqlTool::WHERE([
+        $param = Sql_tool::WHERE([
                 Quantity_hzdc_gr_sub_score_map::$number_id => Quantity_hzdc_gr_nbr_map::$number_id,
                 Quantity_hzdc_gr_basic_score_map::$number_id => Quantity_hzdc_gr_nbr_map::$number_id
             ], false) .
-            SqlTool::BETWEEN(Quantity_hzdc_gr_nbr_map::$year_month_show, $date_arr);
+            parent::format_date(
+                Quantity_hzdc_gr_nbr_map::$year_month_show,
+                $date_arr,
+                true
+            );
 
         return self::group_update($mysqli, $param);
 
@@ -142,11 +146,11 @@ class HZDC_group extends Table_group
 
     static function group_update_by_id($mysqli, $number_id)
     {
-        $param = SqlTool::WHERE([
+        $param = Sql_tool::WHERE([
                 Quantity_hzdc_gr_sub_score_map::$number_id => Quantity_hzdc_gr_nbr_map::$number_id,
                 Quantity_hzdc_gr_basic_score_map::$number_id => Quantity_hzdc_gr_nbr_map::$number_id
             ], false) .
-            SqlTool::ANDC([Quantity_hzdc_gr_nbr_map::$number_id, $number_id], false);
+            Sql_tool::ANDC([Quantity_hzdc_gr_nbr_map::$number_id, $number_id], false);
 
         return self::group_update($mysqli, $param);
     }

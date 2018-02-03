@@ -21,22 +21,22 @@ class Table_group
 
     /**
      * 判断当前数据表是否存在符合日期和警员名的数据
-     * @param SqlTool|mysqli $db
+     * @param Sql_tool|mysqli $db
      * @param string $table_name
      * @param string $name 警员名
      * @param string $date 日期
      * @return bool 返回布尔值
      */
-    public static function is_row_ext($db, $table_name, $name, $date)
+    public static function _is_row_ext($db, $table_name, $name, $date)
     {
         $sql = "SELECT 1 AS num
 	        FROM $table_name
 	        WHERE year_month_show = '$date'
 	        AND police_name = '$name' LIMIT 1";
-        if ($db instanceof SqlTool)
+        if ($db instanceof Sql_tool)
             $res = $db->execute_dql($sql)->fetch_array();
         else if ($db instanceof mysqli)
-            $res = SqlTool::build_by_mysqli($db)->execute_dql($sql)->fetch_array();
+            $res = Sql_tool::build_by_mysqli($db)->execute_dql($sql)->fetch_array();
         else
             die("the first argument must be instanceof SqlTool or mysqli");
         if ($res[0] > 0) {
@@ -47,33 +47,33 @@ class Table_group
     }
 
     /**
-     * @param mysqli|SqlTool $db
-     * @return SqlTool
+     * @param mysqli|Sql_tool $db
+     * @return Sql_tool
      */
     public final static function sqlTool_build($db)
     {
-        if ($db instanceof SqlTool)
+        if ($db instanceof Sql_tool)
             return $db;
         else if ($db instanceof mysqli)
-            return SqlTool::build_by_mysqli($db);
+            return Sql_tool::build_by_mysqli($db);
 
         die("sqlTool_build函数必须接受一个SqlTool实例或者mysqli实例作为参数");
 
     }
 
-    protected final static function format_date($date_field_name, $date, $no_prefix = false)
+    public final static function format_date($date_field_name, $date, $no_prefix = false)
     {
         if (!$date) return '';
 
         if (is_array($date))
-            return ($no_prefix ? '' : SqlTool::WHERE()) . SqlTool::BETWEEN(
+            return ($no_prefix ? '' : Sql_tool::WHERE()) . Sql_tool::BETWEEN(
                     $date_field_name, $date
                 );
         else if (is_string($date))
             return
-                $no_prefix?SqlTool::ANDC([$date_field_name => $date])
+                $no_prefix?Sql_tool::ANDC([$date_field_name => $date])
                 :
-                SqlTool::WHERE([$date_field_name => $date]);
+                Sql_tool::WHERE([$date_field_name => $date]);
 
     }
 

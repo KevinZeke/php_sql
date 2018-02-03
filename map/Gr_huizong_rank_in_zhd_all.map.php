@@ -11,6 +11,6 @@ class Gr_huizong_rank_in_zhd_all_map extends DB_map {
   static $year_month_show = 'gr_huizong_rank_in_zhd_all.year_month_show' ;
   static $number_id = 'gr_huizong_rank_in_zhd_all.number_id' ;
   static function all(){
-            return parent::all(__CLASS__);
+            //return parent::all();
         }
 }

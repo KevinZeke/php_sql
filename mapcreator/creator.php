@@ -9,20 +9,18 @@
 require_once __DIR__ . '/../sql/Sql.class.php';
 require_once __DIR__ . '/../table/Table.class.php';
 
+
 $db = "huaianzhd_db";
 
-if ($argc > 1) {
-    $db = $argv[1];
-}
+$sqlTool = Sql_tool::build("localhost", "root", "123456", $db);
 
-$sqlTool = SqlTool::build("localhost", "root", "123456", $db);
-
-$res = $sqlTool->execute_dql("select table_name from information_schema.TABLES where TABLE_SCHEMA='huaianzhd_db' ");
+$res = $sqlTool->execute_dql("select table_name from information_schema.TABLES where TABLE_SCHEMA='$db' ");
 
 if (!!$res) {
     while (!!$row = $res->fetch_array()) {
-//        createClass($row['table_name'], $db, $sqlTool);
-        (new Table($row['table_name'], $sqlTool))->truncate();
+        createClass($row['table_name'], $db, $sqlTool);
+//        echo $row['table_name'];
+//        (new Table($row['table_name'], $sqlTool))->truncate();
     }
 }
 
@@ -47,7 +45,7 @@ function createClass($table, $db, $sqlTool)
             $resstr .= "\r\n";
         }
         $resstr .= "  static function all(){
-            return parent::all(__CLASS__);
+            //return parent::all();
         }\r\n";
         $resstr .= "}\r\n";
     }

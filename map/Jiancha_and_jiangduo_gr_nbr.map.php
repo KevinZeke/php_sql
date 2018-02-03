@@ -16,6 +16,6 @@ class Jiancha_and_jiangduo_gr_nbr_map extends DB_map {
   static $Total_staff_nbr = 'jiancha_and_jiangduo_gr_nbr.Total_staff_nbr' ;
   static $number_id = 'jiancha_and_jiangduo_gr_nbr.number_id' ;
   static function all(){
-            return parent::all(__CLASS__);
+            //return parent::all();
         }
 }

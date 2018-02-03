@@ -12,6 +12,6 @@ class Hazhd_huizong_query_map extends DB_map {
   static $effect_score = 'hazhd_huizong_query.effect_score' ;
   static $weighted_total_score = 'hazhd_huizong_query.weighted_total_score' ;
   static function all(){
-            return parent::all(__CLASS__);
+            //return parent::all();
         }
 }

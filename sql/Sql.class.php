@@ -2,16 +2,42 @@
 
 require_once __DIR__ . '/../log/Log.class.php';
 
-class SqlTool
+class Sql_tool
 {
+    /**
+     * @var bool 是否开发坏境，调试用
+     */
     static $isDev = false;
+
+    static function devopen()
+    {
+        self::$isDev = true;
+    }
+
+    static function devclose()
+    {
+        self::$isDev = false;
+    }
+
     /**
      * @var mysqli|null
      */
     private $mysqli = null;
+    /**
+     * @var string
+     */
     private $host;
+    /**
+     * @var string
+     */
     private $user;
+    /**
+     * @var string
+     */
     private $password;
+    /**
+     * @var string
+     */
     private $database;
 
     /**
@@ -24,19 +50,24 @@ class SqlTool
      */
     static function build($host = 'localhost', $user = 'root', $password = '123456', $database = 'huaianzhd_db')
     {
-        return (new SqlTool())->connect($host, $user, $password, $database);
+        return (new Sql_tool())->connect($host, $user, $password, $database);
     }
 
     /**
      * 该函数会通过传入一个mysqli实例进行实例化SqlTool
      * @param $mysqli
-     * @return SqlTool
+     * @return Sql_tool
      */
     static function build_by_mysqli($mysqli)
     {
-        return new SqlTool($mysqli);
+        return new Sql_tool($mysqli);
     }
 
+    /**
+     * Sql_tool类禁止实例化，需要使用静态构造方法 build*
+     * Sql_tool constructor.
+     * @param null|mysqli $mysqli
+     */
     private function __construct($mysqli = null)
     {
         $this->mysqli = $mysqli;
@@ -44,6 +75,13 @@ class SqlTool
 //            $this->mysqli->query('SET NAMES UTF8');
     }
 
+    /**
+     * @param string $host
+     * @param string $user
+     * @param string $password
+     * @param string $database
+     * @return Sql_tool $this
+     */
     private function connect($host, $user, $password, $database)
     {
         $this->host = $host;
@@ -84,6 +122,15 @@ class SqlTool
 
     /**
      * @param string $sql
+     * @return SqlResult
+     */
+    public function execute_dql_res($sql)
+    {
+        return new SqlResult($this->execute_dql($sql));
+    }
+
+    /**
+     * @param string $sql
      * @return int
      */
     public function execute_dml($sql)
@@ -106,13 +153,14 @@ class SqlTool
     }
 
     /**
-     * my dear sql, u can not leave me
+     * 对mysql的全局变量进行修改避免其处理长sql语句（>1m）时出现超时和拒绝的问题
      */
     public function do_not_gone_away()
     {
         $this->execute_dml("set global max_allowed_packet=268435456;");
         $this->execute_dml("set global wait_timeout = 2880000;");
         $this->execute_dml("set global interactive_timeout = 2880000;");
+//        $this->execute_dml("FLUSH PRIVILEGES;");
 
 //        return $this->mysqli->multi_query(
 //            'set global max_allowed_packet=268435456;
@@ -122,6 +170,9 @@ class SqlTool
 
     }
 
+    /**
+     * 关闭mysqli句柄
+     */
     public function close()
     {
         if ($this->mysqli != null) {
@@ -196,9 +247,33 @@ class SqlTool
         return ' AND ' . $field . ' BETWEEN \'' . $arr[0] . '\' AND \'' . $arr[1] . '\'';
     }
 
+    /**
+     * @param string $value
+     * @return string
+     */
     static function QUOTE($value)
     {
         return "'$value'";
+    }
+
+    /**
+     * @param string $table
+     * @param string $as_name
+     * @return string
+     */
+    static function CHILD($table, $as_name)
+    {
+        return " ($table) $as_name ";
+    }
+
+    /**
+     * @param array $str_arr
+     * @param string $as_name
+     * @return string
+     */
+    static function CONCAT($str_arr, $as_name)
+    {
+        return ' CONCAT(' . implode(',', $str_arr) . ')' . " AS $as_name ";
     }
 
     /**
@@ -296,6 +371,15 @@ class SqlResult
     }
 
     /**
+     * @param string $fetch_style
+     * @return mixed
+     */
+    public function fetch($fetch_style = 'fetch_array')
+    {
+        return call_user_func_array(array($this->sql_res, $fetch_style),[]);
+    }
+
+    /**
      * @param $filter
      * @param string $fetch_style
      * @return array
@@ -353,4 +437,15 @@ function hasstring($source, $target)
 {
     preg_match_all("/$target/sim", $source, $strResult, PREG_PATTERN_ORDER);
     return !empty($strResult[0]);
+}
+
+function remove_preg($str, $preg, $replace = "")
+{
+    return preg_replace("/$preg/i", $replace, $str);
+}
+
+function cmd_iconv($say, $in = 'UTF-8', $out = 'GB2312')
+{
+    echo iconv($in, $out, $say);
+    echo "\n";
 }

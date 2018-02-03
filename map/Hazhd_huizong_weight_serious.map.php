@@ -9,6 +9,6 @@ class Hazhd_huizong_weight_serious_map extends DB_map {
   static $capacity_weight = 'hazhd_huizong_weight_serious.capacity_weight' ;
   static $effect_weight = 'hazhd_huizong_weight_serious.effect_weight' ;
   static function all(){
-            return parent::all(__CLASS__);
+            //return parent::all();
         }
 }

@@ -12,6 +12,6 @@ class Quantity_xfsjshs_gr_basic_coef_map extends DB_map {
   static $sjshbuhg_qtdw_xiebr_xxqz = 'quantity_xfsjshs_gr_basic_coef.sjshbuhg_qtdw_xiebr_xxqz' ;
   static $number_id = 'quantity_xfsjshs_gr_basic_coef.number_id' ;
   static function all(){
-            return parent::all(__CLASS__);
+            //return parent::all();
         }
 }

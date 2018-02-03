@@ -33,6 +33,6 @@ class Quantity_jcdw_gr_basic_coef_map extends DB_map {
   static $fc_jc_feizddw_xiebr_xxqz = 'quantity_jcdw_gr_basic_coef.fc_jc_feizddw_xiebr_xxqz' ;
   static $number_id = 'quantity_jcdw_gr_basic_coef.number_id' ;
   static function all(){
-            return parent::all(__CLASS__);
+            //return parent::all();
         }
 }

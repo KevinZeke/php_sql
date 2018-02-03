@@ -8,6 +8,6 @@ class Jiancha_and_jiangduo_gr_coef_map extends DB_map {
   static $xflscfjdss_coef = 'jiancha_and_jiangduo_gr_coef.xflscfjdss_coef' ;
   static $number_id = 'jiancha_and_jiangduo_gr_coef.number_id' ;
   static function all(){
-            return parent::all(__CLASS__);
+            //return parent::all();
         }
 }

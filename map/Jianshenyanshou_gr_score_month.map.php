@@ -16,6 +16,6 @@ class Jianshenyanshou_gr_score_month_map extends DB_map {
   static $dd_name = 'jianshenyanshou_gr_score_month.dd_name' ;
   static $zhd_name = 'jianshenyanshou_gr_score_month.zhd_name' ;
   static function all(){
-            return parent::all(__CLASS__);
+            //return parent::all();
         }
 }

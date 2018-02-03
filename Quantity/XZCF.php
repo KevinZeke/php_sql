@@ -7,9 +7,10 @@
 
 require_once __DIR__ . '/Formula.class.php';
 require_once __DIR__ . '/../table/Table.class.php';
-require_once __DIR__ . '/Table_gropu.interface.php';
+require_once __DIR__ . '/Table_gropu.php';
 require_once __DIR__ . '/../sql/Sql.class.php';
 require_once __DIR__ . '/../map/Quantity_xzcf_gr_nbr.map.php';
+require_once __DIR__ . '/../map/Quantity_xzcf_gr_sub_coef.map.php';
 require_once __DIR__ . '/../map/Quantity_xzcf_gr_sub_score.map.php';
 require_once __DIR__ . '/../map/Quantity_xzcf_gr_basic_coef.map.php';
 
@@ -96,6 +97,7 @@ XZCF_formula::$nbr_2_subscore = [
             Quantity_xzcf_gr_sub_coef_map::$zlstdws_zxqz
         ]
     ),
+
     Quantity_xzcf_gr_sub_score_map::$xzcf_zdf =>
         Formula::plus([
             Quantity_xzcf_gr_sub_score_map::$zlstdws_sub_score,
@@ -103,6 +105,12 @@ XZCF_formula::$nbr_2_subscore = [
             Quantity_xzcf_gr_sub_score_map::$fks_sub_score
         ])
 ];
+
+XZCF_formula::$nbr_2_subscore[Quantity_xzcf_gr_sub_score_map::$xzcf_zdf] = Formula::plus([
+    XZCF_formula::$nbr_2_subscore[Quantity_xzcf_gr_sub_score_map::$zlstdws_sub_score],
+    XZCF_formula::$nbr_2_subscore[Quantity_xzcf_gr_sub_score_map::$jls_sub_score],
+    XZCF_formula::$nbr_2_subscore[Quantity_xzcf_gr_sub_score_map::$fks_sub_score]
+]);
 
 /**
  * Class XZCF_group
@@ -119,7 +127,7 @@ class XZCF_group extends Table_group
      */
     static function group_update($mysqli, $param)
     {
-        return (new Table(Quantity_xzcf_gr_sub_score_map::$table_name, SqlTool::build_by_mysqli($mysqli)))
+        return (new Table(Quantity_xzcf_gr_sub_score_map::$table_name, Sql_tool::build_by_mysqli($mysqli)))
             ->union_update(
                 [
                     Quantity_xzcf_gr_basic_coef_map::$table_name,
@@ -137,12 +145,16 @@ class XZCF_group extends Table_group
      * @param $date_arr
      * @return mixed
      */
-    static function group_update_date_in($mysqli, $date_arr)
+    static function group_update_date_in($mysqli, $date_arr = null)
     {
-        $param = SqlTool::WHERE([
+        $param = Sql_tool::WHERE([
                 Quantity_xzcf_gr_nbr_map::$number_id => Quantity_xzcf_gr_sub_score_map::$number_id
             ], false) .
-            SqlTool::BETWEEN(Quantity_xzcf_gr_nbr_map::$year_month_show, $date_arr);
+            parent::format_date(
+                Quantity_xzcf_gr_nbr_map::$year_month_show,
+                $date_arr,
+                true
+            );
 //        echo $param;
         return self::group_update($mysqli, $param);
     }
@@ -155,10 +167,10 @@ class XZCF_group extends Table_group
      */
     static function group_update_by_id($mysqli, $number_id)
     {
-        $param = SqlTool::WHERE([
+        $param = Sql_tool::WHERE([
                 Quantity_xzcf_gr_nbr_map::$number_id => Quantity_xzcf_gr_sub_score_map::$number_id
             ], false) .
-            SqlTool::ANDC([Quantity_xzcf_gr_nbr_map::$number_id => $number_id], false);
+            Sql_tool::ANDC([Quantity_xzcf_gr_nbr_map::$number_id => $number_id], false);
 //        echo $param;
         return self::group_update($mysqli, $param);
     }

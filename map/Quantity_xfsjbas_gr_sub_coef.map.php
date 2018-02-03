@@ -6,6 +6,6 @@ class Quantity_xfsjbas_gr_sub_coef_map extends DB_map {
   static $sjbaccbuhg_zxqz = 'quantity_xfsjbas_gr_sub_coef.sjbaccbuhg_zxqz' ;
   static $number_id = 'quantity_xfsjbas_gr_sub_coef.number_id' ;
   static function all(){
-            return parent::all(__CLASS__);
+            //return parent::all();
         }
 }

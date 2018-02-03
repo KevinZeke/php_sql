@@ -8,6 +8,6 @@ class Jianshenyanshou_gr_coef_map extends DB_map {
   static $jgysbas_coef = 'jianshenyanshou_gr_coef.jgysbas_coef' ;
   static $number_id = 'jianshenyanshou_gr_coef.number_id' ;
   static function all(){
-            return parent::all(__CLASS__);
+            //return parent::all();
         }
 }

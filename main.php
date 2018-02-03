@@ -10,16 +10,16 @@ require_once __DIR__ . '/map/Quantity_xzcf_gr_sub_score.map.php';
 require_once __DIR__ . '/map/Quantity_xzcf_gr_basic_coef.map.php';
 require_once __DIR__ . '/map/Quantity_dczghzyhwf_gr_nbr.map.php';
 require_once __DIR__ . '/map/Quantity_xzcf_gr_sub_coef.map.php';
-require_once __DIR__ . '/formula/HZ.php';
-require_once __DIR__ . '/formula/XZCF.php';
-require_once __DIR__ . '/formula/HZDC.php';
-require_once __DIR__ . '/formula/JSYS.php';
+require_once __DIR__ . '/Quantity/HZ.php';
+require_once __DIR__ . '/Quantity/XZCF.php';
+require_once __DIR__ . '/Quantity/HZDC.php';
+require_once __DIR__ . '/Quantity/JSYS.php';
 require_once __DIR__ . '/table/Table.class.php';
 require_once __DIR__ . '/sql/Sql.class.php';
 require_once __DIR__ . '/map/DB_map.class.php';
 
 //使用默认参数生成sqlTool工具类
-$sqlTool = SqlTool::build();
+$sqlTool = Sql_tool::build();
 //可以使用mysqli实例构造sqlTool工具类，避免重复创建mysqli
 //$sqlTool = SqlTool::build_by_mysqli( new mysqli(host,user,pwd,db) );
 
@@ -35,7 +35,7 @@ if (false) {
     //需要获得的列名，数组
         Quantity_xzcf_gr_nbr_map::all(),
         //查询的条件，字符串
-        SqlTool::WHERE([
+        Sql_tool::WHERE([
             Quantity_xzcf_gr_nbr_map::$year_month_show => '%2017-05%',
             Quantity_xzcf_gr_nbr_map::$dd_name => '水上'
         ])
@@ -62,7 +62,7 @@ if (false) {
         ->group_query(
         //需要获得的列名，可以设置别名
             [
-                SqlTool::SUM(Quantity_xzcf_gr_sub_score_map::$xzcf_zdf, 's'),
+                Sql_tool::SUM(Quantity_xzcf_gr_sub_score_map::$xzcf_zdf, 's'),
                 Quantity_xzcf_gr_sub_score_map::$police_name => 'n',
                 Quantity_xzcf_gr_sub_score_map::$year_month_show => 'd'
             ], [
@@ -119,7 +119,7 @@ if (false) {
         //更新的字段 => 更新的值
         [Quantity_xzcf_gr_nbr_map::$year_month_show => '1970-01-01'],
         //更新的查询条件值
-        SqlTool::WHERE([
+        Sql_tool::WHERE([
             Quantity_xzcf_gr_nbr_map::$number_id => 1
         ], false)
     );
@@ -133,7 +133,7 @@ if (false) {
 if (false) {
     echo $xzcf_table->delete(
         //删除查询条件
-        SqlTool::WHERE([
+        Sql_tool::WHERE([
             Quantity_xzcf_gr_nbr_map::$number_id => 14326
         ])
     );
@@ -153,11 +153,11 @@ if (false) {
             Quantity_dczghzyhwf_gr_nbr_map::$dadui_name,
             Quantity_dczghzyhwf_gr_nbr_map::$police_name
         ],
-        SqlTool::ON([
+        Sql_tool::ON([
             Quantity_xzcf_gr_nbr_map::$year_month_show => Quantity_dczghzyhwf_gr_nbr_map::$year_month_show,
             Quantity_xzcf_gr_nbr_map::$dd_name => Quantity_dczghzyhwf_gr_nbr_map::$dadui_name
         ])
-        . SqlTool::WHERE([
+        . Sql_tool::WHERE([
             Quantity_xzcf_gr_nbr_map::$year_month_show => '%2017-05-01%'
         ])
     );
@@ -178,7 +178,7 @@ if (false) {
             'af3' => 'aada * cada'
         ],
         //查询参数
-        SqlTool::WHERE(
+        Sql_tool::WHERE(
             [
                 'af' => '1'
             ]

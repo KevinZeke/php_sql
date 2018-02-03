@@ -13,6 +13,6 @@ class Quantity_hzdc_gr_sub_score_map extends DB_map {
   static $police_id = 'quantity_hzdc_gr_sub_score.police_id' ;
   static $number_id = 'quantity_hzdc_gr_sub_score.number_id' ;
   static function all(){
-            return parent::all(__CLASS__);
+            //return parent::all();
         }
 }

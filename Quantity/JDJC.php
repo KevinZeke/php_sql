@@ -8,10 +8,12 @@
 
 require_once __DIR__ . '/Formula.class.php';
 require_once __DIR__ . '/../table/Table.class.php';
-require_once __DIR__ . '/Table_gropu.interface.php';
+require_once __DIR__ . '/Table_gropu.php';
 require_once __DIR__ . '/../sql/Sql.class.php';
 
 require_once __DIR__ . '/../map/Jiancha_and_jiangduo_gr_nbr.map.php';
+require_once __DIR__ . '/../map/Jiancha_and_jiangduo_gr_score.map.php';
+require_once __DIR__ . '/../map/Jiancha_and_jiangduo_gr_coef.map.php';
 require_once __DIR__ . '/../map/Quantity_dczghzyhwf_gr_nbr.map.php';
 require_once __DIR__ . '/../map/Quantity_dczghzyhwf_gr_score.map.php';
 require_once __DIR__ . '/../map/Quantity_dczghzyhwf_gr_basic_coef.map.php';
@@ -77,6 +79,8 @@ class JDJC_formula extends Formula
     static $fxhz_2_jcdc;
     static $dczg_2_jcdc;
     static $jcdw_2_jcdc;
+
+    static $jdjc_nbr_2_gr;
 }
 
 //督促整改
@@ -133,188 +137,314 @@ JDJC_formula::$fxhz_basic_2_sub = [
 JDJC_formula::$jcdw_basic_2_sub = [
     Quantity_jcdw_gr_score_map::$fc_jc_xxdf =>
         Formula::plus([
-            Formula::plus([
+            Formula::mul([
                 Quantity_jcdw_gr_nbr_map::$fc_jc_feizddw_xiebr,
                 Quantity_jcdw_gr_basic_coef_map::$fc_jc_feizddw_xiebr_xxqz
             ]),
-            Formula::plus([
+            Formula::mul([
                 Quantity_jcdw_gr_nbr_map::$fc_jc_feizddw_zhubr,
                 Quantity_jcdw_gr_basic_coef_map::$fc_jc_feizddw_zhubr_xxqz
             ]),
-            Formula::plus([
+            Formula::mul([
                 Quantity_jcdw_gr_nbr_map::$fc_jc_zddw_xiebr,
                 Quantity_jcdw_gr_basic_coef_map::$fc_jc_zddw_xiebr_xxqz
             ]),
-            Formula::plus([
+            Formula::mul([
                 Quantity_jcdw_gr_nbr_map::$fc_jc_zddw_zhubr,
                 Quantity_jcdw_gr_basic_coef_map::$fc_jc_zddw_zhubr_xxqz
             ])
         ]),
     Quantity_jcdw_gr_score_map::$fc_jc_zxdf =>
         Formula::mul([
-            Quantity_jcdw_gr_score_map::$fc_jc_xxdf,
+//            Quantity_jcdw_gr_score_map::$fc_jc_xxdf,
+            Formula::plus([
+                Formula::mul([
+                    Quantity_jcdw_gr_nbr_map::$fc_jc_feizddw_xiebr,
+                    Quantity_jcdw_gr_basic_coef_map::$fc_jc_feizddw_xiebr_xxqz
+                ]),
+                Formula::mul([
+                    Quantity_jcdw_gr_nbr_map::$fc_jc_feizddw_zhubr,
+                    Quantity_jcdw_gr_basic_coef_map::$fc_jc_feizddw_zhubr_xxqz
+                ]),
+                Formula::mul([
+                    Quantity_jcdw_gr_nbr_map::$fc_jc_zddw_xiebr,
+                    Quantity_jcdw_gr_basic_coef_map::$fc_jc_zddw_xiebr_xxqz
+                ]),
+                Formula::mul([
+                    Quantity_jcdw_gr_nbr_map::$fc_jc_zddw_zhubr,
+                    Quantity_jcdw_gr_basic_coef_map::$fc_jc_zddw_zhubr_xxqz
+                ])
+            ]),
             Quantity_jcdw_gr_sub_coef_map::$fc_jc_zxqz
         ]),
 
     Quantity_jcdw_gr_score_map::$qt_jc_xxdf =>
         Formula::plus([
-            Formula::plus([
+            Formula::mul([
                 Quantity_jcdw_gr_nbr_map::$qt_jc_feizddw_xiebr,
                 Quantity_jcdw_gr_basic_coef_map::$qt_jc_feizddw_xiebr_xxqz
             ]),
-            Formula::plus([
+            Formula::mul([
                 Quantity_jcdw_gr_nbr_map::$qt_jc_feizddw_zhubr,
                 Quantity_jcdw_gr_basic_coef_map::$qt_jc_feizddw_zhubr_xxqz
             ]),
-            Formula::plus([
+            Formula::mul([
                 Quantity_jcdw_gr_nbr_map::$qt_jc_zddw_xiebr,
                 Quantity_jcdw_gr_basic_coef_map::$qt_jc_zddw_xiebr_xxqz
             ]),
-            Formula::plus([
+            Formula::mul([
                 Quantity_jcdw_gr_nbr_map::$qt_jc_zddw_zhubr,
                 Quantity_jcdw_gr_basic_coef_map::$qt_jc_zddw_zhubr_xxqz
             ])
         ]),
     Quantity_jcdw_gr_score_map::$qt_jc_zxdf =>
         Formula::mul([
-            Quantity_jcdw_gr_score_map::$qt_jc_xxdf,
+//            Quantity_jcdw_gr_score_map::$qt_jc_xxdf,
+            Formula::plus([
+                Formula::mul([
+                    Quantity_jcdw_gr_nbr_map::$qt_jc_feizddw_xiebr,
+                    Quantity_jcdw_gr_basic_coef_map::$qt_jc_feizddw_xiebr_xxqz
+                ]),
+                Formula::mul([
+                    Quantity_jcdw_gr_nbr_map::$qt_jc_feizddw_zhubr,
+                    Quantity_jcdw_gr_basic_coef_map::$qt_jc_feizddw_zhubr_xxqz
+                ]),
+                Formula::mul([
+                    Quantity_jcdw_gr_nbr_map::$qt_jc_zddw_xiebr,
+                    Quantity_jcdw_gr_basic_coef_map::$qt_jc_zddw_xiebr_xxqz
+                ]),
+                Formula::mul([
+                    Quantity_jcdw_gr_nbr_map::$qt_jc_zddw_zhubr,
+                    Quantity_jcdw_gr_basic_coef_map::$qt_jc_zddw_zhubr_xxqz
+                ])
+            ]),
             Quantity_jcdw_gr_sub_coef_map::$qt_jc_zxqz
         ]),
 
     Quantity_jcdw_gr_score_map::$sggd_jc_xxdf =>
         Formula::plus([
-            Formula::plus([
+            Formula::mul([
                 Quantity_jcdw_gr_nbr_map::$sggd_jc_feizddw_xiebr,
                 Quantity_jcdw_gr_basic_coef_map::$sggd_jc_feizddw_xiebr_xxqz
             ]),
-            Formula::plus([
+            Formula::mul([
                 Quantity_jcdw_gr_nbr_map::$sggd_jc_feizddw_zhubr,
                 Quantity_jcdw_gr_basic_coef_map::$sggd_jc_feizddw_zhubr_xxqz
             ]),
-            Formula::plus([
+            Formula::mul([
                 Quantity_jcdw_gr_nbr_map::$sggd_jc_zddw_xiebr,
                 Quantity_jcdw_gr_basic_coef_map::$sggd_jc_zddw_xiebr_xxqz
             ]),
-            Formula::plus([
+            Formula::mul([
                 Quantity_jcdw_gr_nbr_map::$sggd_jc_zddw_zhubr,
                 Quantity_jcdw_gr_basic_coef_map::$sggd_jc_zddw_zhubr_xxqz
             ])
         ]),
     Quantity_jcdw_gr_score_map::$sggd_jc_zxdf =>
         Formula::mul([
-            Quantity_jcdw_gr_score_map::$sggd_jc_xxdf,
+//            Quantity_jcdw_gr_score_map::$sggd_jc_xxdf,
+            Formula::plus([
+                Formula::mul([
+                    Quantity_jcdw_gr_nbr_map::$sggd_jc_feizddw_xiebr,
+                    Quantity_jcdw_gr_basic_coef_map::$sggd_jc_feizddw_xiebr_xxqz
+                ]),
+                Formula::mul([
+                    Quantity_jcdw_gr_nbr_map::$sggd_jc_feizddw_zhubr,
+                    Quantity_jcdw_gr_basic_coef_map::$sggd_jc_feizddw_zhubr_xxqz
+                ]),
+                Formula::mul([
+                    Quantity_jcdw_gr_nbr_map::$sggd_jc_zddw_xiebr,
+                    Quantity_jcdw_gr_basic_coef_map::$sggd_jc_zddw_xiebr_xxqz
+                ]),
+                Formula::mul([
+                    Quantity_jcdw_gr_nbr_map::$sggd_jc_zddw_zhubr,
+                    Quantity_jcdw_gr_basic_coef_map::$sggd_jc_zddw_zhubr_xxqz
+                ])
+            ]),
             Quantity_jcdw_gr_sub_coef_map::$sggd_jc_zxqz
         ]),
 
     Quantity_jcdw_gr_score_map::$jbts_jc_xxdf =>
         Formula::plus([
-            Formula::plus([
+            Formula::mul([
                 Quantity_jcdw_gr_nbr_map::$jbts_jc_feizddw_xiebr,
                 Quantity_jcdw_gr_basic_coef_map::$jbts_jc_feizddw_xiebr_xxqz
             ]),
-            Formula::plus([
+            Formula::mul([
                 Quantity_jcdw_gr_nbr_map::$jbts_jc_feizddw_zhubr,
                 Quantity_jcdw_gr_basic_coef_map::$jbts_jc_feizddw_zhubr_xxqz
             ]),
-            Formula::plus([
+            Formula::mul([
                 Quantity_jcdw_gr_nbr_map::$jbts_jc_zddw_xiebr,
                 Quantity_jcdw_gr_basic_coef_map::$jbts_jc_zddw_xiebr_xxqz
             ]),
-            Formula::plus([
+            Formula::mul([
                 Quantity_jcdw_gr_nbr_map::$jbts_jc_zddw_zhubr,
                 Quantity_jcdw_gr_basic_coef_map::$jbts_jc_zddw_zhubr_xxqz
             ])
         ]),
     Quantity_jcdw_gr_score_map::$jbts_jc_zxdf =>
         Formula::mul([
-            Quantity_jcdw_gr_score_map::$jbts_jc_xxdf,
+//            Quantity_jcdw_gr_score_map::$jbts_jc_xxdf,
+            Formula::plus([
+                Formula::mul([
+                    Quantity_jcdw_gr_nbr_map::$jbts_jc_feizddw_xiebr,
+                    Quantity_jcdw_gr_basic_coef_map::$jbts_jc_feizddw_xiebr_xxqz
+                ]),
+                Formula::mul([
+                    Quantity_jcdw_gr_nbr_map::$jbts_jc_feizddw_zhubr,
+                    Quantity_jcdw_gr_basic_coef_map::$jbts_jc_feizddw_zhubr_xxqz
+                ]),
+                Formula::mul([
+                    Quantity_jcdw_gr_nbr_map::$jbts_jc_zddw_xiebr,
+                    Quantity_jcdw_gr_basic_coef_map::$jbts_jc_zddw_xiebr_xxqz
+                ]),
+                Formula::mul([
+                    Quantity_jcdw_gr_nbr_map::$jbts_jc_zddw_zhubr,
+                    Quantity_jcdw_gr_basic_coef_map::$jbts_jc_zddw_zhubr_xxqz
+                ])
+            ]),
             Quantity_jcdw_gr_sub_coef_map::$jbts_jc_zxqz
         ]),
 
     Quantity_jcdw_gr_score_map::$jbq_aqjc_xxdf =>
         Formula::plus([
-            Formula::plus([
+            Formula::mul([
                 Quantity_jcdw_gr_nbr_map::$jbq_aqjc_feizddw_xiebr,
                 Quantity_jcdw_gr_basic_coef_map::$jbq_aqjc_feizddw_xiebr_xxqz
             ]),
-            Formula::plus([
+            Formula::mul([
                 Quantity_jcdw_gr_nbr_map::$jbq_aqjc_feizddw_zhubr,
                 Quantity_jcdw_gr_basic_coef_map::$jbq_aqjc_feizddw_zhubr_xxqz
             ]),
-            Formula::plus([
+            Formula::mul([
                 Quantity_jcdw_gr_nbr_map::$jbq_aqjc_zddw_xiebr,
                 Quantity_jcdw_gr_basic_coef_map::$jbq_aqjc_zddw_xiebr_xxqz
             ]),
-            Formula::plus([
+            Formula::mul([
                 Quantity_jcdw_gr_nbr_map::$jbq_aqjc_zddw_zhubr,
                 Quantity_jcdw_gr_basic_coef_map::$jbq_aqjc_zddw_zhubr_xxqz
             ])
         ]),
     Quantity_jcdw_gr_score_map::$jbq_aqjc_zxdf =>
         Formula::mul([
-            Quantity_jcdw_gr_score_map::$jbq_aqjc_xxdf,
+//            Quantity_jcdw_gr_score_map::$jbq_aqjc_xxdf,
+            Formula::plus([
+                Formula::mul([
+                    Quantity_jcdw_gr_nbr_map::$jbq_aqjc_feizddw_xiebr,
+                    Quantity_jcdw_gr_basic_coef_map::$jbq_aqjc_feizddw_xiebr_xxqz
+                ]),
+                Formula::mul([
+                    Quantity_jcdw_gr_nbr_map::$jbq_aqjc_feizddw_zhubr,
+                    Quantity_jcdw_gr_basic_coef_map::$jbq_aqjc_feizddw_zhubr_xxqz
+                ]),
+                Formula::mul([
+                    Quantity_jcdw_gr_nbr_map::$jbq_aqjc_zddw_xiebr,
+                    Quantity_jcdw_gr_basic_coef_map::$jbq_aqjc_zddw_xiebr_xxqz
+                ]),
+                Formula::mul([
+                    Quantity_jcdw_gr_nbr_map::$jbq_aqjc_zddw_zhubr,
+                    Quantity_jcdw_gr_basic_coef_map::$jbq_aqjc_zddw_zhubr_xxqz
+                ])
+            ]),
             Quantity_jcdw_gr_sub_coef_map::$jbq_aqjc_zxqz
         ]),
 
     Quantity_jcdw_gr_score_map::$yyq_aqjc_xxdf =>
         Formula::plus([
-            Formula::plus([
+            Formula::mul([
                 Quantity_jcdw_gr_nbr_map::$yyq_aqjc_feizddw_xiebr,
                 Quantity_jcdw_gr_basic_coef_map::$yyq_aqjc_feizddw_xiebr_xxqz
             ]),
-            Formula::plus([
+            Formula::mul([
                 Quantity_jcdw_gr_nbr_map::$yyq_aqjc_feizddw_zhubr,
                 Quantity_jcdw_gr_basic_coef_map::$yyq_aqjc_feizddw_zhubr_xxqz
             ]),
-            Formula::plus([
+            Formula::mul([
                 Quantity_jcdw_gr_nbr_map::$yyq_aqjc_zddw_xiebr,
                 Quantity_jcdw_gr_basic_coef_map::$yyq_aqjc_zddw_xiebr_xxqz
             ]),
-            Formula::plus([
+            Formula::mul([
                 Quantity_jcdw_gr_nbr_map::$yyq_aqjc_zddw_zhubr,
                 Quantity_jcdw_gr_basic_coef_map::$yyq_aqjc_zddw_zhubr_xxqz
             ])
         ]),
     Quantity_jcdw_gr_score_map::$yyq_aqjc_zxdf =>
         Formula::mul([
-            Quantity_jcdw_gr_score_map::$yyq_aqjc_xxdf,
+//            Quantity_jcdw_gr_score_map::$yyq_aqjc_xxdf,
+            Formula::plus([
+                Formula::mul([
+                    Quantity_jcdw_gr_nbr_map::$yyq_aqjc_feizddw_xiebr,
+                    Quantity_jcdw_gr_basic_coef_map::$yyq_aqjc_feizddw_xiebr_xxqz
+                ]),
+                Formula::mul([
+                    Quantity_jcdw_gr_nbr_map::$yyq_aqjc_feizddw_zhubr,
+                    Quantity_jcdw_gr_basic_coef_map::$yyq_aqjc_feizddw_zhubr_xxqz
+                ]),
+                Formula::mul([
+                    Quantity_jcdw_gr_nbr_map::$yyq_aqjc_zddw_xiebr,
+                    Quantity_jcdw_gr_basic_coef_map::$yyq_aqjc_zddw_xiebr_xxqz
+                ]),
+                Formula::mul([
+                    Quantity_jcdw_gr_nbr_map::$yyq_aqjc_zddw_zhubr,
+                    Quantity_jcdw_gr_basic_coef_map::$yyq_aqjc_zddw_zhubr_xxqz
+                ])
+            ]),
             Quantity_jcdw_gr_sub_coef_map::$yyq_aqjc_zxqz
         ]),
 
     Quantity_jcdw_gr_score_map::$rcjdjc_xxdf =>
         Formula::plus([
-            Formula::plus([
+            Formula::mul([
                 Quantity_jcdw_gr_nbr_map::$rcjdjc_feizddw_xiebr,
                 Quantity_jcdw_gr_basic_coef_map::$rcjdjc_feizddw_xiebr_xxqz
             ]),
-            Formula::plus([
+            Formula::mul([
                 Quantity_jcdw_gr_nbr_map::$rcjdjc_feizddw_zhubr,
                 Quantity_jcdw_gr_basic_coef_map::$rcjdjc_feizddw_zhubr_xxqz
             ]),
-            Formula::plus([
+            Formula::mul([
                 Quantity_jcdw_gr_nbr_map::$rcjdjc_zddw_xiebr,
                 Quantity_jcdw_gr_basic_coef_map::$rcjdjc_zddw_xiebr_xxqz
             ]),
-            Formula::plus([
+            Formula::mul([
                 Quantity_jcdw_gr_nbr_map::$rcjdjc_zddw_zhubr,
                 Quantity_jcdw_gr_basic_coef_map::$rcjdjc_zddw_zhubr_xxqz
             ])
         ]),
     Quantity_jcdw_gr_score_map::$rcjdjc_zxdf =>
         Formula::mul([
-            Quantity_jcdw_gr_score_map::$rcjdjc_xxdf,
+//            Quantity_jcdw_gr_score_map::$rcjdjc_xxdf,
+            Formula::plus([
+                Formula::mul([
+                    Quantity_jcdw_gr_nbr_map::$rcjdjc_feizddw_xiebr,
+                    Quantity_jcdw_gr_basic_coef_map::$rcjdjc_feizddw_xiebr_xxqz
+                ]),
+                Formula::mul([
+                    Quantity_jcdw_gr_nbr_map::$rcjdjc_feizddw_zhubr,
+                    Quantity_jcdw_gr_basic_coef_map::$rcjdjc_feizddw_zhubr_xxqz
+                ]),
+                Formula::mul([
+                    Quantity_jcdw_gr_nbr_map::$rcjdjc_zddw_xiebr,
+                    Quantity_jcdw_gr_basic_coef_map::$rcjdjc_zddw_xiebr_xxqz
+                ]),
+                Formula::mul([
+                    Quantity_jcdw_gr_nbr_map::$rcjdjc_zddw_zhubr,
+                    Quantity_jcdw_gr_basic_coef_map::$rcjdjc_zddw_zhubr_xxqz
+                ])
+            ]),
             Quantity_jcdw_gr_sub_coef_map::$rcjdjc_zxqz
-        ]),
-    Quantity_jcdw_gr_score_map::$jcdw_tol_score => Formula::plus([
-        Quantity_jcdw_gr_score_map::$rcjdjc_zxdf,
-        Quantity_jcdw_gr_score_map::$yyq_aqjc_zxdf,
-        Quantity_jcdw_gr_score_map::$jbq_aqjc_zxdf,
-        Quantity_jcdw_gr_score_map::$jbts_jc_zxdf,
-        Quantity_jcdw_gr_score_map::$sggd_jc_zxdf,
-        Quantity_jcdw_gr_score_map::$qt_jc_zxdf,
-        Quantity_jcdw_gr_score_map::$fc_jc_zxdf
-    ])
+        ])
 ];
+JDJC_formula::$jcdw_basic_2_sub[Quantity_jcdw_gr_score_map::$jcdw_tol_score] = Formula::plus([
+    JDJC_formula::$jcdw_basic_2_sub[Quantity_jcdw_gr_score_map::$rcjdjc_zxdf],
+    JDJC_formula::$jcdw_basic_2_sub[Quantity_jcdw_gr_score_map::$yyq_aqjc_zxdf],
+    JDJC_formula::$jcdw_basic_2_sub[Quantity_jcdw_gr_score_map::$jbq_aqjc_zxdf],
+    JDJC_formula::$jcdw_basic_2_sub[Quantity_jcdw_gr_score_map::$jbts_jc_zxdf],
+    JDJC_formula::$jcdw_basic_2_sub[Quantity_jcdw_gr_score_map::$sggd_jc_zxdf],
+    JDJC_formula::$jcdw_basic_2_sub[Quantity_jcdw_gr_score_map::$qt_jc_zxdf],
+    JDJC_formula::$jcdw_basic_2_sub[Quantity_jcdw_gr_score_map::$fc_jc_zxdf]
+]);
 
 //下发临时查封
 JDJC_formula::$xfls_nbr_2_basic = Formula::plus([
@@ -386,6 +516,33 @@ JDJC_formula::$jcdw_2_jcdc = [
         Quantity_jcdw_gr_score_map::$jcdw_tol_score
 ];
 
+JDJC_formula::$jdjc_nbr_2_gr = [
+
+    Jiancha_and_jiangduo_gr_score_map::$JCDWS_SCORE => Formula::mul([
+        Jiancha_and_jiangduo_gr_nbr_map::$JCDWS_DF,
+        Jiancha_and_jiangduo_gr_coef_map::$jcdws_coef
+    ]),
+    Jiancha_and_jiangduo_gr_score_map::$XFLSCFJDSS_SCORE => Formula::mul([
+        Jiancha_and_jiangduo_gr_nbr_map::$XFLSCFJDSS_DF,
+        Jiancha_and_jiangduo_gr_coef_map::$xflscfjdss_coef
+    ]),
+    Jiancha_and_jiangduo_gr_score_map::$FXHZYHWFXWS_SCORE => Formula::mul([
+        Jiancha_and_jiangduo_gr_nbr_map::$FXHZYHWFXWS_DF,
+        Jiancha_and_jiangduo_gr_coef_map::$fxhzyhwfxws_coef
+    ]),
+    Jiancha_and_jiangduo_gr_score_map::$DCZGHZYHS_SCORE => Formula::mul([
+        Jiancha_and_jiangduo_gr_nbr_map::$DCZGHZYHS_DF,
+        Jiancha_and_jiangduo_gr_coef_map::$dczghzyhs_coef
+    ])
+
+];
+JDJC_formula::$jdjc_nbr_2_gr[Jiancha_and_jiangduo_gr_score_map::$jcjd_zdf] = Formula::plus([
+    JDJC_formula::$jdjc_nbr_2_gr[Jiancha_and_jiangduo_gr_score_map::$JCDWS_SCORE],
+    JDJC_formula::$jdjc_nbr_2_gr[Jiancha_and_jiangduo_gr_score_map::$XFLSCFJDSS_SCORE],
+    JDJC_formula::$jdjc_nbr_2_gr[Jiancha_and_jiangduo_gr_score_map::$FXHZYHWFXWS_SCORE],
+    JDJC_formula::$jdjc_nbr_2_gr[Jiancha_and_jiangduo_gr_score_map::$DCZGHZYHS_SCORE]
+]);
+
 
 /**
  * 监督检查表格组管理类
@@ -396,14 +553,14 @@ class JDJC_group extends Table_group
 
     /**
      * 判断监督检查总表该人该日是否存在数据
-     * @param mysqli|SqlTool $db
+     * @param mysqli|Sql_tool $db
      * @param string $name
      * @param string $date
      * @return bool
      */
     public static function is_row_ext($db, $name, $date)
     {
-        return parent::is_row_ext(
+        return parent::_is_row_ext(
             $db, Jiancha_and_jiangduo_gr_nbr_map::$table_name, $name, $date
         );
     }
@@ -418,7 +575,7 @@ class JDJC_group extends Table_group
         if (!$param || $param == '') die("更新必须提供有效参数");
 
         return (new Table(Quantity_dczghzyhwf_gr_score_map::$table_name,
-            SqlTool::build_by_mysqli($mysqli)))
+            Sql_tool::build_by_mysqli($mysqli)))
             ->union_update(
                 [
                     Quantity_dczghzyhwf_gr_basic_coef_map::$table_name,
@@ -439,7 +596,7 @@ class JDJC_group extends Table_group
         if (!$param || $param == '') die("更新必须提供有效参数");
 
         return (new Table(Quantity_fxhzyh_gr_score_map::$table_name,
-            SqlTool::build_by_mysqli($mysqli)))
+            Sql_tool::build_by_mysqli($mysqli)))
             ->union_update(
                 [
                     Quantity_fxhzyh_gr_basic_coef_map::$table_name,
@@ -460,7 +617,7 @@ class JDJC_group extends Table_group
         if (!$param || $param == '') die("更新必须提供有效参数");
 
         return (new Table(Quantity_xflscf_gr_score_map::$table_name,
-            SqlTool::build_by_mysqli($mysqli)))
+            Sql_tool::build_by_mysqli($mysqli)))
             ->union_update(
                 [
                     Quantity_xflscf_gr_basic_coef_map::$table_name,
@@ -480,7 +637,7 @@ class JDJC_group extends Table_group
     {
         if (!$param || $param == '') die("更新必须提供有效参数");
         return (new Table(Quantity_jcdw_gr_score_map::$table_name,
-            SqlTool::build_by_mysqli($mysqli)))
+            Sql_tool::build_by_mysqli($mysqli)))
             ->union_update(
                 [
                     Quantity_jcdw_gr_basic_coef_map::$table_name,
@@ -502,7 +659,7 @@ class JDJC_group extends Table_group
     {
         return self::dczg_sub_update(
             $mysqli,
-            SqlTool::WHERE([
+            Sql_tool::WHERE([
                 Quantity_dczghzyhwf_gr_score_map::$number_id
                 => Quantity_dczghzyhwf_gr_nbr_map::$number_id,
                 Quantity_dczghzyhwf_gr_nbr_map::$number_id => $id
@@ -520,7 +677,7 @@ class JDJC_group extends Table_group
     {
         return self::fxhz_sub_update(
             $mysqli,
-            SqlTool::WHERE([
+            Sql_tool::WHERE([
                 Quantity_fxhzyh_gr_score_map::$number_id
                 => Quantity_fxhzyh_gr_nbr_map::$number_id,
                 Quantity_fxhzyh_gr_nbr_map::$number_id => $id
@@ -538,7 +695,7 @@ class JDJC_group extends Table_group
     {
         return self::xfls_sub_update(
             $mysqli,
-            SqlTool::WHERE([
+            Sql_tool::WHERE([
                 Quantity_xflscf_gr_score_map::$number_id
                 => Quantity_xflscf_gr_nbr_map::$number_id,
                 Quantity_xflscf_gr_nbr_map::$number_id => $id
@@ -556,7 +713,7 @@ class JDJC_group extends Table_group
     {
         return self::jcdw_sub_update(
             $mysqli,
-            SqlTool::WHERE([
+            Sql_tool::WHERE([
                 Quantity_jcdw_gr_score_map::$number_id
                 => Quantity_jcdw_gr_nbr_map::$number_id,
                 Quantity_jcdw_gr_nbr_map::$number_id => $id
@@ -575,11 +732,11 @@ class JDJC_group extends Table_group
     {
         return self::dczg_sub_update(
             $mysqli,
-            SqlTool::WHERE([
+            Sql_tool::WHERE([
                 Quantity_dczghzyhwf_gr_score_map::$number_id
                 => Quantity_dczghzyhwf_gr_nbr_map::$number_id
             ], false) .
-            SqlTool::BETWEEN(
+            Sql_tool::BETWEEN(
                 Quantity_dczghzyhwf_gr_nbr_map::$year_month_show,
                 $date_arr
             )
@@ -598,11 +755,11 @@ class JDJC_group extends Table_group
     {
         return self::fxhz_sub_update(
             $mysqli,
-            SqlTool::WHERE([
+            Sql_tool::WHERE([
                 Quantity_fxhzyh_gr_score_map::$number_id
                 => Quantity_fxhzyh_gr_nbr_map::$number_id
             ], false) .
-            SqlTool::BETWEEN(
+            Sql_tool::BETWEEN(
                 Quantity_fxhzyh_gr_nbr_map::$year_month_show,
                 $date_arr
             ) . $other_param
@@ -620,11 +777,11 @@ class JDJC_group extends Table_group
     {
         return self::xfls_sub_update(
             $mysqli,
-            SqlTool::WHERE([
+            Sql_tool::WHERE([
                 Quantity_xflscf_gr_score_map::$number_id
                 => Quantity_xflscf_gr_nbr_map::$number_id
             ], false) .
-            SqlTool::BETWEEN(
+            Sql_tool::BETWEEN(
                 Quantity_xflscf_gr_nbr_map::$year_month_show,
                 $date_arr
             ) . $other_param
@@ -642,11 +799,11 @@ class JDJC_group extends Table_group
     {
         return self::jcdw_sub_update(
             $mysqli,
-            SqlTool::WHERE([
+            Sql_tool::WHERE([
                 Quantity_jcdw_gr_score_map::$number_id
                 => Quantity_jcdw_gr_nbr_map::$number_id
             ], false) .
-            SqlTool::BETWEEN(
+            Sql_tool::BETWEEN(
                 Quantity_jcdw_gr_nbr_map::$year_month_show,
                 $date_arr
             ) . $other_param
@@ -660,13 +817,13 @@ class JDJC_group extends Table_group
      */
     public static function jdjc_insert_jcdw($mysqli, $param = '')
     {
-        return (new Table(Jiancha_and_jiangduo_gr_nbr_map::$table_name, SqlTool::build_by_mysqli($mysqli)))
+        return (new Table(Jiancha_and_jiangduo_gr_nbr_map::$table_name, Sql_tool::build_by_mysqli($mysqli)))
             ->union_insert(
                 [
                     Quantity_jcdw_gr_score_map::$table_name
                 ],
                 JDJC_formula::$jcdw_2_jcdc,
-                $param . SqlTool::GROUP([
+                $param . Sql_tool::GROUP([
                     Quantity_jcdw_gr_score_map::$year_month_show,
                     Quantity_jcdw_gr_score_map::$police_name
                 ])
@@ -688,7 +845,7 @@ class JDJC_group extends Table_group
 //                Quantity_jcdw_gr_score_map::$police_name => $police_name
 //            ])
             parent::format_date(Quantity_jcdw_gr_score_map::$year_month_show, $date)
-            . SqlTool::ANDC([Quantity_jcdw_gr_score_map::$police_name => $police_name])
+            . Sql_tool::ANDC([Quantity_jcdw_gr_score_map::$police_name => $police_name])
         );
     }
 
@@ -701,7 +858,7 @@ class JDJC_group extends Table_group
      */
     public static function jdjc_update_jcdw_item($mysqli, $police_name, $date, $row_check = false)
     {
-        $db = SqlTool::build_by_mysqli($mysqli);
+        $db = Sql_tool::build_by_mysqli($mysqli);
 
         if ($row_check) {
             if (!self::is_row_ext($db, $police_name, $date)) {
@@ -712,7 +869,7 @@ class JDJC_group extends Table_group
             ->union_update(
                 [
                     "(SELECT ifnull(SUM(" . Quantity_jcdw_gr_score_map::$jcdw_tol_score . "),0) AS res , police_name,year_month_show FROM " . Quantity_jcdw_gr_score_map::$table_name .
-                    SqlTool::WHERE([
+                    Sql_tool::WHERE([
                         Quantity_jcdw_gr_score_map::$year_month_show => $date,
                         Quantity_jcdw_gr_score_map::$police_name => $police_name
                     ]) . ') A'
@@ -720,7 +877,7 @@ class JDJC_group extends Table_group
                 [
                     Jiancha_and_jiangduo_gr_nbr_map::$JCDWS_DF => 'A.res'
                 ],
-                SqlTool::WHERE([
+                Sql_tool::WHERE([
                     Jiancha_and_jiangduo_gr_nbr_map::$year_month_show => $date,
                     Jiancha_and_jiangduo_gr_nbr_map::$police_name => $police_name
                 ])
@@ -734,13 +891,13 @@ class JDJC_group extends Table_group
      */
     public static function jdjc_insert_fxhz($mysqli, $param = '')
     {
-        return (new Table(Jiancha_and_jiangduo_gr_nbr_map::$table_name, SqlTool::build_by_mysqli($mysqli)))
+        return (new Table(Jiancha_and_jiangduo_gr_nbr_map::$table_name, Sql_tool::build_by_mysqli($mysqli)))
             ->union_insert(
                 [
                     Quantity_fxhzyh_gr_score_map::$table_name
                 ],
                 JDJC_formula::$fxhz_2_jcdc,
-                $param . SqlTool::GROUP([
+                $param . Sql_tool::GROUP([
                     Quantity_fxhzyh_gr_score_map::$year_month_show,
                     Quantity_fxhzyh_gr_score_map::$police_name
                 ])
@@ -762,7 +919,7 @@ class JDJC_group extends Table_group
 //                Quantity_jcdw_gr_score_map::$police_name => $police_name
 //            ])
             parent::format_date(Quantity_fxhzyh_gr_score_map::$year_month_show, $date)
-            . SqlTool::ANDC([Quantity_fxhzyh_gr_score_map::$police_name => $police_name])
+            . Sql_tool::ANDC([Quantity_fxhzyh_gr_score_map::$police_name => $police_name])
         );
     }
 
@@ -775,7 +932,7 @@ class JDJC_group extends Table_group
      */
     public static function jdjc_update_fxhz_item($mysqli, $police_name, $date, $row_check = false)
     {
-        $db = SqlTool::build_by_mysqli($mysqli);
+        $db = Sql_tool::build_by_mysqli($mysqli);
 
         if ($row_check) {
             if (!self::is_row_ext($db, $police_name, $date)) {
@@ -786,7 +943,7 @@ class JDJC_group extends Table_group
             ->union_update(
                 [
                     "(SELECT ifnull(SUM(" . Quantity_fxhzyh_gr_score_map::$fxhzyh_score . "),0) AS res , police_name,year_month_show FROM " . Quantity_fxhzyh_gr_score_map::$table_name .
-                    SqlTool::WHERE([
+                    Sql_tool::WHERE([
                         Quantity_fxhzyh_gr_score_map::$year_month_show => $date,
                         Quantity_fxhzyh_gr_score_map::$police_name => $police_name
                     ]) . ') A'
@@ -794,7 +951,7 @@ class JDJC_group extends Table_group
                 [
                     Jiancha_and_jiangduo_gr_nbr_map::$FXHZYHWFXWS_DF => 'A.res'
                 ],
-                SqlTool::WHERE([
+                Sql_tool::WHERE([
                     Jiancha_and_jiangduo_gr_nbr_map::$year_month_show => $date,
                     Jiancha_and_jiangduo_gr_nbr_map::$police_name => $police_name
                 ], true)
@@ -808,13 +965,13 @@ class JDJC_group extends Table_group
      */
     public static function jdjc_insert_xfls($mysqli, $param = '')
     {
-        return (new Table(Jiancha_and_jiangduo_gr_nbr_map::$table_name, SqlTool::build_by_mysqli($mysqli)))
+        return (new Table(Jiancha_and_jiangduo_gr_nbr_map::$table_name, Sql_tool::build_by_mysqli($mysqli)))
             ->union_insert(
                 [
                     Quantity_xflscf_gr_score_map::$table_name
                 ],
                 JDJC_formula::$xfls_2_jcdc,
-                $param . SqlTool::GROUP([
+                $param . Sql_tool::GROUP([
                     Quantity_xflscf_gr_score_map::$year_month_show,
                     Quantity_xflscf_gr_score_map::$police_name
                 ])
@@ -836,7 +993,7 @@ class JDJC_group extends Table_group
 //                Quantity_xflscf_gr_score_map::$police_name => $police_name
 //            ])
             parent::format_date(Quantity_xflscf_gr_score_map::$year_month_show, $date)
-            . SqlTool::ANDC([Quantity_xflscf_gr_score_map::$police_name => $police_name])
+            . Sql_tool::ANDC([Quantity_xflscf_gr_score_map::$police_name => $police_name])
         );
     }
 
@@ -849,7 +1006,7 @@ class JDJC_group extends Table_group
      */
     public static function jdjc_update_xfls_item($mysqli, $police_name, $date, $row_check = false)
     {
-        $db = SqlTool::build_by_mysqli($mysqli);
+        $db = Sql_tool::build_by_mysqli($mysqli);
 
         if ($row_check) {
             if (!self::is_row_ext($db, $police_name, $date)) {
@@ -860,7 +1017,7 @@ class JDJC_group extends Table_group
             ->union_update(
                 [
                     "(SELECT ifnull(SUM(" . Quantity_xflscf_gr_score_map::$xflscf_score . "),0) AS res , police_name,year_month_show FROM " . Quantity_xflscf_gr_score_map::$table_name .
-                    SqlTool::WHERE([
+                    Sql_tool::WHERE([
                         Quantity_xflscf_gr_score_map::$year_month_show => $date,
                         Quantity_xflscf_gr_score_map::$police_name => $police_name
                     ]) . ') A'
@@ -868,7 +1025,7 @@ class JDJC_group extends Table_group
                 [
                     Jiancha_and_jiangduo_gr_nbr_map::$XFLSCFJDSS_DF => 'A.res'
                 ],
-                SqlTool::WHERE([
+                Sql_tool::WHERE([
                     Jiancha_and_jiangduo_gr_nbr_map::$year_month_show => $date,
                     Jiancha_and_jiangduo_gr_nbr_map::$police_name => $police_name
                 ], true)
@@ -883,13 +1040,13 @@ class JDJC_group extends Table_group
     public static function jdjc_insert_dczg($mysqli, $param = '')
 
     {
-        return (new Table(Jiancha_and_jiangduo_gr_nbr_map::$table_name, SqlTool::build_by_mysqli($mysqli)))
+        return (new Table(Jiancha_and_jiangduo_gr_nbr_map::$table_name, Sql_tool::build_by_mysqli($mysqli)))
             ->union_insert(
                 [
                     Quantity_dczghzyhwf_gr_score_map::$table_name
                 ],
                 JDJC_formula::$dczg_2_jcdc,
-                $param . SqlTool::GROUP([
+                $param . Sql_tool::GROUP([
                     Quantity_dczghzyhwf_gr_score_map::$year_month_show,
                     Quantity_dczghzyhwf_gr_score_map::$police_name
                 ])
@@ -911,7 +1068,7 @@ class JDJC_group extends Table_group
 //                Quantity_dczghzyhwf_gr_score_map::$police_name => $police_name
 //            ])
             parent::format_date(Quantity_dczghzyhwf_gr_score_map::$year_month_show, $date)
-            . SqlTool::ANDC([Quantity_dczghzyhwf_gr_score_map::$police_name => $police_name])
+            . Sql_tool::ANDC([Quantity_dczghzyhwf_gr_score_map::$police_name => $police_name])
         );
     }
 
@@ -924,7 +1081,7 @@ class JDJC_group extends Table_group
      */
     public static function jdjc_update_dczg_item($mysqli, $police_name, $date, $row_check = false)
     {
-        $db = SqlTool::build_by_mysqli($mysqli);
+        $db = Sql_tool::build_by_mysqli($mysqli);
 
         if ($row_check) {
             if (!self::is_row_ext($db, $police_name, $date)) {
@@ -937,7 +1094,7 @@ class JDJC_group extends Table_group
                     "(SELECT ifnull(SUM(" . Quantity_dczghzyhwf_gr_score_map::$dczghzyhwf_score . "),0) 
                     AS res , police_name,year_month_show FROM " .
                     Quantity_dczghzyhwf_gr_score_map::$table_name .
-                    SqlTool::WHERE([
+                    Sql_tool::WHERE([
                         Quantity_dczghzyhwf_gr_score_map::$year_month_show => $date,
                         Quantity_dczghzyhwf_gr_score_map::$police_name => $police_name
                     ]) . ') A'
@@ -945,7 +1102,7 @@ class JDJC_group extends Table_group
                 [
                     Jiancha_and_jiangduo_gr_nbr_map::$DCZGHZYHS_DF => 'A.res'
                 ],
-                SqlTool::WHERE([
+                Sql_tool::WHERE([
                     Jiancha_and_jiangduo_gr_nbr_map::$year_month_show => $date,
                     Jiancha_and_jiangduo_gr_nbr_map::$police_name => $police_name
                 ], true)
@@ -981,11 +1138,11 @@ class JDJC_group extends Table_group
                 Quantity_dczghzyhwf_gr_score_map::$year_month_show,
                 $date
             ) .
-            SqlTool::GROUP([
+            Sql_tool::GROUP([
                 Quantity_dczghzyhwf_gr_score_map::$year_month_show,
                 Quantity_dczghzyhwf_gr_score_map::$police_name
             ]),
-            SqlTool::WHERE([
+            Sql_tool::WHERE([
                 Jiancha_and_jiangduo_gr_nbr_map::$year_month_show => 'A.year_month_show',
                 Jiancha_and_jiangduo_gr_nbr_map::$police_name => 'A.police_name',
             ], false)
@@ -1020,11 +1177,11 @@ class JDJC_group extends Table_group
                 Quantity_xflscf_gr_score_map::$year_month_show,
                 $date
             ) .
-            SqlTool::GROUP([
+            Sql_tool::GROUP([
                 Quantity_xflscf_gr_score_map::$year_month_show,
                 Quantity_xflscf_gr_score_map::$police_name
             ]),
-            SqlTool::WHERE([
+            Sql_tool::WHERE([
                 Jiancha_and_jiangduo_gr_nbr_map::$year_month_show => 'A.year_month_show',
                 Jiancha_and_jiangduo_gr_nbr_map::$police_name => 'A.police_name',
             ], false)
@@ -1060,11 +1217,11 @@ class JDJC_group extends Table_group
                 Quantity_fxhzyh_gr_score_map::$year_month_show,
                 $date
             ) .
-            SqlTool::GROUP([
+            Sql_tool::GROUP([
                 Quantity_fxhzyh_gr_score_map::$year_month_show,
                 Quantity_fxhzyh_gr_score_map::$police_name
             ]),
-            SqlTool::WHERE([
+            Sql_tool::WHERE([
                 Jiancha_and_jiangduo_gr_nbr_map::$year_month_show => 'A.year_month_show',
                 Jiancha_and_jiangduo_gr_nbr_map::$police_name => 'A.police_name',
             ], false)
@@ -1100,20 +1257,40 @@ class JDJC_group extends Table_group
                 Quantity_jcdw_gr_score_map::$year_month_show,
                 $date
             ) .
-            SqlTool::GROUP([
+            Sql_tool::GROUP([
                 Quantity_jcdw_gr_score_map::$year_month_show,
                 Quantity_jcdw_gr_score_map::$police_name
             ]),
-            SqlTool::WHERE([
+            Sql_tool::WHERE([
                 Jiancha_and_jiangduo_gr_nbr_map::$year_month_show => 'A.year_month_show',
                 Jiancha_and_jiangduo_gr_nbr_map::$police_name => 'A.police_name',
             ], false)
         );
     }
 
+    public static function jdjc_update_nbr_2_gr_by_date($db, $date = null)
+    {
+        $sqltool = parent::sqlTool_build($db);
+        return (new Table(Jiancha_and_jiangduo_gr_score_map::$table_name, $sqltool))
+            ->union_update(
+                [
+                    Jiancha_and_jiangduo_gr_nbr_map::$table_name,
+                    Jiancha_and_jiangduo_gr_coef_map::$table_name
+                ],
+                JDJC_formula::$jdjc_nbr_2_gr,
+                Sql_tool::WHERE([
+                    Jiancha_and_jiangduo_gr_score_map::$number_id => Jiancha_and_jiangduo_gr_nbr_map::$number_id
+                ], false) .
+                parent::format_date(
+                    Jiancha_and_jiangduo_gr_nbr_map::$year_month_show,
+                    $date,
+                    true
+                )
+            );
+    }
 
     /**
-     * @param mysqli|SqlTool $db
+     * @param mysqli|Sql_tool $db
      * @param null|string|array $date
      */
     public static function jdjc_clear($db, $date = null)
@@ -1139,13 +1316,15 @@ class JDJC_group extends Table_group
     public static function group_insert($mysqli, $date = null)
     {
 
-        $sqlTool = SqlTool::build_by_mysqli($mysqli);
+        $sqlTool = Sql_tool::build_by_mysqli($mysqli);
 
         $sqlTool->do_not_gone_away();
 
+        Sql_tool::devopen();
+
         self::jdjc_clear($sqlTool, $date);
 
-        self::jdjc_insert_jcdw(
+        $jdjc_afr = self::jdjc_insert_jcdw(
             $mysqli,
             parent::format_date(
                 Quantity_jcdw_gr_score_map::$year_month_show,
@@ -1153,7 +1332,9 @@ class JDJC_group extends Table_group
             )
         );
 
-        self::jdjc_insert_xfls(
+        echo '      *jcdw finished , affect rows : ' . "$jdjc_afr | ";
+
+        $xfls_afr = self::jdjc_insert_xfls(
             $mysqli,
             parent::format_date(
                 Quantity_xflscf_gr_score_map::$year_month_show,
@@ -1161,7 +1342,9 @@ class JDJC_group extends Table_group
             )
         );
 
-        self::jdjc_insert_fxhz(
+        echo '*xfls finished , affect rows : ' . "$xfls_afr | ";
+
+        $fxhz_afr = self::jdjc_insert_fxhz(
             $mysqli,
             parent::format_date(
                 Quantity_fxhzyh_gr_score_map::$year_month_show,
@@ -1169,7 +1352,9 @@ class JDJC_group extends Table_group
             )
         );
 
-        self::jdjc_insert_dczg(
+        echo '*fxhz finished , affect rows : ' . "$fxhz_afr | ";
+
+        $dczg_afr = self::jdjc_insert_dczg(
             $mysqli,
             parent::format_date(
                 Quantity_dczghzyhwf_gr_score_map::$year_month_show,
@@ -1177,14 +1362,16 @@ class JDJC_group extends Table_group
             )
         );
 
+        echo '*dczg finished , affect rows : ' . " $dczg_afr \n";
+
         $hz_table = (new Table(Jiancha_and_jiangduo_gr_nbr_map::$table_name, $sqlTool));
         $res = $hz_table
             ->group_query(
                 [
-                    SqlTool::SUM(Jiancha_and_jiangduo_gr_nbr_map::$XFLSCFJDSS_DF) => 'xfls',
-                    SqlTool::SUM(Jiancha_and_jiangduo_gr_nbr_map::$DCZGHZYHS_DF) => 'dczg',
-                    SqlTool::SUM(Jiancha_and_jiangduo_gr_nbr_map::$FXHZYHWFXWS_DF) => 'fxhz',
-                    SqlTool::SUM(Jiancha_and_jiangduo_gr_nbr_map::$JCDWS_DF) => 'jcdw',
+                    Sql_tool::SUM(Jiancha_and_jiangduo_gr_nbr_map::$XFLSCFJDSS_DF) => 'xfls',
+                    Sql_tool::SUM(Jiancha_and_jiangduo_gr_nbr_map::$DCZGHZYHS_DF) => 'dczg',
+                    Sql_tool::SUM(Jiancha_and_jiangduo_gr_nbr_map::$FXHZYHWFXWS_DF) => 'fxhz',
+                    Sql_tool::SUM(Jiancha_and_jiangduo_gr_nbr_map::$JCDWS_DF) => 'jcdw',
                     Jiancha_and_jiangduo_gr_nbr_map::$police_name => 'n',
                     Jiancha_and_jiangduo_gr_nbr_map::$year_month_show => 'y',
                     Jiancha_and_jiangduo_gr_nbr_map::$dd_name => 'd'
@@ -1202,6 +1389,8 @@ class JDJC_group extends Table_group
 
         self::jdjc_clear($sqlTool, $date);
 
+        Sql_tool::devclose();
+
         echo 'JDJC : insert finished' . "\n";
 
         $sql = '';
@@ -1211,24 +1400,24 @@ class JDJC_group extends Table_group
                 $row['dczg'] . ',' .
                 $row['fxhz'] . ',' .
                 $row['jcdw'] . ',' .
-                SqlTool::QUOTE($row['n']) . ',' .
-                SqlTool::QUOTE($row['y']) . ',' .
-                SqlTool::QUOTE($row['d']) . ')';
+                Sql_tool::QUOTE($row['n']) . ',' .
+                Sql_tool::QUOTE($row['y']) . ',' .
+                Sql_tool::QUOTE($row['d']) . ')';
         });
 
-        $hz_table->multi_insert(
-            [
-                Jiancha_and_jiangduo_gr_nbr_map::$XFLSCFJDSS_DF,
-                Jiancha_and_jiangduo_gr_nbr_map::$DCZGHZYHS_DF,
-                Jiancha_and_jiangduo_gr_nbr_map::$FXHZYHWFXWS_DF,
-                Jiancha_and_jiangduo_gr_nbr_map::$JCDWS_DF,
-                Jiancha_and_jiangduo_gr_nbr_map::$police_name,
-                Jiancha_and_jiangduo_gr_nbr_map::$year_month_show,
-                Jiancha_and_jiangduo_gr_nbr_map::$dd_name
-            ],
-            substr($sql, 1)
-        );
-
+        if ($sql != '')
+            $hz_table->multi_insert(
+                [
+                    Jiancha_and_jiangduo_gr_nbr_map::$XFLSCFJDSS_DF,
+                    Jiancha_and_jiangduo_gr_nbr_map::$DCZGHZYHS_DF,
+                    Jiancha_and_jiangduo_gr_nbr_map::$FXHZYHWFXWS_DF,
+                    Jiancha_and_jiangduo_gr_nbr_map::$JCDWS_DF,
+                    Jiancha_and_jiangduo_gr_nbr_map::$police_name,
+                    Jiancha_and_jiangduo_gr_nbr_map::$year_month_show,
+                    Jiancha_and_jiangduo_gr_nbr_map::$dd_name
+                ],
+                substr($sql, 1)
+            );
 
         return;
 
@@ -1284,5 +1473,37 @@ class JDJC_group extends Table_group
 //        });
 
 
+    }
+
+    public static function fxhz_group_update($mysqli, $date = null)
+    {
+        JDJC_group::fxhz_sub_update_date_in($mysqli, $date);
+        JDJC_group::jdjc_update_fxhz_by_date($mysqli, $date);
+    }
+
+    public static function dczg_group_update($mysqli, $date = null)
+    {
+        JDJC_group::dczg_sub_update_date_in($mysqli, $date);
+        JDJC_group::jdjc_update_dczg_by_date($mysqli, $date);
+    }
+
+    public static function xfls_group_update($mysqli, $date = null)
+    {
+        JDJC_group::xfls_sub_update_date_in($mysqli, $date);
+        JDJC_group::jdjc_update_xfls_by_date($mysqli, $date);
+    }
+
+    public static function jcdw_group_update($mysqli, $date = null)
+    {
+        JDJC_group::jcdw_sub_update_date_in($mysqli, $date);
+        JDJC_group::jdjc_update_jcdw_by_date($mysqli, $date);
+    }
+
+    static function group_update($mysqli, $date)
+    {
+        self::jcdw_group_update($mysqli,$date);
+        self::fxhz_group_update($mysqli,$date);
+        self::dczg_group_update($mysqli,$date);
+        self::xfls_group_update($mysqli,$date);
     }
 }

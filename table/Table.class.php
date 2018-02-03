@@ -6,7 +6,7 @@
  */
 
 
-require_once __DIR__ . '/../formula/Formula.class.php';
+require_once __DIR__ . '/../Quantity/Formula.class.php';
 require_once __DIR__ . '/../sql/Sql.class.php';
 
 /**
@@ -19,7 +19,7 @@ class Table
      */
     var $tableName;
     /**
-     * @var null|SqlTool 工具类实例
+     * @var null|Sql_tool 工具类实例
      */
     private $sqlTool = null;
 
@@ -39,6 +39,11 @@ class Table
         }
 //        print_r($res);
         return implode(',', $res);
+    }
+
+    static function format_insert_value($value)
+    {
+        return '(\'' . implode('\',\'', $value) . '\')';
     }
 
     /**
@@ -185,13 +190,15 @@ class Table
      * @param Table $table 关联的Table实例
      * @param array $field 查询的两表字段
      * @param string $param 查询条件
-     * @return int|SqlResult|null
+     * @param bool $only_sql
+     * @return int|null|SqlResult
      */
-    public function left_join($table, $field, $param)
+    public function left_join($table, $field, $param, $only_sql = false)
     {
         if (!is_array($field) || count($field) == 0) return -1;
         $sql = 'SELECT ' . Table::format_field($field)
             . ' FROM ' . $this->tableName . ' LEFT JOIN ' . $table . " $param";
+        if ($only_sql) return $sql;
         $res = null;
         if ($this->sqlTool != null) {
             $res = $this->sqlTool->execute_dql($sql);
@@ -199,6 +206,21 @@ class Table
         }
         return null;
     }
+
+    public function right_join($table, $field, $param, $only_sql = false)
+    {
+        if (!is_array($field) || count($field) == 0) return -1;
+        $sql = 'SELECT ' . Table::format_field($field)
+            . ' FROM ' . $this->tableName . ' RIGHT JOIN ' . $table . " $param";
+        if ($only_sql) return $sql;
+        $res = null;
+        if ($this->sqlTool != null) {
+            $res = $this->sqlTool->execute_dql($sql);
+            return new SqlResult($res);
+        }
+        return null;
+    }
+
 
     /**
      * @param $get_field
@@ -220,7 +242,7 @@ class Table
         }
         return $this->query(
             $get_field,
-            SqlTool::WHERE($where) . $other_param . SqlTool::GROUP($group)
+            Sql_tool::WHERE($where) . $other_param . Sql_tool::GROUP($group)
         );
 
     }

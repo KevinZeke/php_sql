@@ -13,6 +13,6 @@ class Quantity_hzdc_gr_basic_score_map extends DB_map {
   static $zzhzyydc_jydc_xiebr_score = 'quantity_hzdc_gr_basic_score.zzhzyydc_jydc_xiebr_score' ;
   static $number_id = 'quantity_hzdc_gr_basic_score.number_id' ;
   static function all(){
-            return parent::all(__CLASS__);
+            //return parent::all();
         }
 }

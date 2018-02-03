@@ -24,6 +24,6 @@ class Quantity_xzcf_gr_nbr_map extends DB_map {
   static $jls_sub_total_nbr = 'quantity_xzcf_gr_nbr.jls_sub_total_nbr' ;
   static $number_id = 'quantity_xzcf_gr_nbr.number_id' ;
   static function all(){
-            return parent::all(__CLASS__);
+            //return parent::all();
         }
 }

@@ -17,6 +17,6 @@ class Quantity_xfyss_gr_nbr_map extends DB_map {
   static $police_id = 'quantity_xfyss_gr_nbr.police_id' ;
   static $number_id = 'quantity_xfyss_gr_nbr.number_id' ;
   static function all(){
-            return parent::all(__CLASS__);
+            //return parent::all();
         }
 }
