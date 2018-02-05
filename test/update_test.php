@@ -58,8 +58,9 @@ if (false) {
 //HZDC_group::group_update_date_in($mysqli, "%2017-09%");
 
 
-HZ_group::group_update($mysqli, $date_arr);
+//HZ_group::group_update($mysqli, $date_arr);
 
+echo HZ_group::dd_huizong_query_update($mysqli, $date_arr);
 
 //$sqltool->do_not_gone_away();
 
