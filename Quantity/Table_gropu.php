@@ -20,6 +20,29 @@ class Table_group
     }
 
     /**
+     * @var string
+     */
+    protected static $zhu_key = "\(主\)";
+    protected static $zhu_key2 = "（主）";
+
+    /**
+     * @param string $names
+     * @return stdClass
+     */
+    public static function format_zhu_xie($names)
+    {
+        $names_arr = explode('、', $names);
+        $zhuxie = new stdClass();
+        $zhuxie->zhu = remove_preg($names_arr[0], self::$zhu_key, '');
+        $zhuxie->zhu = remove_preg($zhuxie->zhu, self::$zhu_key2, '');
+        if (count($names_arr) > 1)
+            $zhuxie->xie = explode('、', $names_arr[1]);
+        else
+            $zhuxie->xie = [];
+        return $zhuxie;
+    }
+
+    /**
      * 判断当前数据表是否存在符合日期和警员名的数据
      * @param Sql_tool|mysqli $db
      * @param string $table_name

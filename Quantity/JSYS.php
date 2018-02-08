@@ -1527,10 +1527,11 @@ class JSYS_group extends Table_group
 
     static function group_update($mysqli, $date = null)
     {
-        self::ys_group_update($mysqli,$date);
-        self::sh_group_update($mysqli,$date);
-        self::jg_group_update($mysqli,$date);
-        self::ba_group_update($mysqli,$date);
+        self::ys_group_update($mysqli, $date);
+        self::sh_group_update($mysqli, $date);
+        self::jg_group_update($mysqli, $date);
+        self::ba_group_update($mysqli, $date);
+        self::jianshen_update_sub_2_gr_by_date($mysqli, $date);
     }
 
 

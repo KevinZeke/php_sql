@@ -11,4 +11,7 @@ class Kpdf_other_map extends DB_map {
   static $other_c = 'kpdf_other.other_c' ;
   static $other_Result = 'kpdf_other.other_Result' ;
   static $num_id = 'kpdf_other.num_id' ;
+  static function all(){
+            //return parent::all();
+        }
 }

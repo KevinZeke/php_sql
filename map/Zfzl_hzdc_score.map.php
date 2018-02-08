@@ -14,7 +14,11 @@ class Zfzl_hzdc_score_map extends DB_map {
   static $OVERTIME = 'zfzl_hzdc_score.OVERTIME' ;
   static $Status = 'zfzl_hzdc_score.Status' ;
   static $CBR = 'zfzl_hzdc_score.CBR' ;
+  static $WS_num = 'zfzl_hzdc_score.WS_num' ;
   static $KP_SCORE = 'zfzl_hzdc_score.KP_SCORE' ;
   static $KP_TRUE_SCORE = 'zfzl_hzdc_score.KP_TRUE_SCORE' ;
   static $id = 'zfzl_hzdc_score.id' ;
+  static function all(){
+            //return parent::all();
+        }
 }

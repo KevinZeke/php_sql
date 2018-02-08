@@ -7,4 +7,7 @@ class Kpdf_cfsdb_ffj_duiying_map extends DB_map {
   static $input = 'kpdf_cfsdb_ffj_duiying.input' ;
   static $duiying_lb = 'kpdf_cfsdb_ffj_duiying.duiying_lb' ;
   static $num_id = 'kpdf_cfsdb_ffj_duiying.num_id' ;
+  static function all(){
+            //return parent::all();
+        }
 }

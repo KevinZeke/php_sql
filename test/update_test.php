@@ -48,6 +48,23 @@ if (false) {
 }
 
 
+/**
+ * 使用：
+ */
+//建审验收的更新
+HZ_group::jdjc_group_update($mysqli, $date_arr);
+//火灾调查的更新
+//HZ_group::hzdc_group_update($mysqli, $date_arr);
+//行政处罚的更新
+//HZ_group::xzcf_group_update($mysqli, $date_arr);
+//监督检查的更新
+//HZ_group::jdjc_group_update($mysqli, $date_arr);
+//建审验收 火灾调查 行政处罚 监督检查 一起全部更新
+//HZ_group::group_update($mysqli, $date_arr);
+//如果更新成功会返回1,基本只要前端有返回就表示更新成功
+//预计的调用后更新时间大概5-15分钟
+
+
 //JSYS_group::group_update($mysqli, $date_arr);
 //JDJC_group::group_update($mysqli, $date_arr);
 
@@ -58,9 +75,29 @@ if (false) {
 //HZDC_group::group_update_date_in($mysqli, "%2017-09%");
 
 
-//HZ_group::group_update($mysqli, $date_arr);
-
-echo HZ_group::dd_huizong_query_update($mysqli, $date_arr);
+//echo HZ_group::dd_huizong_query_update($mysqli, $date_arr);
 
 //$sqltool->do_not_gone_away();
+
+
+/**
+ * @param string $date
+ * @return array|string
+ */
+function format_date($date)
+{
+    $date_arr = explode('$', $date);
+    if (count($date_arr) == 2) {
+        return $date_arr;
+    } else {
+        return $date_arr[0];
+    }
+}
+
+format_date('2018-09-09$2018-09-19');
+format_date('2018-09');
+
+
+
+
 

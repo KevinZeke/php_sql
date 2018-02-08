@@ -12,4 +12,7 @@ class Kpdf_xzcf_sqwts_map extends DB_map {
   static $xzcf_sqwts_d = 'kpdf_xzcf_sqwts.xzcf_sqwts_d' ;
   static $xzcf_sqwts_Result = 'kpdf_xzcf_sqwts.xzcf_sqwts_Result' ;
   static $num_id = 'kpdf_xzcf_sqwts.num_id' ;
+  static function all(){
+            //return parent::all();
+        }
 }

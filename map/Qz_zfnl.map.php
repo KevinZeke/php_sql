@@ -19,4 +19,7 @@ class Qz_zfnl_map extends DB_map {
   static $hzdc = 'qz_zfnl.hzdc' ;
   static $xzcf = 'qz_zfnl.xzcf' ;
   static $id = 'qz_zfnl.id' ;
+  static function all(){
+            //return parent::all();
+        }
 }

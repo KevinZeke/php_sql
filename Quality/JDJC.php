@@ -11,6 +11,7 @@ require_once __DIR__ . '/../map/Gzpc_flws_jdjc.map.php';
 require_once __DIR__ . '/../map/Gzpc_xmxx_jdjc.map.php';
 require_once __DIR__ . '/../map/Kpdf_huizong.map.php';
 require_once __DIR__ . '/../map/Zfzl_jdjc_score.map.php';
+require_once __DIR__ . '/../map/Zfzl_jdjc_flws.map.php';
 require_once __DIR__ . '/../sql/Sql.class.php';
 require_once __DIR__ . '/../table/Table.class.php';
 require_once __DIR__ . '/Quantity.php';
@@ -40,31 +41,44 @@ class Quantity_JDJC
                                                $item_info,
                                                $director)
     {
+
+        $real_score = Quantity::coef_count(
+            'jdjc',
+            $item_info[Q_field::$item_total_score],
+            $item_info[Q_field::$proeject_type]
+        );
+
         $sql .= ',' . Table::format_insert_value([
                 $directors->zhu,
-                $item_info[Q_field::$time_limit],
-                $item_info[Q_field::$unit_name],
-                $item_info[Q_field::$status],
-                $item_info[Q_field::$over_time],
-                $item_info[Q_field::$cj_time],
+                Quantity::$police_dd_map[$directors->zhu],
+                $director,
                 $item_id,
+                $item_info[Q_field::$over_time],
+                $item_info[Q_field::$time_limit],
+//                $item_info[Q_field::$unit_name],
+                $item_info[Q_field::$status],
+                $item_info[Q_field::$proeject_type],
                 $item_info[Q_field::$item_total_score],
-                $item_info[Q_field::$real_item_total_score]['zhu'],
-                $director
+                $real_score['zhu'],
+//                $item_info[Q_field::$real_item_total_score]['zhu'],
+                $item_info[Q_field::$count_flwses]
             ]);
 
         foreach ($directors->xie as $name) {
             $sql .= ',' . Table::format_insert_value([
                     $name,
-                    $item_info[Q_field::$time_limit],
-                    $item_info[Q_field::$unit_name],
-                    $item_info[Q_field::$status],
-                    $item_info[Q_field::$over_time],
-                    $item_info[Q_field::$cj_time],
+                    Quantity::$police_dd_map[$name],
+                    $director,
                     $item_id,
+                    $item_info[Q_field::$over_time],
+                    $item_info[Q_field::$time_limit],
+//                $item_info[Q_field::$unit_name],
+                    $item_info[Q_field::$status],
+                    $item_info[Q_field::$proeject_type],
                     $item_info[Q_field::$item_total_score],
-                    $item_info[Q_field::$real_item_total_score]['xie'],
-                    $director
+                    $real_score['xie'],
+//                    $item_info[Q_field::$real_item_total_score]['xie'],
+                    $item_info[Q_field::$count_flwses]
                 ]);
         }
     }
@@ -90,11 +104,12 @@ class Quantity_JDJC
                 Zfzl_jdjc_score_map::$CBR,
                 Zfzl_jdjc_score_map::$XMBH,
                 Zfzl_jdjc_score_map::$OVERTIME,
-                Zfzl_jdjc_score_map::$JCQK,
                 Zfzl_jdjc_score_map::$JCQX,
+                Zfzl_jdjc_score_map::$JCQK,
                 Zfzl_jdjc_score_map::$xmlx,
                 Zfzl_jdjc_score_map::$KP_SCORE,
-                Zfzl_jdjc_score_map::$KP_TRUE_SCORE
+                Zfzl_jdjc_score_map::$KP_TRUE_SCORE,
+                Zfzl_jdjc_score_map::$WS_num
             ],
             substr($sql, 1)
         );
@@ -109,7 +124,7 @@ class Quantity_JDJC
     public static function get_project_info($sqltool)
     {
         //获取权重信息
-        $jdjc_coef = Quantity::get_coef($sqltool, 'jdjc');
+//        $jdjc_coef = Quantity::get_coef($sqltool, 'jdjc');
 
         //获取分值计算相关字段以及项目信息
         $jdjc_res = $sqltool->execute_dql_res('
@@ -132,10 +147,10 @@ class Quantity_JDJC
             kptime
             FROM
             (
-            SELECT *
-            FROM gzpc_xmxx_jdjc A LEFT JOIN kpdf_huizong B 
-            ON A.projectId = B.Item_BH
-            WHERE A.overTime IS NOT NULL
+                SELECT *
+                FROM gzpc_xmxx_jdjc A LEFT JOIN (SELECT * FROM kpdf_huizong WHERE kpdf_huizong.Item_Type = \'jdjc\') B 
+                ON A.projectId = B.Item_BH
+                WHERE A.overTime IS NOT NULL
             ) C
             WHERE kplb IS NOT NULL
         ');
@@ -147,9 +162,11 @@ class Quantity_JDJC
         $jdjc_res->each_row(
             Quantity::format_item_flws_func(
                 $result_array,
-                $jdjc_coef
+                'jdjc'
             )
         );
+
+//        print_r($result_array);
 
         $jdjc_res->close();
 
@@ -184,21 +201,71 @@ class Quantity_JDJC
             }
 
         }
+        if ($score_insert_values != '')
+            self::score_insert($sqltool, $score_insert_values);
     }
 
+    /**
+     * @param Sql_tool $sqltool
+     * @return int
+     */
+    public static function insert_flws($sqltool)
+    {
+        $flws_info = $sqltool->execute_dql_res('
+            SELECT
+              projectId    ,
+              flwsID       ,
+              kplb         ,
+              kp_name      ,
+              result       ,
+              kp_name      ,
+              name         ,
+              creatorPerson,
+              createTime   ,
+              checkPerson  ,
+              checkTime    ,
+              status       ,
+              recordTime   ,
+              kptime
+            FROM (SELECT * FROM kpdf_huizong WHERE kpdf_huizong.Item_Type = \'jdjc\') A
+              RIGHT JOIN gzpc_flws_jdjc ON A.flwsID = gzpc_flws_jdjc.itemId
+              AND A.Item_BH = gzpc_flws_jdjc.projectId
+              ; 
+        ');
+        $flws_sql = '';
+        $flws_info->each_row(function ($row) use (&$flws_sql) {
+            $flws_sql .= ',(
+                \'' . $row['name'] . '\',
+                \'' . $row['flwsID'] . '\',
+                \'' . $row['kplb'] . '\',
+                \'' . $row['creatorPerson'] . '\',
+                \'' . $row['createTime'] . '\',
+                \'' . $row['checkPerson'] . '\',
+                \'' . $row['checkTime'] . '\',
+                \'' . $row['status'] . '\',
+                \'' . $row['result'] . '\',
+                \'' . $row['projectId'] . '\',
+                \'' . $row['kptime'] . '\'
+            )';
+        });
+        $flws_table = (new Table(Zfzl_jdjc_flws_map::$table_name, $sqltool));
+        $flws_table->truncate();
+        return $flws_table->multi_insert(
+            [
+                Zfzl_jdjc_flws_map::$FLWS,
+                Zfzl_jdjc_flws_map::$ItemId,
+                Zfzl_jdjc_flws_map::$kplb,
+                Zfzl_jdjc_flws_map::$CJR,
+                Zfzl_jdjc_flws_map::$CJRQ,
+                Zfzl_jdjc_flws_map::$SPR,
+                Zfzl_jdjc_flws_map::$SPSJ,
+                Zfzl_jdjc_flws_map::$STATUS,
+                Zfzl_jdjc_flws_map::$KP_FLWSSCORE,
+                Zfzl_jdjc_flws_map::$xmbh,
+                Zfzl_jdjc_flws_map::$KP_TIME
+            ],
+            substr($flws_sql, 1)
+        );
+    }
 }
-
-
-$mysqli = new mysqli(
-    'localhost', 'root', '123456', 'zxpg_gzpc_db'
-);
-$sqltool = Sql_tool::build_by_mysqli($mysqli);
-
-//记录sql语句
-Sql_tool::devopen();
-
-var_dump(Quantity_JDJC::get_project_info($sqltool));
-
-//关闭sql记录
-Sql_tool::devclose();
 

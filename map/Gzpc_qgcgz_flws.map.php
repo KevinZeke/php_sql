@@ -14,4 +14,7 @@ class Gzpc_qgcgz_flws_map extends DB_map {
   static $info = 'gzpc_qgcgz_flws.info' ;
   static $createTime = 'gzpc_qgcgz_flws.createTime' ;
   static $recordTime = 'gzpc_qgcgz_flws.recordTime' ;
+  static function all(){
+            //return parent::all();
+        }
 }

@@ -15,4 +15,7 @@ class Kpdf_jdcc_jdjcjl_map extends DB_map {
   static $jdcc_jdjcjl_g = 'kpdf_jdcc_jdjcjl.jdcc_jdjcjl_g' ;
   static $jdcc_jdjcjl_Result = 'kpdf_jdcc_jdjcjl.jdcc_jdjcjl_Result' ;
   static $num_id = 'kpdf_jdcc_jdjcjl.num_id' ;
+  static function all(){
+            //return parent::all();
+        }
 }

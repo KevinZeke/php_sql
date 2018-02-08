@@ -14,4 +14,7 @@ class Gzpc_flws_xzcf_map extends DB_map {
   static $checkTime = 'gzpc_flws_xzcf.checkTime' ;
   static $status = 'gzpc_flws_xzcf.status' ;
   static $recordTime = 'gzpc_flws_xzcf.recordTime' ;
+  static function all(){
+            //return parent::all();
+        }
 }

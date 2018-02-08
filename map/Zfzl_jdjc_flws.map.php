@@ -15,4 +15,7 @@ class Zfzl_jdjc_flws_map extends DB_map {
   static $STATUS = 'zfzl_jdjc_flws.STATUS' ;
   static $KP_FLWSSCORE = 'zfzl_jdjc_flws.KP_FLWSSCORE' ;
   static $id = 'zfzl_jdjc_flws.id' ;
+  static function all(){
+            //return parent::all();
+        }
 }

@@ -15,4 +15,7 @@ class Gzpc_qgcgz_ztbh_map extends DB_map {
   static $result = 'gzpc_qgcgz_ztbh.result' ;
   static $info = 'gzpc_qgcgz_ztbh.info' ;
   static $recordTime = 'gzpc_qgcgz_ztbh.recordTime' ;
+  static function all(){
+            //return parent::all();
+        }
 }

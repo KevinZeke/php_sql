@@ -14,4 +14,7 @@ class Gzpc_xmxx_jdjc_map extends DB_map {
   static $updateTime = 'gzpc_xmxx_jdjc.updateTime' ;
   static $overTime = 'gzpc_xmxx_jdjc.overTime' ;
   static $recordTime = 'gzpc_xmxx_jdjc.recordTime' ;
+  static function all(){
+            //return parent::all();
+        }
 }

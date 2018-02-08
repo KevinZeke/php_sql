@@ -10,7 +10,7 @@ require_once __DIR__ . '/../sql/Sql.class.php';
 require_once __DIR__ . '/../table/Table.class.php';
 
 
-$db = "huaianzhd_db";
+$db = "zxpg_gzpc_db";
 
 $sqlTool = Sql_tool::build("localhost", "root", "123456", $db);
 

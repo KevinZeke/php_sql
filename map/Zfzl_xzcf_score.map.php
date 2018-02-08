@@ -12,7 +12,11 @@ class Zfzl_xzcf_score_map extends DB_map {
   static $CFJG = 'zfzl_xzcf_score.CFJG' ;
   static $OVERTIME = 'zfzl_xzcf_score.OVERTIME' ;
   static $CBR = 'zfzl_xzcf_score.CBR' ;
+  static $WS_num = 'zfzl_xzcf_score.WS_num' ;
   static $KP_SCORE = 'zfzl_xzcf_score.KP_SCORE' ;
   static $KP_TRUE_SCORE = 'zfzl_xzcf_score.KP_TRUE_SCORE' ;
   static $id = 'zfzl_xzcf_score.id' ;
+  static function all(){
+            //return parent::all();
+        }
 }

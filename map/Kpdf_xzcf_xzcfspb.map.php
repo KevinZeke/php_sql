@@ -25,4 +25,7 @@ class Kpdf_xzcf_xzcfspb_map extends DB_map {
   static $xzcf_xzcfspb_q = 'kpdf_xzcf_xzcfspb.xzcf_xzcfspb_q' ;
   static $xzcf_xzcfspb_Result = 'kpdf_xzcf_xzcfspb.xzcf_xzcfspb_Result' ;
   static $num_id = 'kpdf_xzcf_xzcfspb.num_id' ;
+  static function all(){
+            //return parent::all();
+        }
 }

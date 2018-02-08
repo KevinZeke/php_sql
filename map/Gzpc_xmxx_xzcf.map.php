@@ -14,4 +14,7 @@ class Gzpc_xmxx_xzcf_map extends DB_map {
   static $overTime = 'gzpc_xmxx_xzcf.overTime' ;
   static $updateTime = 'gzpc_xmxx_xzcf.updateTime' ;
   static $recordTime = 'gzpc_xmxx_xzcf.recordTime' ;
+  static function all(){
+            //return parent::all();
+        }
 }

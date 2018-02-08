@@ -14,4 +14,7 @@ class Kpdf_xzcf_jtyajl_map extends DB_map {
   static $xzcf_jtyajl_f = 'kpdf_xzcf_jtyajl.xzcf_jtyajl_f' ;
   static $xzcf_jtyajl_Result = 'kpdf_xzcf_jtyajl.xzcf_jtyajl_Result' ;
   static $num_id = 'kpdf_xzcf_jtyajl.num_id' ;
+  static function all(){
+            //return parent::all();
+        }
 }

@@ -15,4 +15,8 @@ class Clbz_ffbzgl_map extends DB_map {
   static $ffbzgl_zfxg_pp5 = 'clbz_ffbzgl.ffbzgl_zfxg_pp5' ;
   static $ffbzgl_zfnl_px = 'clbz_ffbzgl.ffbzgl_zfnl_px' ;
   static $ffbzgl_zfnl_ks = 'clbz_ffbzgl.ffbzgl_zfnl_ks' ;
+  static $id = 'clbz_ffbzgl.id' ;
+  static function all(){
+            //return parent::all();
+        }
 }

@@ -15,4 +15,7 @@ class Kpdf_xzcf_sdhz_map extends DB_map {
   static $xzcf_sdhz_g = 'kpdf_xzcf_sdhz.xzcf_sdhz_g' ;
   static $xzcf_sdhz_Result = 'kpdf_xzcf_sdhz.xzcf_sdhz_Result' ;
   static $num_id = 'kpdf_xzcf_sdhz.num_id' ;
+  static function all(){
+            //return parent::all();
+        }
 }

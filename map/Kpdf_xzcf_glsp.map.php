@@ -17,4 +17,7 @@ class Kpdf_xzcf_glsp_map extends DB_map {
   static $xzcf_glsp_e = 'kpdf_xzcf_glsp.xzcf_glsp_e' ;
   static $xzcf_glsp_Result = 'kpdf_xzcf_glsp.xzcf_glsp_Result' ;
   static $num_id = 'kpdf_xzcf_glsp.num_id' ;
+  static function all(){
+            //return parent::all();
+        }
 }

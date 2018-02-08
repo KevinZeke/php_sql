@@ -15,4 +15,7 @@ class Kpdf_zddw_zlxqgztzs_map extends DB_map {
   static $zddw_zlxqgztzs_g = 'kpdf_zddw_zlxqgztzs.zddw_zlxqgztzs_g' ;
   static $zddw_zlxqgztzs_Result = 'kpdf_zddw_zlxqgztzs.zddw_zlxqgztzs_Result' ;
   static $num_id = 'kpdf_zddw_zlxqgztzs.num_id' ;
+  static function all(){
+            //return parent::all();
+        }
 }

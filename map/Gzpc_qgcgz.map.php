@@ -10,4 +10,7 @@ class Gzpc_qgcgz_map extends DB_map {
   static $followTable = 'gzpc_qgcgz.followTable' ;
   static $followId = 'gzpc_qgcgz.followId' ;
   static $recordTime = 'gzpc_qgcgz.recordTime' ;
+  static function all(){
+            //return parent::all();
+        }
 }

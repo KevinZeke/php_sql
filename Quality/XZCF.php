@@ -9,6 +9,7 @@ require_once __DIR__ . '/../map/Gzpc_flws_xzcf.map.php';
 require_once __DIR__ . '/../map/Gzpc_xmxx_xzcf.map.php';
 require_once __DIR__ . '/../map/Kpdf_huizong.map.php';
 require_once __DIR__ . '/../map/Zfzl_xzcf_score.map.php';
+require_once __DIR__ . '/../map/Zfzl_xzcf_flws.map.php';
 require_once __DIR__ . '/../sql/Sql.class.php';
 require_once __DIR__ . '/../table/Table.class.php';
 require_once __DIR__ . '/Quantity.php';
@@ -32,6 +33,11 @@ class Quantity_XZCF
      */
     protected static function score_insert_sql(&$sql, $directors, $item_id, $item_info, $director)
     {
+        $real_score = Quantity::coef_count(
+            'xzcf',
+            $item_info[Q_field::$item_total_score]
+        );
+
         $sql .= ',' . Table::format_insert_value([
                 $directors->zhu,
                 Quantity::$police_dd_map[$directors->zhu],
@@ -42,8 +48,9 @@ class Quantity_XZCF
                 $item_info[Q_field::$cj_time],
                 $item_id,
                 $item_info[Q_field::$item_total_score],
-                $item_info[Q_field::$real_item_total_score]['zhu'],
-                $director
+                $real_score['zhu'],
+                $director,
+                $item_info[Q_field::$count_flwses]
             ]);
 
         foreach ($directors->xie as $name) {
@@ -57,8 +64,9 @@ class Quantity_XZCF
                     $item_info[Q_field::$cj_time],
                     $item_id,
                     $item_info[Q_field::$item_total_score],
-                    $item_info[Q_field::$real_item_total_score]['xie'],
-                    $director
+                    $real_score['xie'],
+                    $director,
+                    $item_info[Q_field::$count_flwses]
                 ]);
         }
     }
@@ -89,7 +97,8 @@ class Quantity_XZCF
                 Zfzl_xzcf_score_map::$XMBH,
                 Zfzl_xzcf_score_map::$KP_SCORE,
                 Zfzl_xzcf_score_map::$KP_TRUE_SCORE,
-                Zfzl_xzcf_score_map::$CBR
+                Zfzl_xzcf_score_map::$CBR,
+                Zfzl_xzcf_score_map::$WS_num
             ],
             substr($sql, 1)
         );
@@ -104,7 +113,7 @@ class Quantity_XZCF
     public static function get_project_info($sqltool)
     {
         //获取权重信息
-        $xzcf_coef = Quantity::get_coef($sqltool, 'xzcf');
+//        $xzcf_coef = Quantity::get_coef($sqltool, 'xzcf');
 
         //获取分值计算相关字段以及项目信息
         $xzcf_res = $sqltool->execute_dql_res('
@@ -129,7 +138,7 @@ class Quantity_XZCF
             FROM
             (
             SELECT *
-            FROM gzpc_xmxx_xzcf A LEFT JOIN kpdf_huizong B ON A.taskId = B.Item_BH
+            FROM gzpc_xmxx_xzcf A LEFT JOIN (SELECT * FROM kpdf_huizong WHERE Item_Type = \'xzcf\') B ON A.taskId = B.Item_BH
             WHERE A.overTime IS NOT NULL
             ) C
             WHERE kplb IS NOT NULL
@@ -142,11 +151,13 @@ class Quantity_XZCF
         $xzcf_res->each_row(
             Quantity::format_item_flws_func(
                 $result_array,
-                $xzcf_coef
+                'xzcf'
             )
         );
 
         $xzcf_res->close();
+
+//        print_r($result_array);
 
         return $result_array;
     }
@@ -180,7 +191,74 @@ class Quantity_XZCF
             }
         }
         //完成数据的插入
-        self::score_insert($sqltool, $score_insert_values);
+        if ($score_insert_values != '')
+            self::score_insert($sqltool, $score_insert_values);
+    }
+
+    /**
+     * @param Sql_tool $sqltool
+     * @return int
+     */
+    public static function insert_flws($sqltool)
+    {
+        $flws_table = (new Table(Zfzl_xzcf_flws_map::$table_name, $sqltool));
+        //TODO
+        $flws_table->truncate();
+        $flws_info = $sqltool->execute_dql_res('
+            SELECT
+              taskId,
+              flwsID,
+              kplb,
+              kp_name,
+              result,
+              kp_name,
+              nodeName,
+              name,
+              creatorPerson,
+              createTime,
+              checkPerson,
+              checkTime,
+              status,
+              recordTime,
+              kptime
+            FROM (SELECT * FROM kpdf_huizong WHERE kpdf_huizong.Item_Type = \'xzcf\') A
+            RIGHT JOIN gzpc_flws_xzcf ON A.flwsID = gzpc_flws_xzcf.itemId
+            AND A.Item_BH = gzpc_flws_xzcf.taskId
+        ');
+        $flws_sql = '';
+        $flws_info->each_row(function ($row) use (&$flws_sql) {
+            $flws_sql .= ',(
+                \'' . $row['nodeName'] . '\',
+                \'' . $row['name'] . '\',
+                \'' . $row['flwsID'] . '\',
+                \'' . $row['kplb'] . '\',
+                \'' . $row['creatorPerson'] . '\',
+                \'' . $row['createTime'] . '\',
+                \'' . $row['checkPerson'] . '\',
+                \'' . $row['checkTime'] . '\',
+                \'' . $row['status'] . '\',
+                \'' . $row['result'] . '\',
+                \'' . $row['taskId'] . '\',
+                \'' . $row['kptime'] . '\'
+            )';
+        });
+        return $flws_table->multi_insert(
+            [
+                Zfzl_xzcf_flws_map::$JD,
+                Zfzl_xzcf_flws_map::$FLWS,
+                Zfzl_xzcf_flws_map::$ItemId,
+                Zfzl_xzcf_flws_map::$kplb,
+                Zfzl_xzcf_flws_map::$CJR,
+                Zfzl_xzcf_flws_map::$CJRQ,
+                Zfzl_xzcf_flws_map::$SPR,
+                Zfzl_xzcf_flws_map::$SPSJ,
+                Zfzl_xzcf_flws_map::$STATUS,
+                Zfzl_xzcf_flws_map::$KP_FLWSSCORE,
+                Zfzl_xzcf_flws_map::$xmbh,
+                Zfzl_xzcf_flws_map::$KP_TIME
+            ],
+            substr($flws_sql, 1)
+        );
     }
 }
 

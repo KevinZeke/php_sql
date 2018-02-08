@@ -1501,9 +1501,10 @@ class JDJC_group extends Table_group
 
     static function group_update($mysqli, $date)
     {
-        self::jcdw_group_update($mysqli,$date);
-        self::fxhz_group_update($mysqli,$date);
-        self::dczg_group_update($mysqli,$date);
-        self::xfls_group_update($mysqli,$date);
+        self::jcdw_group_update($mysqli, $date);
+        self::fxhz_group_update($mysqli, $date);
+        self::dczg_group_update($mysqli, $date);
+        self::xfls_group_update($mysqli, $date);
+        self::jdjc_update_nbr_2_gr_by_date($mysqli, $date);
     }
 }

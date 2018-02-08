@@ -8,8 +8,14 @@ class Zfzl_jsys_score_map extends DB_map {
   static $XMBH = 'zfzl_jsys_score.XMBH' ;
   static $GCMC = 'zfzl_jsys_score.GCMC' ;
   static $SLSJ = 'zfzl_jsys_score.SLSJ' ;
+  static $OVERTIME = 'zfzl_jsys_score.OVERTIME' ;
+  static $Status = 'zfzl_jsys_score.Status' ;
   static $CBR = 'zfzl_jsys_score.CBR' ;
+  static $WS_num = 'zfzl_jsys_score.WS_num' ;
   static $KP_SCORE = 'zfzl_jsys_score.KP_SCORE' ;
-  static $KP_TRUESCORE = 'zfzl_jsys_score.KP_TRUESCORE' ;
+  static $KP_TRUE_SCORE = 'zfzl_jsys_score.KP_TRUE_SCORE' ;
   static $id = 'zfzl_jsys_score.id' ;
+  static function all(){
+            //return parent::all();
+        }
 }

@@ -8,6 +8,10 @@
 require_once __DIR__ . '/../table/Table.class.php';
 require_once __DIR__ . '/Formula.class.php';
 require_once __DIR__ . '/Table_gropu.php';
+require_once __DIR__ . '/JDJC.php';
+require_once __DIR__ . '/XZCF.php';
+require_once __DIR__ . '/JSYS.php';
+require_once __DIR__ . '/HZDC.php';
 require_once __DIR__ . '/../sql/Sql.class.php';
 require_once __DIR__ . '/../map/Quantity_sub_score.map.php';
 require_once __DIR__ . '/../map/Quantity_hzdc_gr_sub_score.map.php';
@@ -765,7 +769,6 @@ class HZ_group extends Table_group
 
         $hz_table = (new Table(Quantity_sub_score_map::$table_name, $sqlTool));
 
-//        $sqlTool::$isDev = true;
         $res = $hz_table
             ->group_query(
                 [
@@ -895,11 +898,15 @@ class HZ_group extends Table_group
      * 汇总表的行政处罚分项更新
      * @param mysqli $mysqli
      * @param null|string|array $date
+     * @param bool $update_dd
+     * @return int
      */
-    public static function xzcf_group_update($mysqli, $date = null)
+    public static function xzcf_group_update($mysqli, $date = null, $update_dd = true)
     {
         XZCF_group::group_update_date_in($mysqli, $date);
         HZ_group::update_xzcf_by_date($mysqli, $date);
+        if ($update_dd) HZ_group::dd_huizong_query_update($mysqli, $date);
+        return 1;
     }
 
 
@@ -909,13 +916,16 @@ class HZ_group extends Table_group
         return (new Table(Dadui_huizong_query_day_map::$table_name, Table_group::sqlTool_build($mysqli)))->dml(
 
             "UPDATE dadui_huizong_query_day
-  LEFT JOIN quantity_gr_score ON
-                                dadui_huizong_query_day.year_month_show = quantity_gr_score.year_month_show AND
-                                dadui_huizong_query_day.police_name = quantity_gr_score.police_name
-SET dadui_huizong_query_day.quantity_score     = quantity_gr_score.zfsl_total_score,
+                  LEFT JOIN quantity_gr_score ON
+                  dadui_huizong_query_day.year_month_show = quantity_gr_score.year_month_show 
+                  AND
+                  dadui_huizong_query_day.police_name = quantity_gr_score.police_name
+SET dadui_huizong_query_day.quantity_score  = quantity_gr_score.zfsl_total_score,
   dadui_huizong_query_day.weighted_total_score = (
-    dadui_huizong_query_day.capacity_score + dadui_huizong_query_day.quality_score +
-    quantity_gr_score.zfsl_total_score + dadui_huizong_query_day.efficiency_score +
+    dadui_huizong_query_day.capacity_score + 
+    dadui_huizong_query_day.quality_score +
+    quantity_gr_score.zfsl_total_score + 
+    dadui_huizong_query_day.efficiency_score +
     dadui_huizong_query_day.effect_score)
 WHERE 1 = 1  " . Table_group::format_date(
                 Quantity_gr_score_map::$year_month_show,
@@ -960,46 +970,62 @@ WHERE 1 = 1  " . Table_group::format_date(
      * 汇总表的行政处罚分项更新
      * @param mysqli $mysqli
      * @param null|string|array $date
+     * @param bool $update_dd
+     * @return int
      */
-    public static function hzdc_group_update($mysqli, $date = null)
+    public static function hzdc_group_update($mysqli, $date = null, $update_dd = true)
     {
         HZDC_group::group_update_date_in($mysqli, $date);
         HZ_group::update_hzdc_by_date($mysqli, $date);
+        if ($update_dd) HZ_group::dd_huizong_query_update($mysqli, $date);
+        return 1;
     }
 
     /**
      * 汇总表的监督检查分项更新
      * @param mysqli $mysqli
      * @param null|string|array $date
+     * @param bool $update_dd
+     * @return int
      */
-    public static function jdjc_group_update($mysqli, $date = null)
+    public static function jdjc_group_update($mysqli, $date = null, $update_dd = true)
     {
         JDJC_group::group_update($mysqli, $date);
         HZ_group::update_jdjc_by_date($mysqli, $date);
+        if ($update_dd) HZ_group::dd_huizong_query_update($mysqli, $date);
+        return 1;
     }
 
     /**
      * 汇总表的建审验收分项更新
      * @param mysqli $mysqli
      * @param null|string|array $date
+     * @param bool $update_dd
+     * @return int
      */
-    public static function jsys_group_update($mysqli, $date = null)
+    public static function jsys_group_update($mysqli, $date = null, $update_dd = true)
     {
         JSYS_group::group_update($mysqli, $date);
         HZ_group::update_jsys_by_date($mysqli, $date);
+        if ($update_dd) HZ_group::dd_huizong_query_update($mysqli, $date);
+        return 1;
     }
 
     /**
      * 汇总表全部分项更新
      * @param mysqli $mysqli
      * @param null|string|array $date
+     * @return int|void
      */
     public static function group_update($mysqli, $date = null)
     {
-        self::jdjc_group_update($mysqli, $date);
-        self::jsys_group_update($mysqli, $date);
-        self::hzdc_group_update($mysqli, $date);
-        self::xzcf_group_update($mysqli, $date);
+        self::jdjc_group_update($mysqli, $date, false);
+        self::jsys_group_update($mysqli, $date, false);
+        self::hzdc_group_update($mysqli, $date, false);
+        self::xzcf_group_update($mysqli, $date, false);
+        self::hz_update_sub_2_gr_by_date($mysqli, $date);
+        self::dd_huizong_query_update($mysqli, $date);
+        return 1;
     }
 
 

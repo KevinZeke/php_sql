@@ -13,4 +13,7 @@ class Gzpc_flws_jdjc_map extends DB_map {
   static $checkTime = 'gzpc_flws_jdjc.checkTime' ;
   static $status = 'gzpc_flws_jdjc.status' ;
   static $recordTime = 'gzpc_flws_jdjc.recordTime' ;
+  static function all(){
+            //return parent::all();
+        }
 }

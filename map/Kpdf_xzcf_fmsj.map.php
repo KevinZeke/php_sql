@@ -16,4 +16,7 @@ class Kpdf_xzcf_fmsj_map extends DB_map {
   static $xzcf_fmsj_h = 'kpdf_xzcf_fmsj.xzcf_fmsj_h' ;
   static $xzcf_fmsj_Result = 'kpdf_xzcf_fmsj.xzcf_fmsj_Result' ;
   static $num_id = 'kpdf_xzcf_fmsj.num_id' ;
+  static function all(){
+            //return parent::all();
+        }
 }

@@ -186,6 +186,17 @@ class Sql_tool
      * 静态函数用于生成sql条件语句
      *
      */
+
+    /**
+     * @param array $value_arr
+     * @param bool $comma
+     * @return string
+     */
+    static function format_insert_value($value_arr, $comma = true)
+    {
+        return ($comma ? ',' : '') . '(' . implode(',', $value_arr) . ')';
+    }
+
     /**
      * @param array $arr
      * @param bool $quote
@@ -376,7 +387,7 @@ class SqlResult
      */
     public function fetch($fetch_style = 'fetch_array')
     {
-        return call_user_func_array(array($this->sql_res, $fetch_style),[]);
+        return call_user_func_array(array($this->sql_res, $fetch_style), []);
     }
 
     /**
