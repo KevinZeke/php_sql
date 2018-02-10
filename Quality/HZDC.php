@@ -274,23 +274,25 @@ class Quantity_HZDC
                 \'' . $row['kptime'] . '\'
             )';
         });
-        return $flws_table->multi_insert(
-            [
-                Zfzl_hzdc_flws_map::$JD,
-                Zfzl_hzdc_flws_map::$FLWS,
-                Zfzl_hzdc_flws_map::$ItemId,
-                Zfzl_hzdc_flws_map::$kplb,
-                Zfzl_hzdc_flws_map::$CJR,
-                Zfzl_hzdc_flws_map::$CJRQ,
-                Zfzl_hzdc_flws_map::$SPR,
-                Zfzl_hzdc_flws_map::$SPSJ,
-                Zfzl_hzdc_flws_map::$STATUS,
-                Zfzl_hzdc_flws_map::$KP_FLWSSCORE,
-                Zfzl_hzdc_flws_map::$xmbh,
-                Zfzl_hzdc_flws_map::$kp
-            ],
-            substr($flws_sql, 1)
-        );
+        if ($flws_sql != '')
+            return $flws_table->multi_insert(
+                [
+                    Zfzl_hzdc_flws_map::$JD,
+                    Zfzl_hzdc_flws_map::$FLWS,
+                    Zfzl_hzdc_flws_map::$ItemId,
+                    Zfzl_hzdc_flws_map::$kplb,
+                    Zfzl_hzdc_flws_map::$CJR,
+                    Zfzl_hzdc_flws_map::$CJRQ,
+                    Zfzl_hzdc_flws_map::$SPR,
+                    Zfzl_hzdc_flws_map::$SPSJ,
+                    Zfzl_hzdc_flws_map::$STATUS,
+                    Zfzl_hzdc_flws_map::$KP_FLWSSCORE,
+                    Zfzl_hzdc_flws_map::$xmbh,
+                    Zfzl_hzdc_flws_map::$kp
+                ],
+                substr($flws_sql, 1)
+            );
+        return 0;
     }
 }
 

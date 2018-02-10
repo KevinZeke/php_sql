@@ -51,9 +51,13 @@ function efficiency($mysqli_zxpg, $mysqli_hazd, $data_arr)
         Efficiency::row_handel($row, $sql, 'bacc');
     });
 
+    if ($sql == '')
+        return 0;
     return (new Table(Dadui_huizong_query_day_map::$table_name, Table_group::sqlTool_build($mysqli_hazd)))->multi_insert(
         [
             Dadui_huizong_query_day_map::$efficiency_score,
+            Dadui_huizong_query_day_map::$efficiency_count,
+            Dadui_huizong_query_day_map::$year_month_show,
             Dadui_huizong_query_day_map::$dd_name,
             Dadui_huizong_query_day_map::$police_name
         ],

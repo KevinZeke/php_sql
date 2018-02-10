@@ -15,6 +15,8 @@ class Dadui_huizong_query_day_map extends DB_map
     static $effect_score = 'dadui_huizong_query_day.effect_score';
     static $video_score = 'dadui_huizong_query_day.video_score';
     static $quality_count = 'dadui_huizong_query_day.quality_count';
+    static $video_count = 'dadui_huizong_query_day.video_count';
+    static $efficiency_count = 'dadui_huizong_query_day.efficiency_count';
     static $weighted_total_score = 'dadui_huizong_query_day.weighted_total_score';
     static $dd_name = 'dadui_huizong_query_day.dd_name';
     static $zhd_name = 'dadui_huizong_query_day.zhd_name';

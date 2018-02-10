@@ -13,6 +13,7 @@ class Qz_zfnl_map extends DB_map {
   static $fc = 'qz_zfnl.fc' ;
   static $ybdc = 'qz_zfnl.ybdc' ;
   static $jydc = 'qz_zfnl.jydc' ;
+  static $rdfh = 'qz_zfnl.rdfh' ;
   static $jsys = 'qz_zfnl.jsys' ;
   static $bacc = 'qz_zfnl.bacc' ;
   static $jdjc = 'qz_zfnl.jdjc' ;

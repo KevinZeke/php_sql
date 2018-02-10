@@ -6,6 +6,7 @@ require_once __DIR__ . '/../Quantity/Table_gropu.php';
 require_once __DIR__ . '/../table/Table.class.php';
 require_once __DIR__ . '/../map/Zfzl_hz.map.php';
 require_once __DIR__ . '/../efficiency.php';
+require_once __DIR__ . '/../video.php';
 
 class ALL extends Table_group
 {
@@ -102,7 +103,13 @@ class ALL extends Table_group
         echo "      *Quality finished , affect rows : $afr | ";
 
 
-        efficiency($mysqli_zx,$mysqli,$date);
+        $afr = efficiency($mysqli_zx, $mysqli, $date);
+
+        echo "      *Efficiency finished , affect rows : $afr | ";
+
+        $afr = video($mysqli_zx, $mysqli, $date);
+
+        echo "      *Video finished , affect rows : $afr | ";
 
         $sqlTool_hazd = Sql_tool::build_by_mysqli($mysqli);
 //        $sqlTool_zxpg = Sql_tool::build_by_mysqli($mysqli_zx);
@@ -120,6 +127,8 @@ class ALL extends Table_group
                     Sql_tool::SUM(Dadui_huizong_query_day_map::$capacity_score) => 'c',
                     Sql_tool::SUM(Dadui_huizong_query_day_map::$video_score) => 'v',
                     Sql_tool::SUM(Dadui_huizong_query_day_map::$quality_count) => 'qc',
+                    Sql_tool::SUM(Dadui_huizong_query_day_map::$video_count) => 'vc',
+                    Sql_tool::SUM(Dadui_huizong_query_day_map::$efficiency_count) => 'ec',
                     Dadui_huizong_query_day_map::$police_name => 'n',
                     Dadui_huizong_query_day_map::$year_month_show => 'y',
                     Dadui_huizong_query_day_map::$dd_name => 'd'
@@ -156,6 +165,8 @@ class ALL extends Table_group
                     $row['v']) . ',' .
                 //用来判断quality是满分（扣分为0）和 未审批（无扣分信息）
                 ($row['qc'] > 1 ? 1 : $row['qc']) . ',' .
+                ($row['vc'] > 1 ? 1 : $row['vc']) . ',' .
+                ($row['ec'] > 1 ? 1 : $row['ec']) . ',' .
                 Sql_tool::QUOTE($row['n']) . ',' .
                 Sql_tool::QUOTE($row['y']) . ',' .
                 Sql_tool::QUOTE($row['d']) . ')';
@@ -172,6 +183,8 @@ class ALL extends Table_group
                     Dadui_huizong_query_day_map::$video_score,
                     Dadui_huizong_query_day_map::$weighted_total_score,
                     Dadui_huizong_query_day_map::$quality_count,
+                    Dadui_huizong_query_day_map::$video_count,
+                    Dadui_huizong_query_day_map::$efficiency_count,
                     Dadui_huizong_query_day_map::$police_name,
                     Dadui_huizong_query_day_map::$year_month_show,
                     Dadui_huizong_query_day_map::$dd_name

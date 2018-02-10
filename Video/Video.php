@@ -15,15 +15,21 @@ require_once __DIR__ . '/../map/Gzpc_xmxx_bacc.map.php';
 require_once __DIR__ . '/../map/Gzpc_xmxx_aqjc.map.php';
 require_once __DIR__ . '/../map/Gzpc_xmxx_shys.map.php';
 require_once __DIR__ . '/../map/Gzpc_xmxx_jdjc.map.php';
-require_once __DIR__ . '/../map/Kpdf_xlkp.map.php';
+require_once __DIR__ . '/../map/Kpdf_glsp_aqjc.map.php';
+require_once __DIR__ . '/../map/Kpdf_glsp_jsys.map.php';
+require_once __DIR__ . '/../map/Kpdf_glsp_bacc.map.php';
+require_once __DIR__ . '/../map/Kpdf_glsp_hzdc.map.php';
+require_once __DIR__ . '/../map/Kpdf_glsp_jdjc.map.php';
+require_once __DIR__ . '/../map/Kpdf_glsp_xzcf.map.php';
 
-class Efficiency extends Table_group
+class Video extends Table_group
 {
 
     public static $police_dd_map;
 
     public static function row_handel($row, &$sql, $type)
     {
+        if (!$row[Field_map::$director] || $row[Field_map::$director] == '') return;
         $directors = Table_group::format_zhu_xie($row[Field_map::$director]);
         $param = '';
         if (array_key_exists(Field_map::$hz_type, $row)) {
@@ -31,7 +37,7 @@ class Efficiency extends Table_group
         } elseif (array_key_exists(Field_map::$proeject_type, $row)) {
             $param = $row[Field_map::$proeject_type];
         }
-        $score = Efficiency::coef_count($type, $row[Field_map::$item_total_score], $param);
+        $score = self::coef_count($type, $row[Field_map::$item_total_score], $param);
         $dd = array_key_exists($directors->zhu, self::$police_dd_map) ? self::$police_dd_map[$directors->zhu] : '';
         $sql .= Sql_tool::format_insert_value([
             $score['zhu'] * self::$coef[$type],
@@ -61,7 +67,7 @@ class Efficiency extends Table_group
     public static function set_coef($sqlTool)
     {
         self::$coef = $sqlTool->execute_dql_res(
-            'SELECT * FROM `qz_zfxl`'
+            'SELECT * FROM `qz_zfsp`'
         )->fetch();
     }
 
@@ -163,20 +169,17 @@ class Efficiency extends Table_group
     {
         (new Table(Gzpc_xmxx_xzcf_map::$table_name, Table_group::sqlTool_build($sql_tool)))
             ->right_join(
-                Kpdf_xlkp_map::$table_name,
+                Kpdf_glsp_xzcf_map::$table_name,
                 [
                     Gzpc_xmxx_xzcf_map::$director => Field_map::$director,
 //                    Gzpc_xmxx_xzcf_map::$overTime => Field_map::$over_time,
-                    Kpdf_xlkp_map::$CompleteTime => Field_map::$over_time,
+                    Gzpc_xmxx_xzcf_map::$overTime => Field_map::$over_time,
                     Gzpc_xmxx_xzcf_map::$taskId => Field_map::$taskId,
-                    Kpdf_xlkp_map::$xlkp_Result => Field_map::$item_total_score
+                    Kpdf_glsp_xzcf_map::$glsp_Result => Field_map::$item_total_score
                 ],
                 Sql_tool::ON([
                     Gzpc_xmxx_xzcf_map::$taskId
-                    => Kpdf_xlkp_map::$Item_num
-                ])
-                . Sql_tool::WHERE([
-                    Kpdf_xlkp_map::$ItemType => 'xzcf'
+                    => Kpdf_glsp_xzcf_map::$Item_num
                 ]) . $param
             )->each_row($callback);
     }
@@ -191,21 +194,18 @@ class Efficiency extends Table_group
     {
         (new Table(Gzpc_xmxx_jdjc_map::$table_name, Table_group::sqlTool_build($sql_tool)))
             ->right_join(
-                Kpdf_xlkp_map::$table_name,
+                Kpdf_glsp_jdjc_map::$table_name,
                 [
                     Gzpc_xmxx_jdjc_map::$director => Field_map::$director,
 //                    Gzpc_xmxx_jdjc_map::$overTime => Field_map::$over_time,
-                    Kpdf_xlkp_map::$CompleteTime => Field_map::$over_time,
+                    Gzpc_xmxx_jdjc_map::$overTime => Field_map::$over_time,
                     Gzpc_xmxx_jdjc_map::$projectId => Field_map::$taskId,
                     Gzpc_xmxx_jdjc_map::$projectType => Field_map::$proeject_type,
-                    Kpdf_xlkp_map::$xlkp_Result => Field_map::$item_total_score
+                    Kpdf_glsp_jdjc_map::$glsp_Result => Field_map::$item_total_score
                 ],
                 Sql_tool::ON([
                     Gzpc_xmxx_jdjc_map::$projectId
-                    => Kpdf_xlkp_map::$Item_num
-                ])
-                . Sql_tool::WHERE([
-                    Kpdf_xlkp_map::$ItemType => 'jdjc'
+                    => Kpdf_glsp_jdjc_map::$Item_num
                 ]) . $param
             )->each_row($callback);
     }
@@ -221,22 +221,20 @@ class Efficiency extends Table_group
     {
         (new Table(Gzpc_xmxx_hzdc_map::$table_name, Table_group::sqlTool_build($sql_tool)))
             ->right_join(
-                Kpdf_xlkp_map::$table_name,
+                Kpdf_glsp_hzdc_map::$table_name,
                 [
                     Gzpc_xmxx_hzdc_map::$Director => Field_map::$director,
 //                    Gzpc_xmxx_hzdc_map::$CompleteDate => Field_map::$over_time,
-                    Kpdf_xlkp_map::$CompleteTime => Field_map::$over_time,
+                    Gzpc_xmxx_hzdc_map::$EndDate => Field_map::$over_time,
                     Gzpc_xmxx_hzdc_map::$taskId => Field_map::$taskId,
                     Gzpc_xmxx_hzdc_map::$HzdcType => Field_map::$hz_type,
-                    Kpdf_xlkp_map::$xlkp_Result => Field_map::$item_total_score
+                    Kpdf_glsp_hzdc_map::$glsp_Result => Field_map::$item_total_score
                 ],
                 Sql_tool::ON([
                     Gzpc_xmxx_hzdc_map::$taskId
-                    => Kpdf_xlkp_map::$Item_num
+                    => Kpdf_glsp_hzdc_map::$Item_num
                 ])
-                . Sql_tool::WHERE([
-                    Kpdf_xlkp_map::$ItemType => 'hzdc'
-                ]) . $param
+                . $param
             )->each_row($callback);
     }
 
@@ -250,20 +248,17 @@ class Efficiency extends Table_group
     {
         (new Table(Gzpc_xmxx_bacc_map::$table_name, Table_group::sqlTool_build($sql_tool)))
             ->right_join(
-                Kpdf_xlkp_map::$table_name,
+                Kpdf_glsp_bacc_map::$table_name,
                 [
                     Gzpc_xmxx_bacc_map::$director => Field_map::$director,
 //                    Gzpc_xmxx_bacc_map::$overTime => Field_map::$over_time,
-                    Kpdf_xlkp_map::$CompleteTime => Field_map::$over_time,
+                    Gzpc_xmxx_bacc_map::$overTime => Field_map::$over_time,
                     Gzpc_xmxx_bacc_map::$projectId => Field_map::$taskId,
-                    Kpdf_xlkp_map::$xlkp_Result => Field_map::$item_total_score
+                    Kpdf_glsp_bacc_map::$glsp_Result => Field_map::$item_total_score
                 ],
                 Sql_tool::ON([
                     Gzpc_xmxx_bacc_map::$projectId
-                    => Kpdf_xlkp_map::$Item_num
-                ])
-                . Sql_tool::WHERE([
-                    Kpdf_xlkp_map::$ItemType => 'bacc'
+                    => Kpdf_glsp_bacc_map::$Item_num
                 ]) . $param
             )->each_row($callback);
     }
@@ -279,20 +274,17 @@ class Efficiency extends Table_group
     {
         (new Table(Gzpc_xmxx_shys_map::$table_name, Table_group::sqlTool_build($sql_tool)))
             ->right_join(
-                Kpdf_xlkp_map::$table_name,
+                Kpdf_glsp_jsys_map::$table_name,
                 [
                     Gzpc_xmxx_shys_map::$director => Field_map::$director,
 //                    Gzpc_xmxx_shys_map::$overTime => Field_map::$over_time,
-                    Kpdf_xlkp_map::$CompleteTime => Field_map::$over_time,
+                    Gzpc_xmxx_shys_map::$overTime => Field_map::$over_time,
                     Gzpc_xmxx_shys_map::$projectId => Field_map::$taskId,
-                    Kpdf_xlkp_map::$xlkp_Result => Field_map::$item_total_score
+                    Kpdf_glsp_jsys_map::$glsp_Result => Field_map::$item_total_score
                 ],
                 Sql_tool::ON([
                     Gzpc_xmxx_shys_map::$projectId
-                    => Kpdf_xlkp_map::$Item_num
-                ])
-                . Sql_tool::WHERE([
-                    Kpdf_xlkp_map::$ItemType => 'shys'
+                    => Kpdf_glsp_jsys_map::$Item_num
                 ]) . $param
             )->each_row($callback);
     }
@@ -308,20 +300,17 @@ class Efficiency extends Table_group
     {
         (new Table(Gzpc_xmxx_aqjc_map::$table_name, Table_group::sqlTool_build($sql_tool)))
             ->right_join(
-                Kpdf_xlkp_map::$table_name,
+                Kpdf_glsp_aqjc_map::$table_name,
                 [
                     Gzpc_xmxx_aqjc_map::$director => Field_map::$director,
 //                    Gzpc_xmxx_aqjc_map::$overTime => Field_map::$over_time,
-                    Kpdf_xlkp_map::$CompleteTime => Field_map::$over_time,
+                    Gzpc_xmxx_aqjc_map::$overTime => Field_map::$over_time,
                     Gzpc_xmxx_aqjc_map::$projectId => Field_map::$taskId,
-                    Kpdf_xlkp_map::$xlkp_Result => Field_map::$item_total_score
+                    Kpdf_glsp_aqjc_map::$glsp_Result => Field_map::$item_total_score
                 ],
                 Sql_tool::ON([
                     Gzpc_xmxx_aqjc_map::$projectId
-                    => Kpdf_xlkp_map::$Item_num
-                ])
-                . Sql_tool::WHERE([
-                    Kpdf_xlkp_map::$ItemType => 'aqjc'
+                    => Kpdf_glsp_aqjc_map::$Item_num
                 ]) . $param
             )->each_row($callback);
     }
@@ -330,7 +319,7 @@ class Efficiency extends Table_group
     {
         self::count_xzcf($sqltool, $callback,
             Table_group::format_date(
-                Kpdf_xlkp_map::$CompleteTime,
+                Gzpc_xmxx_xzcf_map::$overTime,
                 $date_arr,
                 true
             )
@@ -341,7 +330,7 @@ class Efficiency extends Table_group
     {
         self::count_hzdc($sqltool, $callback,
             Table_group::format_date(
-                Kpdf_xlkp_map::$CompleteTime,
+                Gzpc_xmxx_hzdc_map::$EndDate,
                 $date_arr,
                 true
             )
@@ -352,7 +341,7 @@ class Efficiency extends Table_group
     {
         self::count_bacc($sqltool, $callback,
             Table_group::format_date(
-                Kpdf_xlkp_map::$CompleteTime,
+                Gzpc_xmxx_bacc_map::$overTime,
                 $date_arr,
                 true
             )
@@ -363,7 +352,7 @@ class Efficiency extends Table_group
     {
         self::count_jdjc($sqltool, $callback,
             Table_group::format_date(
-                Kpdf_xlkp_map::$CompleteTime,
+                Gzpc_xmxx_jdjc_map::$overTime,
                 $date_arr,
                 true
             )
@@ -374,7 +363,7 @@ class Efficiency extends Table_group
     {
         self::count_aqjc($sqltool, $callback,
             Table_group::format_date(
-                Kpdf_xlkp_map::$CompleteTime,
+                Gzpc_xmxx_aqjc_map::$overTime,
                 $date_arr,
                 true
             )
@@ -385,7 +374,7 @@ class Efficiency extends Table_group
     {
         self::count_shys($sqltool, $callback,
             Table_group::format_date(
-                Kpdf_xlkp_map::$CompleteTime,
+                Gzpc_xmxx_shys_map::$overTime,
                 $date_arr,
                 true
             )

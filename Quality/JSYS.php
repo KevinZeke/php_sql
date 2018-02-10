@@ -256,22 +256,24 @@ class Quantity_SHYS
                 \'' . $row['kptime'] . '\'
             )';
         });
-        return (new Table(Zfzl_jsys_flws_map::$table_name, $sqltool))->multi_insert(
-            [
-                Zfzl_jsys_flws_map::$FLWS,
-                Zfzl_jsys_flws_map::$ItemId,
-                Zfzl_jsys_flws_map::$kplb,
-                Zfzl_jsys_flws_map::$CJR,
-                Zfzl_jsys_flws_map::$CJRQ,
-                Zfzl_jsys_flws_map::$SPR,
-                Zfzl_jsys_flws_map::$SPSJ,
-                Zfzl_jsys_flws_map::$STATUS,
-                Zfzl_jsys_flws_map::$KP_FLWSSCORE,
-                Zfzl_jsys_flws_map::$xmbh,
-                Zfzl_jsys_flws_map::$KP_TIME
-            ],
-            substr($flws_sql, 1)
-        );
+        if ($flws_sql != '')
+            return (new Table(Zfzl_jsys_flws_map::$table_name, $sqltool))->multi_insert(
+                [
+                    Zfzl_jsys_flws_map::$FLWS,
+                    Zfzl_jsys_flws_map::$ItemId,
+                    Zfzl_jsys_flws_map::$kplb,
+                    Zfzl_jsys_flws_map::$CJR,
+                    Zfzl_jsys_flws_map::$CJRQ,
+                    Zfzl_jsys_flws_map::$SPR,
+                    Zfzl_jsys_flws_map::$SPSJ,
+                    Zfzl_jsys_flws_map::$STATUS,
+                    Zfzl_jsys_flws_map::$KP_FLWSSCORE,
+                    Zfzl_jsys_flws_map::$xmbh,
+                    Zfzl_jsys_flws_map::$KP_TIME
+                ],
+                substr($flws_sql, 1)
+            );
+        return 0;
     }
 }
 
@@ -509,22 +511,24 @@ class Quantity_AQJC
                 \'' . $row['kptime'] . '\'
             )';
         });
-        return (new Table(Zfzl_jsys_flws_map::$table_name, $sqltool))->multi_insert(
-            [
-                Zfzl_jsys_flws_map::$FLWS,
-                Zfzl_jsys_flws_map::$ItemId,
-                Zfzl_jsys_flws_map::$kplb,
-                Zfzl_jsys_flws_map::$CJR,
-                Zfzl_jsys_flws_map::$CJRQ,
-                Zfzl_jsys_flws_map::$SPR,
-                Zfzl_jsys_flws_map::$SPSJ,
-                Zfzl_jsys_flws_map::$STATUS,
-                Zfzl_jsys_flws_map::$KP_FLWSSCORE,
-                Zfzl_jsys_flws_map::$xmbh,
-                Zfzl_jsys_flws_map::$KP_TIME
-            ],
-            substr($flws_sql, 1)
-        );
+        if ($flws_sql && $flws_sql != '')
+            return (new Table(Zfzl_jsys_flws_map::$table_name, $sqltool))->multi_insert(
+                [
+                    Zfzl_jsys_flws_map::$FLWS,
+                    Zfzl_jsys_flws_map::$ItemId,
+                    Zfzl_jsys_flws_map::$kplb,
+                    Zfzl_jsys_flws_map::$CJR,
+                    Zfzl_jsys_flws_map::$CJRQ,
+                    Zfzl_jsys_flws_map::$SPR,
+                    Zfzl_jsys_flws_map::$SPSJ,
+                    Zfzl_jsys_flws_map::$STATUS,
+                    Zfzl_jsys_flws_map::$KP_FLWSSCORE,
+                    Zfzl_jsys_flws_map::$xmbh,
+                    Zfzl_jsys_flws_map::$KP_TIME
+                ],
+                substr($flws_sql, 1)
+            );
+        return 0;
     }
 }
 
