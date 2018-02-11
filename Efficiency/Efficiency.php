@@ -282,6 +282,7 @@ class Efficiency extends Table_group
                     Kpdf_xlkp_map::$CompleteTimeSCORE => Field_map::$complete_time_score,
                     Kpdf_xlkp_map::$CompleteTimeCount => Field_map::$complete_time_count,
                     Kpdf_xlkp_map::$SendToCBRSCORE => Field_map::$send_to_cbr,
+                    Kpdf_xlkp_map::$SendToCBRCount => Field_map::$send_to_cbr_count,
                     Kpdf_xlkp_map::$SendToCBRJLDCount => Field_map::$send_to_CBRJLDCount,
                     Kpdf_xlkp_map::$SendToCBRJLDSCORE => Field_map::$send_to_CBRJLDSCORE,
                     Kpdf_xlkp_map::$SendToDDZDZGCount => Field_map::$send_to_DDZDZGCount,
