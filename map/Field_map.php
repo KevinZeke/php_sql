@@ -23,6 +23,7 @@ class Field_map
     public static $count_flwses = 'count_flwses';
     public static $unit_name = 'unit_name';
     public static $cj_time = 'cj_time';
+    public static $create_time = 'create_time';
     public static $status = 'status';
     public static $xm_result = 'xm_result';
     public static $item_total_score = 'item_score';

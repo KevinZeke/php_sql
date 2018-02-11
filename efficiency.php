@@ -112,6 +112,63 @@ function efficiency($mysqli_zxpg, $mysqli_hazd, $data_arr)
         );
     }
 
+    if ($hzdc_sql != '') {
+        Efficiency::hzdc_clear($mysqli_zxpg, $data_arr);
+        (new Table(Zfxl_hzdc_map::$table_name, Table_group::sqlTool_build($mysqli_zxpg)))->multi_insert(
+            [
+                Zfxl_hzdc_map::$name,
+                Zfxl_hzdc_map::$dadui,
+                Zfxl_hzdc_map::$XMBH,
+                Zfxl_hzdc_map::$xmlx,
+                Zfxl_hzdc_map::$QHSJ,
+                Zfxl_hzdc_map::$BJSJ,
+                Zfxl_hzdc_map::$JZTIME,
+                Zfxl_hzdc_map::$CLTIME,
+                Zfxl_hzdc_map::$Status,
+                Zfxl_hzdc_map::$OVERTIME,
+                Zfxl_hzdc_map::$CBR,
+                Zfxl_hzdc_map::$CompleteTimeSCORE,
+                Zfxl_hzdc_map::$CompleteTimeCount,
+                Zfxl_hzdc_map::$SendToCBR,
+                Zfxl_hzdc_map::$SendToCBRCount,
+                Zfxl_hzdc_map::$SendToCBRJLDSCORE,
+                Zfxl_hzdc_map::$SendToCBRJLDCount,
+                Zfxl_hzdc_map::$SendToDDZDZGSCORE,
+                Zfxl_hzdc_map::$SendToDDZDZGCount,
+                Zfxl_hzdc_map::$KP_SCORE,
+                Zfxl_hzdc_map::$KP_TRUE_SCORE
+            ],
+            substr($xzcf_sql, 1)
+        );
+    }
+
+    if ($bacc_sql != '') {
+        Efficiency::bacc_clear($mysqli_zxpg, $data_arr);
+        (new Table(Zfxl_bacc_map::$table_name, Table_group::sqlTool_build($mysqli_zxpg)))->multi_insert(
+            [
+                Zfxl_bacc_map::$name,
+                Zfxl_bacc_map::$dadui,
+                Zfxl_bacc_map::$XMBH,
+                Zfxl_bacc_map::$GCMC,
+                Zfxl_bacc_map::$XMJG,
+                Zfxl_bacc_map::$SLSJ,
+                Zfxl_bacc_map::$JGYS,
+                Zfxl_bacc_map::$CBR,
+                Zfxl_bacc_map::$CompleteTimeSCORE,
+                Zfxl_bacc_map::$CompleteTimeCount,
+                Zfxl_bacc_map::$SendToCBR,
+                Zfxl_bacc_map::$SendToCBRCount,
+                Zfxl_bacc_map::$SendToCBRJLDSCORE,
+                Zfxl_bacc_map::$SendToCBRJLDCount,
+                Zfxl_bacc_map::$SendToDDZDZGSCORE,
+                Zfxl_bacc_map::$SendToDDZDZGCount,
+                Zfxl_bacc_map::$KP_SCORE,
+                Zfxl_bacc_map::$KP_TRUE_SCORE
+            ],
+            substr($xzcf_sql, 1)
+        );
+    }
+
     if ($dadui_huizong_sql == '')
         return 0;
     return (new Table(Dadui_huizong_query_day_map::$table_name, Table_group::sqlTool_build($mysqli_hazd)))->multi_insert(
