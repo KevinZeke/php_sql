@@ -54,6 +54,21 @@ class Sql_tool
     }
 
     /**
+     * @param mysqli|Sql_tool $db
+     * @return Sql_tool
+     */
+    public final static function mysqli_resolve($db)
+    {
+        if ($db instanceof Sql_tool)
+            return $db;
+        else if ($db instanceof mysqli)
+            return Sql_tool::build_by_mysqli($db);
+
+        die("sqlTool_build函数必须接受一个SqlTool实例或者mysqli实例作为参数");
+
+    }
+
+    /**
      * 该函数会通过传入一个mysqli实例进行实例化SqlTool
      * @param $mysqli
      * @return Sql_tool
@@ -195,6 +210,23 @@ class Sql_tool
     static function format_insert_value($value_arr, $comma = true)
     {
         return ($comma ? ',' : '') . '(' . implode(',', $value_arr) . ')';
+    }
+
+    /**
+     * 将列名数组转化为字符换 ， 若数组的项为键值对形式则转化为 'A AS B'的形式，若未使用键值对的数组项，则不做别名处理
+     * @param array $field [列名 => 别名， 列名2 ，.....]
+     * @return string
+     */
+    public static function format_field($field)
+    {
+        $res = array();
+        foreach ($field as $k => $v) {
+            if (is_numeric($k))
+                array_push($res, $v);
+            else
+                array_push($res, " $k AS $v ");
+        }
+        return implode(',', $res);
     }
 
     /**
