@@ -5,6 +5,7 @@ class Kpdf_jdcc_jdjcjl_map extends DB_map {
   static $Item_num = 'kpdf_jdcc_jdjcjl.Item_num' ;
   static $kptime = 'kpdf_jdcc_jdjcjl.kptime' ;
   static $WenShu_id = 'kpdf_jdcc_jdjcjl.WenShu_id' ;
+  static $wenshuname = 'kpdf_jdcc_jdjcjl.wenshuname' ;
   static $Most_Kf = 'kpdf_jdcc_jdjcjl.Most_Kf' ;
   static $jdcc_jdjcjl_a = 'kpdf_jdcc_jdjcjl.jdcc_jdjcjl_a' ;
   static $jdcc_jdjcjl_b = 'kpdf_jdcc_jdjcjl.jdcc_jdjcjl_b' ;
@@ -13,6 +14,7 @@ class Kpdf_jdcc_jdjcjl_map extends DB_map {
   static $jdcc_jdjcjl_e = 'kpdf_jdcc_jdjcjl.jdcc_jdjcjl_e' ;
   static $jdcc_jdjcjl_f = 'kpdf_jdcc_jdjcjl.jdcc_jdjcjl_f' ;
   static $jdcc_jdjcjl_g = 'kpdf_jdcc_jdjcjl.jdcc_jdjcjl_g' ;
+  static $jdcc_jdjcjl_Sum = 'kpdf_jdcc_jdjcjl.jdcc_jdjcjl_Sum' ;
   static $jdcc_jdjcjl_Result = 'kpdf_jdcc_jdjcjl.jdcc_jdjcjl_Result' ;
   static $num_id = 'kpdf_jdcc_jdjcjl.num_id' ;
   static function all(){

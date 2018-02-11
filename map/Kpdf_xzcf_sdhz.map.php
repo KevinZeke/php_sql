@@ -5,6 +5,7 @@ class Kpdf_xzcf_sdhz_map extends DB_map {
   static $Item_num = 'kpdf_xzcf_sdhz.Item_num' ;
   static $kptime = 'kpdf_xzcf_sdhz.kptime' ;
   static $WenShu_id = 'kpdf_xzcf_sdhz.WenShu_id' ;
+  static $wenshuname = 'kpdf_xzcf_sdhz.wenshuname' ;
   static $Most_Kf = 'kpdf_xzcf_sdhz.Most_Kf' ;
   static $xzcf_sdhz_a = 'kpdf_xzcf_sdhz.xzcf_sdhz_a' ;
   static $xzcf_sdhz_b = 'kpdf_xzcf_sdhz.xzcf_sdhz_b' ;
@@ -13,6 +14,7 @@ class Kpdf_xzcf_sdhz_map extends DB_map {
   static $xzcf_sdhz_e = 'kpdf_xzcf_sdhz.xzcf_sdhz_e' ;
   static $xzcf_sdhz_f = 'kpdf_xzcf_sdhz.xzcf_sdhz_f' ;
   static $xzcf_sdhz_g = 'kpdf_xzcf_sdhz.xzcf_sdhz_g' ;
+  static $xzcf_sdhz_Sum = 'kpdf_xzcf_sdhz.xzcf_sdhz_Sum' ;
   static $xzcf_sdhz_Result = 'kpdf_xzcf_sdhz.xzcf_sdhz_Result' ;
   static $num_id = 'kpdf_xzcf_sdhz.num_id' ;
   static function all(){

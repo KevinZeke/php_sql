@@ -16,6 +16,7 @@ class Gzpc_remind_status_map extends DB_map {
   static $status = 'gzpc_remind_status.status' ;
   static $sendTime = 'gzpc_remind_status.sendTime' ;
   static $stage = 'gzpc_remind_status.stage' ;
+  static $rule = 'gzpc_remind_status.rule' ;
   static function all(){
             //return parent::all();
         }

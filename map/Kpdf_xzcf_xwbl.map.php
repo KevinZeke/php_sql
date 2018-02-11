@@ -5,6 +5,7 @@ class Kpdf_xzcf_xwbl_map extends DB_map {
   static $Item_num = 'kpdf_xzcf_xwbl.Item_num' ;
   static $kptime = 'kpdf_xzcf_xwbl.kptime' ;
   static $WenShu_id = 'kpdf_xzcf_xwbl.WenShu_id' ;
+  static $wenshuname = 'kpdf_xzcf_xwbl.wenshuname' ;
   static $Most_Kf = 'kpdf_xzcf_xwbl.Most_Kf' ;
   static $xzcf_xwbl_a = 'kpdf_xzcf_xwbl.xzcf_xwbl_a' ;
   static $xzcf_xwbl_b = 'kpdf_xzcf_xwbl.xzcf_xwbl_b' ;
@@ -23,6 +24,7 @@ class Kpdf_xzcf_xwbl_map extends DB_map {
   static $xzcf_xwbl_o = 'kpdf_xzcf_xwbl.xzcf_xwbl_o' ;
   static $xzcf_xwbl_p = 'kpdf_xzcf_xwbl.xzcf_xwbl_p' ;
   static $xzcf_xwbl_q = 'kpdf_xzcf_xwbl.xzcf_xwbl_q' ;
+  static $xzcf_xwbl_Sum = 'kpdf_xzcf_xwbl.xzcf_xwbl_Sum' ;
   static $xzcf_xwbl_Result = 'kpdf_xzcf_xwbl.xzcf_xwbl_Result' ;
   static $num_id = 'kpdf_xzcf_xwbl.num_id' ;
   static function all(){

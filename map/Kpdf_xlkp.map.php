@@ -7,6 +7,7 @@ class Kpdf_xlkp_map extends DB_map {
   static $StartTime = 'kpdf_xlkp.StartTime' ;
   static $EndTime = 'kpdf_xlkp.EndTime' ;
   static $CompleteTime = 'kpdf_xlkp.CompleteTime' ;
+  static $CompleteTimeCount = 'kpdf_xlkp.CompleteTimeCount' ;
   static $CompleteTimeSCORE = 'kpdf_xlkp.CompleteTimeSCORE' ;
   static $SendToCBRCount = 'kpdf_xlkp.SendToCBRCount' ;
   static $SendToCBRSCORE = 'kpdf_xlkp.SendToCBRSCORE' ;

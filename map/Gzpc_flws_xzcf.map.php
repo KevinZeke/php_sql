@@ -12,6 +12,7 @@ class Gzpc_flws_xzcf_map extends DB_map {
   static $createTime = 'gzpc_flws_xzcf.createTime' ;
   static $checkPerson = 'gzpc_flws_xzcf.checkPerson' ;
   static $checkTime = 'gzpc_flws_xzcf.checkTime' ;
+  static $firstCheckTime = 'gzpc_flws_xzcf.firstCheckTime' ;
   static $status = 'gzpc_flws_xzcf.status' ;
   static $recordTime = 'gzpc_flws_xzcf.recordTime' ;
   static function all(){
