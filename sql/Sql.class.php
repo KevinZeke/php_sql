@@ -277,7 +277,7 @@ class Sql_tool
      */
     static function ORC($arr, $quote = true)
     {
-        return '(' . self::test($arr, '', $quote, true) . ')';
+        return '' . self::test($arr, '', $quote, true) . '';
     }
 
     /**

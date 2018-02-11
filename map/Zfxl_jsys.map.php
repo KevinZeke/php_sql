@@ -11,6 +11,7 @@ class Zfxl_jsys_map extends DB_map {
   static $XMZT = 'zfxl_jsys.XMZT' ;
   static $SLSJ = 'zfxl_jsys.SLSJ' ;
   static $CBR = 'zfxl_jsys.CBR' ;
+  static $overtime = 'zfxl_jsys.overtime' ;
   static $CompleteTimeSCORE = 'zfxl_jsys.CompleteTimeSCORE' ;
   static $CompleteTimeCount = 'zfxl_jsys.CompleteTimeCount' ;
   static $SendToCBR = 'zfxl_jsys.SendToCBR' ;

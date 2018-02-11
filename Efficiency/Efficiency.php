@@ -33,7 +33,7 @@ class Efficiency extends Table_group
 
     }
 
-    public static function row_handel($row, &$hz_sql, &$item_sql, $type)
+    public static function row_handel($row, &$hz_sql, &$item_sql, &$xl_hz_sql, $type)
     {
         $directors = Table_group::format_zhu_xie($row[Field_map::$director]);
         $param = '';
@@ -52,7 +52,7 @@ class Efficiency extends Table_group
             Sql_tool::QUOTE($dd),
             Sql_tool::QUOTE($directors->zhu)
         ]);
-        if ($type == 'xzcf')
+        if ($type == 'xzcf') {
             //item_sql
             $item_sql .= Sql_tool::format_insert_value([
                 Sql_tool::QUOTE($directors->zhu), //name
@@ -75,7 +75,26 @@ class Efficiency extends Table_group
                 $score['zhu'],                                          //s
                 $score['zhu'] * self::$coef[$type]                      //true s
             ]);
-        if ($type == 'jdjc')
+            $xl_hz_sql .= Sql_tool::format_insert_value(
+                [
+                    Sql_tool::QUOTE($directors->zhu),
+                    Sql_tool::QUOTE($dd),
+                    $row[Field_map::$over_time],
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    $score['zhu'],                                          //s
+                    $score['zhu'] * self::$coef[$type],
+                    $score['zhu'] * self::$coef[$type]
+                ]
+            );
+        }
+        if ($type == 'jdjc') {
             //item_sql
             $item_sql .= Sql_tool::format_insert_value([
                 Sql_tool::QUOTE($directors->zhu), //name
@@ -98,7 +117,26 @@ class Efficiency extends Table_group
                 $score['zhu'],                                          //s
                 $score['zhu'] * self::$coef[$type]                      //true s
             ]);
-        if ($type == 'hzdc')
+            $xl_hz_sql .= Sql_tool::format_insert_value(
+                [
+                    Sql_tool::QUOTE($directors->zhu),
+                    Sql_tool::QUOTE($dd),
+                    $row[Field_map::$over_time],//Zfxl_hz_map::$SJ,
+                    $score['zhu'],  //Zfxl_hz_map::$zfxl_jdjc,
+                    $score['zhu'] * self::$coef[$type],//Zfxl_hz_map::$zfxl_jdjc_truescore,
+                    0,//Zfxl_hz_map::$zfxl_hzdcc,
+                    0,//Zfxl_hz_map::$zfxl_hzdc_truescore,
+                    0,//Zfxl_hz_map::$zfxl_jsys,
+                    0,//Zfxl_hz_map::$zfxl_jsys_truescore,
+                    0,//Zfxl_hz_map::$zfxl_bacc,
+                    0,//Zfxl_hz_map::$zfxl_bacc_truescore,
+                    0,//Zfxl_hz_map::$zfxl_xzcf,
+                    0,//Zfxl_hz_map::$zfxl_xzcf_truescore,
+                    $score['zhu'] * self::$coef[$type]//Zfxl_hz_map::$zfxl_hz
+                ]
+            );
+        }
+        if ($type == 'hzdc') {
             //item_sql
             $item_sql .= Sql_tool::format_insert_value([
                 Sql_tool::QUOTE($directors->zhu), //name
@@ -123,7 +161,26 @@ class Efficiency extends Table_group
                 $score['zhu'],                                          //s
                 $score['zhu'] * self::$coef[$type]                     //true s
             ]);
-        if ($type == 'bacc')
+            $xl_hz_sql .= Sql_tool::format_insert_value(
+                [
+                    Sql_tool::QUOTE($directors->zhu),
+                    Sql_tool::QUOTE($dd),
+                    $row[Field_map::$over_time],//Zfxl_hz_map::$SJ,
+                    0, //Zfxl_hz_map::$zfxl_jdjc,
+                    0,//Zfxl_hz_map::$zfxl_jdjc_truescore,
+                    $score['zhu'],//Zfxl_hz_map::$zfxl_hzdcc,
+                    $score['zhu'] * self::$coef[$type],//Zfxl_hz_map::$zfxl_hzdc_truescore,
+                    0,//Zfxl_hz_map::$zfxl_jsys,
+                    0,//Zfxl_hz_map::$zfxl_jsys_truescore,
+                    0,//Zfxl_hz_map::$zfxl_bacc,
+                    0,//Zfxl_hz_map::$zfxl_bacc_truescore,
+                    0,//Zfxl_hz_map::$zfxl_xzcf,
+                    0,//Zfxl_hz_map::$zfxl_xzcf_truescore,
+                    $score['zhu'] * self::$coef[$type]//Zfxl_hz_map::$zfxl_hz
+                ]
+            );
+        }
+        if ($type == 'bacc') {
             //item_sql
             $item_sql .= Sql_tool::format_insert_value([
                 Sql_tool::QUOTE($directors->zhu), //name
@@ -145,6 +202,66 @@ class Efficiency extends Table_group
                 $score['zhu'],                                          //s
                 $score['zhu'] * self::$coef[$type]                      //true s
             ]);
+            $xl_hz_sql .= Sql_tool::format_insert_value(
+                [
+                    Sql_tool::QUOTE($directors->zhu),
+                    Sql_tool::QUOTE($dd),
+                    $row[Field_map::$over_time],//Zfxl_hz_map::$SJ,
+                    0, //Zfxl_hz_map::$zfxl_jdjc,
+                    0,//Zfxl_hz_map::$zfxl_jdjc_truescore,
+                    0,//Zfxl_hz_map::$zfxl_hzdcc,
+                    0,//Zfxl_hz_map::$zfxl_hzdc_truescore,
+                    0,//Zfxl_hz_map::$zfxl_jsys,
+                    0,//Zfxl_hz_map::$zfxl_jsys_truescore,
+                    $score['zhu'],//Zfxl_hz_map::$zfxl_bacc,
+                    $score['zhu'] * self::$coef[$type],//Zfxl_hz_map::$zfxl_bacc_truescore,
+                    0,//Zfxl_hz_map::$zfxl_xzcf,
+                    0,//Zfxl_hz_map::$zfxl_xzcf_truescore,
+                    $score['zhu'] * self::$coef[$type]//Zfxl_hz_map::$zfxl_hz
+                ]
+            );
+        }
+        if ($type == 'jsys') {
+            //item_sql
+            $item_sql .= Sql_tool::format_insert_value([
+                Sql_tool::QUOTE($directors->zhu), //name
+                Sql_tool::QUOTE($dd), //dadui
+                Sql_tool::QUOTE($row[Field_map::$taskId]), //xmbh
+                Sql_tool::QUOTE($row[Field_map::$unit_name]), //gcmc
+                Sql_tool::QUOTE($row[Field_map::$status]), //xmzt
+                Sql_tool::QUOTE($row[Field_map::$over_time]), //over_time
+                Sql_tool::QUOTE($row[Field_map::$create_time]), //slsj
+                Sql_tool::QUOTE($row[Field_map::$director]), //cbr
+                Sql_tool::QUOTE($row[Field_map::$complete_time_score]), //c_t_score
+                Sql_tool::QUOTE($row[Field_map::$complete_time_count]), //c_t_count
+                Sql_tool::QUOTE($row[Field_map::$send_to_cbr]), //send_cbr_score
+                Sql_tool::QUOTE($row[Field_map::$send_to_cbr_count]), //send_cbr_count
+                Sql_tool::QUOTE($row[Field_map::$send_to_CBRJLDSCORE]), //send_cbrjld_score
+                Sql_tool::QUOTE($row[Field_map::$send_to_CBRJLDCount]), //send_cbrjld_count
+                Sql_tool::QUOTE($row[Field_map::$send_to_DDZDZGSCORE]), //send_dd_score
+                Sql_tool::QUOTE($row[Field_map::$send_to_DDZDZGCount]), //send_dd_count
+                $score['zhu'],                                          //s
+                $score['zhu'] * self::$coef[$type]                      //true s
+            ]);
+            $xl_hz_sql .= Sql_tool::format_insert_value(
+                [
+                    Sql_tool::QUOTE($directors->zhu),
+                    Sql_tool::QUOTE($dd),
+                    $row[Field_map::$over_time],//Zfxl_hz_map::$SJ,
+                    0, //Zfxl_hz_map::$zfxl_jdjc,
+                    0,//Zfxl_hz_map::$zfxl_jdjc_truescore,
+                    0,//Zfxl_hz_map::$zfxl_hzdcc,
+                    0,//Zfxl_hz_map::$zfxl_hzdc_truescore,
+                    $score['zhu'],//Zfxl_hz_map::$zfxl_jsys,
+                    $score['zhu'] * self::$coef[$type],//Zfxl_hz_map::$zfxl_jsys_truescore,
+                    0,//Zfxl_hz_map::$zfxl_bacc,
+                    0,//Zfxl_hz_map::$zfxl_bacc_truescore,
+                    0,//Zfxl_hz_map::$zfxl_xzcf,
+                    0,//Zfxl_hz_map::$zfxl_xzcf_truescore,
+                    $score['zhu'] * self::$coef[$type]//Zfxl_hz_map::$zfxl_hz
+                ]
+            );
+        }
         foreach ($directors->xie as $name) {
             $dd = array_key_exists($name, self::$police_dd_map) ? self::$police_dd_map[$name] : '';
             //hz_sql
@@ -155,7 +272,7 @@ class Efficiency extends Table_group
                 Sql_tool::QUOTE($dd),
                 Sql_tool::QUOTE($name)
             ]);
-            if ($type == 'xzcf')
+            if ($type == 'xzcf') {
                 //item_sql
                 $item_sql .= Sql_tool::format_insert_value([
                     Sql_tool::QUOTE($name), //name
@@ -178,7 +295,26 @@ class Efficiency extends Table_group
                     $score['xie'],
                     $score['xie'] * self::$coef[$type]
                 ]);
-            if ($type == 'jdjc')
+                $xl_hz_sql .= Sql_tool::format_insert_value(
+                    [
+                        Sql_tool::QUOTE($name),
+                        Sql_tool::QUOTE($dd),
+                        $row[Field_map::$over_time],
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        $score['xie'],                                          //s
+                        $score['xie'] * self::$coef[$type],
+                        $score['xie'] * self::$coef[$type]
+                    ]
+                );
+            }
+            if ($type == 'jdjc') {
                 //item_sql
                 $item_sql .= Sql_tool::format_insert_value([
                     Sql_tool::QUOTE($name), //name
@@ -201,7 +337,26 @@ class Efficiency extends Table_group
                     $score['xie'],                                          //s
                     $score['xie'] * self::$coef[$type]                     //true s
                 ]);
-            if ($type == 'hzdc')
+                $xl_hz_sql .= Sql_tool::format_insert_value(
+                    [
+                        Sql_tool::QUOTE($name),
+                        Sql_tool::QUOTE($dd),
+                        $row[Field_map::$over_time],//Zfxl_hz_map::$SJ,
+                        $score['xie'],  //Zfxl_hz_map::$zfxl_jdjc,
+                        $score['xie'] * self::$coef[$type],//Zfxl_hz_map::$zfxl_jdjc_truescore,
+                        0,//Zfxl_hz_map::$zfxl_hzdcc,
+                        0,//Zfxl_hz_map::$zfxl_hzdc_truescore,
+                        0,//Zfxl_hz_map::$zfxl_jsys,
+                        0,//Zfxl_hz_map::$zfxl_jsys_truescore,
+                        0,//Zfxl_hz_map::$zfxl_bacc,
+                        0,//Zfxl_hz_map::$zfxl_bacc_truescore,
+                        0,//Zfxl_hz_map::$zfxl_xzcf,
+                        0,//Zfxl_hz_map::$zfxl_xzcf_truescore,
+                        $score['xie'] * self::$coef[$type]//Zfxl_hz_map::$zfxl_hz
+                    ]
+                );
+            }
+            if ($type == 'hzdc') {
                 //item_sql
                 $item_sql .= Sql_tool::format_insert_value([
                     Sql_tool::QUOTE($name), //name
@@ -226,7 +381,26 @@ class Efficiency extends Table_group
                     $score['xie'],                                          //s
                     $score['xie'] * self::$coef[$type]                     //true s
                 ]);
-            if ($type == 'bacc')
+                $xl_hz_sql .= Sql_tool::format_insert_value(
+                    [
+                        Sql_tool::QUOTE($name),
+                        Sql_tool::QUOTE($dd),
+                        $row[Field_map::$over_time],//Zfxl_hz_map::$SJ,
+                        0, //Zfxl_hz_map::$zfxl_jdjc,
+                        0,//Zfxl_hz_map::$zfxl_jdjc_truescore,
+                        $score['xie'],//Zfxl_hz_map::$zfxl_hzdcc,
+                        $score['xie'] * self::$coef[$type],//Zfxl_hz_map::$zfxl_hzdc_truescore,
+                        0,//Zfxl_hz_map::$zfxl_jsys,
+                        0,//Zfxl_hz_map::$zfxl_jsys_truescore,
+                        0,//Zfxl_hz_map::$zfxl_bacc,
+                        0,//Zfxl_hz_map::$zfxl_bacc_truescore,
+                        0,//Zfxl_hz_map::$zfxl_xzcf,
+                        0,//Zfxl_hz_map::$zfxl_xzcf_truescore,
+                        $score['xie'] * self::$coef[$type]//Zfxl_hz_map::$zfxl_hz
+                    ]
+                );
+            }
+            if ($type == 'bacc') {
                 //item_sql
                 $item_sql .= Sql_tool::format_insert_value([
                     Sql_tool::QUOTE($name), //name
@@ -248,6 +422,66 @@ class Efficiency extends Table_group
                     $score['xie'],                                          //s
                     $score['xie'] * self::$coef[$type]                      //true s
                 ]);
+                $xl_hz_sql .= Sql_tool::format_insert_value(
+                    [
+                        Sql_tool::QUOTE($name),
+                        Sql_tool::QUOTE($dd),
+                        $row[Field_map::$over_time],//Zfxl_hz_map::$SJ,
+                        0, //Zfxl_hz_map::$zfxl_jdjc,
+                        0,//Zfxl_hz_map::$zfxl_jdjc_truescore,
+                        0,//Zfxl_hz_map::$zfxl_hzdcc,
+                        0,//Zfxl_hz_map::$zfxl_hzdc_truescore,
+                        0,//Zfxl_hz_map::$zfxl_jsys,
+                        0,//Zfxl_hz_map::$zfxl_jsys_truescore,
+                        $score['xie'],//Zfxl_hz_map::$zfxl_bacc,
+                        $score['xie'] * self::$coef[$type],//Zfxl_hz_map::$zfxl_bacc_truescore,
+                        0,//Zfxl_hz_map::$zfxl_xzcf,
+                        0,//Zfxl_hz_map::$zfxl_xzcf_truescore,
+                        $score['xie'] * self::$coef[$type]//Zfxl_hz_map::$zfxl_hz
+                    ]
+                );
+            }
+            if ($type == 'jsys') {
+                //item_sql
+                $item_sql .= Sql_tool::format_insert_value([
+                    Sql_tool::QUOTE($name), //name
+                    Sql_tool::QUOTE($dd), //dadui
+                    Sql_tool::QUOTE($row[Field_map::$taskId]), //xmbh
+                    Sql_tool::QUOTE($row[Field_map::$unit_name]), //gcmc
+                    Sql_tool::QUOTE($row[Field_map::$status]), //xmzt
+                    Sql_tool::QUOTE($row[Field_map::$over_time]), //over_time
+                    Sql_tool::QUOTE($row[Field_map::$create_time]), //slsj
+                    Sql_tool::QUOTE($row[Field_map::$director]), //cbr
+                    Sql_tool::QUOTE($row[Field_map::$complete_time_score]), //c_t_score
+                    Sql_tool::QUOTE($row[Field_map::$complete_time_count]), //c_t_count
+                    Sql_tool::QUOTE($row[Field_map::$send_to_cbr]), //send_cbr_score
+                    Sql_tool::QUOTE($row[Field_map::$send_to_cbr_count]), //send_cbr_count
+                    Sql_tool::QUOTE($row[Field_map::$send_to_CBRJLDSCORE]), //send_cbrjld_score
+                    Sql_tool::QUOTE($row[Field_map::$send_to_CBRJLDCount]), //send_cbrjld_count
+                    Sql_tool::QUOTE($row[Field_map::$send_to_DDZDZGSCORE]), //send_dd_score
+                    Sql_tool::QUOTE($row[Field_map::$send_to_DDZDZGCount]), //send_dd_count
+                    $score['xie'],                                          //s
+                    $score['xie'] * self::$coef[$type]                      //true s
+                ]);
+                $xl_hz_sql .= Sql_tool::format_insert_value(
+                    [
+                        Sql_tool::QUOTE($name),
+                        Sql_tool::QUOTE($dd),
+                        $row[Field_map::$over_time],//Zfxl_hz_map::$SJ,
+                        0, //Zfxl_hz_map::$zfxl_jdjc,
+                        0,//Zfxl_hz_map::$zfxl_jdjc_truescore,
+                        0,//Zfxl_hz_map::$zfxl_hzdcc,
+                        0,//Zfxl_hz_map::$zfxl_hzdc_truescore,
+                        $score['xie'],//Zfxl_hz_map::$zfxl_jsys,
+                        $score['xie'] * self::$coef[$type],//Zfxl_hz_map::$zfxl_jsys_truescore,
+                        0,//Zfxl_hz_map::$zfxl_bacc,
+                        0,//Zfxl_hz_map::$zfxl_bacc_truescore,
+                        0,//Zfxl_hz_map::$zfxl_xzcf,
+                        0,//Zfxl_hz_map::$zfxl_xzcf_truescore,
+                        $score['xie'] * self::$coef[$type]//Zfxl_hz_map::$zfxl_hz
+                    ]
+                );
+            }
         }
     }
 
@@ -532,10 +766,21 @@ class Efficiency extends Table_group
                 Kpdf_xlkp_map::$table_name,
                 [
                     Gzpc_xmxx_shys_map::$director => Field_map::$director,
+                    Gzpc_xmxx_shys_map::$status => Field_map::$status,
+                    Gzpc_xmxx_shys_map::$createTime => Field_map::$create_time,
+                    Gzpc_xmxx_shys_map::$unitName => Field_map::$unit_name,
 //                    Gzpc_xmxx_shys_map::$overTime => Field_map::$over_time,
-                    Kpdf_xlkp_map::$CompleteTime => Field_map::$over_time,
                     Gzpc_xmxx_shys_map::$projectId => Field_map::$taskId,
-                    Kpdf_xlkp_map::$xlkp_Result => Field_map::$item_total_score
+                    Kpdf_xlkp_map::$xlkp_Result => Field_map::$item_total_score,
+                    Kpdf_xlkp_map::$CompleteTime => Field_map::$over_time,
+                    Kpdf_xlkp_map::$CompleteTimeSCORE => Field_map::$complete_time_score,
+                    Kpdf_xlkp_map::$CompleteTimeCount => Field_map::$complete_time_count,
+                    Kpdf_xlkp_map::$SendToCBRSCORE => Field_map::$send_to_cbr,
+                    Kpdf_xlkp_map::$SendToCBRCount => Field_map::$send_to_cbr_count,
+                    Kpdf_xlkp_map::$SendToCBRJLDCount => Field_map::$send_to_CBRJLDCount,
+                    Kpdf_xlkp_map::$SendToCBRJLDSCORE => Field_map::$send_to_CBRJLDSCORE,
+                    Kpdf_xlkp_map::$SendToDDZDZGCount => Field_map::$send_to_DDZDZGCount,
+                    Kpdf_xlkp_map::$SendToDDZDZGSCORE => Field_map::$send_to_DDZDZGSCORE
                 ],
                 Sql_tool::ON([
                     Gzpc_xmxx_shys_map::$projectId
@@ -543,7 +788,8 @@ class Efficiency extends Table_group
                 ])
                 . Sql_tool::WHERE([
                     Kpdf_xlkp_map::$ItemType => 'shys'
-                ]) . $param
+                ])
+                . $param
             )->each_row($callback);
     }
 
@@ -561,10 +807,21 @@ class Efficiency extends Table_group
                 Kpdf_xlkp_map::$table_name,
                 [
                     Gzpc_xmxx_aqjc_map::$director => Field_map::$director,
+                    Gzpc_xmxx_aqjc_map::$status => Field_map::$status,
+                    Gzpc_xmxx_aqjc_map::$createTime => Field_map::$create_time,
+                    Gzpc_xmxx_aqjc_map::$unitName => Field_map::$unit_name,
 //                    Gzpc_xmxx_aqjc_map::$overTime => Field_map::$over_time,
-                    Kpdf_xlkp_map::$CompleteTime => Field_map::$over_time,
                     Gzpc_xmxx_aqjc_map::$projectId => Field_map::$taskId,
-                    Kpdf_xlkp_map::$xlkp_Result => Field_map::$item_total_score
+                    Kpdf_xlkp_map::$xlkp_Result => Field_map::$item_total_score,
+                    Kpdf_xlkp_map::$CompleteTime => Field_map::$over_time,
+                    Kpdf_xlkp_map::$CompleteTimeSCORE => Field_map::$complete_time_score,
+                    Kpdf_xlkp_map::$CompleteTimeCount => Field_map::$complete_time_count,
+                    Kpdf_xlkp_map::$SendToCBRSCORE => Field_map::$send_to_cbr,
+                    Kpdf_xlkp_map::$SendToCBRCount => Field_map::$send_to_cbr_count,
+                    Kpdf_xlkp_map::$SendToCBRJLDCount => Field_map::$send_to_CBRJLDCount,
+                    Kpdf_xlkp_map::$SendToCBRJLDSCORE => Field_map::$send_to_CBRJLDSCORE,
+                    Kpdf_xlkp_map::$SendToDDZDZGCount => Field_map::$send_to_DDZDZGCount,
+                    Kpdf_xlkp_map::$SendToDDZDZGSCORE => Field_map::$send_to_DDZDZGSCORE
                 ],
                 Sql_tool::ON([
                     Gzpc_xmxx_aqjc_map::$projectId
@@ -572,7 +829,8 @@ class Efficiency extends Table_group
                 ])
                 . Sql_tool::WHERE([
                     Kpdf_xlkp_map::$ItemType => 'aqjc'
-                ]) . $param
+                ])
+                . $param
             )->each_row($callback);
     }
 
@@ -696,5 +954,124 @@ class Efficiency extends Table_group
             Zfxl_bacc_map::$JGYS,
             $date
         );
+    }
+
+    public static function jsys_clear($db, $date = null)
+    {
+        $sqlTool = parent::sqlTool_build($db);
+        $tables = [
+            new Table(Zfxl_jsys_map::$table_name, $sqlTool)
+        ];
+
+        Table_group::group_clear(
+            $tables,
+            Zfxl_jsys_map::$overtime,
+            $date
+        );
+    }
+
+    public static function hz_clear($db, $date = null)
+    {
+        $sqlTool = parent::sqlTool_build($db);
+        $tables = [
+            new Table(Zfxl_hz_map::$table_name, $sqlTool)
+        ];
+
+        Table_group::group_clear(
+            $tables,
+            Zfxl_hz_map::$SJ,
+            $date
+        );
+    }
+
+    public static function group_insert($db, $date)
+    {
+        $sqlTool = Table_group::sqlTool_build($db);
+        $hz_table = (new Table(Zfxl_hz_map::$table_name, $sqlTool));
+
+        $res = $hz_table
+            ->group_query(
+                [
+                    Sql_tool::SUM(Zfxl_hz_map::$zfxl_jdjc) => 'jdjc_',
+                    Sql_tool::SUM(Zfxl_hz_map::$zfxl_jsys) => 'jsys_',
+                    Sql_tool::SUM(Zfxl_hz_map::$zfxl_hzdcc) => 'hzdc_',
+                    Sql_tool::SUM(Zfxl_hz_map::$zfxl_bacc) => 'bacc_',
+                    Sql_tool::SUM(Zfxl_hz_map::$zfxl_xzcf) => 'xzcf_',
+                    Sql_tool::SUM(Zfxl_hz_map::$zfxl_jdjc_truescore) => 'jdjc',
+                    Sql_tool::SUM(Zfxl_hz_map::$zfxl_jsys_truescore) => 'jsys',
+                    Sql_tool::SUM(Zfxl_hz_map::$zfxl_hzdc_truescore) => 'hzdc',
+                    Sql_tool::SUM(Zfxl_hz_map::$zfxl_bacc_truescore) => 'bacc',
+                    Sql_tool::SUM(Zfxl_hz_map::$zfxl_xzcf_truescore) => 'xzcf',
+                    Zfxl_hz_map::$name => 'n',
+                    Zfxl_hz_map::$SJ => 'y',
+                    Zfxl_hz_map::$dadui => 'd'
+                ],
+                [
+                    Zfxl_hz_map::$name,
+                    Zfxl_hz_map::$SJ,
+                ],
+                parent::format_date(
+                    Zfxl_hz_map::$SJ,
+                    $date,
+                    true
+                )
+            );
+
+
+//        $sqlTool::$isDev = false;
+
+        self::hz_clear($sqlTool, $date);
+
+
+        echo "\nzfxl_hz : insert finished \n";
+
+        $sql = '';
+
+        $res->each_row(function ($row) use (&$sql) {
+            $sql .= ',(' .
+                $row['jdjc_'] . ',' .
+                $row['jsys_'] . ',' .
+                $row['hzdc_'] . ',' .
+                $row['bacc_'] . ',' .
+                $row['xzcf_'] . ',' .
+                ($row['jdjc'] * self::$coef['jdjc']) . ',' .
+                ($row['jsys'] * self::$coef['jsys']) . ',' .
+                ($row['hzdc'] * self::$coef['hzdc']) . ',' .
+                ($row['bacc'] * self::$coef['bacc']) . ',' .
+                ($row['xzcf'] * self::$coef['xzcf']) . ',' .
+                (
+                    ($row['jdjc'] * self::$coef['jdjc']) +
+                    ($row['jsys'] * self::$coef['jsys']) +
+                    ($row['hzdc'] * self::$coef['hzdc']) +
+                    ($row['bacc'] * self::$coef['bacc']) +
+                    ($row['xzcf'] * self::$coef['xzcf'])
+                ) . ',' .
+                Sql_tool::QUOTE($row['n']) . ',' .
+                Sql_tool::QUOTE($row['y']) . ',' .
+                Sql_tool::QUOTE($row['d']) . ')';
+        });
+
+        if ($sql != '')
+            $hz_table->multi_insert(
+                [
+                    Zfxl_hz_map::$zfxl_jdjc,
+                    Zfxl_hz_map::$zfxl_jsys,
+                    Zfxl_hz_map::$zfxl_hzdcc,
+                    Zfxl_hz_map::$zfxl_bacc,
+                    Zfxl_hz_map::$zfxl_xzcf,
+                    Zfxl_hz_map::$zfxl_jdjc_truescore,
+                    Zfxl_hz_map::$zfxl_jsys_truescore,
+                    Zfxl_hz_map::$zfxl_hzdc_truescore,
+                    Zfxl_hz_map::$zfxl_bacc_truescore,
+                    Zfxl_hz_map::$zfxl_xzcf_truescore,
+                    Zfxl_hz_map::$zfxl_hz,
+                    Zfxl_hz_map::$name,
+                    Zfxl_hz_map::$SJ,
+                    Zfxl_hz_map::$dadui
+                ],
+                substr($sql, 1)
+            );
+
+        return;
     }
 }

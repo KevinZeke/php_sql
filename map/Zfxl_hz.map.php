@@ -4,6 +4,7 @@ class Zfxl_hz_map extends DB_map {
   static $table_name = 'zfxl_hz' ;
   static $name = 'zfxl_hz.name' ;
   static $SJ = 'zfxl_hz.SJ' ;
+  static $dadui = 'zfxl_hz.dadui' ;
   static $zfxl_jdjc = 'zfxl_hz.zfxl_jdjc' ;
   static $zfxl_jsys = 'zfxl_hz.zfxl_jsys' ;
   static $zfxl_bacc = 'zfxl_hz.zfxl_bacc' ;

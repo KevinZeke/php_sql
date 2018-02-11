@@ -27,32 +27,33 @@ function efficiency($mysqli_zxpg, $mysqli_hazd, $data_arr)
     $hzdc_sql = '';
     $jsys_sql = '';
     $jdjc_sql = '';
+    $hz_sql = '';
 //$row_handle = function ($row, &$sql, $type) {
 //
 //};
 
-    Efficiency::count_xzcf_by_date($sqltool, $data_arr, function ($row) use (&$dadui_huizong_sql, &$xzcf_sql) {
-        Efficiency::row_handel($row, $dadui_huizong_sql, $xzcf_sql, 'xzcf');
+    Efficiency::count_xzcf_by_date($sqltool, $data_arr, function ($row) use (&$dadui_huizong_sql, &$xzcf_sql, &$hz_sql) {
+        Efficiency::row_handel($row, $dadui_huizong_sql, $xzcf_sql, $hz_sql, 'xzcf');
     });
 
-    Efficiency::count_jdjc_by_date($sqltool, $data_arr, function ($row) use (&$dadui_huizong_sql, &$jdjc_sql) {
-        Efficiency::row_handel($row, $dadui_huizong_sql, $jdjc_sql, 'jdjc');
+    Efficiency::count_jdjc_by_date($sqltool, $data_arr, function ($row) use (&$dadui_huizong_sql, &$jdjc_sql, &$hz_sql) {
+        Efficiency::row_handel($row, $dadui_huizong_sql, $jdjc_sql, $hz_sql, 'jdjc');
     });
 
-    Efficiency::count_hzdc_by_date($sqltool, $data_arr, function ($row) use (&$dadui_huizong_sql, &$hzdc_sql) {
-        Efficiency::row_handel($row, $dadui_huizong_sql, $hzdc_sql, 'hzdc');
+    Efficiency::count_hzdc_by_date($sqltool, $data_arr, function ($row) use (&$dadui_huizong_sql, &$hzdc_sql, &$hz_sql) {
+        Efficiency::row_handel($row, $dadui_huizong_sql, $hzdc_sql, $hz_sql, 'hzdc');
     });
 
-    Efficiency::count_shys_by_date($sqltool, $data_arr, function ($row) use (&$dadui_huizong_sql, &$jsys_sql) {
-        Efficiency::row_handel($row, $dadui_huizong_sql, $jsys_sql, 'jsys');
+    Efficiency::count_shys_by_date($sqltool, $data_arr, function ($row) use (&$dadui_huizong_sql, &$jsys_sql, &$hz_sql) {
+        Efficiency::row_handel($row, $dadui_huizong_sql, $jsys_sql, $hz_sql, 'jsys');
     });
 
-    Efficiency::count_aqjc_by_date($sqltool, $data_arr, function ($row) use (&$dadui_huizong_sql, &$jsys_sql) {
-        Efficiency::row_handel($row, $dadui_huizong_sql, $jsys_sql, 'jsys');
+    Efficiency::count_aqjc_by_date($sqltool, $data_arr, function ($row) use (&$dadui_huizong_sql, &$jsys_sql, &$hz_sql) {
+        Efficiency::row_handel($row, $dadui_huizong_sql, $jsys_sql, $hz_sql, 'jsys');
     });
 
-    Efficiency::count_bacc_by_date($sqltool, $data_arr, function ($row) use (&$sql, &$bacc_sql) {
-        Efficiency::row_handel($row, $dadui_huizong_sql, $bacc_sql, 'bacc');
+    Efficiency::count_bacc_by_date($sqltool, $data_arr, function ($row) use (&$dadui_huizong_sql, &$bacc_sql, &$hz_sql) {
+        Efficiency::row_handel($row, $dadui_huizong_sql, $bacc_sql, $hz_sql, 'bacc');
     });
 
 
@@ -108,11 +109,11 @@ function efficiency($mysqli_zxpg, $mysqli_hazd, $data_arr)
                 Zfxl_jdjc_map::$KP_SCORE,
                 Zfxl_jdjc_map::$KP_TRUE_SCORE
             ],
-            substr($xzcf_sql, 1)
+            substr($jdjc_sql, 1)
         );
     }
 
-    if (false) {
+    if ($hzdc_sql != '') {
         Efficiency::hzdc_clear($mysqli_zxpg, $data_arr);
         (new Table(Zfxl_hzdc_map::$table_name, Table_group::sqlTool_build($mysqli_zxpg)))->multi_insert(
             [
@@ -138,11 +139,39 @@ function efficiency($mysqli_zxpg, $mysqli_hazd, $data_arr)
                 Zfxl_hzdc_map::$KP_SCORE,
                 Zfxl_hzdc_map::$KP_TRUE_SCORE
             ],
-            substr($xzcf_sql, 1)
+            substr($hzdc_sql, 1)
         );
     }
 
-    if (false) {
+    if ($jdjc_sql != '') {
+        Efficiency::jdjc_clear($mysqli_zxpg, $data_arr);
+        (new Table(Zfxl_jdjc_map::$table_name, Table_group::sqlTool_build($mysqli_zxpg)))->multi_insert(
+            [
+                Zfxl_jdjc_map::$name,
+                Zfxl_jdjc_map::$dadui,
+                Zfxl_jdjc_map::$XMBH,
+                Zfxl_jdjc_map::$xmlx,
+                Zfxl_jdjc_map::$DWMC,
+                Zfxl_jdjc_map::$JCQX,
+                Zfxl_jdjc_map::$JCQK,
+                Zfxl_jdjc_map::$OVERTIME,
+                Zfxl_jdjc_map::$CBR,
+                Zfxl_jdjc_map::$CompleteTimeSCORE,
+                Zfxl_jdjc_map::$CompleteTimeCount,
+                Zfxl_jdjc_map::$SendToCBR,
+                Zfxl_jdjc_map::$SendToCBRCount,
+                Zfxl_jdjc_map::$SendToCBRJLDSCORE,
+                Zfxl_jdjc_map::$SendToCBRJLDCount,
+                Zfxl_jdjc_map::$SendToDDZDZGSCORE,
+                Zfxl_jdjc_map::$SendToDDZDZGCount,
+                Zfxl_jdjc_map::$KP_SCORE,
+                Zfxl_jdjc_map::$KP_TRUE_SCORE
+            ],
+            substr($jdjc_sql, 1)
+        );
+    }
+
+    if ($bacc_sql != '') {
         Efficiency::bacc_clear($mysqli_zxpg, $data_arr);
         (new Table(Zfxl_bacc_map::$table_name, Table_group::sqlTool_build($mysqli_zxpg)))->multi_insert(
             [
@@ -165,7 +194,57 @@ function efficiency($mysqli_zxpg, $mysqli_hazd, $data_arr)
                 Zfxl_bacc_map::$KP_SCORE,
                 Zfxl_bacc_map::$KP_TRUE_SCORE
             ],
-            substr($xzcf_sql, 1)
+            substr($bacc_sql, 1)
+        );
+    }
+
+    if ($jsys_sql != '') {
+        Efficiency::jsys_clear($mysqli_zxpg, $data_arr);
+        (new Table(Zfxl_jsys_map::$table_name, Table_group::sqlTool_build($mysqli_zxpg)))->multi_insert(
+            [
+                Zfxl_jsys_map::$name,
+                Zfxl_jsys_map::$dadui,
+                Zfxl_jsys_map::$XMBH,
+                Zfxl_jsys_map::$GCMC,
+                Zfxl_jsys_map::$XMZT,
+                Zfxl_jsys_map::$overtime,
+                Zfxl_jsys_map::$SLSJ,
+                Zfxl_jsys_map::$CBR,
+                Zfxl_jsys_map::$CompleteTimeSCORE,
+                Zfxl_jsys_map::$CompleteTimeCount,
+                Zfxl_jsys_map::$SendToCBR,
+                Zfxl_jsys_map::$SendToCBRCount,
+                Zfxl_jsys_map::$SendToCBRJLDSCORE,
+                Zfxl_jsys_map::$SendToCBRJLDCount,
+                Zfxl_jsys_map::$SendToDDZDZGSCORE,
+                Zfxl_jsys_map::$SendToDDZDZGCount,
+                Zfxl_jsys_map::$KP_SCORE,
+                Zfxl_jsys_map::$KP_TRUE_SCORE
+            ],
+            substr($jsys_sql, 1)
+        );
+    }
+
+    if ($hz_sql != '') {
+        Efficiency::hz_clear($mysqli_zxpg, $data_arr);
+        (new Table(Zfxl_hz_map::$table_name, Table_group::sqlTool_build($mysqli_zxpg)))->multi_insert(
+            [
+                Zfxl_hz_map::$name,
+                Zfxl_hz_map::$dadui,
+                Zfxl_hz_map::$SJ,
+                Zfxl_hz_map::$zfxl_jdjc,
+                Zfxl_hz_map::$zfxl_jdjc_truescore,
+                Zfxl_hz_map::$zfxl_hzdcc,
+                Zfxl_hz_map::$zfxl_hzdc_truescore,
+                Zfxl_hz_map::$zfxl_jsys,
+                Zfxl_hz_map::$zfxl_jsys_truescore,
+                Zfxl_hz_map::$zfxl_bacc,
+                Zfxl_hz_map::$zfxl_bacc_truescore,
+                Zfxl_hz_map::$zfxl_xzcf,
+                Zfxl_hz_map::$zfxl_xzcf_truescore,
+                Zfxl_hz_map::$zfxl_hz
+            ],
+            substr($hz_sql, 1)
         );
     }
 

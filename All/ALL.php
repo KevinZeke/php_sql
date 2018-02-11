@@ -103,6 +103,7 @@ class ALL extends Table_group
         echo "      *Quality finished , affect rows : $afr | ";
 
 
+        Sql_tool::devopen();
         $afr = efficiency($mysqli_zx, $mysqli, $date);
 
         echo "      *Efficiency finished , affect rows : $afr | ";
