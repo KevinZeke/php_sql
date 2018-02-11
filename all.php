@@ -12,7 +12,7 @@ $sqltool_zxpg = Sql_tool::build(
     'localhost', 'root', '123456', 'zxpg_gzpc_db'
 );
 //不记录sql语句
-Sql_tool::devclose();
+//Sql_tool::devclose();
 $date_arr = get_date($argc, $argv);
 quality($sqltool_zxpg, $date_arr);
 quantity($date_arr);
