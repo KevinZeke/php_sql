@@ -522,4 +522,32 @@ class Efficiency extends Table_group
             )
         );
     }
+
+    public static function xzcf_clear($db, $date = null)
+    {
+        $sqlTool = parent::sqlTool_build($db);
+        $tables = [
+            new Table(Zfxl_xzcf_map::$table_name, $sqlTool)
+        ];
+
+        Table_group::group_clear(
+            $tables,
+            Zfxl_xzcf_map::$OVERTIME,
+            $date
+        );
+    }
+
+    public static function jdjc_clear($db, $date = null)
+    {
+        $sqlTool = parent::sqlTool_build($db);
+        $tables = [
+            new Table(Zfxl_jdjc_map::$table_name, $sqlTool)
+        ];
+
+        Table_group::group_clear(
+            $tables,
+            Zfxl_jdjc_map::$OVERTIME,
+            $date
+        );
+    }
 }

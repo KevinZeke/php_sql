@@ -55,7 +55,9 @@ function efficiency($mysqli_zxpg, $mysqli_hazd, $data_arr)
         Efficiency::row_handel($row, $dadui_huizong_sql, $bacc_sql, 'bacc');
     });
 
+
     if ($xzcf_sql != '') {
+        Efficiency::xzcf_clear($mysqli_zxpg, $data_arr);
         (new Table(Zfxl_xzcf_map::$table_name, Table_group::sqlTool_build($mysqli_zxpg)))->multi_insert(
             [
                 Zfxl_xzcf_map::$name,
@@ -83,6 +85,7 @@ function efficiency($mysqli_zxpg, $mysqli_hazd, $data_arr)
     }
 
     if ($jdjc_sql != '') {
+        Efficiency::jdjc_clear($mysqli_zxpg, $data_arr);
         (new Table(Zfxl_jdjc_map::$table_name, Table_group::sqlTool_build($mysqli_zxpg)))->multi_insert(
             [
                 Zfxl_jdjc_map::$name,
