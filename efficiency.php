@@ -112,7 +112,7 @@ function efficiency($mysqli_zxpg, $mysqli_hazd, $data_arr)
         );
     }
 
-    if ($hzdc_sql != '') {
+    if (false) {
         Efficiency::hzdc_clear($mysqli_zxpg, $data_arr);
         (new Table(Zfxl_hzdc_map::$table_name, Table_group::sqlTool_build($mysqli_zxpg)))->multi_insert(
             [
