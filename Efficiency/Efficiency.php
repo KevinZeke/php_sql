@@ -16,13 +16,24 @@ require_once __DIR__ . '/../map/Gzpc_xmxx_aqjc.map.php';
 require_once __DIR__ . '/../map/Gzpc_xmxx_shys.map.php';
 require_once __DIR__ . '/../map/Gzpc_xmxx_jdjc.map.php';
 require_once __DIR__ . '/../map/Kpdf_xlkp.map.php';
+require_once __DIR__ . '/../map/Zfxl_xzcf.map.php';
+require_once __DIR__ . '/../map/Zfxl_hzdc.map.php';
+require_once __DIR__ . '/../map/Zfxl_jsys.map.php';
+require_once __DIR__ . '/../map/Zfxl_bacc.map.php';
+require_once __DIR__ . '/../map/Zfxl_jdjc.map.php';
+require_once __DIR__ . '/../map/Zfxl_hz.map.php';
 
 class Efficiency extends Table_group
 {
 
     public static $police_dd_map;
 
-    public static function row_handel($row, &$sql, $type)
+    public static function item_hz_row_handel(&$sql)
+    {
+
+    }
+
+    public static function row_handel($row, &$hz_sql, &$item_sql, $type)
     {
         $directors = Table_group::format_zhu_xie($row[Field_map::$director]);
         $param = '';
@@ -33,22 +44,116 @@ class Efficiency extends Table_group
         }
         $score = Efficiency::coef_count($type, $row[Field_map::$item_total_score], $param);
         $dd = array_key_exists($directors->zhu, self::$police_dd_map) ? self::$police_dd_map[$directors->zhu] : '';
-        $sql .= Sql_tool::format_insert_value([
+        //hz_sql
+        $hz_sql .= Sql_tool::format_insert_value([
             $score['zhu'] * self::$coef[$type],
             '1',
             Sql_tool::QUOTE($row[Field_map::$over_time]),
             Sql_tool::QUOTE($dd),
             Sql_tool::QUOTE($directors->zhu)
         ]);
+        if ($type == 'xzcf')
+            //item_sql
+            $item_sql .= Sql_tool::format_insert_value([
+                Sql_tool::QUOTE($directors->zhu), //name
+                Sql_tool::QUOTE($dd), //dadui
+                Sql_tool::QUOTE($row[Field_map::$taskId]), //xmbh
+                Sql_tool::QUOTE($row[Field_map::$unit_name]), //cfdx
+                Sql_tool::QUOTE($row[Field_map::$time_limit]), //baqx
+                Sql_tool::QUOTE($row[Field_map::$cj_time]), //cjtime
+                Sql_tool::QUOTE($row[Field_map::$status]), //cfjg
+                Sql_tool::QUOTE($row[Field_map::$over_time]), //over_time
+                Sql_tool::QUOTE($row[Field_map::$director]), //cbr
+                Sql_tool::QUOTE($row[Field_map::$complete_time_score]), //c_t_score
+                Sql_tool::QUOTE($row[Field_map::$complete_time_count]), //c_t_count
+                Sql_tool::QUOTE($row[Field_map::$send_to_cbr]), //send_cbr_score
+                Sql_tool::QUOTE($row[Field_map::$send_to_cbr_count]), //send_cbr_count
+                Sql_tool::QUOTE($row[Field_map::$send_to_CBRJLDSCORE]), //send_cbrjld_score
+                Sql_tool::QUOTE($row[Field_map::$send_to_CBRJLDCount]), //send_cbrjld_count
+                Sql_tool::QUOTE($row[Field_map::$send_to_DDZDZGSCORE]), //send_dd_score
+                Sql_tool::QUOTE($row[Field_map::$send_to_DDZDZGCount]), //send_dd_count
+                $score['zhu'],                                          //s
+                $score['zhu'] * self::$coef[$type]                      //true s
+            ]);
+        if ($type == 'jdjc')
+            //item_sql
+            $item_sql .= Sql_tool::format_insert_value([
+                Sql_tool::QUOTE($directors->zhu), //name
+                Sql_tool::QUOTE($dd), //dadui
+                Sql_tool::QUOTE($row[Field_map::$taskId]), //xmbh
+                Sql_tool::QUOTE($row[Field_map::$proeject_type]), //xmlx
+                Sql_tool::QUOTE($row[Field_map::$unit_name]), //dwmc
+                Sql_tool::QUOTE($row[Field_map::$time_limit]), //jcqx
+                Sql_tool::QUOTE($row[Field_map::$status]), //jxqk
+                Sql_tool::QUOTE($row[Field_map::$over_time]), //over_time
+                Sql_tool::QUOTE($row[Field_map::$director]), //cbr
+                Sql_tool::QUOTE($row[Field_map::$complete_time_score]), //c_t_score
+                Sql_tool::QUOTE($row[Field_map::$complete_time_count]), //c_t_count
+                Sql_tool::QUOTE($row[Field_map::$send_to_cbr]), //send_cbr_score
+                Sql_tool::QUOTE($row[Field_map::$send_to_cbr_count]), //send_cbr_count
+                Sql_tool::QUOTE($row[Field_map::$send_to_CBRJLDSCORE]), //send_cbrjld_score
+                Sql_tool::QUOTE($row[Field_map::$send_to_CBRJLDCount]), //send_cbrjld_count
+                Sql_tool::QUOTE($row[Field_map::$send_to_DDZDZGSCORE]), //send_dd_score
+                Sql_tool::QUOTE($row[Field_map::$send_to_DDZDZGCount]), //send_dd_count
+                $score['zhu'],                                          //s
+                $score['zhu'] * self::$coef[$type]                      //true s
+            ]);
         foreach ($directors->xie as $name) {
             $dd = array_key_exists($name, self::$police_dd_map) ? self::$police_dd_map[$name] : '';
-            $sql .= Sql_tool::format_insert_value([
+            //hz_sql
+            $hz_sql .= Sql_tool::format_insert_value([
                 $score['xie'] * self::$coef[$type],
                 '1',
                 Sql_tool::QUOTE($row[Field_map::$over_time]),
                 Sql_tool::QUOTE($dd),
                 Sql_tool::QUOTE($name)
             ]);
+            if ($type == 'xzcf')
+                //item_sql
+                $item_sql .= Sql_tool::format_insert_value([
+                    Sql_tool::QUOTE($name), //name
+                    Sql_tool::QUOTE($dd), //dadui
+                    Sql_tool::QUOTE($row[Field_map::$taskId]), //xmbh
+                    Sql_tool::QUOTE($row[Field_map::$unit_name]), //cfdx
+                    Sql_tool::QUOTE($row[Field_map::$time_limit]), //baqx
+                    Sql_tool::QUOTE($row[Field_map::$cj_time]), //cjtime
+                    Sql_tool::QUOTE($row[Field_map::$status]), //cfjg
+                    Sql_tool::QUOTE($row[Field_map::$over_time]), //over_time
+                    Sql_tool::QUOTE($row[Field_map::$director]), //cbr
+                    Sql_tool::QUOTE($row[Field_map::$complete_time_score]), //c_t_score
+                    Sql_tool::QUOTE($row[Field_map::$complete_time_count]), //c_t_count
+                    Sql_tool::QUOTE($row[Field_map::$send_to_cbr]), //send_cbr_score
+                    Sql_tool::QUOTE($row[Field_map::$send_to_cbr_count]), //send_cbr_count
+                    Sql_tool::QUOTE($row[Field_map::$send_to_CBRJLDSCORE]), //send_cbrjld_score
+                    Sql_tool::QUOTE($row[Field_map::$send_to_CBRJLDCount]), //send_cbrjld_count
+                    Sql_tool::QUOTE($row[Field_map::$send_to_DDZDZGSCORE]), //send_dd_score
+                    Sql_tool::QUOTE($row[Field_map::$send_to_DDZDZGCount]), //send_dd_count
+                    $score['xie'],
+                    $score['xie'] * self::$coef[$type]
+                ]);
+            if ($type == 'jdjc')
+                //item_sql
+                $item_sql .= Sql_tool::format_insert_value([
+                    Sql_tool::QUOTE($name), //name
+                    Sql_tool::QUOTE($dd), //dadui
+                    Sql_tool::QUOTE($row[Field_map::$taskId]), //xmbh
+                    Sql_tool::QUOTE($row[Field_map::$proeject_type]), //xmlx
+                    Sql_tool::QUOTE($row[Field_map::$unit_name]), //dwmc
+                    Sql_tool::QUOTE($row[Field_map::$time_limit]), //jcqx
+                    Sql_tool::QUOTE($row[Field_map::$status]), //jxqk
+                    Sql_tool::QUOTE($row[Field_map::$over_time]), //over_time
+                    Sql_tool::QUOTE($row[Field_map::$director]), //cbr
+                    Sql_tool::QUOTE($row[Field_map::$complete_time_score]), //c_t_score
+                    Sql_tool::QUOTE($row[Field_map::$complete_time_count]), //c_t_count
+                    Sql_tool::QUOTE($row[Field_map::$send_to_cbr]), //send_cbr_score
+                    Sql_tool::QUOTE($row[Field_map::$send_to_cbr_count]), //send_cbr_count
+                    Sql_tool::QUOTE($row[Field_map::$send_to_CBRJLDSCORE]), //send_cbrjld_score
+                    Sql_tool::QUOTE($row[Field_map::$send_to_CBRJLDCount]), //send_cbrjld_count
+                    Sql_tool::QUOTE($row[Field_map::$send_to_DDZDZGSCORE]), //send_dd_score
+                    Sql_tool::QUOTE($row[Field_map::$send_to_DDZDZGCount]), //send_dd_count
+                    $score['xie'],                                          //s
+                    $score['xie'] * self::$coef[$type]                     //true s
+                ]);
         }
     }
 
@@ -166,10 +271,23 @@ class Efficiency extends Table_group
                 Kpdf_xlkp_map::$table_name,
                 [
                     Gzpc_xmxx_xzcf_map::$director => Field_map::$director,
+                    Gzpc_xmxx_xzcf_map::$unitName => Field_map::$unit_name,
+                    Gzpc_xmxx_xzcf_map::$timeLimit => Field_map::$time_limit,
+                    Gzpc_xmxx_xzcf_map::$cjTime => Field_map::$cj_time,
+                    Gzpc_xmxx_xzcf_map::$status => Field_map::$status,
 //                    Gzpc_xmxx_xzcf_map::$overTime => Field_map::$over_time,
-                    Kpdf_xlkp_map::$CompleteTime => Field_map::$over_time,
                     Gzpc_xmxx_xzcf_map::$taskId => Field_map::$taskId,
-                    Kpdf_xlkp_map::$xlkp_Result => Field_map::$item_total_score
+                    Kpdf_xlkp_map::$CompleteTime => Field_map::$over_time,
+                    Kpdf_xlkp_map::$xlkp_Result => Field_map::$item_total_score,
+                    Kpdf_xlkp_map::$CompleteTimeSCORE => Field_map::$complete_time_score,
+                    Kpdf_xlkp_map::$CompleteTimeCount => Field_map::$complete_time_count,
+                    Kpdf_xlkp_map::$SendToCBRSCORE => Field_map::$send_to_cbr,
+                    Kpdf_xlkp_map::$SendToCBRJLDCount => Field_map::$send_to_CBRJLDCount,
+                    Kpdf_xlkp_map::$SendToCBRJLDSCORE => Field_map::$send_to_CBRJLDSCORE,
+                    Kpdf_xlkp_map::$SendToDDZDZGCount => Field_map::$send_to_DDZDZGCount,
+                    Kpdf_xlkp_map::$SendToDDZDZGSCORE => Field_map::$send_to_DDZDZGSCORE
+
+
                 ],
                 Sql_tool::ON([
                     Gzpc_xmxx_xzcf_map::$taskId
@@ -195,10 +313,21 @@ class Efficiency extends Table_group
                 [
                     Gzpc_xmxx_jdjc_map::$director => Field_map::$director,
 //                    Gzpc_xmxx_jdjc_map::$overTime => Field_map::$over_time,
-                    Kpdf_xlkp_map::$CompleteTime => Field_map::$over_time,
                     Gzpc_xmxx_jdjc_map::$projectId => Field_map::$taskId,
                     Gzpc_xmxx_jdjc_map::$projectType => Field_map::$proeject_type,
-                    Kpdf_xlkp_map::$xlkp_Result => Field_map::$item_total_score
+                    Gzpc_xmxx_jdjc_map::$unitName => Field_map::$unit_name,
+                    Gzpc_xmxx_jdjc_map::$status => Field_map::$status,
+                    Gzpc_xmxx_jdjc_map::$timeLimit => Field_map::$time_limit,
+                    Gzpc_xmxx_jdjc_map::$createTime => Field_map::$cj_time,
+                    Kpdf_xlkp_map::$xlkp_Result => Field_map::$item_total_score,
+                    Kpdf_xlkp_map::$CompleteTime => Field_map::$over_time,
+                    Kpdf_xlkp_map::$CompleteTimeSCORE => Field_map::$complete_time_score,
+                    Kpdf_xlkp_map::$CompleteTimeCount => Field_map::$complete_time_count,
+                    Kpdf_xlkp_map::$SendToCBRSCORE => Field_map::$send_to_cbr,
+                    Kpdf_xlkp_map::$SendToCBRJLDCount => Field_map::$send_to_CBRJLDCount,
+                    Kpdf_xlkp_map::$SendToCBRJLDSCORE => Field_map::$send_to_CBRJLDSCORE,
+                    Kpdf_xlkp_map::$SendToDDZDZGCount => Field_map::$send_to_DDZDZGCount,
+                    Kpdf_xlkp_map::$SendToDDZDZGSCORE => Field_map::$send_to_DDZDZGSCORE
                 ],
                 Sql_tool::ON([
                     Gzpc_xmxx_jdjc_map::$projectId

@@ -37,5 +37,13 @@ class Field_map
     public static $hz_complete_date = 'CompleteDate';
     public static $hz_record_time = 'RecordTime';
     public static $hz_update_date = 'UpdateTime';
+    public static $complete_time_score = 'complete_time_score';
+    public static $complete_time_count = 'complete_time_count';
+    public static $send_to_cbr = 'send_to_cbr';
+    public static $send_to_cbr_count = 'send_to_cbr_count';
+    public static $send_to_CBRJLDSCORE = 'Send_To_CBRJLDSCORE';
+    public static $send_to_CBRJLDCount = 'Send_To_CBRJLDCount';
+    public static $send_to_DDZDZGSCORE = 'Send_To_DDZDZGSCORE';
+    public static $send_to_DDZDZGCount = 'Send_To_DDZDZGCount';
 
 }
