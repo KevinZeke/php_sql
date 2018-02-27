@@ -7,6 +7,7 @@ class Zfxl_bacc_map extends DB_map {
   static $zhidui = 'zfxl_bacc.zhidui' ;
   static $dadui = 'zfxl_bacc.dadui' ;
   static $XMBH = 'zfxl_bacc.XMBH' ;
+  static $overtime	 = 'zfxl_bacc.overtime' ;
   static $GCMC = 'zfxl_bacc.GCMC' ;
   static $XMJG = 'zfxl_bacc.XMJG' ;
   static $SLSJ = 'zfxl_bacc.SLSJ' ;

@@ -95,8 +95,8 @@ class Table
     }
 
     /**
-     * @param $field 插入字段数组
-     * @param $value 插入值数组，若一维数组则插入一组数据，若二维数组则插入多组数据
+     * @param array $field 插入字段数组
+     * @param array|string $value 插入值数组，若一维数组则插入一组数据，若二维数组则插入多组数据
      * @return int
      */
     public function multi_insert($field, $value)

@@ -69,8 +69,14 @@ class Quantity extends Table_group
             $result_array[$row[Q_field::$director]][$row[Q_field::$taskId]][Q_field::$hz_call_time]
                 = $row[Q_field::$hz_call_time];
 
-            $result_array[$row[Q_field::$director]][$row[Q_field::$taskId]][Q_field::$hz_end_date]
-                = $row[Q_field::$hz_end_date];
+            if (array_key_exists(Q_field::$hz_end_date, $row))
+                $result_array[$row[Q_field::$director]][$row[Q_field::$taskId]][Q_field::$hz_end_date]
+                    = $row[Q_field::$hz_end_date];
+
+            if (array_key_exists(Q_field::$old_taskId, $row)) {
+                $result_array[$row[Q_field::$director]][$row[Q_field::$taskId]][Q_field::$old_taskId]
+                    = $row[Q_field::$old_taskId];
+            }
 
             $result_array[$row[Q_field::$director]][$row[Q_field::$taskId]][Q_field::$hz_handel_date]
                 = $row[Q_field::$hz_handel_date];
@@ -253,7 +259,7 @@ class Quantity extends Table_group
     {
         if ($project_type == '一般' || $project_type == '一般调查') {
             return Quantity::$coef['ybdc'];
-        } elseif ($project_type == '认定复合')
+        } elseif ($project_type == '认定复核' || $project_type == '复核')
             return Quantity::$coef['rdfh'];
         return Quantity::$coef['jydc'];
     }
@@ -607,6 +613,7 @@ class Q_field
     public static $kpld = 'ws_kplb';
     public static $director = 'directors';
     public static $taskId = 'task_id';
+    public static $old_taskId = 'old_task_id';
     public static $task_name = 'task_name';
     public static $proeject_type = 'project_type';
     public static $time_limit = 'time_limit';

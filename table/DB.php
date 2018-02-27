@@ -13,42 +13,44 @@ class DB
     /**
      * @var string
      */
-    private static $host = 'localhost';
+    private $host = 'localhost';
     /**
      * @var null|string
      */
-    private static $username = 'root';
+    private $username = 'root';
     /**
      * @var null|string
      */
-    private static $password = '123456';
+    private $password = '123456';
     /**
      * @var null|mysqli
      */
-    private static $connection = null;
+    private $connection = null;
 
     /**
      * @param string $host
      * @param string $username
      * @param string $password
+     * @return $this
      */
-    public static function set_access($host = 'localhost', $username = 'root', $password = '123456')
+    public function set_access($host = 'localhost', $username = 'root', $password = '123456')
     {
-        self::$host = $host;
-        self::$username = $username;
-        self::$password = $password;
+        $this->host = $host;
+        $this->username = $username;
+        $this->password = $password;
+        return $this;
     }
 
     /**
      * @param string|mysqli|Sql_tool $db
-     * @return DB_table
+     * @return $this
      */
-    public static function connect($db)
+    public function connect($db)
     {
         $sqltool = null;
         if (is_string($db)) {
             $sqltool = Sql_tool::build_by_mysqli(new mysqli(
-                self::$host, self::$username, self::$password, $db
+                $this->host, $this->username, $this->password, $db
             ));
         } else {
             $sqltool = Sql_tool::mysqli_resolve($db);
@@ -56,48 +58,58 @@ class DB
         if ($sqltool == null) {
             //TODO:exception_handeller
         };
-        self::$connection = $sqltool->get_mysqli();
-        return new DB_table($sqltool);
+        $this->connection = $sqltool;
+        return $this;
     }
 
-    public static function close()
+    /**
+     * @param $table
+     * @param string $table_name
+     * @return DB_table
+     */
+    public function use_table($table, $table_name = '')
+    {
+        return new DB_table($this->connection, $table, $table_name);
+    }
+
+    public function close()
     {
         if (self::$connection != null) {
-            self::$connection->close();
-            self::$connection = null;
+            $this->connection->close();
+            $this->connection = null;
         }
     }
 
     /**
      * @return mysqli|null
      */
-    public static function get_connection()
+    public function get_connection()
     {
-        return self::$connection;
+        return $this->connection;
     }
 
     /**
      * @return string
      */
-    public static function get_host()
+    public function get_host()
     {
-        return self::$host;
+        return $this->host;
     }
 
     /**
      * @return null|string
      */
-    public static function get_username()
+    public function get_username()
     {
-        return self::$username;
+        return $this->username;
     }
 
     /**
      * @return null|string
      */
-    public static function get_password()
+    public function get_password()
     {
-        return self::$password;
+        return $this->password;
     }
 
 }

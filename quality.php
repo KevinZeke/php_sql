@@ -9,6 +9,7 @@
 require_once __DIR__ . '/Quality/XZCF.php';
 require_once __DIR__ . '/Quality/JDJC.php';
 require_once __DIR__ . '/Quality/HZDC.php';
+require_once __DIR__ . '/Quality/HZDC_FH.php';
 require_once __DIR__ . '/Quality/BACC.php';
 require_once __DIR__ . '/Quality/JSYS.php';
 
@@ -66,6 +67,8 @@ function quality($sqltool, $date_arr = null)
     Quantity_BACC::insert_score($sqltool);
     echo "\n";
     Quantity_HZDC::insert_score($sqltool);
+    echo "\n";
+    Quantity_HZDC_FH::insert_score($sqltool);
     echo "\n";
     Quantity::group_insert($mysqli, $date_arr);
 

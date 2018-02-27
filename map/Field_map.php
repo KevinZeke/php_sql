@@ -12,6 +12,7 @@ class Field_map
     public static $kpld = 'ws_kplb';
     public static $director = 'directors';
     public static $taskId = 'task_id';
+    public static $old_taskId = 'old_task_id';
     public static $task_name = 'task_name';
     public static $proeject_type = 'project_type';
     public static $time_limit = 'time_limit';

@@ -46,6 +46,10 @@ function video($mysqli_zxpg, $mysqli_hazd, $data_arr)
         Video::row_handel($row, $sql, 'hzdc');
     });
 
+    Video::count_hzdc_fh_by_date($sqltool, $data_arr, function ($row) use (&$sql) {
+        Video::row_handel($row, $sql, 'hzdc_fh');
+    });
+
     Video::count_shys_by_date($sqltool, $data_arr, function ($row) use (&$sql) {
         Video::row_handel($row, $sql, 'jsys');
     });

@@ -29,6 +29,7 @@ class Video extends Table_group
 
     public static function row_handel($row, &$sql, $type)
     {
+//        $type = ($type == 'hzdc_fh' ? 'hzdc' : $type);
         if (!$row[Field_map::$director] || $row[Field_map::$director] == '') return;
         $directors = Table_group::format_zhu_xie($row[Field_map::$director]);
         $param = '';
@@ -37,10 +38,10 @@ class Video extends Table_group
         } elseif (array_key_exists(Field_map::$proeject_type, $row)) {
             $param = $row[Field_map::$proeject_type];
         }
-        $score = self::coef_count($type, $row[Field_map::$item_total_score], $param);
+        $score = self::coef_count($type == 'hzdc_fh' ? 'hzdc' : $type, $row[Field_map::$item_total_score], $param);
         $dd = array_key_exists($directors->zhu, self::$police_dd_map) ? self::$police_dd_map[$directors->zhu] : '';
         $sql .= Sql_tool::format_insert_value([
-            $score['zhu'] * self::$coef[$type],
+            $score['zhu'] * self::$coef[$type == 'hzdc_fh' ? 'hzdc' : $type],
             '1',
             Sql_tool::QUOTE($row[Field_map::$over_time]),
             Sql_tool::QUOTE($dd),
@@ -49,7 +50,7 @@ class Video extends Table_group
         foreach ($directors->xie as $name) {
             $dd = array_key_exists($name, self::$police_dd_map) ? self::$police_dd_map[$name] : '';
             $sql .= Sql_tool::format_insert_value([
-                $score['xie'] * self::$coef[$type],
+                $score['xie'] * self::$coef[$type == 'hzdc_fh' ? 'hzdc' : $type],
                 '1',
                 Sql_tool::QUOTE($row[Field_map::$over_time]),
                 Sql_tool::QUOTE($dd),
@@ -106,7 +107,7 @@ class Video extends Table_group
     {
         if ($project_type == '一般' || $project_type == '一般调查') {
             return self::$coef['ybdc'];
-        } elseif ($project_type == '认定复合')
+        } elseif ($project_type == '认定复核' || $project_type == '复核')
             return self::$coef['rdfh'];
         return self::$coef['jydc'];
     }
@@ -143,6 +144,13 @@ class Video extends Table_group
                 return $score;
                 break;
             case 'hzdc':
+                $xx_coef = self::get_hzdc_xx_coef($project_type);
+                $score = [
+                    'zhu' => $total_score * (double)self::$coef['zbr'] * $xx_coef,
+                    'xie' => $total_score * (double)self::$coef['xbr'] * $xx_coef
+                ];
+                return $score;
+            case 'hzdc_fh':
                 $xx_coef = self::get_hzdc_xx_coef($project_type);
                 $score = [
                     'zhu' => $total_score * (double)self::$coef['zbr'] * $xx_coef,
@@ -244,6 +252,33 @@ class Video extends Table_group
      * @param string $param
      * @return int|null|SqlResult|string
      */
+    public static function count_hzdc_fh($sql_tool, $callback, $param = '')
+    {
+        (new Table(Gzpc_xmxx_hzdc_fh_map::$table_name, Table_group::sqlTool_build($sql_tool)))
+            ->right_join(
+                Kpdf_glsp_hzdc_map::$table_name,
+                [
+                    Gzpc_xmxx_hzdc_fh_map::$Director => Field_map::$director,
+//                    Gzpc_xmxx_hzdc_map::$CompleteDate => Field_map::$over_time,
+                    Gzpc_xmxx_hzdc_fh_map::$CompleteDate => Field_map::$over_time,
+                    Gzpc_xmxx_hzdc_fh_map::$taskId => Field_map::$taskId,
+                    Gzpc_xmxx_hzdc_fh_map::$HzdcType => Field_map::$hz_type,
+                    Kpdf_glsp_hzdc_map::$glsp_Result => Field_map::$item_total_score
+                ],
+                Sql_tool::ON([
+                    Gzpc_xmxx_hzdc_fh_map::$taskId
+                    => Kpdf_glsp_hzdc_map::$Item_num
+                ])
+                . $param
+            )->each_row($callback);
+    }
+
+    /**
+     * @param Sql_tool $sql_tool
+     * @param $callback
+     * @param string $param
+     * @return int|null|SqlResult|string
+     */
     public static function count_bacc($sql_tool, $callback, $param = '')
     {
         (new Table(Gzpc_xmxx_bacc_map::$table_name, Table_group::sqlTool_build($sql_tool)))
@@ -331,6 +366,17 @@ class Video extends Table_group
         self::count_hzdc($sqltool, $callback,
             Table_group::format_date(
                 Gzpc_xmxx_hzdc_map::$EndDate,
+                $date_arr,
+                true
+            )
+        );
+    }
+
+    public static function count_hzdc_fh_by_date($sqltool, $date_arr, $callback)
+    {
+        self::count_hzdc($sqltool, $callback,
+            Table_group::format_date(
+                Gzpc_xmxx_hzdc_fh_map::$CompleteDate,
                 $date_arr,
                 true
             )

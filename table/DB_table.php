@@ -8,10 +8,15 @@
 class DB_table
 {
 
+    private static $TYPE_SELECT = '_SELECT_';
+    private static $TYPE_UPDATE = '_UPDATE_';
+    private static $TYPE_INSERT = '_INSERT_';
+    private static $TYPE_DELETE = '_DELETE_';
     private static $QUERY_TYPE = 'query_type';
     private static $QUERY_FIELD = 'query_field';
     private static $QUERY_WHREE = 'query_whree';
     private static $QUERY_GROUP = 'query_group';
+    private static $QUERY_ORDER = 'query_order';
 
     /**
      * @var null|Sql_tool
@@ -30,27 +35,23 @@ class DB_table
     /**
      * @var null|Table
      */
-    private $table_name = null;
+    private $table = null;
 
     /**
      * DB_table constructor.
      * @param Sql_tool $sql_tool
+     * @param $table
+     * @param string $asname
      */
-    public function __construct($sql_tool)
+    public function __construct($sql_tool, $table, $asname = '')
     {
         $this->sql_tool = $sql_tool;
-    }
+        if (is_string($table))
+            $this->table = $table;
+        elseif ($table instanceof DB_table)
+            $this->table = '(' . $table->install_select_sql() . ') ' . $asname;
 
-    /**
-     * @param string $tablename
-     * @return DB_table
-     */
-    public function use_table($tablename)
-    {
-        $this->table_name = $tablename;
-        return $this;
     }
-
 
     /**
      * @param string $piecename
@@ -75,7 +76,7 @@ class DB_table
      */
     public function select($fields)
     {
-        $this->cur_sql_pieces[self::$QUERY_TYPE] = 'select';
+        $this->cur_sql_pieces[self::$QUERY_TYPE] = self::$TYPE_SELECT;
         if (is_string($fields)) {
             $this->set_cur_sql_pieces(self::$QUERY_FIELD, $fields);
         } elseif (is_array($fields)) {
@@ -124,13 +125,14 @@ class DB_table
         if (($sql = $this->install_sql()) != null) {
             return $this->sql_tool->execute_dql_res($sql);
         }
+        return null;
     }
 
     protected function install_sql($sql_handel = null)
     {
         $sql = null;
-        if ($this->get_cur_sql_pieces(DB_table::$QUERY_TYPE) == 'select') {
-            $sql = $this->install_select_sql();
+        if ($this->get_cur_sql_pieces(DB_table::$QUERY_TYPE) == self::$TYPE_SELECT) {
+            return $sql = $this->install_select_sql();
         }
         if (is_callable($sql_handel)) {
             $sql_handel($sql);
@@ -141,10 +143,8 @@ class DB_table
     {
         return 'SELECT '
             . $this->get_cur_sql_pieces(DB_table::$QUERY_FIELD)
-            . ' FROM ' . $this->table_name . ' '
+            . ' FROM ' . $this->table . ' '
             . $this->get_cur_sql_pieces(DB_table::$QUERY_WHREE) . ' '
             . $this->get_cur_sql_pieces(DB_table::$QUERY_GROUP);
-
     }
-
 }
