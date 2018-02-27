@@ -226,7 +226,7 @@ class Quantity_JDJC
               checkTime    ,
               status       ,
               recordTime   ,
-              kptime
+              kpdf_huizong.kptime AS kptime
             FROM (SELECT * FROM kpdf_huizong WHERE kpdf_huizong.Item_Type = \'jdjc\') A
               RIGHT JOIN gzpc_flws_jdjc ON A.flwsID = gzpc_flws_jdjc.itemId
               AND A.Item_BH = gzpc_flws_jdjc.projectId

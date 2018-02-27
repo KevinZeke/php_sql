@@ -14,7 +14,6 @@ require_once __DIR__ . '/Quality/BACC.php';
 require_once __DIR__ . '/Quality/JSYS.php';
 
 
-
 /**
  * @param Sql_tool $sqltool
  * @param null $date_arr
@@ -59,14 +58,19 @@ function quality($sqltool, $date_arr = null)
 //关闭sql记录
 
     Quantity_JDJC::insert_score($sqltool);
+    Quantity_JDJC::insert_flws($sqltool);
     echo "\n";
     Quantity_XZCF::insert_score($sqltool);
+    Quantity_XZCF::insert_flws($sqltool);
     echo "\n";
     Quantity_JSYS::insert_score($sqltool);
+    Quantity_JSYS::insert_flws($sqltool);
     echo "\n";
     Quantity_BACC::insert_score($sqltool);
+    Quantity_BACC::insert_flws($sqltool);
     echo "\n";
     Quantity_HZDC::insert_score($sqltool);
+    Quantity_HZDC::insert_flws($sqltool);
     echo "\n";
     Quantity_HZDC_FH::insert_score($sqltool);
     echo "\n";

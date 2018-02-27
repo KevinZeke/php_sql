@@ -490,7 +490,7 @@ class Quantity_AQJC
               checkTime,
               status,
               recordTime,
-              kptime
+              kpdf_huizong.kptime AS kptime
             FROM (SELECT * FROM kpdf_huizong WHERE kpdf_huizong.Item_Type = \'jsys\') A
               RIGHT JOIN gzpc_flws_aqjc ON A.flwsID = gzpc_flws_aqjc.itemId
               ; 

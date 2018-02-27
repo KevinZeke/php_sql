@@ -220,7 +220,7 @@ class Quantity_XZCF
               checkTime,
               status,
               recordTime,
-              kptime
+              kpdf_huizong.kptime AS kptime
             FROM (SELECT * FROM kpdf_huizong WHERE kpdf_huizong.Item_Type = \'xzcf\') A
             RIGHT JOIN gzpc_flws_xzcf ON A.flwsID = gzpc_flws_xzcf.itemId
             AND A.Item_BH = gzpc_flws_xzcf.taskId
