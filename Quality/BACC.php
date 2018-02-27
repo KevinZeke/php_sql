@@ -246,7 +246,7 @@ class Quantity_BACC
               checkTime,
               status,
               recordTime,
-              kpdf_huizong.kptime AS kptime
+              A.kptime AS kptime
             FROM (SELECT * FROM kpdf_huizong WHERE kpdf_huizong.Item_Type = \'bacc\') A
             RIGHT JOIN gzpc_flws_bacc ON A.flwsID = gzpc_flws_bacc.itemId
             AND A.Item_BH = gzpc_flws_bacc.projectId

@@ -253,7 +253,7 @@ class Quantity_HZDC
               checkTime,
               status,
               recordTime,
-              kpdf_huizong.kptime AS kptime
+              A.kptime AS kptime
             FROM (SELECT * FROM kpdf_huizong WHERE kpdf_huizong.Item_Type = \'hzdc\') A
               RIGHT JOIN gzpc_flws_hzdc ON A.flwsID = gzpc_flws_hzdc.itemId
         ');
