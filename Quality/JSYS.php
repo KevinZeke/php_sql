@@ -58,6 +58,7 @@ class Quantity_SHYS
             'shys',
             $item_info[Q_field::$item_total_score]
         );
+        $coef_info = Quantity::field_coef_get('shys');
 
         $sql .= ',' . Table::format_insert_value([
                 $directors->zhu,
@@ -71,7 +72,8 @@ class Quantity_SHYS
                 $item_info[Q_field::$item_total_score],
                 $real_score['zhu'],
                 $item_info[Q_field::$count_flwses],
-                $item_info[Q_field::$status]
+                $item_info[Q_field::$status],
+                $coef_info['zhu']
             ]);
 
         foreach ($directors->xie as $name) {
@@ -87,7 +89,8 @@ class Quantity_SHYS
                     $item_info[Q_field::$item_total_score],
                     $real_score['xie'],
                     $item_info[Q_field::$count_flwses],
-                    $item_info[Q_field::$status]
+                    $item_info[Q_field::$status],
+                    $coef_info['xie']
                 ]);
         }
     }
@@ -119,7 +122,8 @@ class Quantity_SHYS
                 Zfzl_jsys_score_map::$KP_SCORE,
                 Zfzl_jsys_score_map::$KP_TRUE_SCORE,
                 Zfzl_jsys_score_map::$WS_num,
-                Zfzl_jsys_score_map::$Status
+                Zfzl_jsys_score_map::$Status,
+                Zfzl_jsys_score_map::$cbr_qz
             ],
             substr($sql, 1)
         );
@@ -317,6 +321,7 @@ class Quantity_AQJC
             'aqjc',
             $item_info[Q_field::$item_total_score]
         );
+        $coef_info = Quantity::field_coef_get('aqjc');
 
         $sql .= ',' . Table::format_insert_value([
                 $directors->zhu,
@@ -330,7 +335,8 @@ class Quantity_AQJC
                 $item_info[Q_field::$item_total_score],
                 $real_score['zhu'],
                 $item_info[Q_field::$count_flwses],
-                $item_info[Q_field::$status]
+                $item_info[Q_field::$status],
+                $coef_info['zhu']
             ]);
 
         foreach ($directors->xie as $name) {
@@ -346,7 +352,8 @@ class Quantity_AQJC
                     $item_info[Q_field::$item_total_score],
                     $real_score['xie'],
                     $item_info[Q_field::$count_flwses],
-                    $item_info[Q_field::$status]
+                    $item_info[Q_field::$status],
+                    $coef_info['xie']
                 ]);
         }
     }
@@ -378,7 +385,8 @@ class Quantity_AQJC
                 Zfzl_jsys_score_map::$KP_SCORE,
                 Zfzl_jsys_score_map::$KP_TRUE_SCORE,
                 Zfzl_jsys_score_map::$WS_num,
-                Zfzl_jsys_score_map::$Status
+                Zfzl_jsys_score_map::$Status,
+                Zfzl_jsys_score_map::$cbr_qz
             ],
             substr($sql, 1)
         );

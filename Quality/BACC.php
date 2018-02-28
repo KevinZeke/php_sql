@@ -59,6 +59,7 @@ class Quantity_BACC
             'bacc',
             $item_info[Q_field::$item_total_score]
         );
+        $coef_info = Quantity::field_coef_get('bacc');
 
         $dd = array_key_exists($directors->zhu, Quantity::$police_dd_map) ? Quantity::$police_dd_map[$directors->zhu] : '';
         $sql .= ',' . Table::format_insert_value([
@@ -73,7 +74,8 @@ class Quantity_BACC
                 $item_info[Q_field::$item_total_score],
                 $real_score['zhu'],
                 $item_info[Q_field::$count_flwses],
-                $director
+                $director,
+                $coef_info['zhu']
             ]);
 
         foreach ($directors->xie as $name) {
@@ -90,7 +92,8 @@ class Quantity_BACC
                     $item_info[Q_field::$item_total_score],
                     $real_score['xie'],
                     $item_info[Q_field::$count_flwses],
-                    $director
+                    $director,
+                    $coef_info['xie']
                 ]);
         }
     }
@@ -120,7 +123,8 @@ class Quantity_BACC
                 Zfzl_bacc_score_map::$kp_score,
                 Zfzl_bacc_score_map::$kp_true_score,
                 Zfzl_bacc_score_map::$WS_num,
-                Zfzl_bacc_score_map::$cbr
+                Zfzl_bacc_score_map::$cbr,
+                Zfzl_bacc_score_map::$cbr_qz
             ],
             substr($sql, 1)
         );

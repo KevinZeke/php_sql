@@ -37,6 +37,8 @@ class Quantity_XZCF
             'xzcf',
             $item_info[Q_field::$item_total_score]
         );
+        $coef_info = Quantity::field_coef_get('xzcf');
+
 
         $sql .= ',' . Table::format_insert_value([
                 $directors->zhu,
@@ -50,7 +52,8 @@ class Quantity_XZCF
                 $item_info[Q_field::$item_total_score],
                 $real_score['zhu'],
                 $director,
-                $item_info[Q_field::$count_flwses]
+                $item_info[Q_field::$count_flwses],
+                $coef_info['zhu']
             ]);
 
         foreach ($directors->xie as $name) {
@@ -66,7 +69,8 @@ class Quantity_XZCF
                     $item_info[Q_field::$item_total_score],
                     $real_score['xie'],
                     $director,
-                    $item_info[Q_field::$count_flwses]
+                    $item_info[Q_field::$count_flwses],
+                    $coef_info['xie']
                 ]);
         }
     }
@@ -98,7 +102,8 @@ class Quantity_XZCF
                 Zfzl_xzcf_score_map::$KP_SCORE,
                 Zfzl_xzcf_score_map::$KP_TRUE_SCORE,
                 Zfzl_xzcf_score_map::$CBR,
-                Zfzl_xzcf_score_map::$WS_num
+                Zfzl_xzcf_score_map::$WS_num,
+                Zfzl_xzcf_score_map::$cbr_qz
             ],
             substr($sql, 1)
         );

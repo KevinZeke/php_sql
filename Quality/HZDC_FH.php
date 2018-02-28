@@ -62,6 +62,10 @@ class Quantity_HZDC_FH
             $item_info[Q_field::$item_total_score],
             $item_info[Q_field::$hz_type]
         );
+        $coef_info = Quantity::field_coef_get(
+            'hzdc',
+            $item_info[Q_field::$hz_type]
+        );
 
         $sql .= ',' . Table::format_insert_value([
                 $directors->zhu,
@@ -77,7 +81,9 @@ class Quantity_HZDC_FH
                 $director,
                 $item_info[Q_field::$count_flwses],
                 $item_info[Q_field::$item_total_score],
-                $real_score['zhu']
+                $real_score['zhu'],
+                $coef_info['zhu'],
+                $coef_info['zl']
             ]);
 
         foreach ($directors->xie as $name) {
@@ -95,7 +101,9 @@ class Quantity_HZDC_FH
                     $director,
                     $item_info[Q_field::$count_flwses],
                     $item_info[Q_field::$item_total_score],
-                    $real_score['xie']
+                    $real_score['xie'],
+                    $coef_info['xie'],
+                    $coef_info['zl']
                 ]);
         }
     }
@@ -129,7 +137,9 @@ class Quantity_HZDC_FH
                 Zfzl_hzdc_score_map::$CBR,
                 Zfzl_hzdc_score_map::$WS_num,
                 Zfzl_hzdc_score_map::$KP_SCORE,
-                Zfzl_hzdc_score_map::$KP_TRUE_SCORE
+                Zfzl_hzdc_score_map::$KP_TRUE_SCORE,
+                Zfzl_hzdc_score_map::$zl_qz,
+                Zfzl_hzdc_score_map::$cbr_qz
             ],
             substr($sql, 1)
         );

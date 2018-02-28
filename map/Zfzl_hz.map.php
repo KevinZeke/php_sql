@@ -14,6 +14,11 @@ class Zfzl_hz_map extends DB_map {
   static $zfzl_jdjc_truescore = 'zfzl_hz.zfzl_jdjc_truescore' ;
   static $zfzl_hzdc_truescore = 'zfzl_hz.zfzl_hzdc_truescore' ;
   static $zfzl_xzcf_truescore = 'zfzl_hz.zfzl_xzcf_truescore' ;
+  static $xzcf_lxqz = 'zfzl_hz.xzcf_lxqz' ;
+  static $jdjc_lxqz = 'zfzl_hz.jdjc_lxqz' ;
+  static $hzdc_lxqz = 'zfzl_hz.hzdc_lxqz' ;
+  static $jsys_lxqz = 'zfzl_hz.jsys_lxqz' ;
+  static $bacc_lxqz = 'zfzl_hz.bacc_lxqz' ;
   static $zfzl_hz = 'zfzl_hz.zfzl_hz' ;
   static $id = 'zfzl_hz.id' ;
   static $dd_name = 'zfzl_hz.dd_name' ;

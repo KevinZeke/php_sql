@@ -7,11 +7,11 @@ class Zfxl_bacc_map extends DB_map {
   static $zhidui = 'zfxl_bacc.zhidui' ;
   static $dadui = 'zfxl_bacc.dadui' ;
   static $XMBH = 'zfxl_bacc.XMBH' ;
-  static $overtime	 = 'zfxl_bacc.overtime' ;
   static $GCMC = 'zfxl_bacc.GCMC' ;
   static $XMJG = 'zfxl_bacc.XMJG' ;
   static $SLSJ = 'zfxl_bacc.SLSJ' ;
   static $JGYS = 'zfxl_bacc.JGYS' ;
+  static $overtime = 'zfxl_bacc.overtime' ;
   static $CBR = 'zfxl_bacc.CBR' ;
   static $CompleteTimeSCORE = 'zfxl_bacc.CompleteTimeSCORE' ;
   static $CompleteTimeCount = 'zfxl_bacc.CompleteTimeCount' ;

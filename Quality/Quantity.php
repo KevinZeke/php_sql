@@ -312,6 +312,53 @@ class Quantity extends Table_group
         }
     }
 
+    /**
+     * @param string $item_name
+     * @param string $project_type
+     * @return array|bool
+     * @internal param float $coef
+     */
+    public static function field_coef_get($item_name, $project_type = '')
+    {
+        switch ($item_name) {
+            case 'xzcf':
+//                $res = get_coef($sqltool, $item_name);
+                $coef = [
+                    'zhu' => (double)self::$coef['zbr'],
+                    'xie' => (double)self::$coef['xbr']
+                ];
+                return $coef;
+                break;
+            case 'jdjc':
+                $xx_coef = self::get_jdjc_xx_coef($project_type);
+//                cmd_iconv($project_type);
+//                echo $xx_coef;
+                $coef = [
+                    'zhu' => (double)self::$coef['zbr'],
+                    'xie' => (double)self::$coef['xbr'],
+                    'zl' => $xx_coef
+                ];
+//                print_r($score);
+                return $coef;
+                break;
+            case 'hzdc':
+                $xx_coef = self::get_hzdc_xx_coef($project_type);
+                $coef = [
+                    'zhu' => (double)self::$coef['zbr'],
+                    'xie' => (double)self::$coef['xbr'],
+                    'zl' => $xx_coef
+                ];
+                return $coef;
+            default:
+                $coef = [
+                    'zhu' => (double)self::$coef['zbr'],
+                    'xie' => (double)self::$coef['xbr']
+                ];
+                return $coef;
+                break;
+        }
+    }
+
 
     /**
      * @param mysqli $mysqli
@@ -534,6 +581,11 @@ class Quantity extends Table_group
                     ($row['bacc'] * $coef['bacc']) +
                     ($row['xzcf'] * $coef['xzcf'])
                 ) . ',' .
+                $coef['bacc'] . ',' .
+                $coef['jdjc'] . ',' .
+                $coef['hzdc'] . ',' .
+                $coef['xzcf'] . ',' .
+                $coef['jsys'] . ',' .
                 Sql_tool::QUOTE($row['n']) . ',' .
                 Sql_tool::QUOTE($row['y']) . ',' .
                 Sql_tool::QUOTE($row['d']) . ')';
@@ -553,6 +605,13 @@ class Quantity extends Table_group
                     Zfzl_hz_map::$zfzl_bacc_truescore,
                     Zfzl_hz_map::$zfzl_xzcf_truescore,
                     Zfzl_hz_map::$zfzl_hz,
+                    //qz
+                    Zfzl_hz_map::$bacc_lxqz,
+                    Zfzl_hz_map::$jdjc_lxqz,
+                    Zfzl_hz_map::$hzdc_lxqz,
+                    Zfzl_hz_map::$xzcf_lxqz,
+                    Zfzl_hz_map::$jsys_lxqz,
+                    //qz
                     Zfzl_hz_map::$name,
                     Zfzl_hz_map::$SJ,
                     Zfzl_hz_map::$dd_name

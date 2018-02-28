@@ -47,6 +47,10 @@ class Quantity_JDJC
             $item_info[Q_field::$item_total_score],
             $item_info[Q_field::$proeject_type]
         );
+        $coef_info = Quantity::field_coef_get(
+            'jdjc',
+            $item_info[Q_field::$proeject_type]
+        );
 
         $sql .= ',' . Table::format_insert_value([
                 $directors->zhu,
@@ -61,7 +65,9 @@ class Quantity_JDJC
                 $item_info[Q_field::$item_total_score],
                 $real_score['zhu'],
 //                $item_info[Q_field::$real_item_total_score]['zhu'],
-                $item_info[Q_field::$count_flwses]
+                $item_info[Q_field::$count_flwses],
+                $coef_info['zhu'],
+                $coef_info['zl']
             ]);
 
         foreach ($directors->xie as $name) {
@@ -78,7 +84,9 @@ class Quantity_JDJC
                     $item_info[Q_field::$item_total_score],
                     $real_score['xie'],
 //                    $item_info[Q_field::$real_item_total_score]['xie'],
-                    $item_info[Q_field::$count_flwses]
+                    $item_info[Q_field::$count_flwses],
+                    $coef_info['xie'],
+                    $coef_info['zl']
                 ]);
         }
     }
@@ -109,7 +117,9 @@ class Quantity_JDJC
                 Zfzl_jdjc_score_map::$xmlx,
                 Zfzl_jdjc_score_map::$KP_SCORE,
                 Zfzl_jdjc_score_map::$KP_TRUE_SCORE,
-                Zfzl_jdjc_score_map::$WS_num
+                Zfzl_jdjc_score_map::$WS_num,
+                Zfzl_jdjc_score_map::$zl_qz,
+                Zfzl_jdjc_score_map::$cbr_qz
             ],
             substr($sql, 1)
         );

@@ -13,6 +13,7 @@ class Zfzl_jsys_score_map extends DB_map {
   static $CBR = 'zfzl_jsys_score.CBR' ;
   static $WS_num = 'zfzl_jsys_score.WS_num' ;
   static $KP_SCORE = 'zfzl_jsys_score.KP_SCORE' ;
+  static $cbr_qz = 'zfzl_jsys_score.cbr_qz' ;
   static $KP_TRUE_SCORE = 'zfzl_jsys_score.KP_TRUE_SCORE' ;
   static $id = 'zfzl_jsys_score.id' ;
   static function all(){

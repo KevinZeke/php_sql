@@ -14,6 +14,7 @@ class Zfzl_bacc_score_map extends DB_map {
   static $overtime = 'zfzl_bacc_score.overtime' ;
   static $WS_num = 'zfzl_bacc_score.WS_num' ;
   static $kp_score = 'zfzl_bacc_score.kp_score' ;
+  static $cbr_qz = 'zfzl_bacc_score.cbr_qz' ;
   static $kp_true_score = 'zfzl_bacc_score.kp_true_score' ;
   static $id = 'zfzl_bacc_score.id' ;
   static function all(){
