@@ -246,7 +246,7 @@ class Quantity_HZDC_FH
     {
         $flws_table = (new Table(Zfzl_hzdc_flws_map::$table_name, $sqltool));
         //TODO
-        $flws_table->truncate();
+        //$flws_table->truncate();
         $flws_info = $sqltool->execute_dql_res('
             SELECT
               taskId,

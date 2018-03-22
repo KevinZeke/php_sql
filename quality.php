@@ -73,6 +73,7 @@ function quality($sqltool, $date_arr = null)
     Quantity_HZDC::insert_flws($sqltool);
     echo "\n";
     Quantity_HZDC_FH::insert_score($sqltool);
+    Quantity_HZDC_FH::insert_flws($sqltool);
     echo "\n";
     Quantity::group_insert($mysqli, $date_arr);
 
