@@ -298,7 +298,7 @@ class Quantity_HZDC_FH
                     Zfzl_hzdc_flws_map::$STATUS,
                     Zfzl_hzdc_flws_map::$KP_FLWSSCORE,
                     Zfzl_hzdc_flws_map::$xmbh,
-                    Zfzl_hzdc_flws_map::$kp
+                    Zfzl_hzdc_flws_map::$KP_TIME
                 ],
                 substr($flws_sql, 1)
             );
