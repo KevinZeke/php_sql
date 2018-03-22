@@ -704,6 +704,27 @@ function get_all_dd_name_list()
     return $DADUINameList;
 }
 
+function get_all_dd_db_map()
+{
+    $DADUINameList = [
+        '淮安区' => 'huaianqu_db',
+        '淮阴区' => 'huaiyinqu_db',
+        '涟水县' => 'lianshuixian_db',
+        '盱眙县' => 'xuyixian_db',
+        '开发区' => 'kaifaqu_db',
+        '支队（机关）' => 'huaian_zdjg_db',
+        '金湖县' => 'jinhuxian_db',
+        '水上' => 'shuishang_db',
+        '新城' => 'xincheng_db',
+        '园区' => 'yuanqu_db',
+        '洪泽县' => 'hongzexian_db',
+        '清江' => 'qingjiang_db',
+        '清浦' => 'qingpu_db'
+        //"zxpg_gzpc_db" => 'zxpg_gzpc_db'
+    ];
+    return $DADUINameList;
+}
+
 function mysql_pdo_select_arr($conn, $json_index_list, $mysql_input)
 {
     $rst = 0;

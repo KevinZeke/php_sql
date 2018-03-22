@@ -20,7 +20,11 @@ class Quantity_XZCF
 {
     public static function clear($sqltool)
     {
-        //TODO
+        //得分表
+        $xzcf_score = new Table(Zfzl_xzcf_score_map::$table_name, $sqltool);
+
+        //清空目标表 TODO：修改清理范围
+        $xzcf_score->truncate();
     }
 
     /**
@@ -86,7 +90,7 @@ class Quantity_XZCF
         $xzcf_score = new Table(Zfzl_xzcf_score_map::$table_name, $sqltool);
 
         //清空目标表 TODO：修改清理范围
-        $xzcf_score->truncate();
+//        $xzcf_score->truncate();
 
         //进行插入操作
         $afr = $xzcf_score->multi_insert(
@@ -195,6 +199,7 @@ class Quantity_XZCF
                 );
             }
         }
+        self::clear($sqltool);
         //完成数据的插入
         if ($score_insert_values != '')
             self::score_insert($sqltool, $score_insert_values);
@@ -227,7 +232,7 @@ class Quantity_XZCF
               recordTime,
               A.kptime AS kptime
             FROM (SELECT * FROM kpdf_huizong WHERE kpdf_huizong.Item_Type = \'xzcf\') A
-            RIGHT JOIN gzpc_flws_xzcf ON A.flwsID = gzpc_flws_xzcf.itemId
+            LEFT JOIN gzpc_flws_xzcf ON A.flwsID = gzpc_flws_xzcf.itemId
             AND A.Item_BH = gzpc_flws_xzcf.taskId
         ');
         $flws_sql = '';

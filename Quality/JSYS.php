@@ -15,6 +15,8 @@ require_once __DIR__ . '/../map/Zfzl_jsys_score.map.php';
 require_once __DIR__ . '/../map/Kpdf_huizong.map.php';
 require_once __DIR__ . '/../map/Zfzl_jsys_flws.map.php';
 require_once __DIR__ . '/../map/Zfzl_jsys_flws.map.php';
+require_once __DIR__ . '/../map/Zfzl_aqjc_score.map.php';
+require_once __DIR__ . '/../map/Zfzl_aqjc_flws.map.php';
 require_once __DIR__ . '/../sql/Sql.class.php';
 require_once __DIR__ . '/../table/Table.class.php';
 require_once __DIR__ . '/Quantity.php';
@@ -160,7 +162,7 @@ class Quantity_SHYS
             FROM
             (
                 SELECT *
-                FROM gzpc_xmxx_shys A LEFT JOIN (SELECT * FROM kpdf_huizong WHERE kpdf_huizong.Item_Type = \'jsys\') B 
+                FROM gzpc_xmxx_shys A LEFT JOIN (SELECT * FROM kpdf_huizong WHERE kpdf_huizong.Item_Type = \'shys\') B 
                 ON A.projectId = B.Item_BH
                 WHERE A.overTime IS NOT NULL
             ) C
@@ -239,9 +241,9 @@ class Quantity_SHYS
               status,
               recordTime,
               kptime
-            FROM (SELECT * FROM kpdf_huizong WHERE kpdf_huizong.Item_Type = \'jsys\') A
-              RIGHT JOIN gzpc_flws_shys ON A.flwsID = gzpc_flws_shys.itemId
-              AND A.Item_BH = gzpc_flws_shys.projectId
+            FROM (SELECT * FROM kpdf_huizong WHERE kpdf_huizong.Item_Type = \'shys\') A
+              LEFT JOIN gzpc_flws_shys ON A.flwsID = gzpc_flws_shys.itemId
+              AND A.Item_BH = gzpc_flws_shys.projectId WHERE projectId IS NOT NULL 
               ; 
         ');
         $flws_sql = '';
@@ -290,7 +292,11 @@ class Quantity_AQJC
      */
     public static function clear($sqltool)
     {
-        //TODO
+        //得分表
+        $aqjc_score = new Table(Zfzl_aqjc_score_map::$table_name, $sqltool);
+
+        //清空目标表 TODO：修改清理范围
+        $aqjc_score->truncate();
     }
 
     /**
@@ -328,7 +334,8 @@ class Quantity_AQJC
                 Quantity::$police_dd_map[$directors->zhu],
                 $director,
                 $item_id,
-                $item_info[Q_field::$cj_time],
+                $item_info[Q_field::$unit_name],
+                $item_info[Q_field::$time_limit],
 //                $item_info[Q_field::$task_name],
 //                $item_info[Q_field::$status],
                 $item_info[Q_field::$over_time],
@@ -345,7 +352,8 @@ class Quantity_AQJC
                     Quantity::$police_dd_map[$name],
                     $director,
                     $item_id,
-                    $item_info[Q_field::$cj_time],
+                    $item_info[Q_field::$unit_name],
+                    $item_info[Q_field::$time_limit],
 //                    $item_info[Q_field::$task_name],
 //                $item_info[Q_field::$status],
                     $item_info[Q_field::$over_time],
@@ -366,27 +374,27 @@ class Quantity_AQJC
     public static function score_insert($sqltool, $sql)
     {
         //得分表
-        $jdjc_score = new Table(Zfzl_jsys_score_map::$table_name, $sqltool);
+        $jdjc_score = new Table(Zfzl_aqjc_score_map::$table_name, $sqltool);
 
-        //清空目标表 TODO：修改清理范围
 //        $jdjc_score->truncate();
 
         //进行插入操作
         $afr = $jdjc_score->multi_insert(
             [
-                Zfzl_jsys_score_map::$name,
-                Zfzl_jsys_score_map::$dadui,
-                Zfzl_jsys_score_map::$CBR,
-                Zfzl_jsys_score_map::$XMBH,
-                Zfzl_jsys_score_map::$SLSJ,
+                Zfzl_aqjc_score_map::$name,
+                Zfzl_aqjc_score_map::$dadui,
+                Zfzl_aqjc_score_map::$CBR,
+                Zfzl_aqjc_score_map::$XMBH,
+                Zfzl_aqjc_score_map::$DWMC,
+                Zfzl_aqjc_score_map::$JCQX,
 //                Zfzl_jsys_score_map::$GCMC,
 //                Zfzl_jsys_score_map::$JCQX,
-                Zfzl_jsys_score_map::$OVERTIME,
-                Zfzl_jsys_score_map::$KP_SCORE,
-                Zfzl_jsys_score_map::$KP_TRUE_SCORE,
-                Zfzl_jsys_score_map::$WS_num,
-                Zfzl_jsys_score_map::$Status,
-                Zfzl_jsys_score_map::$cbr_qz
+                Zfzl_aqjc_score_map::$OVERTIME,
+                Zfzl_aqjc_score_map::$KP_SCORE,
+                Zfzl_aqjc_score_map::$KP_TRUE_SCORE,
+                Zfzl_aqjc_score_map::$WS_num,
+                Zfzl_aqjc_score_map::$JCQK,
+                Zfzl_aqjc_score_map::$cbr_qz
             ],
             substr($sql, 1)
         );
@@ -410,6 +418,7 @@ class Quantity_AQJC
             unitName     AS ' . Q_field::$unit_name . ',
             director     AS ' . Q_field::$director . ' ,
             status       AS ' . Q_field::$status . ' ,
+            timeLimit       AS ' . Q_field::$time_limit . ' ,
             createTime   AS ' . Q_field::$cj_time . ',
             overTime     AS ' . Q_field::$over_time . ',
             recordTime,
@@ -422,7 +431,7 @@ class Quantity_AQJC
             FROM
             (
                 SELECT *
-                FROM gzpc_xmxx_aqjc A LEFT JOIN (SELECT * FROM kpdf_huizong WHERE kpdf_huizong.Item_Type = \'jsys\') B 
+                FROM gzpc_xmxx_aqjc A LEFT JOIN (SELECT * FROM kpdf_huizong WHERE kpdf_huizong.Item_Type = \'aqjc\') B 
                 ON A.projectId = B.Item_BH
                 WHERE A.overTime IS NOT NULL
             ) C
@@ -472,6 +481,7 @@ class Quantity_AQJC
                 );
             }
         }
+        self::clear($sqltool);
         if ($score_insert_values != '')
             self::score_insert($sqltool, $score_insert_values);
     }
@@ -499,8 +509,9 @@ class Quantity_AQJC
               status,
               recordTime,
               A.kptime AS kptime
-            FROM (SELECT * FROM kpdf_huizong WHERE kpdf_huizong.Item_Type = \'jsys\') A
-              RIGHT JOIN gzpc_flws_aqjc ON A.flwsID = gzpc_flws_aqjc.itemId
+            FROM (SELECT * FROM kpdf_huizong WHERE kpdf_huizong.Item_Type = \'aqjc\') A
+              LEFT JOIN gzpc_flws_aqjc ON A.flwsID = gzpc_flws_aqjc.itemId
+              WHERE projectId IS NOT NULL 
               ; 
         ');
         $flws_sql = '';
@@ -519,20 +530,22 @@ class Quantity_AQJC
                 \'' . $row['kptime'] . '\'
             )';
         });
+        $aqjc_table = (new Table(Zfzl_aqjc_flws_map::$table_name, $sqltool));
+        $aqjc_table->truncate();
         if ($flws_sql && $flws_sql != '')
-            return (new Table(Zfzl_jsys_flws_map::$table_name, $sqltool))->multi_insert(
+            return $aqjc_table->multi_insert(
                 [
-                    Zfzl_jsys_flws_map::$FLWS,
-                    Zfzl_jsys_flws_map::$ItemId,
-                    Zfzl_jsys_flws_map::$kplb,
-                    Zfzl_jsys_flws_map::$CJR,
-                    Zfzl_jsys_flws_map::$CJRQ,
-                    Zfzl_jsys_flws_map::$SPR,
-                    Zfzl_jsys_flws_map::$SPSJ,
-                    Zfzl_jsys_flws_map::$STATUS,
-                    Zfzl_jsys_flws_map::$KP_FLWSSCORE,
-                    Zfzl_jsys_flws_map::$xmbh,
-                    Zfzl_jsys_flws_map::$KP_TIME
+                    Zfzl_aqjc_flws_map::$FLWS,
+                    Zfzl_aqjc_flws_map::$ItemId,
+                    Zfzl_aqjc_flws_map::$kplb,
+                    Zfzl_aqjc_flws_map::$CJR,
+                    Zfzl_aqjc_flws_map::$CJRQ,
+                    Zfzl_aqjc_flws_map::$SPR,
+                    Zfzl_aqjc_flws_map::$SPSJ,
+                    Zfzl_aqjc_flws_map::$STATUS,
+                    Zfzl_aqjc_flws_map::$KP_FLWSSCORE,
+                    Zfzl_aqjc_flws_map::$xmbh,
+                    Zfzl_aqjc_flws_map::$KP_TIME
                 ],
                 substr($flws_sql, 1)
             );

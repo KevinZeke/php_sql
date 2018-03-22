@@ -9,6 +9,7 @@ class Gzpc_xmxx_shys_map extends DB_map {
   static $director = 'gzpc_xmxx_shys.director' ;
   static $status = 'gzpc_xmxx_shys.status' ;
   static $createTime = 'gzpc_xmxx_shys.createTime' ;
+  static $timeLimit = 'gzpc_xmxx_shys.timeLimit' ;
   static $overTime = 'gzpc_xmxx_shys.overTime' ;
   static $recordTime = 'gzpc_xmxx_shys.recordTime' ;
   static function all(){

@@ -24,7 +24,11 @@ class Quantity_HZDC
      */
     public static function clear($sqltool)
     {
-        //TODO
+        //得分表
+        $hzdc_score = new Table(Zfzl_hzdc_score_map::$table_name, $sqltool);
+
+        //清空目标表 TODO：修改清理范围
+        $hzdc_score->truncate();
     }
 
     /**
@@ -138,8 +142,8 @@ class Quantity_HZDC
                 Zfzl_hzdc_score_map::$WS_num,
                 Zfzl_hzdc_score_map::$KP_SCORE,
                 Zfzl_hzdc_score_map::$KP_TRUE_SCORE,
-                Zfzl_hzdc_score_map::$zl_qz,
-                Zfzl_hzdc_score_map::$cbr_qz
+                Zfzl_hzdc_score_map::$cbr_qz,
+                Zfzl_hzdc_score_map::$zl_qz
             ],
             substr($sql, 1)
         );
@@ -234,6 +238,7 @@ class Quantity_HZDC
             }
 
         }
+        self::clear($sqltool);
         if ($score_insert_values != '')
             self::score_insert($sqltool, $score_insert_values);
     }
@@ -265,7 +270,8 @@ class Quantity_HZDC
               recordTime,
               A.kptime AS kptime
             FROM (SELECT * FROM kpdf_huizong WHERE kpdf_huizong.Item_Type = \'hzdc\') A
-              RIGHT JOIN gzpc_flws_hzdc ON A.flwsID = gzpc_flws_hzdc.itemId
+              LEFT JOIN gzpc_flws_hzdc ON A.flwsID = gzpc_flws_hzdc.itemId
+              AND A.Item_BH = gzpc_flws_hzdc.taskId
         ');
         $flws_sql = '';
         $flws_info->each_row(function ($row) use (&$flws_sql) {

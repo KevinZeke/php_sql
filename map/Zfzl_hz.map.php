@@ -20,8 +20,14 @@ class Zfzl_hz_map extends DB_map {
   static $jsys_lxqz = 'zfzl_hz.jsys_lxqz' ;
   static $bacc_lxqz = 'zfzl_hz.bacc_lxqz' ;
   static $zfzl_hz = 'zfzl_hz.zfzl_hz' ;
+  static $zfzl_df = 'zfzl_hz.zfzl_df' ;
   static $id = 'zfzl_hz.id' ;
   static $dd_name = 'zfzl_hz.dd_name' ;
+  static $xzcf_count = 'zfzl_hz.xzcf_count' ;
+  static $jsys_count = 'zfzl_hz.jsys_count' ;
+  static $bacc_count = 'zfzl_hz.bacc_count' ;
+  static $jdjc_count = 'zfzl_hz.jdjc_count' ;
+  static $hzdc_count = 'zfzl_hz.hzdc_count' ;
   static function all(){
             //return parent::all();
         }

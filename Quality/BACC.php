@@ -24,7 +24,11 @@ class Quantity_BACC
      */
     public static function clear($sqltool)
     {
-        //TODO
+        //得分表
+        $bacc_score = new Table(Zfzl_bacc_score_map::$table_name, $sqltool);
+
+        //清空目标表 TODO：修改清理范围
+        $bacc_score->truncate();
     }
 
     /**
@@ -225,6 +229,7 @@ class Quantity_BACC
             }
 
         }
+        self::clear($sqltool);
         if ($score_insert_values != '')
             self::score_insert($sqltool, $score_insert_values);
     }
@@ -252,7 +257,7 @@ class Quantity_BACC
               recordTime,
               A.kptime AS kptime
             FROM (SELECT * FROM kpdf_huizong WHERE kpdf_huizong.Item_Type = \'bacc\') A
-            RIGHT JOIN gzpc_flws_bacc ON A.flwsID = gzpc_flws_bacc.itemId
+            LEFT JOIN gzpc_flws_bacc ON A.flwsID = gzpc_flws_bacc.itemId
             AND A.Item_BH = gzpc_flws_bacc.projectId
         ');
         $flws_sql = '';

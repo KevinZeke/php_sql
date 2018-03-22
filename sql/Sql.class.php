@@ -53,6 +53,11 @@ class Sql_tool
         return (new Sql_tool())->connect($host, $user, $password, $database);
     }
 
+    static function build_by_db($database = 'huaianzhd_db')
+    {
+        return (new Sql_tool())->connect('localhost', 'root', '123456', $database);
+    }
+
     /**
      * @param mysqli|Sql_tool $db
      * @return Sql_tool
@@ -409,6 +414,7 @@ class SqlResult
     {
         if ($this->sql_res == null) return null;
         while (!!$row = call_user_func_array(array($this->sql_res, $fetch_style), [])) {
+            $row['__num_rows__'] = $this->sql_res->num_rows;
             $callback($row);
         }
     }

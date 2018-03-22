@@ -15,6 +15,9 @@ class Kpdf_hzsgrdfhjds_map extends DB_map {
   static $hzsgrdfhjds_f = 'kpdf_hzsgrdfhjds.hzsgrdfhjds_f' ;
   static $hzsgrdfhjds_g = 'kpdf_hzsgrdfhjds.hzsgrdfhjds_g' ;
   static $hzsgrdfhjds_h = 'kpdf_hzsgrdfhjds.hzsgrdfhjds_h' ;
+  static $hzsgrdfhjds_i = 'kpdf_hzsgrdfhjds.hzsgrdfhjds_i' ;
+  static $hzsgrdfhjds_j = 'kpdf_hzsgrdfhjds.hzsgrdfhjds_j' ;
+  static $hzsgrdfhjds_k = 'kpdf_hzsgrdfhjds.hzsgrdfhjds_k' ;
   static $hzsgrdfhjds_Sum = 'kpdf_hzsgrdfhjds.hzsgrdfhjds_Sum' ;
   static $hzsgrdfhjds_Result = 'kpdf_hzsgrdfhjds.hzsgrdfhjds_Result' ;
   static $num_id = 'kpdf_hzsgrdfhjds.num_id' ;

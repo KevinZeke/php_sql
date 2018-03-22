@@ -5,6 +5,7 @@ class Gzpc_xmxx_jdjc_map extends DB_map {
   static $id = 'gzpc_xmxx_jdjc.id' ;
   static $projectId = 'gzpc_xmxx_jdjc.projectId' ;
   static $projectType = 'gzpc_xmxx_jdjc.projectType' ;
+  static $sonType = 'gzpc_xmxx_jdjc.sonType' ;
   static $unitName = 'gzpc_xmxx_jdjc.unitName' ;
   static $unitType = 'gzpc_xmxx_jdjc.unitType' ;
   static $timeLimit = 'gzpc_xmxx_jdjc.timeLimit' ;

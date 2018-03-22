@@ -10,6 +10,7 @@ class Gzpc_xmxx_bacc_map extends DB_map {
   static $director = 'gzpc_xmxx_bacc.director' ;
   static $status = 'gzpc_xmxx_bacc.status' ;
   static $createTime = 'gzpc_xmxx_bacc.createTime' ;
+  static $timeLimit = 'gzpc_xmxx_bacc.timeLimit' ;
   static $overTime = 'gzpc_xmxx_bacc.overTime' ;
   static $recordTime = 'gzpc_xmxx_bacc.recordTime' ;
   static function all(){

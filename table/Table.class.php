@@ -50,11 +50,15 @@ class Table
      * Table constructor.
      * @param $tableName 表名
      * @param $sqlTool SqlTool工具类实例
+     * @param null $as_name
      */
-    public function __construct($tableName, $sqlTool)
+    public function __construct($tableName, $sqlTool, $as_name = null)
     {
         $this->tableName = $tableName;
         $this->sqlTool = $sqlTool;
+        if ($as_name != null && $as_name != '') {
+            $this->tableName = ' (' . $tableName . ') '.$as_name.' ';
+        }
     }
 
     //以下两个函数为自定义sql语句查询，接收完整的sql语句字符串作为参数

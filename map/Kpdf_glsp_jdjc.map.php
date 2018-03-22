@@ -22,7 +22,6 @@ class Kpdf_glsp_jdjc_map extends DB_map {
   static $glsp_o = 'kpdf_glsp_jdjc.glsp_o' ;
   static $glsp_p = 'kpdf_glsp_jdjc.glsp_p' ;
   static $glsp_q = 'kpdf_glsp_jdjc.glsp_q' ;
-  static $glsp_r = 'kpdf_glsp_jdjc.glsp_r' ;
   static $glsp_Result = 'kpdf_glsp_jdjc.glsp_Result' ;
   static $kptime = 'kpdf_glsp_jdjc.kptime' ;
   static $num_id = 'kpdf_glsp_jdjc.num_id' ;

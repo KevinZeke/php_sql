@@ -7,6 +7,8 @@ require_once __DIR__ . '/../table/Table.class.php';
 require_once __DIR__ . '/../map/Zfzl_hz.map.php';
 require_once __DIR__ . '/../efficiency.php';
 require_once __DIR__ . '/../video.php';
+require_once __DIR__ . '/../effect.php';
+require_once __DIR__ . '/../capacity.php';
 
 class ALL extends Table_group
 {
@@ -111,6 +113,14 @@ class ALL extends Table_group
         $afr = video($mysqli_zx, $mysqli, $date);
 
         echo "      *Video finished , affect rows : $afr | ";
+
+        $afr = effect($mysqli, $date);
+
+        echo "      *Effect finished , affect rows : $afr | ";
+
+        $afr = capacity($mysqli, $date);
+
+        echo "      *capacity finished , affect rows : $afr | ";
 
         $sqlTool_hazd = Sql_tool::build_by_mysqli($mysqli);
 //        $sqlTool_zxpg = Sql_tool::build_by_mysqli($mysqli_zx);

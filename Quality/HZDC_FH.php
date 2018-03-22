@@ -138,8 +138,8 @@ class Quantity_HZDC_FH
                 Zfzl_hzdc_score_map::$WS_num,
                 Zfzl_hzdc_score_map::$KP_SCORE,
                 Zfzl_hzdc_score_map::$KP_TRUE_SCORE,
-                Zfzl_hzdc_score_map::$zl_qz,
-                Zfzl_hzdc_score_map::$cbr_qz
+                Zfzl_hzdc_score_map::$cbr_qz,
+                Zfzl_hzdc_score_map::$zl_qz
             ],
             substr($sql, 1)
         );
@@ -182,7 +182,7 @@ class Quantity_HZDC_FH
             (
             SELECT *
             FROM gzpc_xmxx_hzdc_fh A 
-            LEFT JOIN (SELECT * FROM kpdf_huizong WHERE Item_Type = \'hzdc\') B
+            LEFT JOIN (SELECT * FROM kpdf_huizong WHERE Item_Type = \'hzdc_fh\') B
             ON A.taskId = B.Item_BH
             ) C
             WHERE kplb IS NOT NULL
@@ -264,8 +264,8 @@ class Quantity_HZDC_FH
               status,
               recordTime,
               kptime
-            FROM (SELECT * FROM kpdf_huizong WHERE kpdf_huizong.Item_Type = \'hzdc\') A
-              RIGHT JOIN gzpc_flws_hzdc ON A.flwsID = gzpc_flws_hzdc.itemId
+            FROM (SELECT * FROM kpdf_huizong WHERE kpdf_huizong.Item_Type = \'hzdc_fh\') A
+              LEFT JOIN gzpc_flws_hzdc ON A.flwsID = gzpc_flws_hzdc.itemId
         ');
         $flws_sql = '';
         $flws_info->each_row(function ($row) use (&$flws_sql) {

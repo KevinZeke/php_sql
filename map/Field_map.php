@@ -47,5 +47,15 @@ class Field_map
     public static $send_to_CBRJLDCount = 'Send_To_CBRJLDCount';
     public static $send_to_DDZDZGSCORE = 'Send_To_DDZDZGSCORE';
     public static $send_to_DDZDZGCount = 'Send_To_DDZDZGCount';
+    public static $kp_time = 'kp_time';
+
+    //zfsp
+    public static $sp_url = 'sp_url';
+    public static $most_kf = 'most_kf';
+
+    public static function glsp($id)
+    {
+        return 'glsp_' . $id;
+    }
 
 }

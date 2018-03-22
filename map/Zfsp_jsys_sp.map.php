@@ -1,0 +1,29 @@
+<?php 
+require_once __DIR__.'/DB_map.class.php';
+class Zfsp_jsys_sp_map extends DB_map {
+  static $table_name = 'zfsp_jsys_sp' ;
+  static $Item_num = 'zfsp_jsys_sp.Item_num' ;
+  static $sp_url = 'zfsp_jsys_sp.sp_url' ;
+  static $Most_Kf = 'zfsp_jsys_sp.Most_Kf' ;
+  static $glsp_a = 'zfsp_jsys_sp.glsp_a' ;
+  static $glsp_b = 'zfsp_jsys_sp.glsp_b' ;
+  static $glsp_c = 'zfsp_jsys_sp.glsp_c' ;
+  static $glsp_d = 'zfsp_jsys_sp.glsp_d' ;
+  static $glsp_e = 'zfsp_jsys_sp.glsp_e' ;
+  static $glsp_f = 'zfsp_jsys_sp.glsp_f' ;
+  static $glsp_g = 'zfsp_jsys_sp.glsp_g' ;
+  static $glsp_h = 'zfsp_jsys_sp.glsp_h' ;
+  static $glsp_i = 'zfsp_jsys_sp.glsp_i' ;
+  static $glsp_j = 'zfsp_jsys_sp.glsp_j' ;
+  static $glsp_k = 'zfsp_jsys_sp.glsp_k' ;
+  static $glsp_l = 'zfsp_jsys_sp.glsp_l' ;
+  static $glsp_m = 'zfsp_jsys_sp.glsp_m' ;
+  static $glsp_n = 'zfsp_jsys_sp.glsp_n' ;
+  static $glsp_o = 'zfsp_jsys_sp.glsp_o' ;
+  static $glsp_Result = 'zfsp_jsys_sp.glsp_Result' ;
+  static $kptime = 'zfsp_jsys_sp.kptime' ;
+  static $num_id = 'zfsp_jsys_sp.num_id' ;
+  static function all(){
+            //return parent::all();
+        }
+}

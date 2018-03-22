@@ -15,6 +15,7 @@ require_once __DIR__ . '/../map/Zfzl_jdjc_score.map.php';
 require_once __DIR__ . '/../map/Zfzl_xzcf_score.map.php';
 require_once __DIR__ . '/../map/Zfzl_bacc_score.map.php';
 require_once __DIR__ . '/../map/Zfzl_jsys_score.map.php';
+require_once __DIR__ . '/../map/Zfzl_aqjc_score.map.php';
 
 
 class Quantity extends Table_group
@@ -29,6 +30,8 @@ class Quantity extends Table_group
     public static $jdjc_2_quantity;
 
     public static $bacc_2_quantity;
+
+    public static $aqjc_2_quantity;
 
 
     public static $coef = null;
@@ -224,14 +227,26 @@ class Quantity extends Table_group
         return $res;
     }
 
+    /**
+     * @param string $project_type
+     * @return float|int
+     */
     public static function get_jdjc_xx_coef($project_type)
     {
         $xx_coef = 1;
         if ($project_type == '消防监督抽查') {
             $xx_coef = (double)self::$coef['rcjdjc'];
-        } elseif ($project_type == '对举报、投诉的检查') {
+        } elseif (
+            $project_type == '对举报、投诉的检查'||
+            $project_type == '对举报投诉的检查' ||
+            $project_type == '对举报投诉的检查(复查)'||
+            $project_type == '对举报投诉的检查（复查）'
+        ) {
             $xx_coef = (double)self::$coef['jbts'];
-        } elseif ($project_type == '大型群众性活动举办前的检查') {
+        } elseif (
+            $project_type == '大型群众性活动举办前的检查'||
+            $project_type == '大型活动举办前检查'
+        ) {
             $xx_coef = (double)self::$coef['jbq'];
         } elseif ($project_type == '建设工程施工工地检查') {
             $xx_coef = (double)self::$coef['sggd'];
@@ -243,7 +258,13 @@ class Quantity extends Table_group
             $project_type == '责令限期改正复查' ||
             $project_type == '申请恢复施工、使用、生产、经营的检查' ||
             $project_type == '申请解除临时查封的检查' ||
-            $project_type == '其他检查(复查)') {
+            $project_type == '申请解除临时查封的检查(复查)' ||
+            $project_type == '申请解除临时查封的检查（复查）' ||
+            $project_type == '其他检查(复查)'||
+            $project_type == '其他检查（复查）'||
+            $project_type == '其他检查(三停检查)'||
+            $project_type == '其他检查（三停检查）'
+        ) {
             $xx_coef = (double)self::$coef['fc'];
         } elseif ($project_type == '公众聚集场所投入使用、营业前消防安全检查') {
             $xx_coef = (double)self::$coef['trsy'];
@@ -262,6 +283,64 @@ class Quantity extends Table_group
         } elseif ($project_type == '认定复核' || $project_type == '复核')
             return Quantity::$coef['rdfh'];
         return Quantity::$coef['jydc'];
+    }
+
+    /**
+     * @param array $row
+     */
+    public static function change_type(&$row)
+    {
+        if (!array_key_exists(Q_field::$proeject_type, $row))
+            return;
+        if ($row[Q_field::$proeject_type] == '消防监督抽查') {
+
+            $row[Q_field::$proeject_type] = '日常监督检查';
+
+        } elseif (
+            $row[Q_field::$proeject_type] == '对举报、投诉的检查'||
+            $row[Q_field::$proeject_type] == '对举报投诉的检查' ||
+            $row[Q_field::$proeject_type] == '对举报投诉的检查(复查)'||
+            $row[Q_field::$proeject_type] == '对举报投诉的检查（复查）'
+        ) {
+
+            $row[Q_field::$proeject_type] = '举报投诉检查';
+
+        } elseif (
+            $row[Q_field::$proeject_type] == '大型群众性活动举办前的检查'||
+            $row[Q_field::$proeject_type] == '大型活动举办前检查'
+        ) {
+
+            $row[Q_field::$proeject_type] = '举办前安全检查';
+
+        } elseif ($row[Q_field::$proeject_type] == '建设工程施工工地检查') {
+
+            $row[Q_field::$proeject_type] = '施工工地检查';
+
+        } elseif ($row[Q_field::$proeject_type] == '派出所日常监督检查') {
+
+            $row[Q_field::$proeject_type] = '日常监督检查';
+
+        } elseif ($row[Q_field::$proeject_type] == '其他检查') {
+
+            $row[Q_field::$proeject_type] = '其他检查';
+
+        } elseif (
+            $row[Q_field::$proeject_type] == '责令限期改正复查' ||
+            $row[Q_field::$proeject_type] == '申请恢复施工、使用、生产、经营的检查' ||
+            $row[Q_field::$proeject_type] == '申请解除临时查封的检查' ||
+            $row[Q_field::$proeject_type] == '申请解除临时查封的检查(复查)' ||
+            $row[Q_field::$proeject_type] == '申请解除临时查封的检查（复查）' ||
+            $row[Q_field::$proeject_type] == '其他检查(复查)'||
+            $row[Q_field::$proeject_type] == '其他检查（复查）'||
+            $row[Q_field::$proeject_type] == '其他检查(三停检查)'||
+            $row[Q_field::$proeject_type] == '其他检查（三停检查）'
+        ) {
+
+            $row[Q_field::$proeject_type] = '复查';
+
+        } elseif ($row[Q_field::$proeject_type] == '公众聚集场所投入使用、营业前消防安全检查') {
+            $row[Q_field::$proeject_type] = '投入使用营业前安全检查';
+        }
     }
 
     /**
@@ -287,7 +366,7 @@ class Quantity extends Table_group
             case 'jdjc':
                 $xx_coef = self::get_jdjc_xx_coef($project_type);
 //                cmd_iconv($project_type);
-                echo $xx_coef;
+                //echo $xx_coef;
                 $score = [
                     'zhu' => $total_score * (double)self::$coef['zbr'] * $xx_coef,
                     'xie' => $total_score * (double)self::$coef['xbr'] * $xx_coef
@@ -445,6 +524,20 @@ class Quantity extends Table_group
         );
     }
 
+    public static function insert_aqjc($mysqli, $param)
+    {
+        return (new Table(Zfzl_hz_map::$table_name, Sql_tool::build_by_mysqli($mysqli)))->union_insert(
+            [
+                Zfzl_aqjc_score_map::$table_name,
+            ],
+            self::$aqjc_2_quantity,
+            $param . Sql_tool::GROUP([
+                Zfzl_aqjc_score_map::$OVERTIME,
+                Zfzl_aqjc_score_map::$name
+            ])
+        );
+    }
+
     /**
      * @param mysqli|Sql_tool $db
      * @param null|string|array $date
@@ -516,6 +609,16 @@ class Quantity extends Table_group
 
         echo "      *jsys finished , affect rows : $afr | ";
 
+        $afr = self::insert_aqjc(
+            $mysqli,
+            parent::format_date(
+                Zfzl_aqjc_score_map::$OVERTIME,
+                $date
+            )
+        );
+
+        echo "      *aqjc finished , affect rows : $afr | ";
+
         $sqlTool = Sql_tool::build_by_mysqli($mysqli);
 
         $coef = $sqlTool->execute_dql_res(
@@ -532,18 +635,26 @@ class Quantity extends Table_group
                     Sql_tool::SUM(Zfzl_hz_map::$zfzl_hzdcc) => 'hzdc_',
                     Sql_tool::SUM(Zfzl_hz_map::$zfzl_bacc) => 'bacc_',
                     Sql_tool::SUM(Zfzl_hz_map::$zfzl_xzcf) => 'xzcf_',
+
                     Sql_tool::SUM(Zfzl_hz_map::$zfzl_jdjc_truescore) => 'jdjc',
                     Sql_tool::SUM(Zfzl_hz_map::$zfzl_jsys_truescore) => 'jsys',
                     Sql_tool::SUM(Zfzl_hz_map::$zfzl_hzdc_truescore) => 'hzdc',
                     Sql_tool::SUM(Zfzl_hz_map::$zfzl_bacc_truescore) => 'bacc',
                     Sql_tool::SUM(Zfzl_hz_map::$zfzl_xzcf_truescore) => 'xzcf',
+
+                    Sql_tool::SUM(Zfzl_hz_map::$xzcf_count) => 'xzcf_c',
+                    Sql_tool::SUM(Zfzl_hz_map::$jsys_count) => 'jsys_c',
+                    Sql_tool::SUM(Zfzl_hz_map::$hzdc_count) => 'hzdc_c',
+                    Sql_tool::SUM(Zfzl_hz_map::$bacc_count) => 'bacc_c',
+                    Sql_tool::SUM(Zfzl_hz_map::$jdjc_count) => 'jdjc_c',
+
                     Zfzl_hz_map::$name => 'n',
                     Zfzl_hz_map::$SJ => 'y',
                     Zfzl_hz_map::$dd_name => 'd'
                 ],
                 [
                     Zfzl_hz_map::$name,
-                    Zfzl_hz_map::$SJ,
+                    Zfzl_hz_map::$SJ
                 ],
                 parent::format_date(
                     Zfzl_hz_map::$SJ,
@@ -581,11 +692,25 @@ class Quantity extends Table_group
                     ($row['bacc'] * $coef['bacc']) +
                     ($row['xzcf'] * $coef['xzcf'])
                 ) . ',' .
+                (
+                    ($row['jdjc']) +
+                    ($row['jsys']) +
+                    ($row['hzdc']) +
+                    ($row['bacc']) +
+                    ($row['xzcf'])
+                ) . ',' .
                 $coef['bacc'] . ',' .
                 $coef['jdjc'] . ',' .
                 $coef['hzdc'] . ',' .
                 $coef['xzcf'] . ',' .
                 $coef['jsys'] . ',' .
+
+                $row['bacc_c'] . ',' .
+                $row['jdjc_c'] . ',' .
+                $row['hzdc_c'] . ',' .
+                $row['xzcf_c'] . ',' .
+                $row['jsys_c'] . ',' .
+
                 Sql_tool::QUOTE($row['n']) . ',' .
                 Sql_tool::QUOTE($row['y']) . ',' .
                 Sql_tool::QUOTE($row['d']) . ')';
@@ -605,6 +730,7 @@ class Quantity extends Table_group
                     Zfzl_hz_map::$zfzl_bacc_truescore,
                     Zfzl_hz_map::$zfzl_xzcf_truescore,
                     Zfzl_hz_map::$zfzl_hz,
+                    Zfzl_hz_map::$zfzl_df,
                     //qz
                     Zfzl_hz_map::$bacc_lxqz,
                     Zfzl_hz_map::$jdjc_lxqz,
@@ -612,6 +738,13 @@ class Quantity extends Table_group
                     Zfzl_hz_map::$xzcf_lxqz,
                     Zfzl_hz_map::$jsys_lxqz,
                     //qz
+                    //count
+                    Zfzl_hz_map::$bacc_count,
+                    Zfzl_hz_map::$jdjc_count,
+                    Zfzl_hz_map::$hzdc_count,
+                    Zfzl_hz_map::$xzcf_count,
+                    Zfzl_hz_map::$jsys_count,
+
                     Zfzl_hz_map::$name,
                     Zfzl_hz_map::$SJ,
                     Zfzl_hz_map::$dd_name
@@ -625,40 +758,70 @@ class Quantity extends Table_group
 }
 
 Quantity::$police_dd_map = get_police_dadui_map();
+
+//ls
+$sqltool_zxpg = Sql_tool::build(
+    'localhost', 'root', '123456', 'zxpg_gzpc_db'
+);
+$coef = $sqltool_zxpg->execute_dql_res(
+    'SELECT xzcf,jdjc,hzdc,bacc,jsys FROM `qz_zfzl`'
+)->fetch();
+$sqltool_zxpg->close();
+//ls
+
 Quantity::$hzdc_2_quantity = [
     Zfzl_hz_map::$name => Zfzl_hzdc_score_map::$name,
     Zfzl_hz_map::$dd_name => Zfzl_hzdc_score_map::$dadui,
     Zfzl_hz_map::$SJ => Zfzl_hzdc_score_map::$OVERTIME,
-    Zfzl_hz_map::$zfzl_hzdcc => Zfzl_hzdc_score_map::$KP_SCORE,
-    Zfzl_hz_map::$zfzl_hzdc_truescore => Zfzl_hzdc_score_map::$KP_TRUE_SCORE
+    Zfzl_hz_map::$zfzl_hzdcc => Sql_tool::SUM(Zfzl_hzdc_score_map::$KP_TRUE_SCORE),
+    Zfzl_hz_map::$zfzl_hzdc_truescore => Sql_tool::SUM(Zfzl_hzdc_score_map::$KP_TRUE_SCORE) //. '*' . $coef['hzdc'],
+    ,
+    Zfzl_hz_map::$hzdc_count => 1
 ];
 Quantity::$xzcf_2_quantity = [
     Zfzl_hz_map::$name => Zfzl_xzcf_score_map::$name,
     Zfzl_hz_map::$dd_name => Zfzl_xzcf_score_map::$dadui,
     Zfzl_hz_map::$SJ => Zfzl_xzcf_score_map::$OVERTIME,
-    Zfzl_hz_map::$zfzl_xzcf => Zfzl_xzcf_score_map::$KP_SCORE,
-    Zfzl_hz_map::$zfzl_xzcf_truescore => Zfzl_xzcf_score_map::$KP_TRUE_SCORE
+    Zfzl_hz_map::$zfzl_xzcf => Sql_tool::SUM(Zfzl_xzcf_score_map::$KP_TRUE_SCORE),
+    Zfzl_hz_map::$zfzl_xzcf_truescore => Sql_tool::SUM(Zfzl_xzcf_score_map::$KP_TRUE_SCORE) //. '*' . $coef['xzcf']
+    ,
+    Zfzl_hz_map::$xzcf_count => 1
 ];
 Quantity::$jdjc_2_quantity = [
     Zfzl_hz_map::$name => Zfzl_jdjc_score_map::$name,
     Zfzl_hz_map::$dd_name => Zfzl_jdjc_score_map::$dadui,
     Zfzl_hz_map::$SJ => Zfzl_jdjc_score_map::$OVERTIME,
-    Zfzl_hz_map::$zfzl_jdjc => Zfzl_jdjc_score_map::$KP_SCORE,
-    Zfzl_hz_map::$zfzl_jdjc_truescore => Zfzl_jdjc_score_map::$KP_TRUE_SCORE
+    Zfzl_hz_map::$zfzl_jdjc => Sql_tool::SUM(Zfzl_jdjc_score_map::$KP_TRUE_SCORE),
+    Zfzl_hz_map::$zfzl_jdjc_truescore => Sql_tool::SUM(Zfzl_jdjc_score_map::$KP_TRUE_SCORE) //. '*' . $coef['jdjc']
+    ,
+    Zfzl_hz_map::$jdjc_count => 1
 ];
 Quantity::$bacc_2_quantity = [
     Zfzl_hz_map::$name => Zfzl_bacc_score_map::$name,
     Zfzl_hz_map::$dd_name => Zfzl_bacc_score_map::$dadui,
     Zfzl_hz_map::$SJ => Zfzl_bacc_score_map::$overtime,
-    Zfzl_hz_map::$zfzl_bacc => Zfzl_bacc_score_map::$kp_score,
-    Zfzl_hz_map::$zfzl_bacc_truescore => Zfzl_bacc_score_map::$kp_true_score
+    Zfzl_hz_map::$zfzl_bacc => Sql_tool::SUM(Zfzl_bacc_score_map::$kp_true_score),
+    Zfzl_hz_map::$zfzl_bacc_truescore => Sql_tool::SUM(Zfzl_bacc_score_map::$kp_true_score) //. '*' . $coef['bacc']
+    ,
+    Zfzl_hz_map::$bacc_count => 1
 ];
 Quantity::$jsys_2_quantity = [
     Zfzl_hz_map::$name => Zfzl_jsys_score_map::$name,
     Zfzl_hz_map::$dd_name => Zfzl_jsys_score_map::$dadui,
     Zfzl_hz_map::$SJ => Zfzl_jsys_score_map::$OVERTIME,
-    Zfzl_hz_map::$zfzl_jsys => Zfzl_jsys_score_map::$KP_SCORE,
-    Zfzl_hz_map::$zfzl_jsys_truescore => Zfzl_jsys_score_map::$KP_TRUE_SCORE
+    Zfzl_hz_map::$zfzl_jsys => Sql_tool::SUM(Zfzl_jsys_score_map::$KP_TRUE_SCORE),
+    Zfzl_hz_map::$zfzl_jsys_truescore => Sql_tool::SUM(Zfzl_jsys_score_map::$KP_TRUE_SCORE) //. '*' . $coef['jsys']
+    ,
+    Zfzl_hz_map::$jsys_count => 1
+];
+Quantity::$aqjc_2_quantity = [
+    Zfzl_hz_map::$name => Zfzl_aqjc_score_map::$name,
+    Zfzl_hz_map::$dd_name => Zfzl_aqjc_score_map::$dadui,
+    Zfzl_hz_map::$SJ => Zfzl_aqjc_score_map::$OVERTIME,
+    Zfzl_hz_map::$zfzl_jsys => Sql_tool::SUM(Zfzl_aqjc_score_map::$KP_TRUE_SCORE),
+    Zfzl_hz_map::$zfzl_jsys_truescore => Sql_tool::SUM(Zfzl_aqjc_score_map::$KP_TRUE_SCORE) //. '*' . $coef['jsys']
+    ,
+    Zfzl_hz_map::$jsys_count => 1
 ];
 
 

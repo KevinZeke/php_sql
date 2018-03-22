@@ -24,7 +24,11 @@ class Quantity_JDJC
      */
     public static function clear($sqltool)
     {
-        //TODO
+        //得分表
+        $jdjc_score = new Table(Zfzl_jdjc_score_map::$table_name, $sqltool);
+
+        //清空目标表 TODO：修改清理范围
+        $jdjc_score->truncate();
     }
 
     /**
@@ -52,6 +56,8 @@ class Quantity_JDJC
             $item_info[Q_field::$proeject_type]
         );
 
+        Quantity::change_type($item_info);
+
         $sql .= ',' . Table::format_insert_value([
                 $directors->zhu,
                 Quantity::$police_dd_map[$directors->zhu],
@@ -62,6 +68,7 @@ class Quantity_JDJC
 //                $item_info[Q_field::$unit_name],
                 $item_info[Q_field::$status],
                 $item_info[Q_field::$proeject_type],
+                $item_info[Q_field::$unit_name],
                 $item_info[Q_field::$item_total_score],
                 $real_score['zhu'],
 //                $item_info[Q_field::$real_item_total_score]['zhu'],
@@ -81,6 +88,7 @@ class Quantity_JDJC
 //                $item_info[Q_field::$unit_name],
                     $item_info[Q_field::$status],
                     $item_info[Q_field::$proeject_type],
+                    $item_info[Q_field::$unit_name],
                     $item_info[Q_field::$item_total_score],
                     $real_score['xie'],
 //                    $item_info[Q_field::$real_item_total_score]['xie'],
@@ -102,7 +110,7 @@ class Quantity_JDJC
         $jdjc_score = new Table(Zfzl_jdjc_score_map::$table_name, $sqltool);
 
         //清空目标表 TODO：修改清理范围
-        $jdjc_score->truncate();
+//        $jdjc_score->truncate();
 
         //进行插入操作
         $afr = $jdjc_score->multi_insert(
@@ -115,11 +123,12 @@ class Quantity_JDJC
                 Zfzl_jdjc_score_map::$JCQX,
                 Zfzl_jdjc_score_map::$JCQK,
                 Zfzl_jdjc_score_map::$xmlx,
+                Zfzl_jdjc_score_map::$DWMC,
                 Zfzl_jdjc_score_map::$KP_SCORE,
                 Zfzl_jdjc_score_map::$KP_TRUE_SCORE,
                 Zfzl_jdjc_score_map::$WS_num,
-                Zfzl_jdjc_score_map::$zl_qz,
-                Zfzl_jdjc_score_map::$cbr_qz
+                Zfzl_jdjc_score_map::$cbr_qz,
+                Zfzl_jdjc_score_map::$zl_qz
             ],
             substr($sql, 1)
         );
@@ -211,6 +220,7 @@ class Quantity_JDJC
             }
 
         }
+        self::clear($sqltool);
         if ($score_insert_values != '')
             self::score_insert($sqltool, $score_insert_values);
     }
@@ -238,7 +248,7 @@ class Quantity_JDJC
               recordTime   ,
               A.kptime AS kptime
             FROM (SELECT * FROM kpdf_huizong WHERE kpdf_huizong.Item_Type = \'jdjc\') A
-              RIGHT JOIN gzpc_flws_jdjc ON A.flwsID = gzpc_flws_jdjc.itemId
+              LEFT JOIN gzpc_flws_jdjc ON A.flwsID = gzpc_flws_jdjc.itemId
               AND A.Item_BH = gzpc_flws_jdjc.projectId
               ; 
         ');
