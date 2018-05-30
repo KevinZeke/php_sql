@@ -438,7 +438,7 @@ JDJC_formula::$jcdw_basic_2_sub = [
 ];
 JDJC_formula::$jcdw_basic_2_sub[Quantity_jcdw_gr_score_map::$jcdw_tol_score] = Formula::plus([
     JDJC_formula::$jcdw_basic_2_sub[Quantity_jcdw_gr_score_map::$rcjdjc_zxdf],
-    JDJC_formula::$jcdw_basic_2_sub[Quantity_jcdw_gr_score_map::$yyq_aqjc_zxdf],
+    //JDJC_formula::$jcdw_basic_2_sub[Quantity_jcdw_gr_score_map::$yyq_aqjc_zxdf],
     JDJC_formula::$jcdw_basic_2_sub[Quantity_jcdw_gr_score_map::$jbq_aqjc_zxdf],
     JDJC_formula::$jcdw_basic_2_sub[Quantity_jcdw_gr_score_map::$jbts_jc_zxdf],
     JDJC_formula::$jcdw_basic_2_sub[Quantity_jcdw_gr_score_map::$sggd_jc_zxdf],
@@ -480,7 +480,7 @@ JDJC_formula::$dczg_2_jcdc = [
     Jiancha_and_jiangduo_gr_nbr_map::$year_month_show =>
         Quantity_dczghzyhwf_gr_score_map::$year_month_show,
     Jiancha_and_jiangduo_gr_nbr_map::$DCZGHZYHS_DF =>
-        Quantity_dczghzyhwf_gr_score_map::$dczghzyhwf_score
+        Sql_tool::SUM(Quantity_dczghzyhwf_gr_score_map::$dczghzyhwf_score)
 ];
 
 JDJC_formula::$fxhz_2_jcdc = [
@@ -491,7 +491,7 @@ JDJC_formula::$fxhz_2_jcdc = [
     Jiancha_and_jiangduo_gr_nbr_map::$year_month_show =>
         Quantity_fxhzyh_gr_score_map::$year_month_show,
     Jiancha_and_jiangduo_gr_nbr_map::$FXHZYHWFXWS_DF =>
-        Quantity_fxhzyh_gr_score_map::$fxhzyh_score
+        Sql_tool::SUM(Quantity_fxhzyh_gr_score_map::$fxhzyh_score)
 ];
 
 JDJC_formula::$xfls_2_jcdc = [
@@ -502,7 +502,7 @@ JDJC_formula::$xfls_2_jcdc = [
     Jiancha_and_jiangduo_gr_nbr_map::$year_month_show =>
         Quantity_xflscf_gr_score_map::$year_month_show,
     Jiancha_and_jiangduo_gr_nbr_map::$XFLSCFJDSS_DF =>
-        Quantity_xflscf_gr_score_map::$xflscf_score
+        Sql_tool::SUM(Quantity_xflscf_gr_score_map::$xflscf_score)
 ];
 
 JDJC_formula::$jcdw_2_jcdc = [
@@ -513,7 +513,7 @@ JDJC_formula::$jcdw_2_jcdc = [
     Jiancha_and_jiangduo_gr_nbr_map::$year_month_show =>
         Quantity_jcdw_gr_score_map::$year_month_show,
     Jiancha_and_jiangduo_gr_nbr_map::$JCDWS_DF =>
-        Quantity_jcdw_gr_score_map::$jcdw_tol_score
+        Sql_tool::SUM(Quantity_jcdw_gr_score_map::$jcdw_tol_score)
 ];
 
 JDJC_formula::$jdjc_nbr_2_gr = [
@@ -1334,7 +1334,8 @@ class JDJC_group extends Table_group
 
         echo '      *jcdw finished , affect rows : ' . "$jdjc_afr | ";
 
-        $xfls_afr = self::jdjc_insert_xfls(
+        //下发临时查封
+        /*$xfls_afr = self::jdjc_insert_xfls(
             $mysqli,
             parent::format_date(
                 Quantity_xflscf_gr_score_map::$year_month_show,
@@ -1342,7 +1343,7 @@ class JDJC_group extends Table_group
             )
         );
 
-        echo '*xfls finished , affect rows : ' . "$xfls_afr | ";
+        echo '*xfls finished , affect rows : ' . "$xfls_afr | ";*/
 
         $fxhz_afr = self::jdjc_insert_fxhz(
             $mysqli,
@@ -1504,7 +1505,7 @@ class JDJC_group extends Table_group
         self::jcdw_group_update($mysqli, $date);
         self::fxhz_group_update($mysqli, $date);
         self::dczg_group_update($mysqli, $date);
-        self::xfls_group_update($mysqli, $date);
+        //self::xfls_group_update($mysqli, $date);
         self::jdjc_update_nbr_2_gr_by_date($mysqli, $date);
     }
 }

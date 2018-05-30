@@ -16,6 +16,7 @@ require_once __DIR__ . '/../map/Zfzl_xzcf_score.map.php';
 require_once __DIR__ . '/../map/Zfzl_bacc_score.map.php';
 require_once __DIR__ . '/../map/Zfzl_jsys_score.map.php';
 require_once __DIR__ . '/../map/Zfzl_aqjc_score.map.php';
+require_once __DIR__ . '/../map/Zfzl_xzqz_score.map.php';
 
 
 class Quantity extends Table_group
@@ -33,6 +34,8 @@ class Quantity extends Table_group
 
     public static $aqjc_2_quantity;
 
+    public static $xzqz_2_quantity;
+
 
     public static $coef = null;
 
@@ -43,7 +46,7 @@ class Quantity extends Table_group
 
     public static $police_dd_map = null;
 
-    public function format_hzdc_flws_func(&$result_array, $row)
+    public static function format_hzdc_flws_func(&$result_array, $row)
     {
         if (!array_key_exists($row[Q_field::$director], $result_array)) {
             $result_array[$row[Q_field::$director]] = [];
@@ -164,6 +167,12 @@ class Quantity extends Table_group
                         = $row[Q_field::$task_name];
                 }
 
+                //son_type
+                if (array_key_exists(Q_field::$son_type, $row)) {
+                    $result_array[$row[Q_field::$director]][$row[Q_field::$taskId]][Q_field::$son_type]
+                        = $row[Q_field::$son_type];
+                }
+
                 //xm_result
                 if (array_key_exists(Q_field::$xm_result, $row)) {
                     $result_array[$row[Q_field::$director]][$row[Q_field::$taskId]][Q_field::$xm_result]
@@ -237,14 +246,14 @@ class Quantity extends Table_group
         if ($project_type == '消防监督抽查') {
             $xx_coef = (double)self::$coef['rcjdjc'];
         } elseif (
-            $project_type == '对举报、投诉的检查'||
+            $project_type == '对举报、投诉的检查' ||
             $project_type == '对举报投诉的检查' ||
-            $project_type == '对举报投诉的检查(复查)'||
+            $project_type == '对举报投诉的检查(复查)' ||
             $project_type == '对举报投诉的检查（复查）'
         ) {
             $xx_coef = (double)self::$coef['jbts'];
         } elseif (
-            $project_type == '大型群众性活动举办前的检查'||
+            $project_type == '大型群众性活动举办前的检查' ||
             $project_type == '大型活动举办前检查'
         ) {
             $xx_coef = (double)self::$coef['jbq'];
@@ -260,9 +269,9 @@ class Quantity extends Table_group
             $project_type == '申请解除临时查封的检查' ||
             $project_type == '申请解除临时查封的检查(复查)' ||
             $project_type == '申请解除临时查封的检查（复查）' ||
-            $project_type == '其他检查(复查)'||
-            $project_type == '其他检查（复查）'||
-            $project_type == '其他检查(三停检查)'||
+            $project_type == '其他检查(复查)' ||
+            $project_type == '其他检查（复查）' ||
+            $project_type == '其他检查(三停检查)' ||
             $project_type == '其他检查（三停检查）'
         ) {
             $xx_coef = (double)self::$coef['fc'];
@@ -270,6 +279,20 @@ class Quantity extends Table_group
             $xx_coef = (double)self::$coef['trsy'];
         }
         return $xx_coef;
+    }
+
+    /**
+     * @param string $son_type
+     * @return float|int
+     */
+    public static function get_xzqz_xx_coef($son_type)
+    {
+        if ($son_type == '强制执行') {
+            return self::$coef['qzzx'];
+        } elseif ($son_type == '临时查封') {
+            return self::$coef['lscf'];
+        }
+        return 1;
     }
 
     /**
@@ -297,16 +320,16 @@ class Quantity extends Table_group
             $row[Q_field::$proeject_type] = '日常监督检查';
 
         } elseif (
-            $row[Q_field::$proeject_type] == '对举报、投诉的检查'||
+            $row[Q_field::$proeject_type] == '对举报、投诉的检查' ||
             $row[Q_field::$proeject_type] == '对举报投诉的检查' ||
-            $row[Q_field::$proeject_type] == '对举报投诉的检查(复查)'||
+            $row[Q_field::$proeject_type] == '对举报投诉的检查(复查)' ||
             $row[Q_field::$proeject_type] == '对举报投诉的检查（复查）'
         ) {
 
             $row[Q_field::$proeject_type] = '举报投诉检查';
 
         } elseif (
-            $row[Q_field::$proeject_type] == '大型群众性活动举办前的检查'||
+            $row[Q_field::$proeject_type] == '大型群众性活动举办前的检查' ||
             $row[Q_field::$proeject_type] == '大型活动举办前检查'
         ) {
 
@@ -330,9 +353,9 @@ class Quantity extends Table_group
             $row[Q_field::$proeject_type] == '申请解除临时查封的检查' ||
             $row[Q_field::$proeject_type] == '申请解除临时查封的检查(复查)' ||
             $row[Q_field::$proeject_type] == '申请解除临时查封的检查（复查）' ||
-            $row[Q_field::$proeject_type] == '其他检查(复查)'||
-            $row[Q_field::$proeject_type] == '其他检查（复查）'||
-            $row[Q_field::$proeject_type] == '其他检查(三停检查)'||
+            $row[Q_field::$proeject_type] == '其他检查(复查)' ||
+            $row[Q_field::$proeject_type] == '其他检查（复查）' ||
+            $row[Q_field::$proeject_type] == '其他检查(三停检查)' ||
             $row[Q_field::$proeject_type] == '其他检查（三停检查）'
         ) {
 
@@ -347,10 +370,11 @@ class Quantity extends Table_group
      * @param string $item_name
      * @param double $total_score
      * @param string $project_type
+     * @param string $son_type
      * @return array|bool
      * @internal param float $coef
      */
-    public static function coef_count($item_name, $total_score, $project_type = '')
+    public static function coef_count($item_name, $total_score, $project_type = '', $son_type = '')
     {
         switch ($item_name) {
             case 'xzcf':
@@ -360,6 +384,14 @@ class Quantity extends Table_group
 //                  'zhu' => $total_score * (double)$coef['xzcf'] * (double)$coef['zbr'],
                     'xie' => $total_score * (double)self::$coef['xbr']
 //                  'xie' => $total_score * (double)$coef['xzcf'] * (double)$coef['xbr']
+                ];
+                return $score;
+                break;
+            case 'xzqz':
+                $xx_coef = self::get_xzqz_xx_coef($son_type);
+                $score = [
+                    'zhu' => $total_score * (double)self::$coef['zbr'] * $xx_coef,
+                    'xie' => $total_score * (double)self::$coef['xbr'] * $xx_coef
                 ];
                 return $score;
                 break;
@@ -397,7 +429,7 @@ class Quantity extends Table_group
      * @return array|bool
      * @internal param float $coef
      */
-    public static function field_coef_get($item_name, $project_type = '')
+    public static function field_coef_get($item_name, $project_type = '', $son_type = '')
     {
         switch ($item_name) {
             case 'xzcf':
@@ -418,6 +450,17 @@ class Quantity extends Table_group
                     'zl' => $xx_coef
                 ];
 //                print_r($score);
+                return $coef;
+                break;
+            case 'xzqz':
+                $xx_coef = self::get_xzqz_xx_coef($son_type);
+//                cmd_iconv($project_type);
+//                echo $xx_coef;
+                $coef = [
+                    'zhu' => (double)self::$coef['zbr'],
+                    'xie' => (double)self::$coef['xbr'],
+                    'zl' => $xx_coef
+                ];
                 return $coef;
                 break;
             case 'hzdc':
@@ -510,6 +553,20 @@ class Quantity extends Table_group
         );
     }
 
+    public static function insert_xzqz($mysqli, $param)
+    {
+        return (new Table(Zfzl_hz_map::$table_name, Sql_tool::build_by_mysqli($mysqli)))->union_insert(
+            [
+                Zfzl_xzqz_score_map::$table_name,
+            ],
+            self::$xzqz_2_quantity,
+            $param . Sql_tool::GROUP([
+                Zfzl_xzqz_score_map::$OVERTIME,
+                Zfzl_xzqz_score_map::$name
+            ])
+        );
+    }
+
     public static function insert_jsys($mysqli, $param)
     {
         return (new Table(Zfzl_hz_map::$table_name, Sql_tool::build_by_mysqli($mysqli)))->union_insert(
@@ -589,6 +646,16 @@ class Quantity extends Table_group
 
         echo "      *jdjc finished , affect rows : $afr | ";
 
+        $afr = self::insert_xzqz(
+            $mysqli,
+            parent::format_date(
+                Zfzl_xzqz_score_map::$OVERTIME,
+                $date
+            )
+        );
+
+        echo "      *xzqz finished , affect rows : $afr | ";
+
         $afr = self::insert_bacc(
             $mysqli,
             parent::format_date(
@@ -622,7 +689,7 @@ class Quantity extends Table_group
         $sqlTool = Sql_tool::build_by_mysqli($mysqli);
 
         $coef = $sqlTool->execute_dql_res(
-            'SELECT xzcf,jdjc,hzdc,bacc,jsys FROM `qz_zfzl`'
+            'SELECT xzcf,jdjc,hzdc,bacc,jsys,xzqz FROM `qz_zfzl`'
         )->fetch();
 
         $hz_table = (new Table(Zfzl_hz_map::$table_name, $sqlTool));
@@ -635,18 +702,21 @@ class Quantity extends Table_group
                     Sql_tool::SUM(Zfzl_hz_map::$zfzl_hzdcc) => 'hzdc_',
                     Sql_tool::SUM(Zfzl_hz_map::$zfzl_bacc) => 'bacc_',
                     Sql_tool::SUM(Zfzl_hz_map::$zfzl_xzcf) => 'xzcf_',
+                    Sql_tool::SUM(Zfzl_hz_map::$zfzl_xzqz) => 'xzqz_',
 
                     Sql_tool::SUM(Zfzl_hz_map::$zfzl_jdjc_truescore) => 'jdjc',
                     Sql_tool::SUM(Zfzl_hz_map::$zfzl_jsys_truescore) => 'jsys',
                     Sql_tool::SUM(Zfzl_hz_map::$zfzl_hzdc_truescore) => 'hzdc',
                     Sql_tool::SUM(Zfzl_hz_map::$zfzl_bacc_truescore) => 'bacc',
                     Sql_tool::SUM(Zfzl_hz_map::$zfzl_xzcf_truescore) => 'xzcf',
+                    Sql_tool::SUM(Zfzl_hz_map::$zfzl_xzqz_truescore) => 'xzqz',
 
                     Sql_tool::SUM(Zfzl_hz_map::$xzcf_count) => 'xzcf_c',
                     Sql_tool::SUM(Zfzl_hz_map::$jsys_count) => 'jsys_c',
                     Sql_tool::SUM(Zfzl_hz_map::$hzdc_count) => 'hzdc_c',
                     Sql_tool::SUM(Zfzl_hz_map::$bacc_count) => 'bacc_c',
                     Sql_tool::SUM(Zfzl_hz_map::$jdjc_count) => 'jdjc_c',
+                    Sql_tool::SUM(Zfzl_hz_map::$xzqz_count) => 'xzqz_c',
 
                     Zfzl_hz_map::$name => 'n',
                     Zfzl_hz_map::$SJ => 'y',
@@ -680,16 +750,21 @@ class Quantity extends Table_group
                 $row['hzdc_'] . ',' .
                 $row['bacc_'] . ',' .
                 $row['xzcf_'] . ',' .
+                $row['xzqz_'] . ',' .
+
                 ($row['jdjc'] * $coef['jdjc']) . ',' .
                 ($row['jsys'] * $coef['jsys']) . ',' .
                 ($row['hzdc'] * $coef['hzdc']) . ',' .
                 ($row['bacc'] * $coef['bacc']) . ',' .
                 ($row['xzcf'] * $coef['xzcf']) . ',' .
+                ($row['xzqz'] * $coef['xzqz']) . ',' .
+
                 (
                     ($row['jdjc'] * $coef['jdjc']) +
                     ($row['jsys'] * $coef['jsys']) +
                     ($row['hzdc'] * $coef['hzdc']) +
                     ($row['bacc'] * $coef['bacc']) +
+                    ($row['xzqz'] * $coef['xzqz']) +
                     ($row['xzcf'] * $coef['xzcf'])
                 ) . ',' .
                 (
@@ -697,6 +772,7 @@ class Quantity extends Table_group
                     ($row['jsys']) +
                     ($row['hzdc']) +
                     ($row['bacc']) +
+                    ($row['xzqz']) +
                     ($row['xzcf'])
                 ) . ',' .
                 $coef['bacc'] . ',' .
@@ -704,12 +780,14 @@ class Quantity extends Table_group
                 $coef['hzdc'] . ',' .
                 $coef['xzcf'] . ',' .
                 $coef['jsys'] . ',' .
+                $coef['xzqz'] . ',' .
 
                 $row['bacc_c'] . ',' .
                 $row['jdjc_c'] . ',' .
                 $row['hzdc_c'] . ',' .
                 $row['xzcf_c'] . ',' .
                 $row['jsys_c'] . ',' .
+                $row['xzqz_c'] . ',' .
 
                 Sql_tool::QUOTE($row['n']) . ',' .
                 Sql_tool::QUOTE($row['y']) . ',' .
@@ -724,11 +802,15 @@ class Quantity extends Table_group
                     Zfzl_hz_map::$zfzl_hzdcc,
                     Zfzl_hz_map::$zfzl_bacc,
                     Zfzl_hz_map::$zfzl_xzcf,
+                    Zfzl_hz_map::$zfzl_xzqz,
+
                     Zfzl_hz_map::$zfzl_jdjc_truescore,
                     Zfzl_hz_map::$zfzl_jsys_truescore,
                     Zfzl_hz_map::$zfzl_hzdc_truescore,
                     Zfzl_hz_map::$zfzl_bacc_truescore,
                     Zfzl_hz_map::$zfzl_xzcf_truescore,
+                    Zfzl_hz_map::$zfzl_xzqz_truescore,
+
                     Zfzl_hz_map::$zfzl_hz,
                     Zfzl_hz_map::$zfzl_df,
                     //qz
@@ -737,6 +819,7 @@ class Quantity extends Table_group
                     Zfzl_hz_map::$hzdc_lxqz,
                     Zfzl_hz_map::$xzcf_lxqz,
                     Zfzl_hz_map::$jsys_lxqz,
+                    Zfzl_hz_map::$xzqz_lxqz,
                     //qz
                     //count
                     Zfzl_hz_map::$bacc_count,
@@ -744,6 +827,7 @@ class Quantity extends Table_group
                     Zfzl_hz_map::$hzdc_count,
                     Zfzl_hz_map::$xzcf_count,
                     Zfzl_hz_map::$jsys_count,
+                    Zfzl_hz_map::$xzqz_count,
 
                     Zfzl_hz_map::$name,
                     Zfzl_hz_map::$SJ,
@@ -796,6 +880,15 @@ Quantity::$jdjc_2_quantity = [
     ,
     Zfzl_hz_map::$jdjc_count => 1
 ];
+Quantity::$xzqz_2_quantity = [
+    Zfzl_hz_map::$name => Zfzl_xzqz_score_map::$name,
+    Zfzl_hz_map::$dd_name => Zfzl_xzqz_score_map::$dadui,
+    Zfzl_hz_map::$SJ => Zfzl_xzqz_score_map::$OVERTIME,
+    Zfzl_hz_map::$zfzl_xzqz => Sql_tool::SUM(Zfzl_xzqz_score_map::$KP_TRUE_SCORE),
+    Zfzl_hz_map::$zfzl_xzqz_truescore => Sql_tool::SUM(Zfzl_xzqz_score_map::$KP_TRUE_SCORE) //. '*' . $coef['jdjc']
+    ,
+    Zfzl_hz_map::$xzqz_count => 1
+];
 Quantity::$bacc_2_quantity = [
     Zfzl_hz_map::$name => Zfzl_bacc_score_map::$name,
     Zfzl_hz_map::$dd_name => Zfzl_bacc_score_map::$dadui,
@@ -843,6 +936,7 @@ class Q_field
     public static $over_time = 'over_time';
     public static $ws_total_score = 'ws_total_score';
     public static $flws_id = 'flws_id';
+    public static $son_type = 'son_type';
     public static $flwses = 'flwses';
     public static $count_flwses = 'count_flwses';
     public static $unit_name = 'unit_name';

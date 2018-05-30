@@ -26,6 +26,7 @@ class Field_map
     public static $cj_time = 'cj_time';
     public static $create_time = 'create_time';
     public static $status = 'status';
+    public static $son_type = 'son_type';
     public static $xm_result = 'xm_result';
     public static $item_total_score = 'item_score';
     public static $real_item_total_score = 'real_item_score';

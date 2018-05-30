@@ -57,7 +57,7 @@ class Table
         $this->tableName = $tableName;
         $this->sqlTool = $sqlTool;
         if ($as_name != null && $as_name != '') {
-            $this->tableName = ' (' . $tableName . ') '.$as_name.' ';
+            $this->tableName = ' (' . $tableName . ') ' . $as_name . ' ';
         }
     }
 
@@ -84,13 +84,15 @@ class Table
     /**
      * @param array $field 更新的列名和值键值对 [列名 => 值]
      * @param string $param 查询参数
-     * @return null|SqlResult
+     * @param bool $only_sql
+     * @return null|SqlResult|string
      */
-    public function query($field, $param = '')
+    public function query($field, $param = '', $only_sql = false)
     {
         $sql = "SELECT " . Table::format_field($field) . " FROM " . $this->tableName . " $param";
         $resList = null;
         $res = null;
+        if ($only_sql) return $sql;
         if ($this->sqlTool != null) {
             $res = $this->sqlTool->execute_dql($sql);
             return new SqlResult($res);
@@ -230,9 +232,10 @@ class Table
      * @param $get_field
      * @param $group_field
      * @param string $other_param
+     * @param bool $only_sql
      * @return null|SqlResult
      */
-    public function group_query($get_field, $group_field, $other_param = '')
+    public function group_query($get_field, $group_field, $other_param = '', $only_sql = false)
     {
         $group = array();
         $where = array();
@@ -246,7 +249,8 @@ class Table
         }
         return $this->query(
             $get_field,
-            Sql_tool::WHERE($where) . $other_param . Sql_tool::GROUP($group)
+            Sql_tool::WHERE($where) . $other_param . Sql_tool::GROUP($group),
+            $only_sql
         );
 
     }

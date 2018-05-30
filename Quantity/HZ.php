@@ -36,6 +36,12 @@ class HZ_formula extends Formula
 
     static $jdjc_2_sub;
 
+    static $xzqz_2_sub;
+
+    static $aqjc_2_sub;
+
+    static $bacc_2_sub;
+
     static $hz_sub_2_gr;
 
 //    static $hzdc_2_gr;
@@ -62,7 +68,18 @@ HZ_formula::$jsys_2_sub = [
     Quantity_sub_score_map::$police_name => Jianshenyanshou_gr_score_map::$police_name,
     Quantity_sub_score_map::$year_month_show => Jianshenyanshou_gr_score_map::$year_month_show,
     Quantity_sub_score_map::$jsys_zdf =>
-        'SUM(' . Jianshenyanshou_gr_score_map::$jsys_zdf . ')',
+        'SUM(' . Jianshenyanshou_gr_score_map::$sjshs_df . ')+SUM('.Jianshenyanshou_gr_score_map::$xfyss_df.')',
+    Quantity_sub_score_map::$dd_name => Jianshenyanshou_gr_score_map::$dd_name
+
+];
+
+
+HZ_formula::$bacc_2_sub = [
+
+    Quantity_sub_score_map::$police_name => Jianshenyanshou_gr_score_map::$police_name,
+    Quantity_sub_score_map::$year_month_show => Jianshenyanshou_gr_score_map::$year_month_show,
+    Quantity_sub_score_map::$bacc_zdf =>
+        'SUM(' . Jianshenyanshou_gr_score_map::$sjbas_df . ')+SUM('.Jianshenyanshou_gr_score_map::$jgysbas_df.')',
     Quantity_sub_score_map::$dd_name => Jianshenyanshou_gr_score_map::$dd_name
 
 ];
@@ -74,6 +91,26 @@ HZ_formula::$jdjc_2_sub = [
     Quantity_sub_score_map::$jdjc_zdf =>
         'SUM(' . Jiancha_and_jiangduo_gr_score_map::$jcjd_zdf . ')',
     Quantity_sub_score_map::$dd_name => Jiancha_and_jiangduo_gr_score_map::$dd_name
+
+];
+
+HZ_formula::$xzqz_2_sub = [
+
+    Quantity_sub_score_map::$police_name => Quantity_xflscf_gr_score_map::$police_name,
+    Quantity_sub_score_map::$year_month_show => Quantity_xflscf_gr_score_map::$year_month_show,
+    Quantity_sub_score_map::$xzqz_zdf =>
+        'SUM(' . Quantity_xflscf_gr_score_map::$xflscf_score . ')',
+    Quantity_sub_score_map::$dd_name => Quantity_xflscf_gr_score_map::$dadui_name
+
+];
+
+HZ_formula::$aqjc_2_sub = [
+
+    Quantity_sub_score_map::$police_name => Quantity_jcdw_gr_score_map::$police_name,
+    Quantity_sub_score_map::$year_month_show => Quantity_jcdw_gr_score_map::$year_month_show,
+    Quantity_sub_score_map::$aqjc_zdf =>
+        'SUM(' . Quantity_jcdw_gr_score_map::$yyq_aqjc_zxdf . ')',
+    Quantity_sub_score_map::$dd_name => Quantity_jcdw_gr_score_map::$dd_name
 
 ];
 
@@ -548,6 +585,26 @@ class HZ_group extends Table_group
             );
     }
 
+    /**
+     * @param mysqli $mysqli
+     * @param string $param
+     * @return mixed
+     */
+    static function insert_bacc($mysqli, $param = '')
+    {
+        return (new Table(Quantity_sub_score_map::$table_name, Sql_tool::build_by_mysqli($mysqli)))
+            ->union_insert(
+                [
+                    Jianshenyanshou_gr_score_map::$table_name
+                ],
+                HZ_formula::$bacc_2_sub,
+                $param . Sql_tool::GROUP([
+                    Jianshenyanshou_gr_score_map::$year_month_show,
+                    Jianshenyanshou_gr_score_map::$police_name
+                ])
+            );
+    }
+
     static function insert_jsys_by_date($mysqli, $date)
     {
         return self::insert_jsys(
@@ -582,6 +639,46 @@ class HZ_group extends Table_group
             $mysqli,
             parent::format_date(Jiancha_and_jiangduo_gr_score_map::$year_month_show, $date)
         );
+    }
+
+    /**
+     * @param mysqli $mysqli
+     * @param string $param
+     * @return mixed
+     */
+    static function insert_xzqz($mysqli, $param = '')
+    {
+        return (new Table(Quantity_sub_score_map::$table_name, Sql_tool::build_by_mysqli($mysqli)))
+            ->union_insert(
+                [
+                    Quantity_xflscf_gr_score_map::$table_name
+                ],
+                HZ_formula::$xzqz_2_sub,
+                $param . Sql_tool::GROUP([
+                    Quantity_xflscf_gr_score_map::$year_month_show,
+                    Quantity_xflscf_gr_score_map::$police_name
+                ])
+            );
+    }
+
+    /**
+     * @param mysqli $mysqli
+     * @param string $param
+     * @return mixed
+     */
+    static function insert_aqjc($mysqli, $param = '')
+    {
+        return (new Table(Quantity_sub_score_map::$table_name, Sql_tool::build_by_mysqli($mysqli)))
+            ->union_insert(
+                [
+                    Quantity_jcdw_gr_score_map::$table_name
+                ],
+                HZ_formula::$aqjc_2_sub,
+                $param . Sql_tool::GROUP([
+                    Quantity_jcdw_gr_score_map::$year_month_show,
+                    Quantity_jcdw_gr_score_map::$police_name
+                ])
+            );
     }
 
     /**
@@ -755,6 +852,16 @@ class HZ_group extends Table_group
 
         echo "*jsys finished , affect rows : $afr | ";
 
+        $afr = self::insert_bacc(
+            $mysqli,
+            parent::format_date(
+                Jianshenyanshou_gr_score_map::$year_month_show,
+                $date
+            )
+        );
+
+        echo "*bacc finished , affect rows : $afr | ";
+
 
         $afr = self::insert_jdjc(
             $mysqli,
@@ -764,7 +871,28 @@ class HZ_group extends Table_group
             )
         );
 
-        echo "*jdjc finished , affect rows : $afr\n";
+        echo "*jdjc finished , affect rows : $afr | ";
+
+        $afr = self::insert_xzqz(
+            $mysqli,
+            parent::format_date(
+                Quantity_xflscf_gr_score_map::$year_month_show,
+                $date
+            )
+        );
+
+        echo "*xzqz finished , affect rows : $afr | ";
+
+
+        $afr = self::insert_aqjc(
+            $mysqli,
+            parent::format_date(
+                Quantity_jcdw_gr_score_map::$year_month_show,
+                $date
+            )
+        );
+
+        echo "*aqjc finished , affect rows : $afr | \n";
 
 
         $hz_table = (new Table(Quantity_sub_score_map::$table_name, $sqlTool));
@@ -776,6 +904,9 @@ class HZ_group extends Table_group
                     Sql_tool::SUM(Quantity_sub_score_map::$jsys_zdf) => 'jsys',
                     Sql_tool::SUM(Quantity_sub_score_map::$hzdc_zdf) => 'hzdc',
                     Sql_tool::SUM(Quantity_sub_score_map::$xzcf_zdf) => 'xzcf',
+                    Sql_tool::SUM(Quantity_sub_score_map::$xzqz_zdf) => 'xzqz',
+                    Sql_tool::SUM(Quantity_sub_score_map::$aqjc_zdf) => 'aqjc',
+                    Sql_tool::SUM(Quantity_sub_score_map::$bacc_zdf) => 'bacc',
                     Quantity_sub_score_map::$police_name => 'n',
                     Quantity_sub_score_map::$year_month_show => 'y',
                     Quantity_sub_score_map::$dd_name => 'd'
@@ -807,6 +938,9 @@ class HZ_group extends Table_group
                 $row['jsys'] . ',' .
                 $row['hzdc'] . ',' .
                 $row['xzcf'] . ',' .
+                $row['xzqz'] . ',' .
+                $row['aqjc'] . ',' .
+                $row['bacc'] . ',' .
                 Sql_tool::QUOTE($row['n']) . ',' .
                 Sql_tool::QUOTE($row['y']) . ',' .
                 Sql_tool::QUOTE($row['d']) . ')';
@@ -819,6 +953,9 @@ class HZ_group extends Table_group
                     Quantity_sub_score_map::$jsys_zdf,
                     Quantity_sub_score_map::$hzdc_zdf,
                     Quantity_sub_score_map::$xzcf_zdf,
+                    Quantity_sub_score_map::$xzqz_zdf,
+                    Quantity_sub_score_map::$aqjc_zdf,
+                    Quantity_sub_score_map::$bacc_zdf,
                     Quantity_sub_score_map::$police_name,
                     Quantity_sub_score_map::$year_month_show,
                     Quantity_sub_score_map::$dd_name,

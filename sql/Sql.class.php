@@ -292,6 +292,7 @@ class Sql_tool
      */
     static function BETWEEN($field, $arr)
     {
+        if(!$arr) return '';
         return ' AND ' . $field . ' BETWEEN \'' . $arr[0] . '\' AND \'' . $arr[1] . '\'';
     }
 

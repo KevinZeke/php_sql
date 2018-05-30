@@ -37,6 +37,7 @@ function video($mysqli_zxpg, $mysqli_hazd, $data_arr)
     $jsys_sql = '';
     $aqjc_sql = '';
     $jdjc_sql = '';
+    $xzqz_sql = '';
     $hz_sql = '';
 
 //$row_handle = function ($row, &$sql, $type) {
@@ -49,6 +50,10 @@ function video($mysqli_zxpg, $mysqli_hazd, $data_arr)
 
     Video::count_jdjc_by_date($sqltool, $data_arr, function ($row) use (&$dd_huizong_sql, &$jdjc_sql, &$hz_sql) {
         Video::row_handel($row, $dd_huizong_sql, $jdjc_sql, $hz_sql, 'jdjc');
+    });
+
+    Video::count_xzqz_by_date($sqltool, $data_arr, function ($row) use (&$dd_huizong_sql, &$xzqz_sql, &$hz_sql) {
+        Video::row_handel($row, $dd_huizong_sql, $xzqz_sql, $hz_sql, 'xzqz');
     });
 
     Video::count_hzdc_by_date($sqltool, $data_arr, function ($row) use (&$dd_huizong_sql, &$hzdc_sql, &$hz_sql) {
@@ -87,7 +92,7 @@ function video($mysqli_zxpg, $mysqli_hazd, $data_arr)
                 Zfsp_xzcf_score_map::$spsl,
                 Zfsp_xzcf_score_map::$kp_score,
                 Zfsp_xzcf_score_map::$kp_true_score,
-                Zfsp_xzcf_score_map::$cbrqz
+                Zfsp_xzcf_score_map::$cbrqz,
             ],
             substr($xzcf_sql, 1)
         );
@@ -113,6 +118,30 @@ function video($mysqli_zxpg, $mysqli_hazd, $data_arr)
                 Zfsp_jdjc_score_map::$ZLQZ
             ],
             substr($jdjc_sql, 1)
+        );
+    }
+
+    Video::xzqz_clear($mysqli_zxpg, $data_arr);
+    if ($xzqz_sql != '') {
+        (new Table(Zfsp_xzqz_score_map::$table_name, Table_group::sqlTool_build($mysqli_zxpg)))->multi_insert(
+            [
+                Zfsp_xzqz_score_map::$name,
+                Zfsp_xzqz_score_map::$dadui,
+                Zfsp_xzqz_score_map::$CBR,
+                Zfsp_xzqz_score_map::$XMBH,
+                Zfsp_xzqz_score_map::$OVERTIME,
+                Zfsp_xzqz_score_map::$JCQX,
+                Zfsp_xzqz_score_map::$JCQK,
+                Zfsp_xzqz_score_map::$xmlx,
+                Zfsp_xzqz_score_map::$DWMC,
+                Zfsp_xzqz_score_map::$KP_SCORE,
+                Zfsp_xzqz_score_map::$KP_TRUE_SCORE,
+                Zfsp_xzqz_score_map::$SPSL,
+                Zfsp_xzqz_score_map::$CBRQZ,
+                Zfsp_xzqz_score_map::$ZLQZ,
+                Zfsp_xzqz_score_map::$sonType
+            ],
+            substr($xzqz_sql, 1)
         );
     }
 
@@ -237,6 +266,10 @@ function video($mysqli_zxpg, $mysqli_hazd, $data_arr)
                 Zfsp_hz_map::$name,
                 Zfsp_hz_map::$dd_name,
                 Zfsp_hz_map::$SJ,
+
+                Zfsp_hz_map::$zfsp_xzqz,
+                Zfsp_hz_map::$zfsp_xzqz_truescore,
+
                 Zfsp_hz_map::$zfsp_jdjc,
                 Zfsp_hz_map::$zfsp_jdjc_truescore,
                 Zfsp_hz_map::$zfsp_hzdcc,
@@ -254,12 +287,14 @@ function video($mysqli_zxpg, $mysqli_hazd, $data_arr)
                 Zfsp_hz_map::$xzcf_lxqz,
                 Zfsp_hz_map::$bacc_lxqz,
                 Zfsp_hz_map::$hzdc_lxqz,
+                Zfsp_hz_map::$xzqz_lxqz,
 
                 Zfsp_hz_map::$jdjc_count,
                 Zfsp_hz_map::$jsys_count,
                 Zfsp_hz_map::$xzcf_count,
                 Zfsp_hz_map::$bacc_count,
-                Zfsp_hz_map::$hzdc_count
+                Zfsp_hz_map::$hzdc_count,
+                Zfsp_hz_map::$xzqz_count
 
             ],
             substr($hz_sql, 1)

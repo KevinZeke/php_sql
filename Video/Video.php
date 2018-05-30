@@ -32,6 +32,7 @@ require_once __DIR__ . '/../map/Zfsp_jsys_sp.map.php';
 require_once __DIR__ . '/../map/Zfsp_jdjc_score.map.php';
 require_once __DIR__ . '/../map/Zfsp_jdjc_sp.map.php';
 require_once __DIR__ . '/../map/Zfsp_aqjc_score.map.php';
+require_once __DIR__ . '/../map/Zfsp_xzqz_score.map.php';
 require_once __DIR__ . '/../map/Zfsp_aqjc_sp.map.php';
 require_once __DIR__ . '/../map/Zfsp_hz.map.php';
 
@@ -62,14 +63,19 @@ class Video extends Table_group
         } elseif (array_key_exists(Field_map::$proeject_type, $row)) {
             $param = $row[Field_map::$proeject_type];
         }
+        if (array_key_exists(Field_map::$son_type, $row)) {
+            $son = $row[Field_map::$son_type];
+        } else {
+            $son = '';
+        }
         $score = self::coef_count(
             $type == 'hzdc_fh' ? 'hzdc' : $type,
             $row[Field_map::$item_total_score],
-            $param
+            $param, $son
         );
         $lx_coef = Video::field_coef_get(
             $type == 'hzdc_fh' ? 'hzdc' : $type,
-            $param
+            $param, $son
         );
         $dd = array_key_exists($directors->zhu, self::$police_dd_map) ? self::$police_dd_map[$directors->zhu] : '';
         $lx_coef['type'] = $type;
@@ -121,6 +127,8 @@ class Video extends Table_group
                     0,
                     0,
                     0,
+                    0,
+                    0,
                     $score['zhu'],                                          //s
                     $score['zhu'] * self::$coef['xzcf'],
                     $score['zhu'] * self::$coef['xzcf'],
@@ -128,13 +136,15 @@ class Video extends Table_group
                     self::$coef['jsys'],//Zfsp_hz_map::$jsys_lxqz,
                     self::$coef['xzcf'],//Zfsp_hz_map::$xzcf_lxqz,
                     self::$coef['bacc'],//Zfsp_hz_map::$bacc_lxqz,
-                    self::$coef['hzdc']//Zfsp_hz_map::$hzdc_lxqz
+                    self::$coef['hzdc'],//Zfsp_hz_map::$hzdc_lxqz
+                    self::$coef['xzqz']//Zfsp_hz_map::$hzdc_lxqz
                     ,
                     0,//Zfsp_hz_map::$jdjc_count,
                     0,//Zfsp_hz_map::$jsys_count,
                     1,//Zfsp_hz_map::$xzcf_count,
                     0,//Zfsp_hz_map::$bacc_count,
-                    0//Zfsp_hz_map::$hzdc_count
+                    0,//Zfsp_hz_map::$hzdc_count
+                    0,//Zfsp_hz_map::$hzdc_count
                 ]
             );
         }
@@ -160,6 +170,8 @@ class Video extends Table_group
                     Sql_tool::QUOTE($directors->zhu),
                     Sql_tool::QUOTE($dd),
                     Sql_tool::QUOTE($row[Field_map::$over_time]),//Zfxl_hz_map::$SJ,
+                    0,
+                    0,
                     $score['zhu'],  //Zfxl_hz_map::$zfxl_jdjc,
                     $score['zhu'] * self::$coef['jdjc'],//Zfxl_hz_map::$zfxl_jdjc_truescore,
                     0,//Zfxl_hz_map::$zfxl_hzdcc,
@@ -175,13 +187,67 @@ class Video extends Table_group
                     self::$coef['jsys'],//Zfxl_hz_map::$jsys_lxqz,
                     self::$coef['xzcf'],//Zfxl_hz_map::$xzcf_lxqz,
                     self::$coef['bacc'],//Zfxl_hz_map::$bacc_lxqz,
-                    self::$coef['hzdc']//Zfxl_hz_map::$hzdc_lxqz
+                    self::$coef['hzdc'],//Zfxl_hz_map::$hzdc_lxqz
+                    self::$coef['xzqz']//Zfxl_hz_map::$hzdc_lxqz
                     ,
                     1,//Zfsp_hz_map::$jdjc_count,
                     0,//Zfsp_hz_map::$jsys_count,
                     0,//Zfsp_hz_map::$xzcf_count,
                     0,//Zfsp_hz_map::$bacc_count,
-                    0//Zfsp_hz_map::$hzdc_count
+                    0,//Zfsp_hz_map::$hzdc_count
+                    0,//Zfsp_hz_map::$hzdc_count
+                ]
+            );
+        }
+        if ($type == 'xzqz') {
+            $item_sql .= Sql_tool::format_insert_value([
+                Sql_tool::QUOTE($directors->zhu),//Zfsp_jdjc_score_map::$name,
+                Sql_tool::QUOTE($dd),//Zfsp_jdjc_score_map::$dadui,
+                Sql_tool::QUOTE($row[Field_map::$director]),//Zfsp_jdjc_score_map::$CBR,
+                Sql_tool::QUOTE($row[Field_map::$taskId]),//Zfsp_jdjc_score_map::$XMBH,
+                Sql_tool::QUOTE($row[Field_map::$over_time]),//Zfsp_jdjc_score_map::$OVERTIME,
+                Sql_tool::QUOTE($row[Field_map::$time_limit]),//Zfsp_jdjc_score_map::$JCQX,
+                Sql_tool::QUOTE($row[Field_map::$status]),//Zfsp_jdjc_score_map::$JCQK,
+                Sql_tool::QUOTE($row[Field_map::$proeject_type]),//Zfsp_jdjc_score_map::$xmlx,
+                Sql_tool::QUOTE($row[Field_map::$unit_name]),
+                $row[Field_map::$item_total_score],//Zfsp_jdjc_score_map::$KP_SCORE,
+                $score['zhu'],//Zfsp_jdjc_score_map::$KP_TRUE_SCORE,
+                $videos_num,//Zfsp_jdjc_score_map::$SPSL,
+                $lx_coef['zhu'],//Zfsp_jdjc_score_map::$CBRQZ,
+                $lx_coef['zl'],//Zfsp_jdjc_score_map::$ZLQZ
+                Sql_tool::QUOTE($son)
+            ]);
+            $sp_hz_sql .= Sql_tool::format_insert_value(
+                [
+                    Sql_tool::QUOTE($directors->zhu),
+                    Sql_tool::QUOTE($dd),
+                    Sql_tool::QUOTE($row[Field_map::$over_time]),//Zfxl_hz_map::$SJ,
+                    $score['zhu'],  //Zfxl_hz_map::$zfxl_jdjc,
+                    $score['zhu'] * self::$coef['xzqz'],//Zfxl_hz_map::$zfxl_jdjc_truescore,
+                    0,
+                    0,
+                    0,//Zfxl_hz_map::$zfxl_hzdcc,
+                    0,//Zfxl_hz_map::$zfxl_hzdc_truescore,
+                    0,//Zfxl_hz_map::$zfxl_jsys,
+                    0,//Zfxl_hz_map::$zfxl_jsys_truescore,
+                    0,//Zfxl_hz_map::$zfxl_bacc,
+                    0,//Zfxl_hz_map::$zfxl_bacc_truescore,
+                    0,//Zfxl_hz_map::$zfxl_xzcf,
+                    0,//Zfxl_hz_map::$zfxl_xzcf_truescore,
+                    $score['zhu'] * self::$coef['xzqz'],
+                    self::$coef['jdjc'],//Zfxl_hz_map::$jdjc_lxqz,
+                    self::$coef['jsys'],//Zfxl_hz_map::$jsys_lxqz,
+                    self::$coef['xzcf'],//Zfxl_hz_map::$xzcf_lxqz,
+                    self::$coef['bacc'],//Zfxl_hz_map::$bacc_lxqz,
+                    self::$coef['hzdc'],//Zfxl_hz_map::$hzdc_lxqz
+                    self::$coef['xzqz']//Zfxl_hz_map::$hzdc_lxqz
+                    ,
+                    0,//Zfsp_hz_map::$jdjc_count,
+                    0,//Zfsp_hz_map::$jsys_count,
+                    0,//Zfsp_hz_map::$xzcf_count,
+                    0,//Zfsp_hz_map::$bacc_count,
+                    0,//Zfsp_hz_map::$hzdc_count
+                    1,//Zfsp_hz_map::$hzdc_count
                 ]
             );
         }
@@ -209,6 +275,8 @@ class Video extends Table_group
                     Sql_tool::QUOTE($directors->zhu),
                     Sql_tool::QUOTE($dd),
                     Sql_tool::QUOTE($row[Field_map::$over_time]),//Zfxl_hz_map::$SJ,
+                    0,
+                    0,
                     0, //Zfxl_hz_map::$zfxl_jdjc,
                     0,//Zfxl_hz_map::$zfxl_jdjc_truescore,
                     $score['zhu'],//Zfxl_hz_map::$zfxl_hzdcc,
@@ -224,13 +292,15 @@ class Video extends Table_group
                     self::$coef['jsys'],//Zfxl_hz_map::$jsys_lxqz,
                     self::$coef['xzcf'],//Zfxl_hz_map::$xzcf_lxqz,
                     self::$coef['bacc'],//Zfxl_hz_map::$bacc_lxqz,
-                    self::$coef['hzdc']//Zfxl_hz_map::$hzdc_lxqz
+                    self::$coef['hzdc'],//Zfxl_hz_map::$hzdc_lxqz
+                    self::$coef['xzqz']//Zfxl_hz_map::$hzdc_lxqz
                     ,
                     0,//Zfsp_hz_map::$jdjc_count,
                     0,//Zfsp_hz_map::$jsys_count,
                     0,//Zfsp_hz_map::$xzcf_count,
                     0,//Zfsp_hz_map::$bacc_count,
-                    1//Zfsp_hz_map::$hzdc_count
+                    1,//Zfsp_hz_map::$hzdc_count
+                    0//Zfsp_hz_map::$hzdc_count
                 ]
             );
         }
@@ -258,6 +328,8 @@ class Video extends Table_group
                     Sql_tool::QUOTE($directors->zhu),
                     Sql_tool::QUOTE($dd),
                     Sql_tool::QUOTE($row[Field_map::$over_time]),//Zfxl_hz_map::$SJ,
+                    0,
+                    0,
                     0, //Zfxl_hz_map::$zfxl_jdjc,
                     0,//Zfxl_hz_map::$zfxl_jdjc_truescore,
                     $score['zhu'],//Zfxl_hz_map::$zfxl_hzdcc,
@@ -273,13 +345,15 @@ class Video extends Table_group
                     self::$coef['jsys'],//Zfxl_hz_map::$jsys_lxqz,
                     self::$coef['xzcf'],//Zfxl_hz_map::$xzcf_lxqz,
                     self::$coef['bacc'],//Zfxl_hz_map::$bacc_lxqz,
-                    self::$coef['hzdc']//Zfxl_hz_map::$hzdc_lxqz
+                    self::$coef['hzdc'],//Zfxl_hz_map::$hzdc_lxqz
+                    self::$coef['xzqz']//Zfxl_hz_map::$hzdc_lxqz
                     ,
                     0,//Zfsp_hz_map::$jdjc_count,
                     0,//Zfsp_hz_map::$jsys_count,
                     0,//Zfsp_hz_map::$xzcf_count,
                     0,//Zfsp_hz_map::$bacc_count,
-                    1//Zfsp_hz_map::$hzdc_count
+                    1,//Zfsp_hz_map::$hzdc_count
+                    0//Zfsp_hz_map::$hzdc_count
                 ]
             );
         }
@@ -304,6 +378,8 @@ class Video extends Table_group
                     Sql_tool::QUOTE($directors->zhu),
                     Sql_tool::QUOTE($dd),
                     Sql_tool::QUOTE($row[Field_map::$over_time]),//Zfxl_hz_map::$SJ,
+                    0,
+                    0,
                     0, //Zfxl_hz_map::$zfxl_jdjc,
                     0,//Zfxl_hz_map::$zfxl_jdjc_truescore,
                     0,//Zfxl_hz_map::$zfxl_hzdcc,
@@ -319,12 +395,14 @@ class Video extends Table_group
                     self::$coef['jsys'],//Zfxl_hz_map::$jsys_lxqz,
                     self::$coef['xzcf'],//Zfxl_hz_map::$xzcf_lxqz,
                     self::$coef['bacc'],//Zfxl_hz_map::$bacc_lxqz,
-                    self::$coef['hzdc']//Zfxl_hz_map::$hzdc_lxqz
+                    self::$coef['hzdc'],//Zfxl_hz_map::$hzdc_lxqz
+                    self::$coef['xzqz']//Zfxl_hz_map::$hzdc_lxqz
                     ,
                     0,//Zfsp_hz_map::$jdjc_count,
                     0,//Zfsp_hz_map::$jsys_count,
                     0,//Zfsp_hz_map::$xzcf_count,
                     1,//Zfsp_hz_map::$bacc_count,
+                    0,//Zfsp_hz_map::$hzdc_count
                     0//Zfsp_hz_map::$hzdc_count
                 ]
             );
@@ -349,6 +427,8 @@ class Video extends Table_group
                     Sql_tool::QUOTE($directors->zhu),
                     Sql_tool::QUOTE($dd),
                     Sql_tool::QUOTE($row[Field_map::$over_time]),//Zfxl_hz_map::$SJ,
+                    0,
+                    0,
                     0, //Zfxl_hz_map::$zfxl_jdjc,
                     0,//Zfxl_hz_map::$zfxl_jdjc_truescore,
                     0,//Zfxl_hz_map::$zfxl_hzdcc,
@@ -364,12 +444,14 @@ class Video extends Table_group
                     self::$coef['jsys'],//Zfxl_hz_map::$jsys_lxqz,
                     self::$coef['xzcf'],//Zfxl_hz_map::$xzcf_lxqz,
                     self::$coef['bacc'],//Zfxl_hz_map::$bacc_lxqz,
-                    self::$coef['hzdc']//Zfxl_hz_map::$hzdc_lxqz
-                    ,
+                    self::$coef['hzdc'],//Zfxl_hz_map::$hzdc_lxqz
+                    self::$coef['xzqz'],//Zfxl_hz_map::$hzdc_lxqz
                     0,//Zfsp_hz_map::$jdjc_count,
                     1,//Zfsp_hz_map::$jsys_count,
                     0,//Zfsp_hz_map::$xzcf_count,
                     0,//Zfsp_hz_map::$bacc_count,
+                    0//Zfsp_hz_map::$hzdc_count
+                    ,
                     0//Zfsp_hz_map::$hzdc_count
                 ]
             );
@@ -396,6 +478,8 @@ class Video extends Table_group
                     Sql_tool::QUOTE($directors->zhu),
                     Sql_tool::QUOTE($dd),
                     Sql_tool::QUOTE($row[Field_map::$over_time]),//Zfxl_hz_map::$SJ,
+                    0,
+                    0,
                     0, //Zfxl_hz_map::$zfxl_jdjc,
                     0,//Zfxl_hz_map::$zfxl_jdjc_truescore,
                     0,//Zfxl_hz_map::$zfxl_hzdcc,
@@ -411,13 +495,14 @@ class Video extends Table_group
                     self::$coef['jsys'],//Zfxl_hz_map::$jsys_lxqz,
                     self::$coef['xzcf'],//Zfxl_hz_map::$xzcf_lxqz,
                     self::$coef['bacc'],//Zfxl_hz_map::$bacc_lxqz,
-                    self::$coef['hzdc']//Zfxl_hz_map::$hzdc_lxqz
-                    ,
+                    self::$coef['hzdc'],//Zfxl_hz_map::$hzdc_lxqz
+                    self::$coef['xzqz'],//Zfxl_hz_map::$hzdc_lxqz
                     0,//Zfsp_hz_map::$jdjc_count,
                     1,//Zfsp_hz_map::$jsys_count,
                     0,//Zfsp_hz_map::$xzcf_count,
                     0,//Zfsp_hz_map::$bacc_count,
-                    0//Zfsp_hz_map::$hzdc_count
+                    0,//Zfsp_hz_map::$hzdc_count
+                    0,//Zfsp_hz_map::$hzdc_count
                 ]
             );
         }
@@ -465,6 +550,8 @@ class Video extends Table_group
                         0,
                         0,
                         0,
+                        0,
+                        0,
                         $score['xie'],                                          //s
                         $score['xie'] * self::$coef['xzcf'],
                         $score['xie'] * self::$coef['xzcf'],
@@ -472,13 +559,15 @@ class Video extends Table_group
                         self::$coef['jsys'],//Zfsp_hz_map::$jsys_lxqz,
                         self::$coef['xzcf'],//Zfsp_hz_map::$xzcf_lxqz,
                         self::$coef['bacc'],//Zfsp_hz_map::$bacc_lxqz,
-                        self::$coef['hzdc']//Zfsp_hz_map::$hzdc_lxqz
+                        self::$coef['hzdc'],//Zfsp_hz_map::$hzdc_lxqz
+                        self::$coef['xzqz']//Zfsp_hz_map::$hzdc_lxqz
                         ,
                         0,//Zfsp_hz_map::$jdjc_count,
                         0,//Zfsp_hz_map::$jsys_count,
                         1,//Zfsp_hz_map::$xzcf_count,
                         0,//Zfsp_hz_map::$bacc_count,
-                        0//Zfsp_hz_map::$hzdc_count
+                        0,//Zfsp_hz_map::$hzdc_count
+                        0,//Zfsp_hz_map::$hzdc_count
                     ]
                 );
             }
@@ -504,6 +593,8 @@ class Video extends Table_group
                         Sql_tool::QUOTE($name),
                         Sql_tool::QUOTE($dd),
                         Sql_tool::QUOTE($row[Field_map::$over_time]),//Zfxl_hz_map::$SJ,
+                        0,
+                        0,
                         $score['xie'],  //Zfxl_hz_map::$zfxl_jdjc,
                         $score['xie'] * self::$coef['jdjc'],//Zfxl_hz_map::$zfxl_jdjc_truescore,
                         0,//Zfxl_hz_map::$zfxl_hzdcc,
@@ -519,13 +610,69 @@ class Video extends Table_group
                         self::$coef['jsys'],//Zfxl_hz_map::$jsys_lxqz,
                         self::$coef['xzcf'],//Zfxl_hz_map::$xzcf_lxqz,
                         self::$coef['bacc'],//Zfxl_hz_map::$bacc_lxqz,
-                        self::$coef['hzdc']//Zfxl_hz_map::$hzdc_lxqz
+                        self::$coef['hzdc'],//Zfxl_hz_map::$hzdc_lxqz
+                        self::$coef['xzqz']//Zfxl_hz_map::$hzdc_lxqz
                         ,
                         1,//Zfsp_hz_map::$jdjc_count,
                         0,//Zfsp_hz_map::$jsys_count,
                         0,//Zfsp_hz_map::$xzcf_count,
                         0,//Zfsp_hz_map::$bacc_count,
-                        0//Zfsp_hz_map::$hzdc_count
+                        0,//Zfsp_hz_map::$hzdc_count
+                        0,//Zfsp_hz_map::$hzdc_count
+                    ]
+                );
+            }
+            if ($type == 'xzqz') {
+                $item_sql .= Sql_tool::format_insert_value([
+                    Sql_tool::QUOTE($name),//Zfsp_jdjc_score_map::$name,
+                    Sql_tool::QUOTE($dd),//Zfsp_jdjc_score_map::$dadui,
+                    Sql_tool::QUOTE($row[Field_map::$director]),//Zfsp_jdjc_score_map::$CBR,
+                    Sql_tool::QUOTE($row[Field_map::$taskId]),//Zfsp_jdjc_score_map::$XMBH,
+                    Sql_tool::QUOTE($row[Field_map::$over_time]),//Zfsp_jdjc_score_map::$OVERTIME,
+                    Sql_tool::QUOTE($row[Field_map::$time_limit]),//Zfsp_jdjc_score_map::$JCQX,
+                    Sql_tool::QUOTE($row[Field_map::$status]),//Zfsp_jdjc_score_map::$JCQK,
+                    Sql_tool::QUOTE($row[Field_map::$proeject_type]),//Zfsp_jdjc_score_map::$xmlx,
+                    Sql_tool::QUOTE($row[Field_map::$unit_name]),
+                    $row[Field_map::$item_total_score],//Zfsp_jdjc_score_map::$KP_SCORE,
+                    $score['xie'],//Zfsp_jdjc_score_map::$KP_TRUE_SCORE,
+                    $videos_num,//Zfsp_jdjc_score_map::$SPSL,
+                    $lx_coef['xie'],//Zfsp_jdjc_score_map::$CBRQZ,
+                    $lx_coef['zl']//Zfsp_jdjc_score_map::$ZLQZ
+                    ,
+                    Sql_tool::QUOTE($son)
+
+                ]);
+                $sp_hz_sql .= Sql_tool::format_insert_value(
+                    [
+                        Sql_tool::QUOTE($name),
+                        Sql_tool::QUOTE($dd),
+                        Sql_tool::QUOTE($row[Field_map::$over_time]),//Zfxl_hz_map::$SJ,
+                        $score['xie'],  //Zfxl_hz_map::$zfxl_jdjc,
+                        $score['xie'] * self::$coef['xzqz'],//Zfxl_hz_map::$zfxl_jdjc_truescore,
+                        0,
+                        0,
+                        0,//Zfxl_hz_map::$zfxl_hzdcc,
+                        0,//Zfxl_hz_map::$zfxl_hzdc_truescore,
+                        0,//Zfxl_hz_map::$zfxl_jsys,
+                        0,//Zfxl_hz_map::$zfxl_jsys_truescore,
+                        0,//Zfxl_hz_map::$zfxl_bacc,
+                        0,//Zfxl_hz_map::$zfxl_bacc_truescore,
+                        0,//Zfxl_hz_map::$zfxl_xzcf,
+                        0,//Zfxl_hz_map::$zfxl_xzcf_truescore,
+                        $score['xie'] * self::$coef['xzqz'],
+                        self::$coef['jdjc'],//Zfxl_hz_map::$jdjc_lxqz,
+                        self::$coef['jsys'],//Zfxl_hz_map::$jsys_lxqz,
+                        self::$coef['xzcf'],//Zfxl_hz_map::$xzcf_lxqz,
+                        self::$coef['bacc'],//Zfxl_hz_map::$bacc_lxqz,
+                        self::$coef['hzdc'],//Zfxl_hz_map::$hzdc_lxqz
+                        self::$coef['xzqz']//Zfxl_hz_map::$hzdc_lxqz
+                        ,
+                        0,//Zfsp_hz_map::$jdjc_count,
+                        0,//Zfsp_hz_map::$jsys_count,
+                        0,//Zfsp_hz_map::$xzcf_count,
+                        0,//Zfsp_hz_map::$bacc_count,
+                        0,//Zfsp_hz_map::$hzdc_count
+                        1//Zfsp_hz_map::$hzdc_count
                     ]
                 );
             }
@@ -553,6 +700,8 @@ class Video extends Table_group
                         Sql_tool::QUOTE($name),
                         Sql_tool::QUOTE($dd),
                         Sql_tool::QUOTE($row[Field_map::$over_time]),//Zfxl_hz_map::$SJ,
+                        0,
+                        0,
                         0, //Zfxl_hz_map::$zfxl_jdjc,
                         0,//Zfxl_hz_map::$zfxl_jdjc_truescore,
                         $score['xie'],//Zfxl_hz_map::$zfxl_hzdcc,
@@ -568,13 +717,15 @@ class Video extends Table_group
                         self::$coef['jsys'],//Zfxl_hz_map::$jsys_lxqz,
                         self::$coef['xzcf'],//Zfxl_hz_map::$xzcf_lxqz,
                         self::$coef['bacc'],//Zfxl_hz_map::$bacc_lxqz,
-                        self::$coef['hzdc']//Zfxl_hz_map::$hzdc_lxqz
+                        self::$coef['hzdc'],//Zfxl_hz_map::$hzdc_lxqz
+                        self::$coef['xzqz']//Zfxl_hz_map::$hzdc_lxqz
                         ,
                         0,//Zfsp_hz_map::$jdjc_count,
                         0,//Zfsp_hz_map::$jsys_count,
                         0,//Zfsp_hz_map::$xzcf_count,
                         0,//Zfsp_hz_map::$bacc_count,
-                        1//Zfsp_hz_map::$hzdc_count
+                        1,//Zfsp_hz_map::$hzdc_count
+                        0//Zfsp_hz_map::$hzdc_count
                     ]
                 );
             }
@@ -602,6 +753,8 @@ class Video extends Table_group
                         Sql_tool::QUOTE($name),
                         Sql_tool::QUOTE($dd),
                         Sql_tool::QUOTE($row[Field_map::$over_time]),//Zfxl_hz_map::$SJ,
+                        0,
+                        0,
                         0, //Zfxl_hz_map::$zfxl_jdjc,
                         0,//Zfxl_hz_map::$zfxl_jdjc_truescore,
                         $score['xie'],//Zfxl_hz_map::$zfxl_hzdcc,
@@ -617,13 +770,15 @@ class Video extends Table_group
                         self::$coef['jsys'],//Zfxl_hz_map::$jsys_lxqz,
                         self::$coef['xzcf'],//Zfxl_hz_map::$xzcf_lxqz,
                         self::$coef['bacc'],//Zfxl_hz_map::$bacc_lxqz,
-                        self::$coef['hzdc']//Zfxl_hz_map::$hzdc_lxqz
+                        self::$coef['hzdc'],//Zfxl_hz_map::$hzdc_lxqz
+                        self::$coef['xzqz']//Zfxl_hz_map::$hzdc_lxqz
                         ,
                         0,//Zfsp_hz_map::$jdjc_count,
                         0,//Zfsp_hz_map::$jsys_count,
                         0,//Zfsp_hz_map::$xzcf_count,
                         0,//Zfsp_hz_map::$bacc_count,
-                        1//Zfsp_hz_map::$hzdc_count
+                        1,//Zfsp_hz_map::$hzdc_count
+                        0//Zfsp_hz_map::$hzdc_count
                     ]
                 );
             }
@@ -648,6 +803,8 @@ class Video extends Table_group
                         Sql_tool::QUOTE($name),
                         Sql_tool::QUOTE($dd),
                         Sql_tool::QUOTE($row[Field_map::$over_time]),//Zfxl_hz_map::$SJ,
+                        0,
+                        0,
                         0, //Zfxl_hz_map::$zfxl_jdjc,
                         0,//Zfxl_hz_map::$zfxl_jdjc_truescore,
                         0,//Zfxl_hz_map::$zfxl_hzdcc,
@@ -663,12 +820,14 @@ class Video extends Table_group
                         self::$coef['jsys'],//Zfxl_hz_map::$jsys_lxqz,
                         self::$coef['xzcf'],//Zfxl_hz_map::$xzcf_lxqz,
                         self::$coef['bacc'],//Zfxl_hz_map::$bacc_lxqz,
-                        self::$coef['hzdc']//Zfxl_hz_map::$hzdc_lxqz
+                        self::$coef['hzdc'],//Zfxl_hz_map::$hzdc_lxqz
+                        self::$coef['xzqz']//Zfxl_hz_map::$hzdc_lxqz
                         ,
                         0,//Zfsp_hz_map::$jdjc_count,
                         0,//Zfsp_hz_map::$jsys_count,
                         0,//Zfsp_hz_map::$xzcf_count,
                         1,//Zfsp_hz_map::$bacc_count,
+                        0,//Zfsp_hz_map::$hzdc_count
                         0//Zfsp_hz_map::$hzdc_count
                     ]
                 );
@@ -693,6 +852,8 @@ class Video extends Table_group
                         Sql_tool::QUOTE($name),
                         Sql_tool::QUOTE($dd),
                         Sql_tool::QUOTE($row[Field_map::$over_time]),//Zfxl_hz_map::$SJ,
+                        0,
+                        0,
                         0, //Zfxl_hz_map::$zfxl_jdjc,
                         0,//Zfxl_hz_map::$zfxl_jdjc_truescore,
                         0,//Zfxl_hz_map::$zfxl_hzdcc,
@@ -708,12 +869,14 @@ class Video extends Table_group
                         self::$coef['jsys'],//Zfxl_hz_map::$jsys_lxqz,
                         self::$coef['xzcf'],//Zfxl_hz_map::$xzcf_lxqz,
                         self::$coef['bacc'],//Zfxl_hz_map::$bacc_lxqz,
-                        self::$coef['hzdc']//Zfxl_hz_map::$hzdc_lxqz
+                        self::$coef['hzdc'],//Zfxl_hz_map::$hzdc_lxqz
+                        self::$coef['xzqz']//Zfxl_hz_map::$hzdc_lxqz
                         ,
                         0,//Zfsp_hz_map::$jdjc_count,
                         1,//Zfsp_hz_map::$jsys_count,
                         0,//Zfsp_hz_map::$xzcf_count,
                         0,//Zfsp_hz_map::$bacc_count,
+                        0,//Zfsp_hz_map::$hzdc_count
                         0//Zfsp_hz_map::$hzdc_count
                     ]
                 );
@@ -740,6 +903,8 @@ class Video extends Table_group
                         Sql_tool::QUOTE($name),
                         Sql_tool::QUOTE($dd),
                         Sql_tool::QUOTE($row[Field_map::$over_time]),//Zfxl_hz_map::$SJ,
+                        0,
+                        0,
                         0, //Zfxl_hz_map::$zfxl_jdjc,
                         0,//Zfxl_hz_map::$zfxl_jdjc_truescore,
                         0,//Zfxl_hz_map::$zfxl_hzdcc,
@@ -755,12 +920,14 @@ class Video extends Table_group
                         self::$coef['jsys'],//Zfxl_hz_map::$jsys_lxqz,
                         self::$coef['xzcf'],//Zfxl_hz_map::$xzcf_lxqz,
                         self::$coef['bacc'],//Zfxl_hz_map::$bacc_lxqz,
-                        self::$coef['hzdc']//Zfxl_hz_map::$hzdc_lxqz
+                        self::$coef['hzdc'],//Zfxl_hz_map::$hzdc_lxqz
+                        self::$coef['xzqz']//Zfxl_hz_map::$hzdc_lxqz
                         ,
                         0,//Zfsp_hz_map::$jdjc_count,
                         1,//Zfsp_hz_map::$jsys_count,
                         0,//Zfsp_hz_map::$xzcf_count,
                         0,//Zfsp_hz_map::$bacc_count,
+                        0,//Zfsp_hz_map::$hzdc_count
                         0//Zfsp_hz_map::$hzdc_count
                     ]
                 );
@@ -784,6 +951,7 @@ class Video extends Table_group
             'SELECT * FROM `qz_zfsp`'
         )->fetch();
         self::$coef['aqjc'] = self::$coef['jsys'];
+        self::$coef['hzdc_fh'] = self::$coef['hzdc'];
     }
 
     /**
@@ -796,14 +964,14 @@ class Video extends Table_group
         if ($project_type == '消防监督抽查') {
             $xx_coef = (double)self::$coef['rcjdjc'];
         } elseif (
-            $project_type == '对举报、投诉的检查'||
+            $project_type == '对举报、投诉的检查' ||
             $project_type == '对举报投诉的检查' ||
-            $project_type == '对举报投诉的检查(复查)'||
+            $project_type == '对举报投诉的检查(复查)' ||
             $project_type == '对举报投诉的检查（复查）'
         ) {
             $xx_coef = (double)self::$coef['jbts'];
         } elseif (
-            $project_type == '大型群众性活动举办前的检查'||
+            $project_type == '大型群众性活动举办前的检查' ||
             $project_type == '大型活动举办前检查'
         ) {
             $xx_coef = (double)self::$coef['jbq'];
@@ -819,9 +987,9 @@ class Video extends Table_group
             $project_type == '申请解除临时查封的检查' ||
             $project_type == '申请解除临时查封的检查(复查)' ||
             $project_type == '申请解除临时查封的检查（复查）' ||
-            $project_type == '其他检查(复查)'||
-            $project_type == '其他检查（复查）'||
-            $project_type == '其他检查(三停检查)'||
+            $project_type == '其他检查(复查)' ||
+            $project_type == '其他检查（复查）' ||
+            $project_type == '其他检查(三停检查)' ||
             $project_type == '其他检查（三停检查）'
         ) {
             $xx_coef = (double)self::$coef['fc'];
@@ -829,6 +997,20 @@ class Video extends Table_group
             $xx_coef = (double)self::$coef['trsy'];
         }
         return $xx_coef;
+    }
+
+    /**
+     * @param string $son_type
+     * @return float|int
+     */
+    public static function get_xzqz_xx_coef($son_type)
+    {
+        if ($son_type == '强制执行') {
+            return self::$coef['qzzx'];
+        } elseif ($son_type == '临时查封') {
+            return self::$coef['lscf'];
+        }
+        return 1;
     }
 
     /**
@@ -849,7 +1031,7 @@ class Video extends Table_group
      * @param string $project_type
      * @return array
      */
-    public static function field_coef_get($item_name, $project_type = '')
+    public static function field_coef_get($item_name, $project_type = '', $son_type = '')
     {
         switch ($item_name) {
             case 'xzcf':
@@ -870,6 +1052,17 @@ class Video extends Table_group
                     'zl' => $xx_coef
                 ];
 //                print_r($score);
+                return $coef;
+                break;
+            case 'xzqz':
+                $xx_coef = self::get_xzqz_xx_coef($son_type);
+//                cmd_iconv($project_type);
+//                echo $xx_coef;
+                $coef = [
+                    'zhu' => (double)self::$coef['zbr'],
+                    'xie' => (double)self::$coef['xbr'],
+                    'zl' => $xx_coef
+                ];
                 return $coef;
                 break;
             case 'hzdc':
@@ -902,16 +1095,16 @@ class Video extends Table_group
             $row[Q_field::$proeject_type] = '日常监督检查';
 
         } elseif (
-            $row[Q_field::$proeject_type] == '对举报、投诉的检查'||
+            $row[Q_field::$proeject_type] == '对举报、投诉的检查' ||
             $row[Q_field::$proeject_type] == '对举报投诉的检查' ||
-            $row[Q_field::$proeject_type] == '对举报投诉的检查(复查)'||
+            $row[Q_field::$proeject_type] == '对举报投诉的检查(复查)' ||
             $row[Q_field::$proeject_type] == '对举报投诉的检查（复查）'
         ) {
 
             $row[Q_field::$proeject_type] = '举报投诉检查';
 
         } elseif (
-            $row[Q_field::$proeject_type] == '大型群众性活动举办前的检查'||
+            $row[Q_field::$proeject_type] == '大型群众性活动举办前的检查' ||
             $row[Q_field::$proeject_type] == '大型活动举办前检查'
         ) {
 
@@ -935,9 +1128,9 @@ class Video extends Table_group
             $row[Q_field::$proeject_type] == '申请解除临时查封的检查' ||
             $row[Q_field::$proeject_type] == '申请解除临时查封的检查(复查)' ||
             $row[Q_field::$proeject_type] == '申请解除临时查封的检查（复查）' ||
-            $row[Q_field::$proeject_type] == '其他检查(复查)'||
-            $row[Q_field::$proeject_type] == '其他检查（复查）'||
-            $row[Q_field::$proeject_type] == '其他检查(三停检查)'||
+            $row[Q_field::$proeject_type] == '其他检查(复查)' ||
+            $row[Q_field::$proeject_type] == '其他检查（复查）' ||
+            $row[Q_field::$proeject_type] == '其他检查(三停检查)' ||
             $row[Q_field::$proeject_type] == '其他检查（三停检查）'
         ) {
 
@@ -955,7 +1148,7 @@ class Video extends Table_group
      * @return array|bool
      * @internal param float $coef
      */
-    public static function coef_count($item_name, $total_score, $project_type = '')
+    public static function coef_count($item_name, $total_score, $project_type = '', $son_type = '')
     {
         switch ($item_name) {
             case 'xzcf':
@@ -977,6 +1170,14 @@ class Video extends Table_group
                     'xie' => $total_score * (double)self::$coef['xbr'] * $xx_coef
                 ];
 //                print_r($score);
+                return $score;
+                break;
+            case 'xzqz':
+                $xx_coef = self::get_xzqz_xx_coef($son_type);
+                $score = [
+                    'zhu' => $total_score * (double)self::$coef['zbr'] * $xx_coef,
+                    'xie' => $total_score * (double)self::$coef['xbr'] * $xx_coef
+                ];
                 return $score;
                 break;
             case 'hzdc':
@@ -1016,7 +1217,7 @@ class Video extends Table_group
         } elseif ($type == 'hzdc' || $type == 'hzdc_fh') {
             $task_field = Kpdf_glsp_hzdc_map::$Item_num;
             $from_table = Kpdf_glsp_hzdc_map::$table_name;
-        } elseif ($type == 'jdjc') {
+        } elseif ($type == 'jdjc' || $type == 'xzqz') {
             $task_field = Kpdf_glsp_jdjc_map::$Item_num;
             $from_table = Kpdf_glsp_jdjc_map::$table_name;
         } elseif ($type == 'bacc') {
@@ -1169,7 +1370,9 @@ class Video extends Table_group
                 Sql_tool::ON([
                     Gzpc_xmxx_jdjc_map::$projectId
                     => Kpdf_glsp_jdjc_map::$Item_num
-                ]) . $param,
+                ])
+
+                . $param . ' AND sonType = \'\' ',
                 true
             );
 
@@ -1185,6 +1388,106 @@ class Video extends Table_group
                 Field_map::$proeject_type,
                 Field_map::$unit_name,
                 Field_map::$status,
+                Field_map::$time_limit,
+                Field_map::$cj_time,
+                Sql_tool::SUM(Field_map::$item_total_score)
+                => Field_map::$item_total_score,
+                Field_map::$sp_url,
+                Sql_tool::SUM(Field_map::$most_kf)
+                => Field_map::$most_kf,
+                Field_map::$kp_time,
+                Sql_tool::SUM(Field_map::glsp('a')),
+                Sql_tool::SUM(Field_map::glsp('b')),
+                Sql_tool::SUM(Field_map::glsp('c')),
+                Sql_tool::SUM(Field_map::glsp('d')),
+                Sql_tool::SUM(Field_map::glsp('e')),
+                Sql_tool::SUM(Field_map::glsp('f')),
+                Sql_tool::SUM(Field_map::glsp('g')),
+                Sql_tool::SUM(Field_map::glsp('h')),
+                Sql_tool::SUM(Field_map::glsp('i')),
+                Sql_tool::SUM(Field_map::glsp('j')),
+                Sql_tool::SUM(Field_map::glsp('k')),
+                Sql_tool::SUM(Field_map::glsp('l')),
+                Sql_tool::SUM(Field_map::glsp('m')),
+                Sql_tool::SUM(Field_map::glsp('n')),
+                Sql_tool::SUM(Field_map::glsp('o')),
+                Sql_tool::SUM(Field_map::glsp('p')),
+                Sql_tool::SUM(Field_map::glsp('q'))
+            ],
+            [
+                Field_map::$director,
+                Field_map::$taskId
+            ]
+        )->each_row($callback);
+        //->each_row($callback);
+    }
+
+
+    /**
+     * @param Sql_tool $sql_tool
+     * @param $callback
+     * @param string $param
+     * @return int|null|SqlResult|string
+     */
+    public static function count_xzqz($sql_tool, $callback, $param = '')
+    {
+        $base_sql = (new Table(Gzpc_xmxx_jdjc_map::$table_name, Table_group::sqlTool_build($sql_tool)))
+            ->right_join(
+                Kpdf_glsp_jdjc_map::$table_name,
+                [
+                    Gzpc_xmxx_jdjc_map::$director => Field_map::$director,
+                    Gzpc_xmxx_jdjc_map::$overTime => Field_map::$over_time,
+                    Gzpc_xmxx_jdjc_map::$projectId => Field_map::$taskId,
+                    Gzpc_xmxx_jdjc_map::$projectType => Field_map::$proeject_type,
+                    Gzpc_xmxx_jdjc_map::$unitName => Field_map::$unit_name,
+                    Gzpc_xmxx_jdjc_map::$status => Field_map::$status,
+                    Gzpc_xmxx_jdjc_map::$sonType => Field_map::$son_type,
+                    Gzpc_xmxx_jdjc_map::$timeLimit => Field_map::$time_limit,
+                    Gzpc_xmxx_jdjc_map::$createTime => Field_map::$cj_time,
+                    Kpdf_glsp_jdjc_map::$glsp_Result => Field_map::$item_total_score,
+                    Kpdf_glsp_jdjc_map::$sp_url => Field_map::$sp_url,
+                    Kpdf_glsp_jdjc_map::$Most_Kf => Field_map::$most_kf,
+                    Kpdf_glsp_jdjc_map::$kptime => Field_map::$kp_time,
+                    Kpdf_glsp_jdjc_map::$glsp_a => Field_map::glsp('a'),
+                    Kpdf_glsp_jdjc_map::$glsp_b => Field_map::glsp('b'),
+                    Kpdf_glsp_jdjc_map::$glsp_c => Field_map::glsp('c'),
+                    Kpdf_glsp_jdjc_map::$glsp_d => Field_map::glsp('d'),
+                    Kpdf_glsp_jdjc_map::$glsp_e => Field_map::glsp('e'),
+                    Kpdf_glsp_jdjc_map::$glsp_f => Field_map::glsp('f'),
+                    Kpdf_glsp_jdjc_map::$glsp_g => Field_map::glsp('g'),
+                    Kpdf_glsp_jdjc_map::$glsp_h => Field_map::glsp('h'),
+                    Kpdf_glsp_jdjc_map::$glsp_i => Field_map::glsp('i'),
+                    Kpdf_glsp_jdjc_map::$glsp_j => Field_map::glsp('j'),
+                    Kpdf_glsp_jdjc_map::$glsp_k => Field_map::glsp('k'),
+                    Kpdf_glsp_jdjc_map::$glsp_l => Field_map::glsp('l'),
+                    Kpdf_glsp_jdjc_map::$glsp_m => Field_map::glsp('m'),
+                    Kpdf_glsp_jdjc_map::$glsp_n => Field_map::glsp('n'),
+                    Kpdf_glsp_jdjc_map::$glsp_o => Field_map::glsp('o'),
+                    Kpdf_glsp_jdjc_map::$glsp_p => Field_map::glsp('p'),
+                    Kpdf_glsp_jdjc_map::$glsp_q => Field_map::glsp('q')
+                ],
+                Sql_tool::ON([
+                    Gzpc_xmxx_jdjc_map::$projectId
+                    => Kpdf_glsp_jdjc_map::$Item_num
+                ])
+
+                . $param . ' AND (sonType = \'强制执行\' or sonType = \'临时查封\') ',
+                true
+            );
+
+        (new Table(
+            $base_sql,
+            Table_group::sqlTool_build($sql_tool),
+            Gzpc_xmxx_jdjc_map::$table_name
+        ))->group_query(
+            [
+                Field_map::$director,
+                Field_map::$over_time,
+                Field_map::$taskId,
+                Field_map::$proeject_type,
+                Field_map::$unit_name,
+                Field_map::$status,
+                Field_map::$son_type,
                 Field_map::$time_limit,
                 Field_map::$cj_time,
                 Sql_tool::SUM(Field_map::$item_total_score)
@@ -1715,6 +2018,17 @@ class Video extends Table_group
         );
     }
 
+    public static function count_xzqz_by_date($sqltool, $date_arr, $callback)
+    {
+        self::count_xzqz($sqltool, $callback,
+            Table_group::format_date(
+                Gzpc_xmxx_jdjc_map::$overTime,
+                $date_arr,
+                true
+            )
+        );
+    }
+
     public static function count_aqjc_by_date($sqltool, $date_arr, $callback)
     {
         self::count_aqjc($sqltool, $callback,
@@ -1761,6 +2075,20 @@ class Video extends Table_group
         Table_group::group_clear(
             $tables,
             Zfsp_jdjc_score_map::$OVERTIME,
+            $date
+        );
+    }
+
+    public static function xzqz_clear($db, $date = null)
+    {
+        $sqlTool = parent::sqlTool_build($db);
+        $tables = [
+            new Table(Zfsp_xzqz_score_map::$table_name, $sqlTool)
+        ];
+
+        Table_group::group_clear(
+            $tables,
+            Zfsp_xzqz_score_map::$OVERTIME,
             $date
         );
     }
@@ -1847,11 +2175,13 @@ class Video extends Table_group
                     Sql_tool::SUM(Zfsp_hz_map::$zfsp_hzdcc) => 'hzdc_',
                     Sql_tool::SUM(Zfsp_hz_map::$zfsp_bacc) => 'bacc_',
                     Sql_tool::SUM(Zfsp_hz_map::$zfsp_xzcf) => 'xzcf_',
+                    Sql_tool::SUM(Zfsp_hz_map::$zfsp_xzqz) => 'xzqz_',
                     Sql_tool::SUM(Zfsp_hz_map::$zfsp_jdjc_truescore) => 'jdjc',
                     Sql_tool::SUM(Zfsp_hz_map::$zfsp_jsys_truescore) => 'jsys',
                     Sql_tool::SUM(Zfsp_hz_map::$zfsp_hzdc_truescore) => 'hzdc',
                     Sql_tool::SUM(Zfsp_hz_map::$zfsp_bacc_truescore) => 'bacc',
                     Sql_tool::SUM(Zfsp_hz_map::$zfsp_xzcf_truescore) => 'xzcf',
+                    Sql_tool::SUM(Zfsp_hz_map::$zfsp_xzqz_truescore) => 'xzqz',
                     Zfsp_hz_map::$name => 'n',
                     Zfsp_hz_map::$SJ => 'y',
                     Zfsp_hz_map::$dd_name => 'd',
@@ -1859,7 +2189,8 @@ class Video extends Table_group
                     Sql_tool::SUM(Zfsp_hz_map::$jsys_count) => 'jsys_c',
                     Sql_tool::SUM(Zfsp_hz_map::$hzdc_count) => 'hzdc_c',
                     Sql_tool::SUM(Zfsp_hz_map::$bacc_count) => 'bacc_c',
-                    Sql_tool::SUM(Zfsp_hz_map::$jdjc_count) => 'jdjc_c'
+                    Sql_tool::SUM(Zfsp_hz_map::$jdjc_count) => 'jdjc_c',
+                    Sql_tool::SUM(Zfsp_hz_map::$xzqz_count) => 'xzqz_c'
                 ],
                 [
                     Zfsp_hz_map::$name,
@@ -1889,16 +2220,21 @@ class Video extends Table_group
                 $row['hzdc_'] . ',' .
                 $row['bacc_'] . ',' .
                 $row['xzcf_'] . ',' .
+                $row['xzqz_'] . ',' .
+
                 ($row['jdjc']) . ',' .
                 ($row['jsys']) . ',' .
                 ($row['hzdc']) . ',' .
                 ($row['bacc']) . ',' .
                 ($row['xzcf']) . ',' .
+                ($row['xzqz']) . ',' .
+
                 (
                     ($row['jdjc']) +
                     ($row['jsys']) +
                     ($row['hzdc']) +
                     ($row['bacc']) +
+                    ($row['xzqz']) +
                     ($row['xzcf'])
                 ) . ',' .
                 Sql_tool::QUOTE($row['n']) . ',' .
@@ -1909,11 +2245,13 @@ class Video extends Table_group
                 self::$coef['xzcf'] . ',' .//Zfxl_hz_map::$xzcf_lxqz,
                 self::$coef['bacc'] . ',' .//Zfxl_hz_map::$bacc_lxqz,
                 self::$coef['hzdc'] . ',' .//Zfxl_hz_map::$hzdc_lxqz
+                self::$coef['xzqz'] . ',' .//Zfxl_hz_map::$hzdc_lxqz
                 $row['bacc_c'] . ',' .
                 $row['jdjc_c'] . ',' .
                 $row['hzdc_c'] . ',' .
                 $row['xzcf_c'] . ',' .
-                $row['jsys_c'] .
+                $row['jsys_c'] . ',' .
+                $row['xzqz_c'] .
                 ')';
         });
 
@@ -1925,11 +2263,15 @@ class Video extends Table_group
                     Zfsp_hz_map::$zfsp_hzdcc,
                     Zfsp_hz_map::$zfsp_bacc,
                     Zfsp_hz_map::$zfsp_xzcf,
+                    Zfsp_hz_map::$zfsp_xzqz,
+
                     Zfsp_hz_map::$zfsp_jdjc_truescore,
                     Zfsp_hz_map::$zfsp_jsys_truescore,
                     Zfsp_hz_map::$zfsp_hzdc_truescore,
                     Zfsp_hz_map::$zfsp_bacc_truescore,
                     Zfsp_hz_map::$zfsp_xzcf_truescore,
+                    Zfsp_hz_map::$zfsp_xzqz_truescore,
+
                     Zfsp_hz_map::$zfsp_hz,
                     Zfsp_hz_map::$name,
                     Zfsp_hz_map::$SJ,
@@ -1940,12 +2282,14 @@ class Video extends Table_group
                     Zfsp_hz_map::$xzcf_lxqz,
                     Zfsp_hz_map::$bacc_lxqz,
                     Zfsp_hz_map::$hzdc_lxqz,
+                    Zfsp_hz_map::$xzqz_lxqz,
                     //count
                     Zfsp_hz_map::$bacc_count,
                     Zfsp_hz_map::$jdjc_count,
                     Zfsp_hz_map::$hzdc_count,
                     Zfsp_hz_map::$xzcf_count,
-                    Zfsp_hz_map::$jsys_count
+                    Zfsp_hz_map::$jsys_count,
+                    Zfsp_hz_map::$xzqz_count,
                 ],
                 substr($sql, 1)
             );

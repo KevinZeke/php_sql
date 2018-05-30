@@ -13,6 +13,7 @@ class Gzpc_xmxx_bacc_map extends DB_map {
   static $timeLimit = 'gzpc_xmxx_bacc.timeLimit' ;
   static $overTime = 'gzpc_xmxx_bacc.overTime' ;
   static $recordTime = 'gzpc_xmxx_bacc.recordTime' ;
+  static $ContactNum = 'gzpc_xmxx_bacc.ContactNum' ;
   static function all(){
             //return parent::all();
         }

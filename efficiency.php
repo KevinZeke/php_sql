@@ -33,6 +33,7 @@ function efficiency($mysqli_zxpg, $mysqli_hazd, $data_arr)
     $jsys_sql = '';
     $aqjc_sql = '';
     $jdjc_sql = '';
+    $xzqz_sql = '';
     $hz_sql   = '';
 //$row_handle = function ($row, &$sql, $type) {
 //
@@ -44,6 +45,10 @@ function efficiency($mysqli_zxpg, $mysqli_hazd, $data_arr)
 
     Efficiency::count_jdjc_by_date($sqltool, $data_arr, function ($row) use (&$dadui_huizong_sql, &$jdjc_sql, &$hz_sql) {
         Efficiency::row_handel($row, $dadui_huizong_sql, $jdjc_sql, $hz_sql, 'jdjc');
+    });
+
+    Efficiency::count_xzqz_by_date($sqltool, $data_arr, function ($row) use (&$dadui_huizong_sql, &$xzqz_sql, &$hz_sql) {
+        Efficiency::row_handel($row, $dadui_huizong_sql, $xzqz_sql, $hz_sql, 'xzqz');
     });
 
     Efficiency::count_hzdc_by_date($sqltool, $data_arr, function ($row) use (&$dadui_huizong_sql, &$hzdc_sql, &$hz_sql) {
@@ -123,6 +128,37 @@ function efficiency($mysqli_zxpg, $mysqli_hazd, $data_arr)
                 Zfxl_jdjc_map::$cbr_qz
             ],
             substr($jdjc_sql, 1)
+        );
+    }
+
+    Efficiency::xzqz_clear($mysqli_zxpg, $data_arr);
+    if ($xzqz_sql != '') {
+        (new Table(Zfxl_xzqz_map::$table_name, Table_group::sqlTool_build($mysqli_zxpg)))->multi_insert(
+            [
+                Zfxl_xzqz_map::$name,
+                Zfxl_xzqz_map::$dadui,
+                Zfxl_xzqz_map::$XMBH,
+                Zfxl_xzqz_map::$xmlx,
+                Zfxl_xzqz_map::$DWMC,
+                Zfxl_xzqz_map::$JCQX,
+                Zfxl_xzqz_map::$JCQK,
+                Zfxl_xzqz_map::$OVERTIME,
+                Zfxl_xzqz_map::$CBR,
+                Zfxl_xzqz_map::$ffbzgl_zfxl_1,
+                Zfxl_xzqz_map::$CompleteTimeCount,
+                Zfxl_xzqz_map::$ffbzgl_zfxl_cbr2,
+                Zfxl_xzqz_map::$SendToCBRCount,
+                Zfxl_xzqz_map::$ffbzgl_zfxl_ld3,
+                Zfxl_xzqz_map::$SendToCBRJLDCount,
+                Zfxl_xzqz_map::$ffbzgl_zfxl_zg4,
+                Zfxl_xzqz_map::$SendToDDZDZGCount,
+                Zfxl_xzqz_map::$KP_SCORE,
+                Zfxl_xzqz_map::$KP_TRUE_SCORE,
+                Zfxl_xzqz_map::$zl_qz,
+                Zfxl_xzqz_map::$cbr_qz,
+                Zfxl_xzqz_map::$sonType,
+            ],
+            substr($xzqz_sql, 1)
         );
     }
 
@@ -307,6 +343,10 @@ function efficiency($mysqli_zxpg, $mysqli_hazd, $data_arr)
                 Zfxl_hz_map::$name,
                 Zfxl_hz_map::$dadui,
                 Zfxl_hz_map::$SJ,
+                //new
+                Zfxl_hz_map::$zfxl_xzqz,
+                Zfxl_hz_map::$zfxl_xzqz_truescore,
+
                 Zfxl_hz_map::$zfxl_jdjc,
                 Zfxl_hz_map::$zfxl_jdjc_truescore,
                 Zfxl_hz_map::$zfxl_hzdcc,
@@ -317,18 +357,23 @@ function efficiency($mysqli_zxpg, $mysqli_hazd, $data_arr)
                 Zfxl_hz_map::$zfxl_bacc_truescore,
                 Zfxl_hz_map::$zfxl_xzcf,
                 Zfxl_hz_map::$zfxl_xzcf_truescore,
+
                 Zfxl_hz_map::$zfxl_hz,
                 Zfxl_hz_map::$jdjc_lxqz,
                 Zfxl_hz_map::$jsys_lxqz,
                 Zfxl_hz_map::$xzcf_lxqz,
                 Zfxl_hz_map::$bacc_lxqz,
                 Zfxl_hz_map::$hzdc_lxqz,
+                //new
+                Zfxl_hz_map::$xzqz_lxqz,
 
                 Zfxl_hz_map::$hzdc_count,
                 Zfxl_hz_map::$xzcf_count,
                 Zfxl_hz_map::$bacc_count,
                 Zfxl_hz_map::$jdjc_count,
                 Zfxl_hz_map::$jsys_count,
+                //new
+                Zfxl_hz_map::$xzqz_count
 
             ],
             substr($hz_sql, 1)

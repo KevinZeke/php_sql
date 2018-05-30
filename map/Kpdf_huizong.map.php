@@ -10,6 +10,7 @@ class Kpdf_huizong_map extends DB_map {
   static $result = 'kpdf_huizong.result' ;
   static $num_id = 'kpdf_huizong.num_id' ;
   static $kptime = 'kpdf_huizong.kptime' ;
+  static $remark = 'kpdf_huizong.remark' ;
   static function all(){
             //return parent::all();
         }

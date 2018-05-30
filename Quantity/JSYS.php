@@ -115,7 +115,7 @@ JSYS_formula::$jg_nbr_2_basic = [
     ]),
     Quantity_xfjgys_gr_basic_score_map::$jsysbahg_qtdw_zhubr_score => Formula::mul([
         Quantity_xfjgys_gr_nbr_map::$jsysbahg_qtdw_zhubr,
-        Quantity_xfjgys_gr_basic_coef_map::$jsysbabuhg_qtdw_zhubr_xxqz
+        Quantity_xfjgys_gr_basic_coef_map::$jsysbahg_qtdw_zhubr_xxqz
     ]),
 
 
@@ -473,7 +473,7 @@ JSYS_formula::$jg_2_sub = [
     Jianshenyanshou_sub_score_map::$police_name => Quantity_xfjgys_gr_sub_score_map::$police_name,
     Jianshenyanshou_sub_score_map::$year_month_show => Quantity_xfjgys_gr_sub_score_map::$year_month_show,
     Jianshenyanshou_sub_score_map::$dd_name => Quantity_xfjgys_gr_sub_score_map::$dadui_name,
-    Jianshenyanshou_sub_score_map::$jgysbas_score => Quantity_xfjgys_gr_sub_score_map::$jgysbacc_total_score
+    Jianshenyanshou_sub_score_map::$jgysbas_score => Sql_tool::SUM(Quantity_xfjgys_gr_sub_score_map::$jgysbacc_total_score)
 
 ];
 
@@ -482,7 +482,7 @@ JSYS_formula::$ba_2_sub = [
     Jianshenyanshou_sub_score_map::$police_name => Quantity_xfsjbas_gr_sub_score_map::$police_name,
     Jianshenyanshou_sub_score_map::$year_month_show => Quantity_xfsjbas_gr_sub_score_map::$year_month_show,
     Jianshenyanshou_sub_score_map::$dd_name => Quantity_xfsjbas_gr_sub_score_map::$dadui_name,
-    Jianshenyanshou_sub_score_map::$sjbas_score => Quantity_xfsjbas_gr_sub_score_map::$sjbabacc_total_score
+    Jianshenyanshou_sub_score_map::$sjbas_score => Sql_tool::SUM(Quantity_xfsjbas_gr_sub_score_map::$sjbabacc_total_score)
 ];
 
 //验收 => 健身验收
@@ -490,7 +490,7 @@ JSYS_formula::$ys_2_sub = [
     Jianshenyanshou_sub_score_map::$police_name => Quantity_xfyss_gr_sub_score_map::$police_name,
     Jianshenyanshou_sub_score_map::$year_month_show => Quantity_xfyss_gr_sub_score_map::$year_month_show,
     Jianshenyanshou_sub_score_map::$dd_name => Quantity_xfyss_gr_sub_score_map::$dadui_name,
-    Jianshenyanshou_sub_score_map::$xfyss_score => Quantity_xfyss_gr_sub_score_map::$gcys_total_score
+    Jianshenyanshou_sub_score_map::$xfyss_score => Sql_tool::SUM(Quantity_xfyss_gr_sub_score_map::$gcys_total_score)
 ];
 
 //审核 => 健身验收
@@ -498,7 +498,7 @@ JSYS_formula::$sh_2_sub = [
     Jianshenyanshou_sub_score_map::$police_name => Quantity_xfsjshs_gr_sub_score_map::$police_name,
     Jianshenyanshou_sub_score_map::$year_month_show => Quantity_xfsjshs_gr_sub_score_map::$year_month_show,
     Jianshenyanshou_sub_score_map::$dd_name => Quantity_xfsjshs_gr_sub_score_map::$dadui_name,
-    Jianshenyanshou_sub_score_map::$sjshs_score => Quantity_xfsjshs_gr_sub_score_map::$sjshs_total_score
+    Jianshenyanshou_sub_score_map::$sjshs_score => Sql_tool::SUM(Quantity_xfsjshs_gr_sub_score_map::$sjshs_total_score)
 ];
 
 

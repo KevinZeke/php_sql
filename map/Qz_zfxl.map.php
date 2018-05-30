@@ -14,11 +14,14 @@ class Qz_zfxl_map extends DB_map {
   static $ybdc = 'qz_zfxl.ybdc' ;
   static $jydc = 'qz_zfxl.jydc' ;
   static $rdfh = 'qz_zfxl.rdfh' ;
+  static $qzzx = 'qz_zfxl.qzzx' ;
+  static $lscf = 'qz_zfxl.lscf' ;
   static $jsys = 'qz_zfxl.jsys' ;
   static $bacc = 'qz_zfxl.bacc' ;
   static $jdjc = 'qz_zfxl.jdjc' ;
   static $hzdc = 'qz_zfxl.hzdc' ;
   static $xzcf = 'qz_zfxl.xzcf' ;
+  static $xzqz = 'qz_zfxl.xzqz' ;
   static $id = 'qz_zfxl.id' ;
   static function all(){
             //return parent::all();

@@ -12,6 +12,7 @@ class Gzpc_xmxx_shys_map extends DB_map {
   static $timeLimit = 'gzpc_xmxx_shys.timeLimit' ;
   static $overTime = 'gzpc_xmxx_shys.overTime' ;
   static $recordTime = 'gzpc_xmxx_shys.recordTime' ;
+  static $ContactNum = 'gzpc_xmxx_shys.ContactNum' ;
   static function all(){
             //return parent::all();
         }

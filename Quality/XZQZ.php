@@ -10,13 +10,13 @@
 require_once __DIR__ . '/../map/Gzpc_flws_jdjc.map.php';
 require_once __DIR__ . '/../map/Gzpc_xmxx_jdjc.map.php';
 require_once __DIR__ . '/../map/Kpdf_huizong.map.php';
-require_once __DIR__ . '/../map/Zfzl_jdjc_score.map.php';
-require_once __DIR__ . '/../map/Zfzl_jdjc_flws.map.php';
+require_once __DIR__ . '/../map/Zfzl_xzqz_score.map.php';
+require_once __DIR__ . '/../map/Zfzl_xzqz_flws.map.php';
 require_once __DIR__ . '/../sql/Sql.class.php';
 require_once __DIR__ . '/../table/Table.class.php';
 require_once __DIR__ . '/Quantity.php';
 
-class Quantity_JDJC
+class Quantity_XZQZ
 {
 
     /**
@@ -25,10 +25,10 @@ class Quantity_JDJC
     public static function clear($sqltool)
     {
         //得分表
-        $jdjc_score = new Table(Zfzl_jdjc_score_map::$table_name, $sqltool);
+        $xzqz_score = new Table(Zfzl_xzqz_score_map::$table_name, $sqltool);
 
         //清空目标表 TODO：修改清理范围
-        $jdjc_score->truncate();
+        $xzqz_score->truncate();
     }
 
     /**
@@ -47,13 +47,15 @@ class Quantity_JDJC
     {
 
         $real_score = Quantity::coef_count(
-            'jdjc',
+            'xzqz',
             $item_info[Q_field::$item_total_score],
-            $item_info[Q_field::$proeject_type]
+            $item_info[Q_field::$proeject_type],
+            $item_info[Q_field::$son_type]
         );
         $coef_info = Quantity::field_coef_get(
-            'jdjc',
-            $item_info[Q_field::$proeject_type]
+            'xzqz',
+            $item_info[Q_field::$proeject_type],
+            $item_info[Q_field::$son_type]
         );
 
         Quantity::change_type($item_info);
@@ -74,7 +76,8 @@ class Quantity_JDJC
 //                $item_info[Q_field::$real_item_total_score]['zhu'],
                 $item_info[Q_field::$count_flwses],
                 $coef_info['zhu'],
-                $coef_info['zl']
+                $coef_info['zl'],
+                $item_info[Q_field::$son_type]
             ]);
 
         foreach ($directors->xie as $name) {
@@ -94,7 +97,8 @@ class Quantity_JDJC
 //                    $item_info[Q_field::$real_item_total_score]['xie'],
                     $item_info[Q_field::$count_flwses],
                     $coef_info['xie'],
-                    $coef_info['zl']
+                    $coef_info['zl'],
+                    $item_info[Q_field::$son_type]
                 ]);
         }
     }
@@ -107,7 +111,7 @@ class Quantity_JDJC
     public static function score_insert($sqltool, $sql)
     {
         //得分表
-        $jdjc_score = new Table(Zfzl_jdjc_score_map::$table_name, $sqltool);
+        $jdjc_score = new Table(Zfzl_xzqz_score_map::$table_name, $sqltool);
 
         //清空目标表 TODO：修改清理范围
 //        $jdjc_score->truncate();
@@ -115,20 +119,21 @@ class Quantity_JDJC
         //进行插入操作
         $afr = $jdjc_score->multi_insert(
             [
-                Zfzl_jdjc_score_map::$name,
-                Zfzl_jdjc_score_map::$dadui,
-                Zfzl_jdjc_score_map::$CBR,
-                Zfzl_jdjc_score_map::$XMBH,
-                Zfzl_jdjc_score_map::$OVERTIME,
-                Zfzl_jdjc_score_map::$JCQX,
-                Zfzl_jdjc_score_map::$JCQK,
-                Zfzl_jdjc_score_map::$xmlx,
-                Zfzl_jdjc_score_map::$DWMC,
-                Zfzl_jdjc_score_map::$KP_SCORE,
-                Zfzl_jdjc_score_map::$KP_TRUE_SCORE,
-                Zfzl_jdjc_score_map::$WS_num,
-                Zfzl_jdjc_score_map::$cbr_qz,
-                Zfzl_jdjc_score_map::$zl_qz
+                Zfzl_xzqz_score_map::$name,
+                Zfzl_xzqz_score_map::$dadui,
+                Zfzl_xzqz_score_map::$CBR,
+                Zfzl_xzqz_score_map::$XMBH,
+                Zfzl_xzqz_score_map::$OVERTIME,
+                Zfzl_xzqz_score_map::$JCQX,
+                Zfzl_xzqz_score_map::$JCQK,
+                Zfzl_xzqz_score_map::$xmlx,
+                Zfzl_xzqz_score_map::$DWMC,
+                Zfzl_xzqz_score_map::$KP_SCORE,
+                Zfzl_xzqz_score_map::$KP_TRUE_SCORE,
+                Zfzl_xzqz_score_map::$WS_num,
+                Zfzl_xzqz_score_map::$cbr_qz,
+                Zfzl_xzqz_score_map::$zl_qz,
+                Zfzl_xzqz_score_map::$sontype
             ],
             substr($sql, 1)
         );
@@ -157,6 +162,7 @@ class Quantity_JDJC
             createTime,
             overTime     AS ' . Q_field::$over_time . ',
             updateTime,
+            sonType      AS ' . Q_field::$son_type . ',
             recordTime,
             flwsID       AS ' . Q_field::$flws_id . ',
             kplb         AS ' . Q_field::$kpld . ',
@@ -170,7 +176,8 @@ class Quantity_JDJC
                 FROM gzpc_xmxx_jdjc A LEFT JOIN (SELECT * FROM kpdf_huizong WHERE kpdf_huizong.Item_Type = \'jdjc\') B 
                 ON A.projectId = B.Item_BH
                 WHERE A.overTime IS NOT NULL
-                 AND sonType = \'\' 
+                AND (A.sonType = \'强制执行\'
+                 or A.sonType = \'临时查封\')
             ) C
             WHERE kplb IS NOT NULL
         ');

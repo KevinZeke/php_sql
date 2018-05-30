@@ -5,6 +5,7 @@ require_once __DIR__ . '/quality.php';
 require_once __DIR__ . '/quantity.php';
 require_once __DIR__ . '/efficiency.php';
 
+ini_set("error_reporting","E_ALL & ~E_NOTICE");
 //淮安支队数据库
 $sqltool_hazd = Sql_tool::build();
 //质效跟踪数据库

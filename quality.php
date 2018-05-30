@@ -12,6 +12,7 @@ require_once __DIR__ . '/Quality/HZDC.php';
 require_once __DIR__ . '/Quality/HZDC_FH.php';
 require_once __DIR__ . '/Quality/BACC.php';
 require_once __DIR__ . '/Quality/JSYS.php';
+require_once __DIR__ . '/Quality/XZQZ.php';
 
 
 /**
@@ -58,6 +59,7 @@ function quality($sqltool, $date_arr = null)
 //关闭sql记录
 
     Quantity_JDJC::insert_score($sqltool);
+    Quantity_XZQZ::insert_score($sqltool);
     Quantity_JDJC::insert_flws($sqltool);
     echo "\n";
     Quantity_XZCF::insert_score($sqltool);

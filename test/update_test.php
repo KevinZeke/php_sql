@@ -52,11 +52,11 @@ if (false) {
  * 使用：
  */
 //建审验收的更新
-HZ_group::jdjc_group_update($mysqli, $date_arr);
+//HZ_group::jdjc_group_update($mysqli, $date_arr);
 //火灾调查的更新
 //HZ_group::hzdc_group_update($mysqli, $date_arr);
 //行政处罚的更新
-//HZ_group::xzcf_group_update($mysqli, $date_arr);
+HZ_group::xzcf_group_update($mysqli, $date_arr);
 //监督检查的更新
 //HZ_group::jdjc_group_update($mysqli, $date_arr);
 //建审验收 火灾调查 行政处罚 监督检查 一起全部更新

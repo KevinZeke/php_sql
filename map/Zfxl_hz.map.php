@@ -10,16 +10,19 @@ class Zfxl_hz_map extends DB_map {
   static $zfxl_bacc = 'zfxl_hz.zfxl_bacc' ;
   static $zfxl_hzdcc = 'zfxl_hz.zfxl_hzdcc' ;
   static $zfxl_xzcf = 'zfxl_hz.zfxl_xzcf' ;
+  static $zfxl_xzqz = 'zfxl_hz.zfxl_xzqz' ;
   static $zfxl_jsys_truescore = 'zfxl_hz.zfxl_jsys_truescore' ;
   static $zfxl_bacc_truescore = 'zfxl_hz.zfxl_bacc_truescore' ;
   static $zfxl_jdjc_truescore = 'zfxl_hz.zfxl_jdjc_truescore' ;
   static $zfxl_hzdc_truescore = 'zfxl_hz.zfxl_hzdc_truescore' ;
   static $zfxl_xzcf_truescore = 'zfxl_hz.zfxl_xzcf_truescore' ;
+  static $zfxl_xzqz_truescore = 'zfxl_hz.zfxl_xzqz_truescore' ;
   static $bacc_lxqz = 'zfxl_hz.bacc_lxqz' ;
   static $hzdc_lxqz = 'zfxl_hz.hzdc_lxqz' ;
   static $jdjc_lxqz = 'zfxl_hz.jdjc_lxqz' ;
   static $jsys_lxqz = 'zfxl_hz.jsys_lxqz' ;
   static $xzcf_lxqz = 'zfxl_hz.xzcf_lxqz' ;
+  static $xzqz_lxqz = 'zfxl_hz.xzqz_lxqz' ;
   static $zfxl_hz = 'zfxl_hz.zfxl_hz' ;
   static $id = 'zfxl_hz.id' ;
   static $xzcf_count = 'zfxl_hz.xzcf_count' ;
@@ -27,6 +30,7 @@ class Zfxl_hz_map extends DB_map {
   static $bacc_count = 'zfxl_hz.bacc_count' ;
   static $jdjc_count = 'zfxl_hz.jdjc_count' ;
   static $hzdc_count = 'zfxl_hz.hzdc_count' ;
+  static $xzqz_count = 'zfxl_hz.xzqz_count' ;
   static function all(){
             //return parent::all();
         }

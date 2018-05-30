@@ -15,6 +15,7 @@ class Gzpc_xmxx_hzdc_fh_map extends DB_map {
   static $CompleteDate = 'gzpc_xmxx_hzdc_fh.CompleteDate' ;
   static $RecordTime = 'gzpc_xmxx_hzdc_fh.RecordTime' ;
   static $UpdateTime = 'gzpc_xmxx_hzdc_fh.UpdateTime' ;
+  static $ContactNum = 'gzpc_xmxx_hzdc_fh.ContactNum' ;
   static function all(){
             //return parent::all();
         }

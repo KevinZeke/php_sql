@@ -18,7 +18,7 @@ $mysqli = $sqltool->get_mysqli();
 $name = '汤金保';
 $id = 10086;
 $date = '2017-05-01';
-$date_arr = ['2017-05-01', '2017-06-09'];
+$date_arr = ['2017-01-01', '2018-06-09'];
 
 if (false) {
 //    HZ_group::hz_clear($mysqli, $date_arr);
@@ -165,4 +165,8 @@ if (false) {
 
 //JSYS_group::group_insert($mysqli,$date_arr);
 
+
+
+
+//JSYS_group::sh_sub_update_date_in($mysqli, null);
 $sqltool->close();

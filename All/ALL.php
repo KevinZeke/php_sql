@@ -128,6 +128,8 @@ class ALL extends Table_group
             Dadui_huizong_query_day_map::$table_name, $sqlTool_hazd
         ));
 
+        //return;
+
         $res = $hz_table
             ->group_query(
                 [
@@ -168,11 +170,11 @@ class ALL extends Table_group
                 $row['c'] . ',' .
                 $row['v'] . ',' .
 
-                ($row['s'] +
+                ($row['s'] -
                     $row['z'] +
                     $row['e'] +
                     $row['et'] +
-                    $row['c'] +
+                    $row['c'] -
                     $row['v']) . ',' .
                 //用来判断quality是满分（扣分为0）和 未审批（无扣分信息）
                 ($row['qc'] > 1 ? 1 : $row['qc']) . ',' .
